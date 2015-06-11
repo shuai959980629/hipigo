@@ -1,0 +1,221 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- 左边开始 -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- 左边结束 -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- 右边开始-->
+			<div class="container-fluid" >
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+                   
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                <p class="fl"><input id="seek" name="seek" value="" placeholder="输入后请按回车进行搜索" type="text" onkeypress="if(event.keyCode==13){search_content(this)}" onkeyup="backSearchOrRefresh(this)" onblur="search_content(this)"></p>
+                <!--{if $is_class != 1}-->
+                <p class="fr">
+                    <select name="commodity_type" id="commodity_type" onChange="content_list_page(1)">
+                        <option value="all">全部</option>
+                        <!--{foreach from = $info_class item = cc}-->
+                        <option value="<!--{$cc.id_class}-->"><!--{$cc.name}--></option>
+                        <!--{/foreach}-->
+                    </select>
+                </p>
+                <!--{/if}-->
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--商品列表开始-->
+                            <div class="catalogue">
+                                <table width="100%">
+                                    <tbody>
+                                    <tr class="big_title">
+                                        <td class="id_title" style="width:20%">标题</td>
+                                        <td class="title" style="width:45%">内容</td>
+                                        <td>分类</td>
+                                        <td>权重</td>
+                                        <td>状态</td>
+                                        <td>推荐</td>
+                                        <td class="id_title" style="width:20%">操作</td>
+                                    </tr>
+                                    <!--{if $info_list}-->
+                                    <!--{foreach from = $info_list item = cl key = k}-->
+                                    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}--> style="line-height:35px;">
+                                        <td class="id_title" style="width:20%"><!--{$cl.title|truncate_utf8:20}--></td>
+                                        <td class="title" style="width:45%"><!--{$cl.content|truncate_utf8:50}--></td>
+                                        <td><!--{$cl.name}--></td>
+                                        <td><!--{$cl.weight}--></td>
+                                        <td><!--{if $cl.state == 1}-->有效<!--{else}-->无效<!--{/if}--></td>
+                                        <td><!--{if $cl.recommend == 1}-->已推荐<!--{else}-->未推荐<!--{/if}--></td>
+                                        <td  class="id_title" style="width:20%">
+                                        <!--{if !empty($host)}-->
+                                            <a class="hot" target="_blank" href="http://<!--{$host}-->/wapi/<!--{$data.user.id_business}-->/<!--{$data.user.id_shop}-->/home/content/<!--{$cl.id_info}-->">浏览</a>
+                                        <!--{/if}-->
+                                            <a class="compile" href="<!--{$url_prefix}-->content/edit_content/<!--{$cl.id_info}-->/<!--{$offset}-->">编辑</a>
+                                            <a class="delete" onClick="delete_content(<!--{$cl.id_info}-->,<!--{$offset}-->)">删除</a>
+                                            <!--{if $type == 1}-->
+                                            <a class="compile" onClick="bind_content(<!--{$cl.id_info}-->,<!--{$id_activity}-->)">绑定</a>
+                                            <!--{/if}-->
+                                        </td>
+                                    </tr>
+                                    <!--{/foreach}-->
+                                    <!--{else}-->
+                                    <tr>
+                                        <td colspan="8">
+                                            还没有文章信息！
+                                        </td>
+                                    </tr>
+                                    <!--{/if}-->
+                                    </tbody>
+                                </table>
+                            <!--分页 start-->
+                                <!--{if $page_html}-->
+                                <div class="pagination">
+                                    <ul>
+                                        <!--{$page_html}-->
+                                    </ul>
+                                </div>
+                                <!--{/if}-->
+                            <!--分页 ene-->
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+				    </div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+		jQuery(document).ready(function() {
+		   App.init();
+		   UITree.init();
+		});
+
+//        //搜索提示效果
+//        $("#seek").click(function(){
+//            if($(this).val() == $(this).attr('title')){
+//                $(this).val('');
+//            }
+//        }).blur(function(){
+//            if($(this).val() == ''){
+//                $(this).val($(this).attr('title'));
+//            }
+//        });
+        //物品列表分页
+        function content_list_page(offset){
+            var search_key = $('#seek').val();
+            $.post('<!--{$url_prefix}-->content/list_content', {
+                'id_class': $('#commodity_type').val(),
+                'search_key':search_key,
+                'offset':offset
+            }, function(data){
+                $('.catalogue').html(data);
+            }, 'text');
+        }
+
+        //删除物品列表信息
+        function delete_content(id_info,offset){
+            if(confirm("你确定要删除该内容吗？"))
+            {
+                var search_key = $('#seek').val();
+                $.post('<!--{$url_prefix}-->content/del_content', {
+                    'id_class': $('#commodity_type').val(),
+                    'search_key':search_key,
+                    'id_info': id_info,
+                    'offset':offset
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('.catalogue').html(data.data);
+                }, 'json');
+            }
+        }
+
+        /*
+         * zxx
+         * 绑定文章
+         * id_info 文章id
+         * id_activity 活动id
+         */
+        function bind_content(id_info,id_activity){
+            if(confirm("你确定要绑定该内容吗？"))
+            {
+                var search_key = $('#seek').val();
+                $.post('<!--{$url_prefix}-->content/bind_content', {
+                    'id_info': id_info,
+                    'id_activity':id_activity
+                }, function(data){
+                    if(data.status == 0){
+                        alert(data.msg);
+                        return false;;
+                    }else
+                        window.location.href = data.url;
+                }, 'json');
+            }
+        }
+
+        //搜索关键字
+        function search_content(obj){
+            var search_keys = $(obj).val();
+            var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(search_key == ''){
+//                alert('请输入你要搜索的文字内容！');
+                return;
+            }else{
+                $.post('<!--{$url_prefix}-->content/search_content', {
+                    'id_class': $('#commodity_type').val(),
+                    'search_key':search_key,
+                    'offset':1
+                }, function(data){
+                    $('.catalogue').html(data);
+                }, 'text');
+            }
+        }
+
+        //搜索返回刷新
+        function backSearchOrRefresh(obj){
+            var searchinput = $(obj).val();
+            if(searchinput == ''){
+                content_list_page(1);
+            }
+        }
+	</script>
+	<!-- END JAVASCRIPTS -->
+
+</body>
+
+<!-- END BODY -->
+
+</html>

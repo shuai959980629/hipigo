@@ -1,0 +1,215 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<style type="text/css">
+    .portlet-body img{
+        width:auto;
+        height:auto;
+    }
+</style>
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+
+		</div>
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+
+						<!-- BEGIN VALIDATION STATES-->
+						<div class="portlet box purple">
+							<div class="portlet-title">
+								<div class="caption"><i class="icon-reorder"></i><!--{$current.last}--></div>
+							</div>
+
+							<div class="portlet-body form">
+								<!--内容添加开始-->
+                                <div class="goods_add">
+								<form action="<!--{$url_prefix}--><!--{$url_action}-->" id="form_content_add" name="form_content_add" class="form-horizontal" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="formhash" value="<!--{$formhash}-->" />
+                                    <input type="hidden" name="id_commodity" value="<!--{$commodity_info.id_commodity}-->"/>
+                                    <input type="hidden" value="<!--{$url_prefix}--><!--{$url_action}-->" id="jobaction"/>
+									<div class="alert alert-error hide">
+										<button class="close" data-dismiss="alert"></button>
+                                        请确保输入的内容符合提交条件，再点击提交！
+									</div>
+
+									<div class="alert alert-success hide">
+										<button class="close" data-dismiss="alert"></button>
+                                        你的信息已成功完成验证！
+									</div>
+
+                                    <div class="control-group">
+										<label class="control-label">类别</label>
+										<div class="controls">
+                                            <!--{foreach from = $commodity_class item = cc key=k}-->
+                                                <label class="radio">
+                                                    <!--{if $content_info.id_class}-->
+                                                    <input type="radio" name="membership" value="<!--{$cc.id_class}-->"<!--{if $content_info.id_class == $cc.id_class}--> checked="checked"<!--{/if}-->/><!--{$cc.name}-->
+                                                    <!--{else}-->
+                                                    <input type="radio" name="membership" value="<!--{$cc.id_class}-->"<!--{if $k == 0}--> checked="checked"<!--{/if}-->/><!--{$cc.name}-->
+                                                    <!--{/if}-->
+                                                </label>
+                                            <!--{/foreach}-->
+											<div id="form_2_membership_error"></div>
+										</div>
+                                    </div>
+                                    <div class="control-group">
+										<label class="control-label">标题<span class="required">*</span></label>
+										<div class="controls">
+											<input name="title" type="text" value="<!--{$content_info.title}-->" class="span6 m-wrap"/><b style=" line-height: 30px; font-weight: normal">（请输入长度在2到100个字符）</b>
+										</div>
+                                    </div>
+
+									<div class="control-group">
+										<label class="control-label">内容<span class="required">*</span></label>
+										<div class="controls">
+											<textarea class="span6 m-wrap" id="content" name="content" cols="" rows="" style="visibility:hidden"><!--{$content_info.content}--></textarea>
+                                            <b class="fl" style=" line-height: 30px; font-weight: normal;">（请输入长度在10到60000个字符,图片的最大分辨率为1920x1080,图片格式:jpeg,jpg,gif,png,单张图片上传文件大小不超过1M）</b>
+										</div>
+									</div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">权重</label>
+                                        <div class="controls">
+                                            <input name="weight" type="text" value="<!--{$content_info.weight|default:0}-->" class="span6 m-wrap" maxlength="5" onKeyUp="validateInt(this);" onBlur="validateInt(this);"/>
+                                            <b class="" style=" line-height: 30px; font-weight: normal;">只能是数字,值越大显示越靠前</b>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">状态</label>
+                                        <div class="controls">
+                                            <label class="radio">
+                                                <input type="radio" name="state" onclick="$('#show_mall').show()" value="1"<!--{if count($content_info.state) == 0}--> checked<!--{else}--><!--{if $content_info.state == '1'}--> checked<!--{/if}--><!--{/if}-->/>
+                                                有效
+                                            </label>
+                                            <label class="radio">
+                                                <input type="radio" name="state" onclick="$('#show_mall').hide()" value="0"<!--{if $content_info.state === '0'}--> checked<!--{/if}-->/>
+                                                无效
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">推荐</label>
+                                        <div class="controls">
+                                            <label class="radio">
+                                                <input type="radio" name="recommend" value="1"<!--{if count($content_info.recommend) == 0}--> checked<!--{else}--><!--{if $content_info.recommend == '1'}--> checked<!--{/if}--><!--{/if}-->/>
+                                                推荐
+                                            </label>
+                                            <label class="radio">
+                                                <input type="radio" name="recommend" value="0"<!--{if $content_info.recommend === '0'}--> checked<!--{/if}-->/>
+                                                不推荐
+                                            </label>
+                                        </div>
+                                    </div>
+
+									<div class="form-actions">
+										<button type="submit" class="btn purple" id="submitForm" >确定</button>
+                                        <!--{if $type == 'add'}-->
+										    <button type="reset" class="btn">取消</button>
+                                        <!--{else}-->
+                                            <button type="button" class="btn" onClick="javascript:window.location.href='<!--{$url_prefix}-->content/list_content'">取消</button>
+                                        <!--{/if}-->
+									</div>
+								</form>
+                                </div>
+                                <!--歌曲添加结束-->
+							</div>
+						</div>
+						<!-- END VALIDATION STATES-->
+				    </div>
+			    </div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL STYLES -->
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/swfupload/swfupload.js"></script>
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/jquery.swfupload.js"></script>
+    
+    <script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-min.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/editor.js"></script>
+    <script src="<!--{$url_prefix}-->media/kindeditor/plugins/code/prettify.js"></script>
+
+	<script>
+		jQuery(document).ready(function() {
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.contentInit();
+//		   editor('content');
+
+            var editor;
+            KindEditor.ready(function(K) {
+                editor = K.create('textarea[name="content"]', {
+                    resizeType : 1,
+                    themeType:'default',
+                    allowImageUpload : true,
+                    uploadJson:'<!--{$url_prefix}-->files/upload_all_file/content',
+                    shadowMode:false,
+                    allowMediaUpload:false,
+                    afterBlur:function(){
+                        this.sync();
+                        var content = $('#content').val();
+                        if(60000 > content.length && content.length > 10){
+                            $('#content').parent().children('.help-inline').remove();
+                            $('#content').parent().parent().removeClass('error');
+                        }
+                    },
+//                    //获取图片上传成功过后的图片地址
+//                    afterUpload: function (url) {
+//                        alert(url);
+//                    },
+                    items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
+                        'bold', 'italic', 'underline', 'removeformat', '|',
+                        'justifyleft', 'justifycenter', 'justifyright',
+                        'insertorderedlist', 'insertunorderedlist' ,'|','table','|','image', 'multiimage','|','link','unlink','emoticons','media']//,'media'
+                });
+            });
+        });
+
+    </script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

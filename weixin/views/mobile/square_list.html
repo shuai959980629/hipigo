@@ -1,0 +1,43 @@
+<!--{foreach from=$result item=st  key=key}-->
+<li class="hot">
+
+<a href="<!--{$st.bn_home}-->">
+<span class="user_head left">
+
+<!--{if $st.bn_img == '' }-->
+<img src="/wapi/img/mobile/user_head.jpg"/>
+<!--{else}-->
+<img src="/wapi/img/mobile/user_head.jpg"/>
+<!--{/if}-->
+
+<!--{if $st.object_type == user }-->
+<img src="/wapi/img/mobile/leader_icon.png" class="leader_icon"/>
+<!--{/if}-->
+
+</span>
+</a>
+
+<div class="one_part">
+
+<a href="<!--{$url}-->/community/detail?aid=<!--{$st.id_activity}-->">
+<div class="one_part_left left">
+<strong><!--{$st.name}--></strong>
+<p><!--{$st.content}--></p>
+</div>
+</a>
+
+<div class="one_part_right right red">
+
+<!--{if $st.join_price > 999 }-->
+<em>999</em><sup class="red">+</sup>元
+<!--{else}-->
+<!--{if $st.join_price > 0 }-->
+<em><!--{$st.join_price}--></em>元
+<!--{else}-->
+<em>免费</em>
+<!--{/if}-->
+<!--{/if}-->
+
+</div>
+</li>
+<!--{/foreach}-->

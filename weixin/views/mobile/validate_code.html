@@ -1,0 +1,45 @@
+<!--{include file="header.html"}-->
+
+<section id="validate_section" class="active">
+
+<!--{include file="nav.tpl"}-->
+
+<article id="validate_container" class="active" data-scroll="true">
+<div class="validate_code_container">
+
+<div class="enter_search">
+<div class="search_input relative">
+<input type="text" name="code" class="left" maxlength="8" placeholder="输入要验证的消费码" />
+<a class="searchbutton right" id="searchCode" href="javascript: void(0);">
+<i class="icon search nofloat"></i>
+</a>
+</div>
+</div>
+
+<ul class="search_identify_code clearfix">
+<li class="empty" style="display: none;"></li>
+
+<button class="confirm right" style="display: none;">验证</button>
+</ul>
+
+<!--{if $codes}-->
+<ul class="used_code">
+<li>已验证（<i class="red"><!--{count($codes)}--></i>）</li>
+<!--{foreach from=$codes item=code}-->
+<li>
+<em class="red"><!--{$code.code}--></em>
+<i><!--{$code.nick_name}--></i>
+<span class="used_time right"><!--{$code.use_time|date_format:'%Y-%m-%d'}--></span>
+</li>
+<!--{/foreach}-->
+</ul>
+<!--{else}-->
+<div class="my_no_resourecs">
+<p>暂时没有已验证的消费码</p>
+</div>
+<!--{/if}-->
+</div>
+</article>
+</section>
+  
+<!--{include file="footer.html"}-->

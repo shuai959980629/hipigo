@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title><!--{$title}--></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/publish_activity.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/mobiscroll.custom-2.6.2.min.css">
+
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/jquery.mobiscroll.js"></script>
+<script src="<!--{$url_prefix}-->js/jquery.mobiscroll.app.js"></script>
+<script src="<!--{$url_prefix}-->js/common.js"></script>
+<script src="<!--{$url_prefix}-->js/publish_activity.js?v=<!--{$num}-->"></script>
+
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+base_url = '<!--{$url}-->';
+var r_id;
+<!--{if $rid != ''}-->
+r_id = '<!--{$rid}-->';
+<!--{/if}-->
+var id_resource_by = '';
+var num_resource_by = '';
+<!--{if $community_info.resources}-->
+<!--{foreach from=$community_info.resources item=cir}-->
+<!--{foreach from=$cir item=vc key=kc}-->
+id_resource_by = id_resource_by +<!--{$kc}-->+',';
+num_resource_by = num_resource_by +<!--{$vc}-->+',';
+<!--{/foreach}-->
+<!--{/foreach}-->
+<!--{/if}-->
+
+</script>
+
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+<script>
+/*
+$(function () {
+  $('#date').val('').scroller({preset : 'datetime'});
+});
+*/
+
+$(document).ready(function () {
+   var date = new Date();
+  var options = {
+    setText: '确定',
+    cancelText: '取消',
+    
+    preset : 'datetime',
+    mode: 'scroller',
+    display: 'modal',
+    theme: 'android',
+    condition: 'mo',
+
+    dateFormat: 'yy-mm-dd',
+    dateOrder: 'yymmdd',
+    timeFormat: '',//HH:ii
+    timeWheels: '',//HHii
+      startYear: date.getFullYear(),
+      endYear: date.getFullYear() + 10
+  }
+  $('#date').scroller(options);
+  $('#date1').scroller(options);
+
+});
+
+</script>
+
+
+</head>
+<body>
+<!--banner-->
+<div class="container">
+
+<form action="<!--{$url_action}-->" method="post" id="publish" onsubmit="return sub_from();">
+<input type="hidden" value="<!--{$is_edit}-->" name="is_edit" id="is_edit"/>
+<input type="hidden" value="<!--{$aid}-->" name="aid" id="aid"/>
+<!--创建活动第一步-->
+<div id="first">
+<div class="operate container fixed" style="top: 0;position: absolute">
+<a href="<!--{$url}-->/community/home"><span class="return left"><i class="iconfont icon iconfont_10">&#983354;</i></span></a>
+<span class="partake-num left">发布活动<em>(必填项)</em></span>
+<a href="javascript: void(0);" class="join right" onclick="next();">下一步</a>
+</div>
+
+<div class="creat_activity">
+
+<dl>
+<dd class="creat_title">标题<em>*</em></dd>
+<dd class="must_details">
+<input type="text" name="title" placeholder="请填写64个字之内的标题" value="<!--{$community_info.name}-->" maxlength="64"/></dd>
+<dd class="creat_title">数量<em>*</em></dd>
+<dd class="must_details">
+<input type="text" name="num" placeholder="<!--{if $community_info.total == -1}-->不限制<!--{else}-->请填写活动数量，为空则不限制<!--{/if}-->" value="<!--{if $community_info.total != -1}--><!--{$community_info.total}--><!--{/if}-->" maxlength="4" onKeyUp="validateInt(this);" onBlur="validateInt(this);"/></dd>
+<dd class="creat_title">详情<em>*</em></dd>
+<dd class="must_details">
+<textarea rows="2" name="desc" cols="20" placeholder="请填写活动详情" ><!--{$community_info.content}--></textarea></dd>
+</dl>
+
+    <div id="resource_by_info">
+        <!--{if $community_info.resources}--><!--{foreach from=$community_info.resources item=cir}-->
+        <!--{foreach from=$cir item=vc key=kc}-->
+        <input type="hidden" name="id_resource_by[]" id="id_resource_by<!--{$kc}-->" did="<!--{$vc}-->" value="<!--{$kc}-->"/>
+        <!--{/foreach}--><!--{/foreach}--><!--{/if}-->
+    </div>
+
+    <dl class="logout" id="resource_by">
+<dd class="loading" ><img src="<!--{$url_prefix}-->img/loading.gif" alt="loading" /></dd>
+</dl>
+
+<dl class="logout" id="resource_lev">
+<dd><img src="<!--{$url_prefix}-->img/loading.gif" class="loading" alt="loading" /></dd>
+</dl>
+
+<!-- Tips -->
+<div class="modalv1" id="modal" style="display: none;">
+<img src="<!--{$url_prefix}-->img/loading.gif" class="loading" alt="loading" />
+</div>
+<div id="prompt" class="webgame_msgWindow_mask" style="display: none;"></div>
+
+
+</div>
+</div>
+
+<!--创建活动第二步-->
+<div id="second">
+<div class="operate container fixed" style="top: 0;position: absolute">
+
+<span class="return left" onclick="prev()">
+<a href="javascript: void(0);">
+<i class="iconfont icon iconfont_10">&#983354;</i>
+</a>
+</span>
+
+<span class="partake-num left">发布活动<em>(选填项)</em></span>
+<a href="javascript: void(0);" class="join right" id="form_sub" onclick="sub_from();">完成</a>
+</div>
+
+<div class="creat_activity">
+<dl>
+<dd class="creat_price_title">价格
+<span class="creat_price right"><input type="text" name="price" placeholder="填写活动价格" value="<!--{$community_info.join_price}-->" maxlength="6" onKeyUp="validatePices(this);" onBlur="validatePices(this);"/></span>
+</dd>
+
+<dd class="title01">时间</dd>
+<dd class="must_details clearfix">
+
+<span class="creat_date">
+<input type="text" name="date" id="date" class="date-picker left" readonly="readonly" value="<!--{date('Y-m-d',$community_info.start_date)}-->"/>
+<em class="add-on"><i class="icon-calendar" for="date"></i></em>
+</span>
+
+<span class="left">&nbsp;to&nbsp;</span>
+
+<span class="creat_date">
+<input type="text" name="date1" id="date1" class="date-picker left" readonly="readonly" value="<!--{date('Y-m-d',$community_info.end_date)}-->" />
+<em class="add-on"><i class="icon-calendar" for="date1"></i></em>
+</span>
+</dd>
+
+<dd class="title01">地址</dd>
+<dd class="must_details"><input type="text" name="addr" placeholder="请填写活动举办地址" value="<!--{$community_info.addr}-->" maxlength="50"/></dd>
+<dd class="title01">标签</dd>
+<dd class="must_details"><input type="text" name="tag" placeholder="请填写活动标签，多个以空格隔开" value="<!--{$community_info.tags}-->" /></dd>
+<dd class="title01">参与条件</dd>
+<dd class="must_details clearfix">
+<span class="left" style="display: block;width: 100%;min-height: 24px;">
+  <span class="partake_term">
+  <input type="checkbox" checked="checked" name="join_condetion[]" value="姓名" disabled="true" />
+  <em>姓名</em>
+  </span>
+
+  <span class="partake_term">
+  <input type="checkbox" checked="checked" name="join_condetion[]" value="电话号码" disabled="true" />
+  <em>电话号码</em>
+  </span>
+    <!--{foreach from = $community_info.condetions item = c}-->
+    <!--{if $c != '姓名' && $c != '电话号码'}-->
+  <span class="partake_term">
+  <input type="checkbox" checked="checked" name="join_condetion[]" value="<!--{$c}-->" />
+  <em><!--{$c}--></em>
+  </span>
+    <!--{/if}-->
+    <!--{/foreach}-->
+
+  <span class="partake_term" id="custom_condetion">
+  <input type="checkbox" /><em onclick="sel_chk(this);" >自定义</em>
+  </span>
+</span>
+
+<p class="left">
+<input type="text" placeholder="输入自定义条件" />
+<a href="javascript: void(0);" onclick="custom_condetion(this)" >添加</a>
+</p>
+
+</dd>
+</dl>
+</div>
+
+</div>
+</form>
+
+<!--footer-->
+</div>
+</body>
+</html>

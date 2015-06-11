@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>嗨皮Go-<!--{$data.name}--></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/community-detail.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/detail_list.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/iscroll.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/detail.js?v=<!--{$num}-->"></script>
+  
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+var userid='<!--{$userid}-->';
+var identity='<!--{$identity}-->';
+var aid='<!--{$aid}-->';
+var oid=1;
+var spking='<!--{$spking}-->';
+var base_url = '<!--{$url}-->';
+var url_prefix='<!--{$url_prefix}-->';
+var surplus = '<!--{$data.surplus}-->';
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+</head>
+<body>
+<div id="show_back_all"></div>	
+<div class="main">
+<div class="container">
+<!--点击分享出现层-->
+<div class="share-open" style="display:none;">点击这里尽情分享哟！~~~~<img src="<!--{$url_prefix}-->img/zhixiang.png" class="right"/></div>
+<!--operate-->
+<div class="operate container" id="header">
+    <a href="<!--{$url}-->/community/home" class="return left"><i class="iconfont icon iconfont_10">&#983354</i></a>
+<span class="partake-num left"><a href="<!--{$url}-->/community/user_att_list?oid=<!--{$oid}-->&aid=<!--{$aid}-->">已有<em id="join_count" data-join_count=<!--{$data.join_count}-->><!--{$data.join_count}-->人</em>参加</a></span>
+<a href="javascript:;" id="att_activity" class="join right">付款</a>
+</div>
+<!--滚动开始部分-->
+<div id="wrapper" class="container">
+<div id="scroller">
+<div id="pullDown" class="idle">
+<span class="pullDownIcon"></span>
+<span class="pullDownLabel">下拉刷新...</span>
+</div>
+<div id="show_back_body"></div>	
+<!--社区信息-->
+<div class="comm-detail clearfix">
+
+<span class="comm-detail-rg left">
+<h1><!--{$data.name}--><em>推广</em></h1>
+<p class="coinandland clearfix">
+<b class="money left">
+<!--{if $data.join_price !=0}-->		
+<em><!--{$data.join_price}--></em>元
+<!--{/if}-->
+<!--{if $data.join_price ==0}-->		
+<em>免费</em>
+<!--{/if}-->
+</b>
+<b class="land right"><!--{$good}--><a id="style_show" class="discuss"><i class="icon-comment-alt"></i><span id="top_count"><!--{$data.review_count}--></span></a>
+<a class="share">
+<!--{if $anent ==1}-->	
+<i class="icon-share-alt"></i></a>
+<!--{/if}-->
+<!--{if $anent ==0}-->	
+
+<div>
+<div id="ckepop">
+<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+</div>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1398064626603331" charset="utf-8"></script>                                         
+<!--{/if}-->
+</b>
+</p>
+</span>
+</div>
+<!--社区详情-->
+<div class="comm-detail-con">
+<div id="show_content" style="max-height: 110px;overflow: hidden;">	
+<!--{$data.content}-->
+</div>
+<span id="is_open" data-is_open=0 class="open"><a href="javascript:;"><i class="icon-angle-down icon-large"></i>展开</a></span>
+</div>
+
+<!--评论-->
+<div class="comm-detail-say clearfix">
+<ul id="thelist">
+</ul>
+<div id="next_more" style="height:40px;"></div>
+</div>
+<!--滚动结束-->
+<div id="pullUp" class="idle">
+<span class="pullUpIcon"></span>
+<span class="pullUpLabel">显示更多...</span>
+</div>
+
+</div>
+</div>
+<!--底部按钮-->
+<div class="container" id="footer">	
+<!--{$good1}-->
+<button id="style_show" class="payment"><i class="icon-comment-alt"></i>评论<span id="review_count_bm" data-review_count=<!--{$data.review_count}-->><!--{$data.review_count}--></span></button>
+<button class="footerbtn"><i class="iconfont_12">&#58898</i>付款209</button>
+<button class="footerbtn"><i class="iconfont_12">&#58898</i>付款209</button>
+<!--S-->
+<script>
+//评论框
+$('#textarea_in').live('input propertychange', function() {
+var content = $('#textarea_in').val();
+var sp_rp = $('#send_spking').attr('data-sp_rp');
+if(content.length>0 || sp_rp !=0){
+$('#show_pic').hide();
+$('#send_spking').show();	
+}else{
+$('#show_pic').show();
+$('#send_spking').hide();	
+}		  
+});
+//参加活动
+//输入改变
+function att_activity(){
+if(/^1[3|5|8|6|7|4]\d{9}$/.test(jQuery(".import_phone").val()) && $("#vk_checked").attr("checked")=='checked'){
+	
+	$('.caozuo_btn').empty();	
+    $('.caozuo_btn').append('<button id="att_activity1" class="make_sure01 left">确定</button><button id="come_back" class="cancel right">取消</button>');
+   
+}else{
+$('.caozuo_btn').empty();	
+$('.caozuo_btn').append('<button class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button>');	
+}
+} 
+	
+//是否接受协议
+$('.protocol').live('click',function(){
+//准用户	
+if(userid == ''){
+if(/^1[3|5|8|6|7|4]\d{9}$/.test(jQuery(".import_phone").val()) && $("#vk_checked").attr("checked")=='checked'){
+	
+	$('.caozuo_btn').empty();	
+    $('.caozuo_btn').append('<button id="att_activity1" class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button>');
+  
+}else{
+$('.caozuo_btn').empty();	
+$('.caozuo_btn').append('<button class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button>');	
+}
+//登陆用户		
+}else{
+if($("#vk_checked").attr("checked")=='checked')	{
+	
+    $('.caozuo_btn').empty();	
+    $('.caozuo_btn').append('<button id="att_activity1" class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button>');	
+}else{
+	$('.caozuo_btn').empty();	
+    $('.caozuo_btn').append('<button class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button>');
+}
+	
+}	
+
+});
+
+//参加数量+1
+$('#add_ac').live('click',function(){
+var ac_num = $('#ac_num').val();
+if(ac_num < surplus){
+var new_ac_num = parseInt(ac_num)+parseInt(1);
+$('#ac_num').val(new_ac_num);	
+}
+})
+//参加数量-1
+$('#sub_ac').live('click',function(){
+var ac_num = $('#ac_num').val();
+if(ac_num >1){
+var new_ac_num = parseInt(ac_num) - parseInt(1);
+$('#ac_num').val(new_ac_num);	
+}
+})
+</script>
+<!--评论弹出输入框-->
+<div id="style_show_data" class="discuss-textarea clearfix" data-style_show=0 style="display:none;">
+	<div class="textarea left">
+		<a href="#" class="smile" id="icon_smile" data-state=0><i class="iconfont icon iconfont_640">&#58896</i></a>
+		<a href="javascript:;" id="show_pic" data-reply_one='1' data-show_pic='0' class="other">
+			<i class="iconfont icon iconfont_639 blue-green">&#58890</i><em></em></a>
+		<textarea rows="2" maxlength="140" oninput="textchange()" onpropertychange="textchange()" id="textarea_in" placeholder="评论内容" style="color:#999"></textarea></div>
+	<button id="send_spking" data-user_name  data-sp_rp=0  data-s_status class="enter">发送</button>
+</div>
+<!--其他选择表情图片-->
+<div class="face-pic" id="show_pic_smile" style="display:none;">
+<ul class="clearfix" id="show_new_pic">
+
+
+<li class="left" id="update_pic" style="display:none;">
+<span class="icon-pic relative">
+<iframe id="upload" style="display:none;" name="upload"></iframe>
+<script>
+
+		function startUpload()
+		{    
+			 
+		
+			 $('#img_new_show').remove();
+		     $('#show_new_pic').append('<li id="img_new_show"  class="left">'+
+                '<span class="icon-pic" data-state=1><a href="javascript:;"><img src="<!--{$url_prefix}-->/img/loading.gif"/></a></span>'+
+                '<span class="icon-describe"></span>'+
+                '</li>');
+		}
+
+		function finishupload(data)
+		{  
+			
+			//alert(data.status);
+			if (data.status > 0) {
+				var url=data.url.replace('.jpg', '-small.jpg');
+				var file_name=data.file_name.replace('.jpg', '-small.jpg');
+				
+		        $('#img_new_show').remove();
+		        $('#show_new_pic').append('<li id="img_new_show" data-img-url='+file_name+' class="left">'+
+                '<span class="icon-pic" data-state=1><a href="javascript:;"><img src="'+url+'"/></a></span>'+
+                '<span class="icon-describe"></span>'+
+                '</li>');
+              
+            $('#image_upload').find(':file').replaceWith('<input type="file" name="userfile" onchange="$(this.form).submit();" />');
+            //发布图片评论
+            
+            setTimeout(function(){
+            $('.goodt').show();
+            $('.footerbtn').show();		
+            $('#style_show_data').hide(200);
+            $('#show_pic_smile').hide(200);
+            $('#img_new_show').remove();
+            $('#style_show_data').attr('data-style_show',0);
+            var num = $('#review_count_bm').attr('data-review_count');
+            var total = parseInt(num)+parseInt(1);
+            $('#review_count_bm').html(total);	
+            var index = $(this).attr('data-index');
+            if(spking==1 || index !=undefined)
+             refresh();
+            else
+             loaded();
+	        },500);
+             var sp_rp = $('#send_spking').attr('data-sp_rp');
+	         var user_name = $('#send_spking').attr('data-user_name');
+             $.ajax({    
+             url:base_url+'/community/spking',
+             data:'userid='+userid+'&aid='+aid+'&sp_rp='+sp_rp+'&img_new_url='+file_name,
+             async: false,
+             dataType: 'json',
+             type:'get',
+             success:function(data){
+             //刷新当前页面
+             	
+                   }
+                })
+             }  
+		}
+</script>			
+<form action="<!--{$url}-->/tpicture/upload"  method="post" onsubmit="startUpload()" id="image_upload" enctype="multipart/form-data" target="upload">	
+<input type="file" name="userfile" onchange="$(this.form).submit();" />
+<input type="submit" value="浏览" style="display:none;"/>
+</form>
+<a href="javascript:;"><i class="icon-picture"></i></a></span>
+<span class="icon-describe">图片</span>
+</li>
+<li class="left">
+<span class="icon-pic add"><img src="<!--{$url_prefix}-->/img/xiaofei01.jpg" /><a href="#" class="closepop" onclick="clearInput()"></a></span>
+</li>
+<li class="left">
+<span class="icon-pic add"><a href="#"><i class="iconfont icon iconfont_14">&#58900</i></a></span>
+</li>
+<p class="hint">已选1张，还有8张可选</p>
+</ul>
+<!--这是表情排列S-->
+<ul class="expression clearfix" id="show_smile" style="display:none;">
+<!--{foreach from=$row item=st  key=key}-->		
+<li><a href="javascript:;" class="smile_ck" data-smile-name=<!--{$key}-->><img src="<!--{$st}-->"/></a></li>
+<!--{/foreach}-->
+</ul>
+<!--这是表情排列E-->
+</div>
+<!--E-->
+</div>
+</div>
+<!--footer-->
+<footer class="hidden">powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+<div id="show_host" data-big_status=1><div class="show_big_style"></div></div>
+<div id="show_back_top"></div>	
+</div>
+<!--弹窗S-->
+<div class="modalv1" id="modalv1" style="display:none;">
+    <dl>
+        <dt><span class="left">价格</span><span class="right"><em>
+        	<!--{if $data.join_price !=0}-->	
+        	<!--{$data.join_price}-->元
+        	<!--{/if}-->
+        	<!--{if $data.join_price ==0}-->
+        	免费
+        	<!--{/if}-->
+        	</em></span></dt>
+        <!--{if $data.join_price !=0}-->	
+		<dd class="choose-number">
+			<span class="left">数量</span><span class="amount right"><a href="javascript:;" id="add_ac">+</a><input id="ac_num" type="text" readonly value="1"/><a href="javascript:;" id="sub_ac">-</a></span>
+		</dd>
+		<!--{/if}-->
+        <dd><input id="phone" placeholder="请输入您的手机号码" oninput="att_activity()" onpropertychange="att_activity()" class="import_phone"/></dd>
+        <dd class="protocol"><input id="vk_checked" type="checkbox"  checked="checked"  class="left">你已阅读并同意<a href="<!--{$url}-->/community/user_agreement?suserid=<!--{$suserid}-->&aid=<!--{$aid}-->">嗨皮GO用户使用协议</a></dd>
+        <dd class="caozuo_btn"><button class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button></dd>
+    </dl>
+
+</div>
+<div class="modalv1" id="modalv2" style="display:none;">
+    <dl>
+    	<dd><img src="<!--{$url_prefix}-->img/loading.gif"></dd>
+    	<br>
+        <dd>请稍等</dd>
+    </dl>
+</div>
+<div id="prompt"></div>
+</body>
+</html>

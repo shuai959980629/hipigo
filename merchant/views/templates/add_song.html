@@ -1,0 +1,226 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<style type="text/css">
+    .portlet-body img{
+        width:auto;
+        height:auto;
+    }
+</style>
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN VALIDATION STATES-->
+						<div class="portlet box purple">
+							<div class="portlet-title">
+								<div class="caption"><i class="icon-reorder"></i><!--{$current.last}--></div>
+							</div>
+							<div class="portlet-body form">
+								<!--歌曲添加开始-->
+                                <div class="goods_add">
+                                <form action="<!--{$url_prefix}--><!--{$url_action}-->" id="form_song_add" class="form-horizontal" method="post" enctype="multipart/form-data" >
+                                    <input type="hidden" name="formhash" value="<!--{$formhash}-->" />
+                                    <input type="hidden" value="<!--{$song_info.id_song}-->" name="id_song"/>
+                                    <input type="hidden" value="<!--{$url_prefix}--><!--{$url_action}-->" id="jobaction"/>
+									<div class="alert alert-error hide">
+										<button class="close" data-dismiss="alert"></button>
+                                        请确保输入的内容符合提交条件，再点击提交！
+									</div>
+									<div class="alert alert-success hide">
+										<button class="close" data-dismiss="alert"></button>
+                                        你的信息已成功完成验证！
+									</div>
+									<div class="control-group">
+										<label class="control-label">歌曲名<span class="required">*</span></label>
+										<div class="controls">
+											<input type="text" name="name" value="<!--{$song_info.name}-->" data-required="1" class="span6 m-wrap"/>
+                                            <b style=" line-height: 30px; font-weight: normal">（请输入长度在1到25个字符）</b>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">演唱者<span class="required">*</span></label>
+										<div class="controls">
+											<input name="singer" type="text" value="<!--{$song_info.singer}-->" class="span6 m-wrap"/>
+                                            <b style=" line-height: 30px; font-weight: normal">（请输入长度在1到20个字符）</b>
+										</div>
+									</div>
+                                    <div class="control-group">
+                                        <label class="control-label">分类</label>
+                                        <div class="controls">
+                                            <select name="commodity_class">
+                                                <option value="0" <!--{if $song_info.id_class == 0}-->selected<!--{/if}-->>请选择分类</option>
+                                                <!--{foreach from = $commodity_class item = cc key = k}-->
+                                                <option value="<!--{$cc.id_class}-->" <!--{if $song_info.id_class == $cc.id_class}-->selected<!--{/if}-->><!--{$cc.name}--></option>
+                                                <!--{/foreach}-->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">歌曲</label>
+                                        <div class="controls">
+                                            <div id="show_song_audio" class="show_synopsis_pic">
+                                                <!--{if $song_info.song_url}-->
+                                                <span class="nui-bg-dark">
+                                                    <b class="audio-component-icon nui-ico fl"></b>
+                                                    <em class="fl" title="<!--{$song_info.name|default:'音频'}-->"><!--{$song_info.name|truncate_utf8:8|default:'音频'}--></em>
+                                                    <a href="javascript:void(0)" onClick="delete_song_audio(this)">删除</a>
+                                                </span>
+                                                <!--{/if}-->
+                                            </div>
+                                            <input type="button" id="uploadSongAudioBtn" value="上传" class="btn blue post_activity_upload"/>
+                                            <input type="hidden" id="fileNum" name="fileNum" value="<!--{count($song_info.song_url)}-->">
+                                            <input type="hidden" id="audio_src" name="audio_src" value=" "/>
+                                            <input type="hidden" id="audio_name" name="audio_name" value=" "/>
+                                            <p style="display: block; float: left; width: 100%">歌曲格式mp3、ogg、wav,文件大小最大10M。</p>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">歌词</label>
+                                        <div class="controls">
+                                            <textarea class="span6 m-wrap" name="lyric" id="lyric" cols="" rows="" style="visibility:hidden"><!--{$song_info.lyric}--></textarea>
+                                            <b class="fl" style=" line-height: 30px; font-weight: normal;">（请输入长度在10到3000个字符,图片最大不超过630px X 350px,最小不低于360px X 200px,单张图片上传文件大小不超过1M）</b>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">海报</label>
+                                        <div class="controls">
+                                            <div id="show_song" class="show_synopsis_pic">
+                                                <!--{if $song_info.posters_url}-->
+                                                <div class="fileupload-new thumbnail">
+                                                    <img src="<!--{$song_info.posters_url|get_img_url:'song'}-->" alt="" style="width:150px;height:150px">
+                                                    <a onClick="delete_img(this)"></a>
+                                                </div>
+                                                <!--{/if}-->
+                                            </div>
+                                            <input type="button" id="uploadSongBtn" value="上传" class="btn blue post_activity_upload"/>
+                                            <p style="display: block; float: left; width: 100%">图片格式：jpg,png,gif,最大尺寸：100X100；最小尺寸：50X50</p>
+                                            <input type="hidden" id="picNum" name="picNum" value="<!--{count($song_info.posters_url)}-->">
+                                            <input type="hidden" id="image_src" name="image_src" value=" "/>
+                                            <input type="hidden" id="image_name" name="image_name" value=" "/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">权重</label>
+                                        <div class="controls">
+                                            <input name="weight" type="text" class="span6 m-wrap" value="<!--{$song_info.weight|default:0}-->" maxlength="5" onKeyUp="validateInt(this);" onBlur="validateInt(this);"/>
+                                        </div>
+                                    </div>
+									<div class="control-group">
+										<label class="control-label">推荐</label>
+										<div class="controls">
+											<label class="radio line fl" style="width: 80px">
+											<input type="radio" name="state" value="1"<!--{if count($song_info.state)}--><!--{if $song_info.state == '1'}--> checked="checked"<!--{/if}--><!--{else}--> checked="checked"<!--{/if}-->/>
+                                                推荐
+											</label>
+											<label class="radio line fl" style="width: 80px">
+											<input type="radio" name="state" value="0"<!--{if $song_info.state == '0'}--> checked="checked"<!--{/if}-->/>
+                                                普通
+											</label>
+											<div id="form_2_membership_error"></div>
+										</div>
+									</div>
+									<div class="form-actions">
+										<button type="submit" id="submitForm" class="btn purple">确定</button>
+                                        <!--{if $type == 'add'}-->
+                                        <button type="reset" class="btn" onClick="back_img()" >取消</button>
+                                        <!--{else}-->
+                                        <button type="button" class="btn" onClick="javascript:window.location.href='<!--{$url_prefix}-->song/list_song'">取消</button>
+                                        <!--{/if}-->
+									</div>
+								</form>
+                                </div>
+                                <!--歌曲添加结束-->
+							</div>
+						</div>
+						<!-- END VALIDATION STATES-->
+				    </div>
+			    </div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL STYLES -->
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/ajaxupload.js"></script>
+    <script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-min.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/editor.js"></script>
+	<script>
+		jQuery(document).ready(function() {
+            $('#picNum').val(<!--{count($song_info.posters_url)}-->);
+            $('#image_src').val(' ');
+            $('#image_name').val(' ');
+
+            $('#fileNum').val(<!--{count($song_info.song_url)}-->);
+            $('#audio_src').val(' ');
+            $('#audio_name').val(' ');
+		   App.init();
+		   FormValidation.songInit();
+            var url = '<!--{$url_prefix}-->';
+            //上传海报图片
+            uplodImage('uploadSongBtn', 'image_src', 'show_song',url);
+            //上传音频附件
+            uplodImage('uploadSongAudioBtn', 'audio_src', 'show_song_audio',url);
+            //编辑器初始化
+		   editor('lyric','lyric_editor',url);
+		});
+        //删除歌曲海报图片
+        function delete_img(obj){
+            $('#picNum').val(0);
+            $('#image_src').val('');
+            $(obj).parent().remove();
+        }
+        //删除歌曲音频
+        function delete_song_audio(obj){
+            $('#fileNum').val(parseInt($('#fileNum').val())-1);
+            $('#audio_src').val('');
+            $(obj).parent().remove();
+        }
+        //取消图片
+        function back_img(){
+            $('#show_song').html('');
+            $('#picNum').val(0);
+            $('#image_src').val('');
+            $('#image_name').val('');
+            $('.help-inline').remove();
+
+            $('#show_song_audio').html('');
+            $('#fileNum').val(0);
+            $('#audio_src').val('');
+            $('#audio_name').val('');
+        }
+    </script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

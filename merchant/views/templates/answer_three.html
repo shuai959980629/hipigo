@@ -1,0 +1,323 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar nav-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <!--{include file="menu.html"}-->
+        <!-- END SIDEBAR MENU -->
+    </div>
+    <!-- END SIDEBAR -->
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- BEGIN PAGE CONTAINER-->
+        <div class="container-fluid">
+            <!-- BEGIN PAGE HEADER-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                    <!--{include file="nav.html"}-->
+                    <!-- END PAGE TITLE & BREADCRUMB-->
+                </div>
+            </div>
+            <!-- END PAGE HEADER-->
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN VALIDATION STATES-->
+						<div class="portlet box purple">
+							<div class="portlet-title">
+								<div class="caption"><i class="icon-reorder"></i>第三步题目设置</div>
+							</div>
+							<div class="portlet-body form yizhan_three">
+								<button class="btn red fr clearfix added" onClick="div_show()"><b>+</b>点击新增</button>
+								<!--一战到底列表开始-->
+                                	<table class="clearfix" id="show_answer_list">
+                                    	<tbody>
+                                        	<tr class="title">
+                                            	<td class="No">排列</td><td class="headline">标题</td><td class="answer">答案</td><td>操作</td>
+                                            </tr>
+                                            <!--{foreach from = $answer_subject item = as key = k}-->
+                                            <tr>
+                                            	<td class="No"><!--{$k+1}--></td><td class="headline"><!--{$as.title}--></td><td class="answer"><!--{$as.description}--></td>
+                                                <td><button class="btn green" onClick="edit_answer(this,<!--{$as.id_subject}-->)">编辑</button>
+                                                    <button class="btn" onClick="delete_answer(this,<!--{$as.id_subject}-->)">删除</button></td>
+                                            </tr>
+                                            <!--{/foreach}-->
+                                            <!---<tr>
+                                            	<td class="No">2</td><td class="headline">这个地方就是标题什么什么来着的啊标题就会很长的</td><td class="answer">这里就是答案答案不知道长不长</td>
+                                                <td><button class="btn green">编辑</button><button class="btn">删除</button></td>
+                                            </tr>-->
+                                        </tbody>
+                                    </table>
+                                <!--一战到底列表结束-->
+							</div>
+						</div>
+						<!-- END VALIDATION STATES-->
+				    </div>
+			    </div>
+				<!-- END PAGE CONTENT-->
+                <div id="show_edit">
+                </div>
+				<!--点击新增弹出框开始-->
+                    <div id="yizhan_three" class="capacity" style="display: none;">
+                        <form action="<!--{$url_prefix}-->activity/add_answer" id="add_title" method="post">
+                            <input type="hidden" name="eid" value="<!--{$eid}-->" />
+                            <input type="hidden" name="a_id" value="<!--{$a_id}-->"/>
+                            <input type="hidden" name="activity_type" value="<!--{$activity_type}-->"/>
+                            <input type="hidden" name="page" value="3" />
+                            <a class="close" onClick="close_div()"></a>
+                      	<table>
+                        	<tbody>
+                            	<tr><td class="title">问题</td><td><textarea class="span6 m-wrap" name="title" cols="" rows="" maxlength="50"></textarea></td></tr>
+                                <tr><td class="title">选项</td>
+                                	<td>
+                                    	<input class="span6 m-wrap" name="select_info" type="text" maxlength="20"><a class="btn red added" onClick="add_select_div('add','select_info')">+点击新增</a>
+                                        <!--答案列表-->
+                                        <div class="issues_list">
+                                        	<ul>
+                                            	<li class="title">操作<span>名称</span></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="title">答案</td>
+                                    <td class="answer">
+                                        <select name="answer_ok" id="answer_ok">
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr><td class="title">权重</td><td>
+                                    <input class="span6 m-wrap" name="weight" maxlength="5" type="text" onKeyUp="validateInt(this);" onBlur="validateInt(this);"></td></tr>
+                            </tbody>
+                        </table>
+                        </form>
+                        <div class="form-actions">
+                        	<button class="btn red" onClick="add_answer(1)">保存并添加</button><button class="btn green" onClick="add_answer(2)">保存</button>
+                        </div>
+                    </div>
+                    <div id="pop_up" style="display: none;"></div>
+                <!--点击新增弹出框结束-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+    <!-- BEGIN FOOTER -->
+    <!--{include file="footer.html"}-->
+    <script>
+        jQuery(document).ready(function() {
+            // initiate layout and plugins
+            App.init();
+//            FormValidation.init();
+        });
+
+        //关闭窗口
+        function close_div(){
+            window.location.reload();
+//            //重置发布题目start
+//            $('textarea[name="title"]').val('');
+//            $('input[name="select_info"]').val('');
+//            $('input[name="weight"]').val('');
+//            $('#answer_ok').html('');
+//            $('.issues_list').children().html('<li class="title">操作<span>名称</span></li>');
+//            //end
+//
+//            $('#yizhan_three').hide();
+//            $('#pop_up').hide();
+        }
+
+        //显示新增弹出层
+        function div_show(){
+            $('#yizhan_three').show();
+            $('#pop_up').show();
+        }
+
+        //删除列表的题目信息
+        function delete_answer(obj,id_subject){
+            if(confirm("你确定要删除该条信息吗？"))
+            {
+                $.post('<!--{$url_prefix}-->activity/delete_answer', {
+                    'id_subject':id_subject
+                }, function(data){
+//                    $(obj).parent().parent().remove();
+//                    alert('删除成功！');
+                    window.location.reload();
+                }, 'text');
+            }
+        }
+
+        //编辑题目列表信息
+        function edit_answer(obj,id_subject){
+            $.post('<!--{$url_prefix}-->activity/show_edit_answer', {
+                'id_subject':id_subject
+            }, function(data){
+                $('#show_edit').html(data.data);
+            }, 'json');
+        }
+
+        //添加选项显示
+        function add_select_div(type,name){
+            if(name == 'select_info'){
+                if($('input[name="select_infos[]"]').length >= 10){
+                    alert('请填写选项个数在10个以内!');
+                    return;
+                }
+            }else{
+                if(($('#issues_list_e').children('ul').children('li').length-1) >= 10){
+                    alert('请填写选项个数在10个以内!');
+                    return;
+                }
+            }
+            var select_infos = $('input[name="'+name+'"]').val();
+            var select_info = select_infos.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(select_info == ''){
+                alert('请填写选项内容后再点击新增!');
+                return false;
+            }else if(select_info.length > 20){
+                alert('请填写选项内容在20个字以内!');
+                return false;
+            }
+            var html_select = '<li><input type="hidden" name="select_infos[]" value="'+select_infos+'"/>' +
+                    '<a href="javascript:void(0)" onclick="delete_option(this,0,\'answer_ok\');">删除</a>' +
+                    '<span>'+select_infos+'</span>';
+
+            if(type == 'add'){
+                html_select += '</li>';
+                $('.issues_list').children().html($('.issues_list').children().html() + html_select);
+                $('#answer_ok').html($('#answer_ok').html() + '<option value="'+$('input[name="select_infos[]"]').length+'">'+select_infos+'</option>');
+                $('input[name="select_info"]').val('');
+                return false;
+            }else if(type == 'edit'){
+                html_select += '<input type="hidden" name="select_infos_e[]" value="'+select_infos+'"/></li>';
+                $('#issues_list_e').children('ul').html($('#issues_list_e').children('ul').html() + html_select);
+                $('#answer_ok_e').html($('#answer_ok_e').html() + '<option value="'+($('#issues_list_e').children('ul').children('li').length-1)+'">'+select_infos+'</option>');
+                $('input[name="'+name+'"]').val('');
+            }
+        }
+
+        //删除选项
+        function delete_option(obj,num,answer_ok){
+            $(obj).parent().remove();
+            $('#'+answer_ok).html('');
+            if(num != 0){
+                if($('#id_option_e').val() == '')
+                    $('#id_option_e').val(num);
+                else
+                    $('#id_option_e').val($('#id_option_e').val()+','+num);
+
+                $('input[name="select_infos_e[]"]').each(function(i){
+                    var s_info = $(this).val();
+                    $('#'+answer_ok).html($('#'+answer_ok).html()+'<option value="'+(i+1)+'">'+s_info+'</option>');
+                });
+            }else{
+                $('input[name="select_infos[]"]').each(function(i){
+                    var s_info = $(this).val();
+                    $('#'+answer_ok).html($('#'+answer_ok).html()+'<option value="'+(i+1)+'">'+s_info+'</option>');
+                });
+            }
+        }
+
+        //保存:2  和  保存并添加:1 和   编辑题目信息:3
+        function add_answer(num){
+            var select_infos = [];
+            $('input[name="select_infos[]"]').each(function(i){
+                select_infos[i] = $(this).val();
+            });
+
+            var titles = $('textarea[name="title"]').val();
+            var title = titles.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(titles.length > 50){
+                alert('请输入题目在50个字以内！');
+                return false;
+            }
+            if(num == 1){
+                var select_count = $('input[name="select_infos[]"]').length;//是否设置有选项
+                var weight = $('input[name="weight"]').val();
+                var answer_ok = $('#answer_ok').val(); //正确答案索引
+                $.post('<!--{$url_prefix}-->activity/add_answer', {
+                    'select_infos':select_infos,
+                    'title' : titles,
+                    'weight' : weight,
+                    'answer_ok':answer_ok,
+                    'a_id':$('input[name="a_id"]').val()
+                }, function(data){
+                    alert(data.msg);
+                    //重置发布题目start
+                    $('textarea[name="title"]').val('');
+                    $('input[name="select_info"]').val('');
+                    $('input[name="weight"]').val('');
+                    $('#answer_ok').html('');
+                    $('.issues_list').children().html('<li class="title">操作<span>名称</span></li>');
+                    //end
+
+                    //刷新列表
+                    $.post('<!--{$url_prefix}-->activity/edit_activity/3/'+$('input[name="a_id"]').val(), {
+                        'ispage':1
+                    }, function(data){
+                       $('#show_answer_list').html(data);
+                    }, 'text');
+                }, 'json');
+            }else if(num == 2){
+                var select_count = $('input[name="select_infos[]"]').length;//是否设置有选项
+                var weight = $('input[name="weight"]').val();
+                var answer_ok = $('#answer_ok').val(); //正确答案索引
+
+                if(title == ''){
+                    alert('请输入题目信息！');
+                    return false;
+                }
+                if(select_count <= 0){
+                    alert('请填写选项！');
+                    return false;
+                }
+                if(weight == ''){
+                    alert('请填写权重！');
+                    return false;
+                }
+                $('#add_title').submit();
+
+                $('#yizhan_three').hide();
+                $('#pop_up').hide();
+                //重置发布题目start
+                $('textarea[name="title"]').val('');
+                $('input[name="select_info"]').val('');
+                $('input[name="weight"]').val('');
+                $('#answer_ok').html('');
+                $('#issues_list').children().children().html('操作<span>名称</span>');
+                //end
+            }else{
+            //编辑题目信息列表的信息
+            var titles = $('textarea[name="title_e"]').val();
+            var title = titles.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+                var weight = $('input[name="weight_e"]').val();
+                var answer_ok = $('#answer_ok_e').val(); //正确答案索引
+                $.post('<!--{$url_prefix}-->activity/add_answer', {
+                    'select_infos':select_infos,
+                    'title' : titles,
+                    'weight' : weight,
+                    'answer_ok':answer_ok,
+                    'id_subject':$('#id_subject').val(),
+                    'a_id':$('input[name="a_id"]').val(),
+                    'id_option_e':$('#id_option_e').val(),
+                    'is_page' : 1
+                }, function(data){
+                    window.location.reload();
+                }, 'text');
+            }
+        }
+
+    </script>
+    <!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

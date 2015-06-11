@@ -1,0 +1,194 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- 左边开始 -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- 左边结束 -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- 右边开始-->
+			<div class="container-fluid" >
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+                   
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                <p class="fl"><input id="seek" name="seek" placeholder="输入后请按回车进行搜索" type="text" onkeypress="if(event.keyCode==13){search_boi(this)}" onkeyup="backSearchOrRefresh(this)" onblur="search_boi(this)"></p>
+                <p class="fr">
+                    <select name="boi_type" id="boi_type" onChange="boi_list_page(1)">
+                        <option value="all">全部</option>
+                        <option value="0">未受理</option>
+                        <option value="1">未受理</option>
+                    </select>
+                </p>
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--商品列表开始-->
+                            <div class="catalogue">
+                            <table width="100%">
+                                <tbody>
+                                    <tr class="big_title">
+                                        <td>用户名</td>
+                                        <td>电话</td>
+                                        <td>车牌号</td>
+                                        <td>里程</td>
+                                        <td style="width: 6%">预约时间</td>
+                                        <td style="width: 20%">预约说明</td>
+                                        <td>状态</td>
+                                        <td class="id_title">操作</td>
+                                    </tr>
+                                <!--{if $boi_list}-->
+                                    <!--{foreach from = $boi_list item = cl key = k}-->
+                                    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                                        <td><!--{$cl.user_name}--></td>
+                                        <td><!--{$cl.user_phone}--></td>
+                                        <td><!--{$cl.user_card}--></td>
+                                        <td><!--{$cl.user_mileage}--></td>
+                                        <td><!--{$cl.user_time}--></td>
+                                        <td><!--{$cl.user_desc}--></td>
+                                        <td><!--{if $cl.state != 1}-->未受理<!--{else}-->已受理<!--{/if}--></td>
+                                        <td  class="id_title">
+                                            <a class="compile" href="<!--{$url_prefix}-->car/edit_car/<!--{$cl.id_online}-->/<!--{$offset}-->/<!--{$cm}-->">编辑</a>
+                                            <a class="delete" onClick="handle_boi(<!--{$cl.id_online}-->,<!--{$offset}-->,'delete')">删除</a>
+                                            <!--{if $cl.state != 1}-->
+                                            <a class="hot" href="javascript:void(0)" onClick="handle_boi(<!--{$cl.id_online}-->,<!--{$offset}-->,'update')">受理</a><!--{/if}-->
+                                        </td>
+                                    </tr>
+                                    <!--{/foreach}-->
+                                <!--{else}-->
+                                <tr>
+                                    <td colspan="8">
+                                        还没有预约信息！
+                                    </td>
+                                </tr>
+                                <!--{/if}-->
+                                </tbody>
+                            </table>
+                            <!--分页 start-->
+                                <!--{if $page_html}-->
+                                <div class="pagination">
+                                    <ul>
+                                        <!--{$page_html}-->
+                                    </ul>
+                                </div>
+                                <!--{/if}-->
+                            <!--分页 ene-->
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+				    </div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+		jQuery(document).ready(function() {
+		   App.init();
+		   UITree.init();
+		});
+
+        //搜索提示效果
+        $("#seek").click(function(){
+            if($(this).val() == $(this).attr('title')){
+                $(this).val('');
+            }
+        }).blur(function(){
+            if($(this).val() == ''){
+                $(this).val($(this).attr('title'));
+            }
+        });
+
+        //物品列表分页
+        function boi_list_page(offset){
+            var search_key = $('#seek').val();
+            $.post('<!--{$url_prefix}-->car/list_information', {
+                'boi_type': $('#boi_type').val(),
+                'search_key':search_key,
+                'offset':offset,
+                'page_type':1
+            }, function(data){
+                $('.catalogue').html(data);
+            }, 'text');
+        }
+
+        //删除预约信息 或 修改受理预约状态
+        function handle_boi(id_online,offset,do_type){
+            var msg = do_type=='delete'?"你确定要删除该预约信息吗？":"你确定受理此预约？";
+            if(confirm(msg))
+            {
+                $.post('<!--{$url_prefix}-->car/handle_boi', {
+                    'id_online': id_online,
+                    'do_type':do_type
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else{
+//                        alert(data.msg);
+                        boi_list_page(offset);
+                    }
+                }, 'json');
+            }
+        }
+
+
+        //搜索关键字
+        function search_boi(obj){
+            var search_keys = $(obj).val();
+            var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(search_key == ''){
+                return;
+            }else{
+                $.post('<!--{$url_prefix}-->car/search_boi', {
+                    'boi_type': $('#boi_type').val(),
+                    'search_key':search_key,
+                    'offset':1
+                }, function(data){
+                    $('.catalogue').html(data);
+                }, 'text');
+            }
+        }
+        //搜索返回刷新
+        function backSearchOrRefresh(obj){
+            var searchinput = $(obj).val();
+            if(searchinput == ''){
+                commodity_list_page(1);
+            }
+        }
+	</script>
+	<!-- END JAVASCRIPTS -->
+
+</body>
+
+<!-- END BODY -->
+
+</html>

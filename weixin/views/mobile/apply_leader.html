@@ -1,0 +1,88 @@
+<!--{include file="header.html"}-->
+  <section id="apply_leader_section" class="active">
+  <!---->
+      <!--{include file="nav.tpl"}-->
+  <!---->
+    <article id="apply_leader_list" data-scroll="true" class="active">
+  <!---->
+     <div>
+      <ul class="apply_list">
+        <li>
+           <span class="left">身份证件照正面</span>
+           <i class="iconfont icon iconfont_10 right">&#983727;</i>
+
+            <iframe id="upload1" style="display:none;" name="upload1"></iframe>
+            <form action="<!--{$url}-->/tpicture/upload?path=card" method="post" id="image_upload_1" enctype="multipart/form-data" target="upload1">
+                <input type="hidden" name="pic" value="" />
+                <input type="file" name="userfile" id="upload_face" style="position: absolute;top: 20px;left: 0;width: 100%;height: 70px;opacity: 0;filter: alpha(opacity=0);cursor: pointer;" />
+                <input type="submit" value="浏览" style="display:none;"/>
+            </form>
+            <img src="/wapi/img/mobile/loading.gif" id="pic_url" class="id_card_pic right" style="display: none;"/>
+        </li>
+        <li>
+           <span class="left">身份证件照背面</span>
+           <i class="iconfont icon iconfont_10 right">&#983727;</i>
+
+            <iframe id="upload2" style="display:none;" name="upload2"></iframe>
+            <form action="<!--{$url}-->/tpicture/upload?path=card&con=1" method="post" id="image_upload_2" enctype="multipart/form-data" target="upload2">
+                <input type="hidden" name="con" value="" />
+                <input type="file" name="userfile" id="upload_side" style="position: absolute;top: 120px;left: 0;width: 100%;height: 70px;opacity: 0;filter: alpha(opacity=0);cursor: pointer;" />
+                <input type="submit" value="浏览" style="display:none;"/>
+            </form>
+            <img src="/wapi/img/mobile/loading.gif" id="con_url" class="id_card_pic right" style="display: none;"/>
+        </li>
+        <li>
+           <span class="left">真实姓名</span>
+           <span class="right revise_info"><input type="text" name="nickname" placeholder="这里填写你的真实姓名"/></span>
+        </li>
+        <li>
+            <span class="left">身份证号</span>
+            <span class="right revise_info"><input type="text" name="card" placeholder="填写你的身份证件号" autocomplete="off"/></span>
+        </li>
+        <li>
+            <span class="left">手机号码</span>
+            <span class="right revise_info"><input type="text" name="phone" placeholder="填写你常用的手机号码" autocomplete="off"/></span>
+        </li>
+        <li>
+            <span class="left">所在地</span>
+            <span class="right revise_info">
+                <select name="select_p" onChange = "hw_select('select_p','select_c')">
+                </select>
+                <select name="select_c" onChange = "hw_select('select_p','select_c')">
+                </select>
+            </span>
+        </li>
+      </ul>
+      <p class="agreement"><input type="checkbox" name="is_ok" checked="checked"/>我已看过并同意<a onclick="to_agreement()" class="haveback">《用户使用协议》</a></p>
+     </div>
+    </article>
+  </section>
+<div class="instant_tip" style="display:none;"><img src="<!--{$url_prefix}-->img/loading.gif"/>上传中</div>
+<script type="text/javascript">
+  remove_share();
+  
+   hw_init("select_p","select_c");//地区二级联动
+   var base_url='<!--{$url}-->';
+   var url_action='<!--{$url_action}-->';
+
+   $('.join').click(function () {
+       if(sub_expert()){
+           var data = {
+               pic: $('[name=pic]:hidden').val(),
+               con: $('[name=con]:hidden').val(),
+               nickname: $('[name=nickname]:text').val(),
+               card: $('[name=card]:text').val(),
+               select_p: $('[name=select_p]').val(),
+               select_c: $('[name=select_c]').val(),
+               phone: $('[name=phone]:text').val()
+           };
+           
+           $.post(url_action,data,function (result){
+               J.showToast(result.msg);
+               if(result.code == 1)
+                window.location.href = result.options.url;
+           }, 'json');
+       }
+   });
+</script>
+<!--{include file="footer.html"}-->

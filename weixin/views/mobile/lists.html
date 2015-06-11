@@ -1,0 +1,108 @@
+<!--{if $page_type == 'coollife'}-->
+<!--{if !$data}-->no_data<!--{else}-->
+<!--{foreach from = $data item = d}-->
+<li>
+    <p class="clearfix">
+        <a href="<!--{$url_prefix}--><!--{$bid}-->/<!--{$sid}-->/community/detail?suserid=<!--{$d.id_business}-->&aid=<!--{$d.id_activity}-->"><span class="title_part left">
+            <span class="title"><!--{$d.name}--></span>
+            <span class="tab"><!--{$d.tag}--></span>
+            </span>
+        </a>
+        <span class="user_head right">
+            <!--{if $d.object_type == 'user'}-->
+            <a href="<!--{$url_prefix}--><!--{$bid}-->/<!--{$sid}-->/user_activity/index?userid=<!--{$d.id_business}-->">
+                <img src="<!--{$d.imgs}-->"/><img src="<!--{$url_prefix}-->img<!--{$TPL_DEFAULT}-->/leader_icon.png" class="leader_icon"/>
+            </a>
+            <!--{else}-->
+            <a href="<!--{$url_prefix}--><!--{$d.id_business}-->/0/community/home">
+            <img src="<!--{$d.imgs}-->"/>
+            </a>
+            <!--{/if}-->
+        </span>
+    </p>
+    <p class="clearfix">
+        <!--{if $d.join_count > 0}-->
+        <!--{if $d.join_price > 0}-->
+        <span class="numberpay"><i><!--{$d.join_count}-->位微友</i>付款</span>
+        <!--{else}-->
+        <span class="numberpay"><i><!--{$d.join_count}-->位微友</i>参加</span>
+        <!--{/if}-->
+        <!--{/if}-->
+        <!--{if $d.join_head_img}-->
+          <span class="payer">
+          <!--{foreach from = $d.join_head_img item = jh}-->
+             <!--{if $jh.1}--><a href="<!--{$url_prefix}--><!--{$bid}-->/<!--{$sid}-->/user_activity/index?userid=<!--{$jh.1}-->"><img src="<!--{$jh.0}-->"/></a><!--{else}--><img src="<!--{$jh.0}-->"/><!--{/if}-->
+          <!--{/foreach}-->
+         </span>
+        <!--{/if}-->
+    </p>
+    <p class="handle">
+        <a href="<!--{$url_prefix}--><!--{$bid}-->/<!--{$sid}-->/community/detail?suserid=<!--{$d.id_business}-->&aid=<!--{$d.id_activity}-->" class="comment haveback"><!--{if $d.review_count}--><!--{$d.review_count}--><!--{/if}--><i class="iconfont icon iconfont_1">&#58904;</i></a>
+        <a href="<!--{$url_prefix}--><!--{$bid}-->/<!--{$sid}-->/community/detail?suserid=<!--{$d.id_business}-->&aid=<!--{$d.id_activity}-->" class="praise haveback"><!--{if $d.appraise_count}--><!--{$d.appraise_count}--><!--{/if}--><i class="iconfont icon iconfont_2">&#58901;</i></a>
+    </p>
+</li>
+<!--{/foreach}-->
+<!--{/if}-->
+
+<!--{elseif $page_type == 'hotbusiness'}-->
+<!--{if !$shopInfo}-->no_data<!--{else}-->
+<!--{foreach from = $shopInfo item = si}-->
+<li class="clearfix" style="cursor: pointer">
+    <a href="<!--{$url_prefix}--><!--{$si.id_business}-->/<!--{$si.id_shop}-->/community/home">
+    <span class="business_list_left left">
+      <b class="business_name"><!--{$si.name}--></b>
+      <b class="business_num">活动数：<em class="red"><!--{$si.activity_count}--></em></b>
+      <b class="business_address">地址：<em class="bottle_green"><!--{if $si.address}--><!--{$si.address}--><!--{else}-->无<!--{/if}--></em></b>
+    </span>
+    <span class="business_list_right right"><i class="iconfont icon iconfont_10 right">&#983727;</i></span>
+    </a>
+</li>
+<!--{/foreach}-->
+<!--{/if}-->
+
+<!--{elseif $page_type == 'recommendleader'}-->
+<!--{if !$expert_info}-->no_data<!--{else}-->
+<!--{foreach from = $expert_info item = ei}-->
+<li class="clearfix" style="cursor: pointer">
+    
+    <span class="leader_list_left left">
+      <a class="leader_head left"><img src="<!--{$ei.head_image_url}-->"/></a>
+      <a href="<!--{$url_prefix}--><!--{$bid}-->/<!--{$sid}-->/user_activity/index?userid=<!--{$ei.id_user}-->">
+      <b class="leader_name"><!--{$ei.nickname}--><!--{if $ei.sex == 1}--><i class="iconfont icon iconfont_9">&#58911;</i><!--{else}--><i class="iconfont icon iconfont_8">&#58910;</i><!--{/if}--></b>
+      <b class="idiograph"><!--{$ei.sign}--></b>
+          </a>
+    </span>
+    <span class="business_list_right right"><i class="iconfont icon iconfont_10 right">&#983727;</i></span>
+</li>
+<!--{/foreach}-->
+<!--{/if}-->
+
+<!--{elseif $page_type == 'search_activity'}-->
+<!--{if !$list_info}-->no_data<!--{else}-->
+<!--{foreach from = $list_info item = li}-->
+<li>
+    <a href="<!--{if $li.object_type == 'user'}--><!--{$url_prefix}--><!--{$bid}-->/<!--{$sid}-->/user_activity/index?userid=<!--{$li.id_business}--><!--{else}--><!--{$url_prefix}--><!--{$li.id_business}-->/0/community/home<!--{/if}-->">
+        <span class="user_head left">
+            <img src="<!--{$li.head_img}-->"/>
+            <!--{if $li.object_type == 'user'}--><img src="<!--{$url_prefix}-->img<!--{$TPL_DEFAULT}-->/leader_icon.png" class="leader_icon"/><!--{/if}-->
+        </span>
+    </a>
+    <a href="<!--{$url_prefix}--><!--{$bid}-->/<!--{$sid}-->/community/detail?suserid=<!--{$li.id_business}-->&aid=<!--{$li.id_activity}-->">
+    <div class="one_part left">
+        <strong><!--{$li.name}--></strong>
+        <p><!--{$li.t_name}--></p>
+    </div>
+    </a>
+</li>
+<!--{/foreach}-->
+<!--{/if}-->
+
+<!--{elseif $page_type == 'search_resource'}-->
+<!--{if !$list_info}-->no_data<!--{else}-->
+<!--{foreach from = $list_info item = li}-->
+<li><a href="<!--{$url_prefix}--><!--{$li.owner}-->/0/community/home"><span class="user_head left"><img src="<!--{$li.logo}-->"/></span></a>
+    <div class="one_part left"><strong><!--{$li.resource_title}--></strong></div></li>
+<!--{/foreach}-->
+<!--{/if}-->
+
+<!--{/if}-->

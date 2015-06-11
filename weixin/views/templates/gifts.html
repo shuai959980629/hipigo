@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>我的口袋</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/gifts.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/swipe.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+var base_url = '<!--{$url}-->';
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article,button{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<!--banner-->
+<div class="container">
+<h3 class="welcome"><em><!--{urldecode($nick_name)}--></em>,欢迎来到我的口袋~</h3>
+<ul class="gifts-ul">
+    <!--{foreach from = $ticket_info item = ti}-->
+    <!--{if $ti.ticket_status == 1}-->
+    <li <!--{if $ti.link}-->onClick="javascript:window.location.href='<!--{$ti.link}-->'"<!--{/if}-->>
+        <h1 class="clearfix">
+            <!--{if $ti.object_type == 'eticket'}-->
+                <span class="gift-pic"><img src="<!--{$ti.image_url}-->"/></span>
+                <span class="title"><!--{$ti.title}--></span>
+                <span class="date left">有效期：<!--{substr($ti.valid_begin,0,10)}-->至<!--{substr($ti.valid_end,0,10)}--></span>
+            <!--{else}-->
+                <!--{$ti.title}-->
+            <!--{/if}-->
+        </h1>
+        <p class="cdkey"><!--{if $ti.object_type == 'eticket'}-->兑换码<!--{else}-->报名码<!--{/if}-->：<em><!--{$ti.code}--></em></p>
+        <p class="issue-date clearfix">
+            <!--{if $ti.notice}--><span class="site left">地址：<!--{$ti.notice}--></span><!--{/if}-->
+            <!--{if $ti.link}--><span class="status will right" ><a>查看详情</a></span><!--{/if}-->
+        </p>
+        <span class="before"></span>
+        <span class="after"></span>
+    </li>
+    <!--{/if}-->
+    <!--{/foreach}-->
+
+    <!--{foreach from = $community_spread item = cs}-->
+    <li id="spread<!--{$cs.id_spread}-->"<!--{if $cs.link}-->onClick="javascript:window.location.href='<!--{$cs.link}-->'"<!--{/if}-->>
+        <h1 class="clearfix" ><!--{$cs.name}--></h1>
+        <p class="cdkey">兑换码：<em>00000000</em></p>
+        <p class="issue-date clearfix">
+            <span class="site left">价格：<!--{if $cs.spread_price == 0}-->免费<!--{else}--><em><!--{$cs.spread_price}--></em>元<!--{/if}--></span>
+            <span class="status will right" ><a href="javascript:void(0)">点击参与</a></span>
+        </p>
+        <span class="before"></span>
+        <span class="after"></span>
+        <i class="spread"></i>
+    </li>
+
+<script>
+
+    $('#spread<!--{$cs.id_spread}-->').find('.status').live('click',function(e){
+    e.stopPropagation();
+    join_activity(<!--{$cs.id_activity}-->);
+    });
+</script>
+
+
+    <!--{/foreach}-->
+
+</ul>
+</div>
+
+<script type="text/javascript">
+
+
+
+    //参加活动
+    function join_activity(id_activity){
+        $.ajax({
+            url:base_url+'/community/att_activity_gifts',
+            data:'aid='+id_activity+'&ac_num=1&type=spread',
+            async: false,
+            dataType: 'json',
+            type:'get',
+            success:function(data){
+                if(data.status == 1 || data.status == 3){
+                    if(data.msg){
+                        alert(data.msg);
+                    }
+                    window.location.reload();
+                }
+                if(data.status == 0){
+                     window.location.href = data.url;
+                }
+                
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

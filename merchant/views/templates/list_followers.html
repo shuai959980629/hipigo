@@ -1,0 +1,233 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+            <!-- BEGIN SIDEBAR MENU -->
+            <!--{include file="menu.html"}-->
+            <!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+                        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                        <!--{include file="nav.html"}-->
+                        <!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+				<!--用户管理开始-->
+                	<div class="tabbable tabbable-custom attention">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab_1_1">关注者列表</a></li>
+                        </ul>
+                        <div class="tab-content" style="overflow:visible;margin-bottom: 20px;">
+                            <div id="user_manage" class="user_manage clearfix">
+                                <!--用户管理左边开始-->
+                                <div class="user" id="show_followers">
+                                    <div class="content clearfix">
+                                        <ul>
+                                            <!--{if $list_user}-->
+                                            <!--{foreach from = $list_user item=lu}-->
+                                            <li class="clearfix list_user">
+                                                <input type="hidden" id="id_bn_sub[]" name="id_bn_sub[]" value="<!--{$cl.id_bn_sub}-->"/>
+                                                <div class="fl">
+                                                    <img class="pic" src="<!--{if $lu.head_image_url}--><!--{$lu.head_image_url}--><!--{else}--><!--{$url_prefix}-->media/image/ico_user.png<!--{/if}-->">
+                                                    <!--{if $lu.name_remarks}-->
+                                                    <span class="name"><!--{$lu.name_remarks}-->(<!--{urldecode($lu.nick_name)}-->)</span>
+                                                    <!--{else}-->
+                                                    <span class="name"><!--{urldecode($lu.nick_name)}--></span>
+                                                    <!--{/if}-->
+                                                    <!--鼠标指到个人头像时开始-->
+                                                    <div class="result" style="display: none;">
+                                                        <p class="tile">详细资料</p>
+                                                        <div class="content clearfix">
+                                                            <p style=" margin-top: 5px;"><!--{urldecode($lu.nick_name)}--></p>
+                                                            <p class="clearfix">
+                                                                <span class="remark">备注名：<b style="color: #4D90FE; font-weight: normal;"><!--{$lu.name_remarks}--></b></span>
+                                                                <input type="hidden" value="<!--{$lu.name_remarks}-->" name="remarks"/>
+                                                                <span class="edit_s"></span>
+                                                                <a href="javascript:void(0)" onClick="show_html(this,<!--{$lu.id_bn_sub}-->,<!--{$offset}-->,0)"></a>
+                                                            </p>
+                                                            <p>地区：<!--{$lu.city}--></p>
+                                                        </div>
+                                                    </div>
+                                                    <!--鼠标指到个人头像时结束-->
+                                                </div>
+                                                <div class="fr">
+                                                    <div></div>
+                                                    <a class="alter" href="javascript:void(0);" onClick="show_html(this,<!--{$lu.id_bn_sub}-->,<!--{$offset}-->,1)">修改备注</a>
+                                                </div>
+                                                <!--鼠标指到个人头像时开始-->
+                                                <div class="result" style="display: none;">
+                                                    <p class="tile">详细资料</p>
+                                                    <div class="content clearfix">
+                                                        <p><!--{urldecode($lu.nick_name)}--></p>
+                                                        <p class="clearfix" style="line-height:30px;">
+                                                            <span class="remark">备注名:<!--{$lu.name_remarks}--></span>
+                                                            <input type="hidden" value="<!--{$lu.name_remarks}-->" name="remarks"/>
+                                                            <span class="edit_s"></span>
+                                                            <a href="javascript:void(0)" onClick="show_html(this,<!--{$lu.id_bn_sub}-->,<!--{$offset}-->,0)"></a>
+                                                        </p>
+                                                        <p>地区：<!--{$lu.city}--></p>
+                                                    </div>
+                                                </div>
+                                                <!--鼠标指到个人头像时结束-->
+                                            </li>
+                                            <!--{/foreach}-->
+                                            <!--{else}-->
+                                            <li class="nomessage">
+                                                还没有关注者信息哦！
+                                            </li>
+                                            <!--{/if}-->
+                                        </ul>
+                                    </div>
+                                    <!--分页开始-->
+                                    <div class="fl"><p style="line-height: 50px; padding-left: 10px"><!--{if $total != 0}-->共<!--{$total}-->条<!--{/if}--></p></div>
+                                    <div class="pagination">
+                                        <ul style="float:right;">
+                                            <!--{$page_html}-->
+                                        </ul>
+                                    </div>
+                                    <!--分页结束-->
+                                </div>
+                                <!--用户管理左边结束-->
+                            </div>
+                        </div>
+                    </div>
+				<!--用户管理结束-->
+			  </div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL SCRIPTS -->
+	<script>
+		jQuery(document).ready(function() {
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.init();
+		});
+
+        //鼠标指上头像显示用户信息
+        $('.list_user').children('.fl').mouseover(function(){
+            $(this).children('.result').show();
+        }).mouseout(function(){
+            $(this).children('.result').hide();
+        });
+
+        //展示修改备注html
+        function show_html(obj,id_bn_sub,offset,num){
+//            alert(num);
+            //隐藏已经打开的修改备注名框
+            $('input[name="id_bn_sub[]"]').each(function(a){
+                var html1= $(this).parent().children('.fr');
+                var html2= $(this).parent().children('.fl').children('.result').children('div').children('.clearfix');
+                if(html1.children('div').html() != ''){
+                    html1.children('a').show();
+                    html1.children('div').html('');
+                }
+                if(html2.children('.edit_s').html() != ''){
+                    html2.children('a').show();
+                    html2.children('.remark').children('b').html(html2.children('input').val());
+                    html2.children('.edit_s').html('');
+                }
+            });
+            var html_ = '';
+            if(num == 1){
+                html_ = '<input style="height:23px;" type="text" name="name_remarks"/><input type="button" value="修改" class="btn yellow" onclick="edit_name(this,'+id_bn_sub+','+offset+',1)"/>' +
+                        '<input type="button" class="btn" value="取消" onclick="hide_html(this);"/>';
+                $(obj).parent().children('div').html(html_);
+            }else{
+                var name = $(obj).parent().children('.remark').children('b').text();
+                html_ = '<input style="width:80px;flot:left" type="text" name="name_remarks" value="'+name+'"/><input style="height:30px;" type="button" value="修改" class="btn blue" onclick="edit_name(this,'+id_bn_sub+','+offset+',0)"/>' +
+                        '<input style="height:30px;"  type="button" class="btn" value="取消" onclick="hide_html(this);"/>';
+
+                $(obj).parent().children('.edit_s').html(html_);
+                $(obj).parent().children('.remark').children('b').html('');
+            }
+            $(obj).hide();
+        }
+        //隐藏修改备注html
+        function hide_html(obj){
+            $(obj).parent().parent().children('a').show();
+            var rem = $(obj).parent().parent().children('input').val();
+            $(obj).parent().parent().children('.remark').children('b').html(rem);
+            $(obj).parent().html('');
+        }
+
+        //修改备注名
+        function edit_name(obj,id_bn_sub,offset,num){
+            var nick_name = $('input[name="name_remarks"]').val();
+            nick_name = nick_name.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(nick_name == ''){
+                alert('请输入你要修改的备注名！');
+                return;
+            }else{
+                if(num == 1){
+                    $.post('<!--{$url_prefix}-->customer/edit_name', {
+                        'nick_name': nick_name,
+                        'id_bn_sub': id_bn_sub,
+                        'offset':offset,
+                        'page_type':'list_followers'
+                    }, function(data){
+                        $(obj).parent().parent().parent().children('.fl').children('.name').html(data);
+                        $(obj).parent().parent().parent().children('.fl').children('.result').children('.content').children('.clearfix').children('.remark').children('b').text(nick_name);
+                        $(obj).parent().parent().parent().children('.fl').children('.result').children('.content').children('.clearfix').children('input').val(nick_name);
+                        $(obj).parent().parent().children('a').show();
+                        $(obj).parent().html('');
+                    }, 'text');
+                }else{
+                    $(obj).parent().parent().children('input').val(nick_name);
+                    $.post('<!--{$url_prefix}-->customer/edit_name', {
+                        'nick_name': nick_name,
+                        'id_bn_sub': id_bn_sub,
+                        'offset':offset,
+                        'page_type':'list_followers'
+                    }, function(data){
+                        $(obj).parent().parent().parent().parent().parent().children('.name').html(data);
+                        $(obj).parent().parent().children('a').show();
+                        $(obj).parent().parent().children('.remark').children('b').html(nick_name);
+                        $(obj).parent().html('');
+                    }, 'text');
+                }
+            }
+        }
+
+        //分页
+        function followers_list_page(offset){
+            $.post('<!--{$url_prefix}-->customer/followers_list', {
+                'offset':offset,
+                'ispage':1
+            }, function(data){
+                $('#show_followers').html(data);
+            }, 'text');
+        }
+	</script>
+	<!-- END JAVASCRIPTS -->   
+</body>
+<!-- END BODY -->
+
+</html>

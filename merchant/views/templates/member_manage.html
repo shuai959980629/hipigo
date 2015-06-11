@@ -1,0 +1,172 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+    <!-- 左边开始 -->
+    <div class="page-sidebar nav-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <!--{include file="menu.html"}-->
+        <!-- END SIDEBAR MENU -->
+    </div>
+    <!-- 左边结束 -->
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- 右边开始-->
+        <div class="container-fluid" >
+            <!--右边标题导航开始-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                    <!--{include file="nav.html"}-->
+                    <!-- END PAGE TITLE & BREADCRUMB-->
+                </div>
+                <!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <!--中间内容开始-->
+                    <div class="content discuss_list clearfix">
+                        <table cellpadding="0" cellspacing="0" width="100%">
+                            <tbody>
+                            <tr class="title">
+                                <td class="name">消息</td>
+                                <td>最后讨论时间</td>
+                                <td class="operate">操作</td>
+                            </tr>
+                            <!--{foreach from = $member_list item = ml key = k}-->
+                            <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                                <td class="name">
+                                    <div class="pic fl">
+                                        <input name="check_member[]" type="checkbox" value="<!--{$ml.id_join}-->" />
+                                        <a><img src="<!--{if $ml.head_image_url}--><!--{$ml.head_image_url|get_img_url:'head'}--><!--{else}--><!--{$url_prefix}-->media/image/ico_user.png<!--{/if}-->" />
+                                            <!--{if $ml.role == 2}--> <span></span><!--{/if}--></a>
+                                    </div>
+                                    <div class="fl details">
+                                        <a><!--{if $ml.nick_name}--><!--{urldecode($ml.nick_name)}--><!--{else}-->匿名<!--{/if}--></a>
+                                        <span><!--{substr($ml.created,0,10)}-->加入<b><!--{$ml.title}--></b></span>
+                                    </div>
+                                </td>
+                                <td><!--{substr($ml.update_time,0,10)}--></td>
+                                <td class="operate"><a href="javascript:void(0)" onClick="del_member(<!--{$ml.id_join}-->,<!--{$offset}-->,'<!--{$ml.id_open}-->',<!--{$ml.id_activity}-->)">删除</a></td>
+                            </tr>
+                            <!--{/foreach}-->
+
+                            </tbody>
+                        </table>
+                        <div class="handle_paging clearfix">
+                            <div class="fl">
+                                <span class="all"><input name="check_all" id="check_all" type="checkbox" value="" />全选</span>
+                                <a class="btn green" href="javascript:void(0)" onclick="del_community_all()">批量删除</a>
+                            </div>
+                            <!--{if $page_html}-->
+                            <div class="pagination fr">
+                                <ul>
+                                    <!--{$page_html}-->
+                                </ul>
+                            </div>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                    <!--中间内容结束-->
+
+                </div>
+                <!--右边中介内容结束-->
+            </div>
+            <!-- 右边结束-->
+        </div>
+        <!-- END PAGE -->
+    </div>
+    <!-- END CONTAINER -->
+
+    <!-- BEGIN FOOTER -->
+    <!--{include file="footer.html"}-->
+    <!-- END PAGE LEVEL SCRIPTS -->
+
+    <script>
+        jQuery(document).ready(function() {
+            App.init();
+            UITree.init();
+        });
+
+        $("#check_all").click(function () {//全选
+            if($(this).attr('checked') != 'checked'){
+                $("input[name ^= 'check_member']").attr("checked",false);
+            }else{
+                $("input[name ^= 'check_member']").attr("checked",true);
+            }
+        });
+
+        $('input[name="check_member[]"]').click(function(){
+            if($(this).attr('checked') != 'checked'){
+                $("#check_all").attr("checked",false);
+            }else{
+                if($("input[name='check_member[]']:checked").length == $("input[name='check_member[]']").length){
+                    $("#check_all").attr("checked",true);
+                }
+            }
+        });
+
+        //删除社区活动成员信息
+        function del_member(id_join,offset,$id_open,$id_activity){
+            if(confirm("你确定要删除该成员信息吗？"))
+            {
+                $.post('<!--{$url_prefix}-->community/del_member', {
+                    'is_manage':'manage',
+                    'id_join': id_join,
+                    'id_open':$id_open,
+                    'id_activity':$id_activity,
+                    'offset':offset,
+                    'page_type':'one'
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('.discuss_list').html(data.data);
+                }, 'json');
+            }
+        }
+
+        //批量删除
+        function del_community_all(){
+            if($("input[name='check_member[]']:checked").length == 0){
+                alert('你还没有选中需要删除的！');
+                return false;
+            }
+            var activities = [];
+            $("input[name='check_member[]']:checked").each(function(i){
+                activities[i] = $(this).val();
+            });
+
+            if(confirm("你确定要删除这些活动成员吗？"))
+            {
+                $.post('<!--{$url_prefix}-->community/del_member', {
+                    'is_manage':'manage',
+                    'id_join':activities,
+                    'page_type':'more'
+            }, function(data){
+                $('.discuss_list').html(data.data);
+            }, 'json');
+        }
+        }
+
+        //互动活动列表分页
+        function member_manage_page(offset){
+            $.post('<!--{$url_prefix}-->community/member_manage', {
+                'offset':offset,
+                'page_type':1
+            }, function(data){
+                $('.discuss_list').html(data);
+            }, 'text');
+        }
+
+    </script>
+    <!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

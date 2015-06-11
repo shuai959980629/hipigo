@@ -1,0 +1,131 @@
+
+/*top商家部分*/
+.top_seller{
+	background: #fff; width: 98%; padding-left: 2%;height: 90px;overflow: hidden;
+}
+.top_seller p{
+	display: block;
+}
+.top_seller>.seller_message{
+	width: 82%;
+}
+.top_seller>.seller_message>span{
+	width: 100%; display: inline-block;
+}
+.top_seller>.seller_message>span>b{
+	display: block;max-height: 45px;max-width: 80%;
+}
+.top_seller>.seller_message em{
+	color: #666; font-size: 14px; padding-right: 4%;
+}
+.top_seller>.seller_message em i{
+	color: #4cc9b6; font-size: 16x;
+}
+.top_seller>.seller_message img{
+	max-height: 45px; margin-right: 2%; float: left;
+}
+.top_seller>.seller_message a{
+	background: #4cc9b6; color: #fff; padding: 0.3% 2%; float: left; display: block;margin-top: 1.5%;
+}
+.top_seller>.seller_message a:hover{
+	background: #01a58c;
+}
+.top_seller>.other_message,.top_seller>.user_message{
+	background: #f24949;width: 18%;font-size:x-large;line-height: 1.5; padding: 1.35% 0;height: 97.3%;
+}
+.top_seller>.other_message a,.top_seller>.user_message a{
+	color: #fff;
+}
+.other_message span{
+	display: block; text-align: right; width: 55%; padding-right: 5%;
+}
+.other_message i{
+	line-height: 2.5;
+}
+/*banner*/
+.box_swipe01{
+	overflow:hidden;position:relative; margin-bottom: 2px;
+}
+.box_swipe01>ul{
+	list-style: none;-webkit-transition: 500ms; -webkit-transform: translate3d(-1639px, 0px, 0px); height: 180px;
+}
+.box_swipe01>ul>li{
+	display: table-cell; vertical-align: top; width: 100%;
+}
+.box_swipe01>ul>li>a>img{
+	width: 100%;
+}
+.box_swipe01>ol{
+	height:20px;position: relative;z-index:10;margin-top:-25px;text-align:right;padding-right:20px;
+}
+.box_swipe01>ol>li{
+	display:inline-block;margin:5px 0 0;width:10px;height:10px;background:#fff;border-radius: 10px;
+}
+.box_swipe01>ol>li.on{
+	background:#4cc9b6;
+}
+/*活动列表*/
+.seller_activity_list{
+	width: 100%;
+}
+.seller_activity_list>ul>li{
+	height: 120px; margin-bottom: 6px;
+}
+.seller_activity_list .white{
+	background: #fff;
+}
+.activity_pic{
+	display: block; width: 120px; height: 120px;
+}
+.activity_mes{
+	padding-left: 2%;height: 100%;
+}
+.activity_mes h3{
+	word-break: break-word;height: 70%;
+}
+.cash{
+	width:40%;font-size: 14px; color: #999; display: block; float: left;
+}
+.cash em{
+	font-size:x-large; color: #4cc9b6;
+}
+.operate{
+	width: 60%;display: block; float: right;
+}
+.operate a{
+	background: #eee; padding: 1% 5%;display: block;text-align: center;float: right;margin-left: 5%;
+}
+.operate .icon-comment-alt{
+	color: #f24949;
+}
+.operate .iconfont_10{
+	color: #4cc9b6;
+}
+/*hipigo活动列表*/
+.seller_activity_list>ul>li.hipigo{
+	height: 158px; 
+}
+.seller_activity_list>ul>li.hipigo>h2{
+	color: #666; font-size: 20px; padding: 5px 2%;
+}
+.seller_activity_list>ul>li.hipigo .activity_mes{
+	height: 75%;
+}
+.user_message{
+	text-align: center;
+}
+.user_message em{
+	display:block;width: 100%; font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

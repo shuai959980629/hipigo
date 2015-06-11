@@ -1,0 +1,86 @@
+
+<div id="prompt" style="width:800px;top:20%;display:none">
+    <div class="title">选择回复内容<a id="close">关闭</a></div>
+    <p style="padding-left: 20px; line-height: 30px; margin-top: 10px; " id="show_tip"><b style="color: #f00">温馨提示：</b>此处只出现有图文的内容</p>
+	<p style="padding-left: 20px; line-height: 30px; margin-top: 10px;display:none" id="show_tip_kill">
+		<b>活动标题：</b><input id="kill_name" type="text" name="kill_name"><!--<b style="margin-left:20px">已选择活动数：</b><b style="color:red" id="kill_count">0</b>--></p>
+	</p>
+    <div class="content">
+        <div style="width:100%;height:40px;margin-bottom:10px">
+            <div style="width:300px;height:100%;float:left">
+                <input id="seek" type="text" name="seek" onkeypress="if(event.keyCode==13){search_key(this)}" onkeyup="backSearchOrRefresh(this)">
+            </div>
+            <!--{if !empty($sop)}-->
+            <div class="controls" style="float:right">
+                <select class="span6 m-wrap" tabindex="1" name="btype" id="btype">
+                    <!--{foreach from=$sop item=sp key=key}-->
+                    <option value="<!--{$key}-->" <!--{if $att_type == $key}-->selected<!--{/if}-->><!--{$sp}--></option>
+                    <!--{/foreach}-->
+                </select>
+            </div>
+            <!--{/if}-->
+        </div>
+        <div style="height: 300px; overflow-y: scroll;">
+            <table width="100%" border="0" style="border:1px solid #cdcdcd;">
+                <thead>
+                <tr class="big_title" style="height:30px;line-height:30px; background:#4B8DF8; color:#fff">
+                    <td class="number" width="50">选择</td>
+                    <td>标题</td>
+                </tr>
+                </thead>
+                <tbody id="list_contents" style="width:90%">
+                </tbody>
+                <tr style="border-top:#ddd 1px solid; background:#F5F5F5">
+                    <td colspan="2" style="height:50px;text-align:right;padding-left:30px;">
+                        <span id="list_count" style="float:left;display:block;margin-top:15px;margin-left:-20px"></span>
+                        <div class="pagination"><ul id="fenye"></ul></div>
+                    </td>
+                </tr>
+                <input type="hidden" name="box_cpage" id="box_cpage" value="0">
+            </table>
+        </div>
+    </div>
+    <div class="prompt_button"><a class="determine" href="#" id="prompt_act_kill">确定</a><!-- <a class="cancel" href="#">取消</a> --></div>
+</div>
+
+<div id="kill" style="width:800px;top:20%;display:none;">
+    <div class="title">选择秒杀活动<a id="close_kill">关闭</a></div>
+
+    <p style="padding-left: 20px; line-height: 30px; margin-top: 10px; " id="show_tip">
+		<b>推送标题：</b><input id="kill_name" type="text" name="kill_name"><b style="margin-left:20px">已选择活动数：</b><b style="color:red" id="kill_count">0</b></p>
+	</p>
+    <p style="padding-left: 20px; line-height: 30px; margin-top: 10px; " id="show_tip">
+		<b>推送摘要：</b><textarea id="kill_description" type="text" name="kill_description" style="width:680px"></textarea>
+	</p>
+
+    <div class="content">
+        <div style="width:100%;height:40px;margin-bottom:10px">
+            <div style="width:400px;height:100%;float:left">
+                <input id="seek_kill" type="text" name="seek_kill" style="float:left"><button type="button" class="btn green kill_se" style="margin-left:10px;float:left">搜索</button>
+            </div>
+            <div class="controls" style="float:right">
+				<button type="button" id="act_all">全部</button><button type="button" id="act_kill">秒杀活动</button><button type="button" id="act_nml" style="display:none">普通活动</button>
+            </div>
+        </div>
+        <div style="height: 300px; overflow-y: scroll;">
+            <table width="100%" border="0" style="border:1px solid #cdcdcd;">
+                <thead>
+                <tr class="big_title" style="height:30px;line-height:30px; background:#4B8DF8; color:#fff">
+                    <td class="number" width="50">选择</td>
+                    <td>标题</td>
+                </tr>
+                </thead>
+                <tbody id="list_contents_kill" style="width:90%">
+                </tbody>
+                <tr style="border-top:#ddd 1px solid; background:#F5F5F5">
+                    <td colspan="2" style="height:50px;text-align:right;padding-left:30px;">
+                        <span id="list_count_kill" style="float:left;display:block;margin-top:15px;margin-left:-20px"></span>
+                        <div class="pagination"><ul id="fenye_kill"></ul></div>
+                    </td>
+                </tr>
+                <input type="hidden" name="box_cpage" id="box_cpage_kill" value="0">
+            </table>
+        </div>
+    </div>
+    <div class="prompt_button"><a class="determine" href="#">确定</a><!-- <a class="cancel" href="#">取消</a> --></div>
+</div>

@@ -1,0 +1,25 @@
+<!--{include file="header.html"}-->
+<script>
+    var url = '/wapi/<!--{$bid}-->/<!--{$sid}-->';
+</script>
+<section id="index_section" class="active">
+<!---->
+    <!--{include file="nav.tpl"}-->
+<!---->
+<article id="three_container" class="active" data-scroll="true" >
+<!---->
+<div class="three_list_container">
+    <ul>
+        <li class="clearfix"><span class="iconfont icon iconfont_3 left">&#58905;</span><input type="text" placeholder="请输入你的账号" id="phone" class="left"/></li>
+        <li class="clearfix"><span class="iconfont icon iconfont_4 left">&#58906;</span><input type="password" placeholder="请输入你的密码" id="pwd" class="left"/></li>
+        <button class="button" id="login">登 录</button>
+        <p>
+            <a href="/wapi/<!--{$bid}-->/<!--{$sid}-->/user/findpwd" class="black haveback">忘记密码？</a>&nbsp;&nbsp;<em>|</em>&nbsp;&nbsp;
+            <a href="/wapi/<!--{$bid}-->/<!--{$sid}-->/user/register" class="red haveback">注册账号»</a>
+        </p>
+    </ul>
+</div>
+</article>
+</section>
+<div class="instant_tip" style="display:none;"><img src="<!--{$url_prefix}-->img/loading.gif"/>登录中</div>
+<!--{include file="footer.html"}-->

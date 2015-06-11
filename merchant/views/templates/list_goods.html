@@ -1,0 +1,241 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->   
+
+	<div class="page-container row-fluid">
+
+		<!-- 左边开始 -->
+
+		<div class="page-sidebar nav-collapse collapse">
+
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+
+		</div>
+
+		<!-- 左边结束 -->
+
+		<!-- BEGIN PAGE -->
+
+		<div class="page-content">
+
+			<!-- 右边开始-->
+
+			<div class="container-fluid" >
+
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+
+					</div>
+
+				</div>
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <div class="portlet box grey">
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--商品列表开始-->
+                            <div class="catalogue">
+                            <table width="100%">
+                                <tbody>
+                                    <tr class="big_title">
+                                        <td class="title">名称</td>
+                                        <td>数量</td>
+                                        <td>图片</td>
+                                        <td>推荐</td>
+                                        <td>积分</td>
+                                        <td>状态</td>
+                                        <td class="id_title">操作</td>
+                                     </tr>
+                                    <!--{if $glist}-->
+                                    <!--{foreach from=$glist item=gt name=gt}-->
+                                   <!--{if $smarty.foreach.gt.index % 2 == 0}-->
+                                    <tr>
+                                    <!--{else}-->
+                                    <tr  class="bg">
+                                    <!--{/if}-->
+                                        <td class="title"><!--{$gt.name}--></td>
+                                        <td><!--{$gt.quantity}--></td>
+                                        <td><img src="<!--{$gt.image_url|get_img_url:'commodity'}-->"></td>
+                                        <td>
+                                            <!--{if $gt.recommend eq 1}-->
+                                            <a class="hot" did="recommend" onclick="set_hot(this,<!--{$gt.id_mall}-->,0)">
+                                            取消推荐
+                                            <!--{else}-->
+                                            <a class="hot" did="notrecommend" onClick="set_hot(this,<!--{$gt.id_mall}-->,1)">
+                                            设为推荐
+                                            <!--{/if}-->
+                                            </a>
+                                        </td>
+                                        <td class="integral"><!--{$gt.integral}--></td>
+                                        <td>
+                                            <!--{if $gt.state eq 'up'}-->
+                                            <a class="hot" did="up" onclick="set_goods_status(this,<!--{$gt.id_mall}-->,0)"><!-- href="/goods/set_sale_stuts/<!--{$gt.id_mall}-->/<!--{$offset}-->"-->
+                                            已上架
+                                            <!--{else}-->
+                                            <a class="nohot" did="down" onClick="set_goods_status(this,<!--{$gt.id_mall}-->,1)">
+                                            已下架
+                                            <!--{/if}-->
+                                            </a>
+                                        </td>
+                                        <td class="id_title">
+                                            <a class="compile" href="<!--{$url_prefix}-->item/edit_item/<!--{$gt.id_commodity}-->/<!--{$offset}-->/mall">编辑</a>
+                                            <a class="delete" onClick="delete_goods(<!--{$gt.id_mall}-->,<!--{$offset}-->)">删除</a>
+                                            <a class="hot" href="<!--{$url_prefix}-->goods/list_comment/<!--{$gt.id_commodity}-->">查看评论(<!--{$gt.review_count}-->)</a>
+                                        </td>
+                                    </tr>
+                                    <!--{/foreach}-->
+                                    <!--{else}-->
+                                    <tr>
+                                        <td colspan="8">
+                                            还没有商品信息！
+                                        </td>
+                                    </tr>
+                                    <!--{/if}-->
+                                </tbody>
+                                </table>
+
+                                <!--{if $page_html}-->
+                                <div class="pagination">
+                                    <ul>
+                                        <!--{$page_html}-->
+                                    </ul>
+                                </div>
+                                <!--{/if}-->
+
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+					</div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束--> 
+
+		</div>
+		<!-- END PAGE -->    
+
+	</div>
+
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->   
+
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+
+		jQuery(document).ready(function() {       
+
+		   // initiate layout and plugins
+
+		   App.init();
+
+		   UITree.init();
+
+		});
+
+        //设置推荐
+        function set_hot(obj,id_mall,num){
+            $.post('<!--{$url_prefix}-->goods/set_hot', {
+                'id_mall':id_mall,
+                'num':num
+            }, function(data){
+                if(data == 'true'){
+                    if($(obj).attr('did') == 'recommend'){
+                        $(obj).html('设为推荐');
+                        $(obj).attr('did','notrecommend');
+                        $(obj).attr('onClick','set_hot(this,'+id_mall+',1)');
+                    }else{
+                        $(obj).html('取消推荐');
+                        $(obj).attr('did','recommend');
+                        $(obj).attr('onClick','set_hot(this,'+id_mall+',0)');
+                    }
+                }else{
+                    var message = $.parseJSON(data);
+                    alert(message.msg);
+                }
+            }, 'text');
+        }
+
+
+        //删除歌曲列表信息
+        function delete_goods(id_goods,offset){
+            if(confirm("你确定要删除该歌曲信息吗？"))
+            {
+                $.post('<!--{$url_prefix}-->goods/del_goods', {
+                    'id_goods': id_goods,
+                    'offset':offset,
+                    'ispage': 2
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('.catalogue').html(data.data);
+                }, 'json');
+            }
+        }
+
+        //歌曲列表分页
+        function goods_list_page(offset){
+//            var search_keys = $('#seek').val();
+            $.post('<!--{$url_prefix}-->goods/list_goods', {
+//                'search_key':search_keys,
+                'ispage': 1,
+                'offset':offset
+            }, function(data){
+                $('.catalogue').html(data);
+            }, 'text');
+        }
+
+        //关于上下架
+       function set_goods_status(obj,id_mall,num){
+           $.post('<!--{$url_prefix}-->goods/set_sale_stuts', {
+               'id_mall':id_mall,
+               'num':num
+           }, function(data){
+               if(data == 'true'){
+                   if($(obj).attr('did') == 'up'){
+                       $(obj).html('已下架');
+                       $(obj).attr('class','nohot');
+                       $(obj).attr('did','down')
+                       $(obj).attr('onClick','set_goods_status(this,'+id_mall+',1)');
+                   }else{
+                       $(obj).html('已上架');
+                       $(obj).attr('class','hot');
+                       $(obj).attr('did','up')
+                       $(obj).attr('onClick','set_goods_status(this,'+id_mall+',0)');
+                   }
+               }else{
+                   var message = $.parseJSON(data);
+                   alert(message.msg);
+               }
+           }, 'text');
+       }
+
+    </script>
+
+	<!-- END JAVASCRIPTS -->
+</body>
+
+<!-- END BODY -->
+
+</html>

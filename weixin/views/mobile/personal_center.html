@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>我的个人中心,hipigo,嗨皮狗2.0</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/Jingle.css">
+<link rel="stylesheet" href="css/index.css">
+<script type="text/javascript" src="js/zepto.js"></script>
+<script type="text/javascript" src="js/iscroll.js"></script>
+<script type="text/javascript" src="js/template.min.js"></script>
+<script type="text/javascript" src="js/Jingle.debug.js"></script>
+<!---PC端测试时需要这个文件，将click事件模拟成touch事件，正式上线删除该js文件即可--->
+<script type="text/javascript" src="js/zepto.touch2mouse.js"></script>
+
+<script>
+window.onload = function(){
+  Jingle.launch({
+  appType:muti,
+  });
+};
+</script>
+</head>
+
+
+
+<body>
+<div id="section_container">
+<section id="index_section" class="active">
+<!---->
+<nav class="header-secondary">
+
+<a href="index.html" data-target="section"> 社区</a>
+<a href="square.html" data-target="section">广场</a>
+<a href="personal_center.html" data-target="section" class="active">个人中心</a>
+
+</nav>
+<!---->
+<article id="personal_container" class="active" data-scroll="true" >
+<!---->
+<div class="personal_center">
+<p class="custombg"><img src="img/custombg.jpg" class="custom_bg"/>
+<span class="personal_user_head"><img src="img/user_head.jpg"/></span>
+<span class="nickname">不爱吃鱼的猫咪<i class="iconfont icon iconfont_8">&#58910;</i><i class="iconfont icon iconfont_9">&#58911;</i></span>
+<button class="editdata" onclick="javascrtpt:window.location.href='edit_info.html'">编辑资料</button>
+</p>
+<ul class="my_operate clearfix">
+<li class="relative"onclick="window.location.href='apply_leader.html'">
+  <span class="my_operate_icon apply_master"><i class="iconfont icon iconfont_17 ">&#58924;</i></span>申请达人<span class="applying hidden">申请进行时</span>
+</li>
+<!--<li class="relative"onclick="window.location.href='publish_activity01.html'">
+  <span class="my_operate_icon apply_master"><i class="iconfont icon iconfont_18 ">&#58932;</i></span>发布活动
+</li>-->
+<li onclick="window.location.href='.html'">
+  <span class="my_operate_icon validate_code"><i class="iconfont icon iconfont_17 ">&#58927;</i></span>验证消费码
+</li>
+<li onclick="window.location.href='my_resources.html'">
+  <span class="my_operate_icon personal_resource"><i class="iconfont icon iconfont_17 ">&#58925;</i></span>我的资源
+</li>
+<li onclick="window.location.href='my_activity.html'">
+  <span class="my_operate_icon personal_activity"><i class="iconfont icon iconfont_10 ">&#983711;</i></span>我的活动
+</li>
+<li onclick="window.location.href='my_information.html'">
+  <span class="my_operate_icon personal_news relative"><i class="iconfont icon iconfont_17 ">&#58926;</i><em class="reddot"></em></span>我的消息
+</li>
+<li onclick="window.location.href='my_wallet.html'">
+  <span class="my_operate_icon personal_wallet"><i class="iconfont icon iconfont_10 ">&#983749;</i></span>我的钱包
+</li>
+</ul>
+</div>
+</article>
+</section>
+</div>
+<!--验证电子卷弹窗-->
+<div id="jingle_popup" class="hidden">
+  <div class="popup-content">
+    <p class="identify_code">
+      <span class="left">消费码</span>
+      <input type="text" class="right" placeholder="输入要验证的消费卷码">
+    </p>
+   <ul class="search_identify_code">
+    <li class="empty">此消费码不存在或者已被使用</li>
+    <li><input type="checkbox"/><em class="red">18030560</em><i>jamai_no1</i></li>
+    <li><input type="checkbox"/><em class="red">75475335</em><i>diudiu</i></li>
+    <li><input type="checkbox"/><em class="red">68576354</em><i>不要吃鱼的猫</i></li>
+   </ul>
+  </div>
+  <div id="popup_btn_container">
+    <a class="cancel" href="#">取消</a>
+    <a href="#">确定</a>
+  </div>
+</div>
+<div id="jingle_popup_mask" class="hidden">
+</div>
+</body>
+</html>

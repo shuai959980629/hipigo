@@ -1,0 +1,162 @@
+<!--{include file="header.html"}-->
+  <section id="publish_section" class="active">
+
+  <!--<form action="&lt;!&ndash;{$url_action}&ndash;&gt;" method="post" id="publish" onsubmit="return sub_from();">-->
+      <input type="hidden" value="<!--{$is_edit}-->" name="is_edit" id="is_edit"/>
+      <input type="hidden" value="<!--{$aid}-->" name="aid" id="aid"/>
+    <!--{include file="nav.tpl"}-->
+  <!---->
+  <header style="display: none;">
+      <nav class="left">
+          <a onclick="prev()" data-target="back"><i class="iconfont icon iconfont_10">&#983698;</i>上一步</a>
+      </nav>
+      <h1 class="title">选择资源</h1>
+      <nav class="right">
+          <a class="join" id="form_sub" onclick="sub_from();">发布</a>
+      </nav>
+  </header>
+
+  <article id="publish_container" class="active" data-scroll="true" >
+    <!---->
+    <div class="publish_activity01_container">
+  <!--下面是第一步 start-->
+     <dl id="first">
+        <dd class="title">标题<em>*</em></dd>
+        <dd class="must_details"><input type="text" name="title" placeholder="请填写64个字之内的标题" value="<!--{$community_info.name}-->" maxlength="64"/></dd>
+        <dd class="title">数量</dd>
+        <dd class="must_details">
+            <input type="text" name="num" placeholder="<!--{if $community_info.total == -1}-->不限制<!--{else}-->请填写活动数量，为空则不限制<!--{/if}-->" value="<!--{if $community_info.total != -1}--><!--{$community_info.total}--><!--{/if}-->" maxlength="4" onKeyUp="validateInt(this);" onBlur="validateInt(this);"/>
+        </dd>
+        <dd class="title">详情<em>*</em></dd>
+        <dd class="must_details clearfix">
+            <!--<div id="desc" class="desc_detail" contenteditable="true">&lt;!&ndash;{$community_info.content|default:'这里是活动详情,点击下方图标可插入图片、表情'}&ndash;&gt;</div>-->
+          <textarea id="desc" cols="20" name="desc" placeholder="这里是活动详情,点击下方图标可插入图片、表情" ><!--{$community_info.content}--></textarea>
+            <input type="hidden" value="" name="delete_id"/>
+            <p id="show_attch">
+                <!--{if $community_info.image_url}-->
+                <!--{foreach from = $community_info.image_url item=ci key=k}-->
+                    <span class="relative"><img class="datail_add_pic left" src="<!--{$ci}-->" alt="card" /><a onclick="delete_attach_(this,'<!--{$community_info.id_attachment.$k}-->')" class="delete"><i class="icon cancel-circle"></i></a></span>
+                <!--{/foreach}-->
+                <!--{/if}-->
+            </p>
+            <span class="intopicicon right">
+              <a href="javascript:void(0)" id="face_" class="haveback"><i class="iconfont icon iconfont_12">&#58914;</i></a>
+              <a href="javascript:void(0);" id="img_button" class="haveback relative">
+                <i class="iconfont icon iconfont_11">&#58913;</i>
+                <iframe id="upload" style="display:none;" name="upload"></iframe>
+                <form action="<!--{$url}-->/tpicture/upload?path=community" method="post" id="image_upload" enctype="multipart/form-data" target="upload">
+                  <input type="hidden" value="" name="img_url"/>
+                  <input type="file" name="userfile" id="upload_button"/>
+                  <input type="submit" value="浏览" style="display:none;"/>
+                </form>
+              </a>
+            </span>
+        </dd>
+        <dd class="title">价格</dd>
+        <dd class="must_details"><input type="text" name="price" placeholder="价格输入后，不可修改" value="<!--{$community_info.join_price}-->" maxlength="6" onKeyUp="validatePices(this);" onBlur="validatePices(this);"/></dd>
+        <dd class="title">活动开始\截止时间</dd>
+        <dd class="must_details paddingtop clearfix">
+            <span class="creat_date"><input type="text" class="date-picker left" name="date" id="date" readonly="readonly" value="<!--{date('Y-m-d',$community_info.start_date)}-->"/><em class="add-on" onClick=""><i class="icon calendar" for="date"></i></em></span>
+            <span class="left">&nbsp;to&nbsp;</span>
+            <span class="creat_date"><input type="text"  name="date1" id="date1" class="date-picker left" readonly="readonly" value="<!--{date('Y-m-d',$community_info.end_date)}-->"/><em class="add-on" onClick=""><i class="icon calendar" for="date1"></i></em></span>
+        </dd>
+        <dd class="title">地址</dd>
+        <dd class="must_details"><input type="text" name="addr" placeholder="请填写活动举办地址" value="<!--{$community_info.addr}-->" maxlength="50"/></dd>
+        <dd class="title">标签</dd>
+        <dd class="must_details"><input type="text" name="tag" placeholder="请填写活动标签，多个以空格隔开" value="<!--{$community_info.tags}-->"/></dd>
+    </dl>
+  <!--上面是第一步 end-->
+
+  <!--下面是第二步 start-->
+  <div id="second" style="display: none;">
+      <div id="resource_by_info">
+          <!--{if $community_info.resources}--><!--{foreach from=$community_info.resources item=cir}-->
+          <!--{foreach from=$cir item=vc key=kc}-->
+          <input type="hidden" name="id_resource_by[]" id="id_resource_by<!--{$kc}-->" did="<!--{$vc}-->" value="<!--{$kc}-->"/>
+          <!--{/foreach}--><!--{/foreach}--><!--{/if}-->
+      </div>
+      <dl class="logout" id="resource_by"><!--我的资源-->
+      </dl>
+      <dl class="logout" id="resource_lev"><!--资源库-->
+      </dl>
+  </div>
+  <!--上面是第二步 end-->
+  </div>
+  </article>
+      <!--</form>-->
+  </section>
+<!--表情弹窗-->
+
+<div id="face">
+<ul class="chooise_face">
+<!--{foreach from=$row item=st  key=key}-->
+<li><a class="haveback smile_select" href="javascript:;" data-smile-name="<!--{$key}-->"><img src="<!--{$st}-->"/></a></li>
+<!--{/foreach}-->
+</ul>
+</div>
+
+<script type="text/javascript">
+    var r_id;
+    <!--{if $rid != ''}-->
+    r_id = '<!--{$rid}-->';
+    <!--{/if}-->
+    var id_resource_by = '';
+    <!--{if $community_info.resources}-->
+    <!--{foreach from=$community_info.resources item=cir}-->
+    <!--{foreach from=$cir item=vc key=kc}-->
+    id_resource_by = id_resource_by +<!--{$kc}-->+',';
+    <!--{/foreach}-->
+    <!--{/foreach}-->
+    <!--{/if}-->
+
+    var base_url='<!--{$url}-->';
+    
+    $.fn.extend({
+    textareaAutoHeight: function (options) {
+        this._options = {
+            minHeight: 0,
+            maxHeight: 1000
+        }
+
+        this.init = function () {
+            for (var p in options) {
+                this._options[p] = options[p];
+            }
+            if (this._options.minHeight == 0) {
+                this._options.minHeight=parseFloat($(this).height());
+            }
+            for (var p in this._options) {
+                if ($(this).attr(p) == null) {
+                    $(this).attr(p, this._options[p]);
+                }
+            }
+            $(this).keyup(this.resetHeight).change(this.resetHeight)
+            .focus(this.resetHeight);
+        }
+        this.resetHeight = function () {
+            var _minHeight = parseFloat($(this).attr("minHeight"));
+            var _maxHeight = parseFloat($(this).attr("maxHeight"));
+
+            if (!$.browser.msie) {
+                $(this).height(0);
+            }
+            var h = parseFloat(this.scrollHeight);
+            h = h < _minHeight ? _minHeight :
+                        h > _maxHeight ? _maxHeight : h;
+            $(this).height(h).scrollTop(h);
+            if (h >= _maxHeight) {
+                $(this).css("overflow-y", "scroll");
+            }
+            else {
+                $(this).css("overflow-y", "hidden");
+            }
+        }
+        this.init();
+    }
+});
+</script>
+<script>
+  //最小高度为40px，最大高度为200px
+  $("#desc").textareaAutoHeight({ minHeight:40, maxHeight:150 });
+</script>
+<!--{include file="footer.html"}-->

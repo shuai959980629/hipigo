@@ -1,0 +1,178 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+<!-- 左边开始 -->
+<div class="page-sidebar nav-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!--{include file="menu.html"}-->
+    <!-- END SIDEBAR MENU -->
+</div>
+<!-- 左边结束 -->
+
+<!-- BEGIN PAGE -->
+<div class="page-content">
+    <!-- 右边开始-->
+    <div class="container-fluid" >
+        <!--右边标题导航开始-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <!--{include file="nav.html"}-->
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+            <!--右边标题导航结束-->
+            <!--右边中介内容开始-->
+            <div class="content" >
+                <!--中间内容开始-->
+                <div class="content discuss_list clearfix">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tbody>
+                        <tr class="title">
+                            <td class="name">消息</td>
+                            <td>回复</td>
+                            <td class="operate">操作</td>
+                        </tr>
+
+                        <!--{foreach from = $review_list item = rl key = k}-->
+                        <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                            <td class="name">
+                                <div class="pic fl">
+                                    <input name="id_review[]" type="checkbox" value="<!--{$rl.id_review}-->" />
+                                    <a><img src="<!--{if $rl.head_image_url}--><!--{$rl.head_image_url|get_img_url:'head'}--><!--{else}--><!--{$rl.head_image_url|get_img_url:'logo'}--><!--{/if}-->" /></a>
+                                </div>
+                                <div class="fl details">
+                                    <a><!--{urldecode($rl.name)}--></a>
+                                    <!--{if $rl.image_url}-->
+                                    <a class="matter">【图片】</a>
+                                    <!--{/if}-->
+                                </div>
+                            </td>
+                            <td><!--{$rl.reply_count}--></td>
+                            <td class="operate">
+                                <a href="<!--{$url_prefix}-->community/reply_details/<!--{$rl.id_review}-->/<!--{$rl.id_object}-->">查看</a>
+                                <a href="<!--{$url_prefix}-->community/reply_details/<!--{$rl.id_review}-->/<!--{$rl.id_object}-->">回复</a>
+                                <a href="javascript:void(0)" onclick="delete_discuss(<!--{$rl.id_review}-->,<!--{$offset}-->)">删除</a>
+                            </td>
+                        </tr>
+                        <!--{/foreach}-->
+
+                        </tbody>
+                    </table>
+                    <div class="handle_paging clearfix">
+                        <div class="fl">
+                            <span class="all"><input name="check_all" id="check_all" type="checkbox" value="" />全选</span>
+                            <a class="btn green" href="javascript:void(0)" onclick="del_community_all()">批量删除</a>
+                        </div>
+                        <!--{if $page_html}-->
+                        <div class="pagination fr">
+                            <ul>
+                                <!--{$page_html}-->
+                            </ul>
+                        </div>
+                        <!--{/if}-->
+                    </div>
+                </div>
+                <!--中间内容结束-->
+
+            </div>
+            <!--右边中介内容结束-->
+        </div>
+        <!-- 右边结束-->
+    </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL SCRIPTS -->
+
+<script>
+    jQuery(document).ready(function() {
+        App.init();
+        UITree.init();
+    });
+
+    $("#check_all").click(function () {//全选
+        if($(this).attr('checked') != 'checked'){
+            $("input[name ^= 'id_review']").attr("checked",false);
+        }else{
+            $("input[name ^= 'id_review']").attr("checked",true);
+        }
+    });
+
+    $('input[name="id_review[]"]').click(function(){
+        if($(this).attr('checked') != 'checked'){
+            $("#check_all").attr("checked",false);
+        }else{
+            if($("input[name='id_review[]']:checked").length == $("input[name='id_review[]']").length){
+                $("#check_all").attr("checked",true);
+            }
+        }
+    });
+
+    //删除评论信息
+    function delete_discuss(id_review,offset){
+        if(confirm("你确定要删除该讨论信息吗？"))
+        {
+            $.post('<!--{$url_prefix}-->community/del_discuss', {
+                'is_manage':'manage',
+                'id_review': id_review,
+                'offset':offset,
+                'page_type':'one'
+            }, function(data){
+                if(data.status == '0'){
+                    alert('没权限执行此操作!');
+                }else
+                    $('.discuss_list').html(data.data);
+            }, 'json');
+        }
+    }
+
+
+    //批量删除
+    function del_community_all(){
+        if($("input[name='id_review[]']:checked").length == 0){
+            alert('你还没有选中需要删除的！');
+            return false;
+        }
+        var activities = [];
+        $("input[name='id_review[]']:checked").each(function(i){
+            activities[i] = $(this).val();
+        });
+
+        if(confirm("你确定要删除这些讨论信息吗？"))
+        {
+            $.post('<!--{$url_prefix}-->community/del_discuss', {
+                'is_manage':'manage',
+                'id_review':activities,
+                'page_type':'more'
+            }, function(data){
+                $('.discuss_list').html(data.data);
+            }, 'json');
+        }
+    }
+
+    //互动活动列表分页
+    function discuss_manage_page(offset){
+        $.post('<!--{$url_prefix}-->community/discuss_manage', {
+            'offset':offset,
+            'page_type':1
+        }, function(data){
+            $('.discuss_list').html(data);
+        }, 'text');
+    }
+
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

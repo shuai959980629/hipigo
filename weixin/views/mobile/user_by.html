@@ -1,0 +1,36 @@
+<!--{include file="header.html"}-->
+
+<section id="index_section" class="active">
+<article id="personal_homepage_container" class="active" data-scroll="true" >
+<div class="personal_center">
+
+<p class="custombg" rel="<!--{$id_user}-->">
+<img src="/wapi/img/mobile/custombg.jpg" class="custom_bg" alt="背景图" />
+
+<span class="personal_user_head">
+<img src="<!--{$user_info.head_image_url}-->" alt="用户头像"/>
+</span>
+
+<span class="nickname">
+<!--{urldecode($user_info.nick_name)}-->
+<!--{if $user_info.sex == 1}-->
+<i class="iconfont icon iconfont_9">&#58911;</i><!--男-->
+<!--{else if $user_info.sex == 2}-->
+<i class="iconfont icon iconfont_8">&#58910;</i><!--女-->
+<!--{else}-->
+未知
+<!--{/if}-->
+</span>
+<!--{if $user_info.sign}-->
+<span class="autograph"><em><!--{$user_info.sign}--></em></span>
+<!--{/if}-->
+<a href="javascript:history.go(-1);" class="go_back" data-target="back"><i class="iconfont icon iconfont_10">&#983698;</i></a>
+</p>
+
+<ul class="personal_homepage_activity clearfix"></ul>
+
+</div>
+</article>
+</section>
+
+<!--{include file="footer.html"}-->

@@ -1,0 +1,152 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	background: #fff;
+}
+a{
+	color: #000;
+}
+a:hover{
+	color: #1d96a7; text-decoration: none;
+}
+h4{
+	margin: 0;padding-bottom: 2%;
+}
+.mallpic{
+	width: 92%;margin: 20px auto; border-radius: 2px;padding: 1px; 
+	text-align: center; position: relative;min-height: 100px;
+}
+.mallpic img{
+	width: 100%;
+}
+.graphleft,.icon-angle-left{
+	position: absolute; left: 0px;top: 45%;
+}
+.icon-angle-left{
+	left: 35%;font-size: 30px;line-height: 1px;color: #fff;font-family: "Courier New",Courier,monospace;
+}
+.graphleft:before{  
+    content: "";display: block;height: 0;width: 30px;border-width: 30px 13px 0 0;border-style: solid solid none;
+	border-color: #49bfcf  transparent #49bfcf;opacity:0.8;filter:alpha(opacity=80);
+}  
+.graphright,.icon-angle-right{
+	position: absolute; right: 0px;top: 45%;
+}
+.icon-angle-right{
+	right: 50%;font-size: 30px;line-height: 1px;color: #fff;font-family: "Courier New",Courier,monospace;
+}
+.graphright:before{  
+    content: "";display: block;height: 0;width: 30px;border-width: 0 0 30px 13px;border-style: none solid solid;
+	border-color: transparent transparent #49bfcf;opacity:0.8;filter:alpha(opacity=80);
+}  
+.mallxx{
+	width: 90%; margin: 0 auto;
+}
+.mallxx em{
+	color: #f00;font-size:16px;
+}
+.mallxx em,.mallxx i{
+	font-style: normal;
+}
+.mallxx p{
+	padding-top: 10px; line-height: 1.5;
+}
+.mallxx p i{
+	display: block; color: #666; font-style: normal;
+}
+.icon-comment-text{
+	background: #4bc0d2;margin: 3px 4px 0 0;
+}
+.mallxx p b{
+	font-weight: normal;padding-left: 3px;
+}
+.mallxx embed{max-width: 100%;}
+.comment{
+	background: #fff;width: 90%; margin: 0 auto; position: relative; border-radius: 4px; opacity:0.8;filter:alpha(opacity=80);
+}
+.selected{
+	background: url(../img/arrow01.png) no-repeat; width: 12px; height: 10px; position: absolute; left: 20px;top:-10px;
+}
+.comment ul{
+	padding: 10px 5px; margin: 0;
+}
+.comment li{
+	list-style: none; padding: 5px; color: #333;overflow: hidden; clear: both;
+}
+.comment li:hover{
+	background: #ececec;
+}
+.comment li p{
+	display: inline; float: left; width: 100%;margin-bottom: 10px;margin-top: 0;
+}
+.comment b{
+	color: #0f67b9; padding-right: 10px;
+}
+.comment em,.comment i{
+	font-style: normal;
+}
+.comment i{
+	color: #666;
+}
+
+.pop{
+	background: #f4f4f4; width: 100%;position: fixed;bottom:0;z-index: 2
+}
+.replay_iput{
+    display: block;
+    /*add:��ֹ����*/
+    -webkit-user-modify: read-write-plaintext-only;
+}
+.require{
+	background: #faf8f8; padding: 0 5%; margin: 0;
+}
+.require span{
+	padding-right: 20px;
+}
+.require span em{
+	color: #f00; padding-right: 5px;
+}
+.require span input{
+	box-shadow:inset 1px 1px 3px #f1f1f1;border: 1px solid #e4e4e4; border-radius: 3px;min-height: 24px;margin-top: 5px;
+}
+.require span input:focus{
+	border:1px solid #49bfcf !important
+}
+.pop_textarea{
+	background: #f4f4f4; border-top: solid 1px #ccc;padding: 10px 5%;overflow: hidden
+}
+.pop_textarea textarea{
+	width: 82%;height: 24px;line-height: 24px; max-height: 80px;resize: none;margin-bottom: 0; float: left;
+}
+.pop_textarea input{
+	background: #f3f3f3;border-radius: 5px; border: solid 1px #c0c0c0;padding: 6px 10px; float: left;margin-left: 10px;
+}
+.pop_textarea input.kexi{
+	background: #ffda2e;
+	background:-moz-linear-gradient(top,#ffda2e,#f9bb00);/*Mozilla*/
+	background:-webkit-linear-gradient(top,#ffda2e,#f9bb00);/*new gradient for Webkit*/
+	background:-o-linear-gradient(top,#ffda2e,#f9bb00); /*Opera11*/
+	border: solid 1px #f9bf04; color: #fff;
+}
+.pop_textarea input:active{
+	background: #f9bb00;
+	background:-moz-linear-gradient(top,#f9bb00,#ffda2e);/*Mozilla*/
+	background:-webkit-linear-gradient(top,#f9bb00,#ffda2e);/*new gradient for Webkit*/
+	background:-o-linear-gradient(top,#f9bb00,#ffda2e); /*Opera11*/
+	border: solid 1px #f9bf04; color: #fff;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+	.require{
+		margin: 0;
+	}
+	.require span{
+		padding: 0 10px 0 0;max-width: 100%; float: left; 
+	}
+	.require span input{
+		max-width: 90%;
+	}
+	.pop_textarea textarea{
+	width: 73%;
+}
+}

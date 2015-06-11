@@ -1,0 +1,114 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- 左边开始 -->
+		<div class="page-sidebar nav-collapse collapse">
+            <!-- BEGIN SIDEBAR MENU -->
+            <!--{include file="menu.html"}-->
+            <!-- END SIDEBAR MENU -->
+		</div>
+		<!-- 左边结束 -->
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- 右边开始-->
+			<div class="container-fluid e_coupon_detail" >
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+                        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                        <!--{include file="nav.html"}-->
+                        <!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--活动列表开始-->
+                            <input type="hidden" value="<!--{$id_ticket}-->" name="id_ticket" id="id_ticket"/>
+                            <div class="activity">
+                            <table width="100%">
+                                <tbody>
+                                    <tr class="big_title">
+                                        <td class="No">验证码</td>
+                                        <td>获得者</td>
+                                        <td>状态</td>
+                                        <td>获得时间</td>
+                                        <td>使用时间</td>
+                                    </tr>
+                                    <!--{if $ticket_item}-->
+                                    <!--{foreach from = $ticket_item item = ti}-->
+                                    <tr>
+                                        <td class="No"><!--{substr($ti.code,0,(count($ti.code)-5))}-->****</td>
+                                        <td><!--{urldecode($ti.nick_name)}--></td>
+                                        <td>
+                                        <!--{if $ti.state == 0}--><span class="used">未获得</span>
+                                        <!--{elseif $ti.state == 1}--><span class="unused">已获得</span>
+                                        <!--{elseif $ti.state == 2}--><span class="used">已使用</span>
+                                        <!--{/if}-->
+                                        </td>
+                                        <td><!--{if $ti.get_time != '0000-00-00 00:00:00'}--><!--{$ti.get_time}--><!--{/if}--></td>
+                                        <td><!--{if $ti.use_time != '0000-00-00 00:00:00'}--><!--{$ti.use_time}--><!--{/if}--></td>
+                                    </tr>
+                                    <!--{/foreach}-->
+                                <!--{else}-->
+                                    <tr>
+                                        <td>还没有电子券明细信息哦！</td>
+                                    </tr>
+                                <!--{/if}-->
+                                </tbody>
+                            </table>
+                            <!--分页 start-->
+                            <!--{if $page_html}-->
+                            <div class="pagination">
+                                <ul>
+                                    <!--{$page_html}-->
+                                </ul>
+                            </div>
+                            <!--{/if}-->
+                            <!--分页 end-->
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+                    </div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END FOOTER -->
+	<script>
+		jQuery(document).ready(function() {
+		   App.init();
+		   UITree.init();
+		});
+
+        //列表分页
+        function ticket_item_page(offset){
+            $.post('<!--{$url_prefix}-->ticket/item_ticket', {
+                'ispage': 1,
+                'id_ticket':$('#id_ticket').val(),
+                'offset':offset
+            }, function(data){
+                $('.activity').html(data);
+            }, 'text');
+        }
+	</script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

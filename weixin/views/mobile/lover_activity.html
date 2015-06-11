@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>情人节扫墓玩|沉痛吊唁那些年走失的子孙们</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <link href="/wapi/css1/lover/style.css" rel="stylesheet" type="text/css" />
+    <script src="/wapi/js/jquery.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript">
+        // 注意：所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+        // 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+        // 完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+        var img_url = '';
+        wx.config({
+            appId: '<!--{$signPackage.appId}-->',
+            timestamp: '<!--{$signPackage.timestamp}-->',
+            nonceStr: '<!--{$signPackage.nonceStr}-->',
+            signature: '<!--{$signPackage.signature}-->',
+            jsApiList: [
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage'
+            ]
+        });
+        wx.ready(function () {
+            // 在这里调用 API
+            wx.onMenuShareTimeline({
+                title: '情人节扫墓玩|沉痛吊唁那些年走失的子孙们',
+                link: '<!--{$signPackage.url}-->',
+                imgUrl: 'http://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRt8Qia4lv7k3M9J1SKqKCImxJCt7j9rHYicKDI45jRPBxdzdyREWnk0ia0N5TMnMfth7SdxtzMvVgXg/0', // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    $('#step_two').hide();
+                    $('#step_three').show();
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.onMenuShareAppMessage({
+                title: '情人节扫墓玩|沉痛吊唁那些年走失的子孙们', // 分享标题
+                desc: '原来在情人节除了送玫瑰、送巧克力和看别人送玫瑰、巧克力外，还有更高级的玩法啦：为万千曾被你‘“遗弃”的子孙’进行虚拟扫墓，除了聊表哀思以外（阿弥陀佛），更能通过这种特别的形式参破自己最终的爱情归属！', // 分享描述
+                link: '<!--{$signPackage.url}-->', // 分享链接
+                imgUrl: '', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    $('#step_two').hide();
+                    $('#step_three').show();
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        });
+        /*
+        zxx
+        num: (1-7：打开的div层级 10-11：两种结束的标示)
+        tree: (隐藏的层级)
+        answer: 答案
+         */
+        function show_div(obj,num,tree,answer){
+            var tree_id = $(obj).parent();
+            if(tree == 3)
+                tree_id = tree_id.parent();
+            tree_id.hide();
+
+            var lover1 = $('[name="lover1"]').val();
+            var lover2 = $('[name="lover2"]').val();
+            var name = '';
+            var description = '';
+            var head = '';
+            if(num == 10){
+                var sex = $('[name="lover1"]').val();
+                if(lover2 == 'a'){
+                    if(lover1 == 'a'){
+                        name = '菊花残君';
+                        description = '东风破 菊花残  可叹岁月弯了管';
+                        head = '/wapi/img/mobile/lover/pic_jh.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_jh.png';
+                    }else{
+                        name = '百合妹';
+                        description = '妞，可否去断背山为我摘朵最美的百合花';
+                        head = '/wapi/img/mobile/lover/pic_bh.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_bh.png';
+                    }
+                }else{
+                    if(sex == 'b'){
+                        name = "春哥";
+                        description = '拳上能站人  壁上能走马';
+                        head = '/wapi/img/mobile/lover/pic_cg.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_cg.png';
+                    }else{
+                        name = "王大锤";
+                        description = '屌丝注定孤独一生';
+                        head = '/wapi/img/mobile/lover/pic_w.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_w.png';
+                    }
+                }
+                $('#step_one').hide();
+                $('#step_two').show();
+                $('#result_name').text(name);
+                $('#result_description').text(description);
+                $('#result_head').attr('src',head);
+            }else if(num == 11){
+                //6ab+7ab->B、何以琛  BB、朱丽叶     6cd+7ab->C、峰哥 CC、迅哥  7cd->D、大木附体 DD、暗黑志玲
+                var lover6 = $('[name="lover6"]').val();
+                var lover7 = $('[name="lover7"]').val();
+                if(lover2 == 'a'){
+                    if(lover1 == 'a'){
+                        name = '菊花残君';
+                        description = '东风破 菊花残  可叹岁月弯了管';
+                        head = '/wapi/img/mobile/lover/pic_jh.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_jh.png';
+                    }else{
+                        name = '百合妹';
+                        description = '妞，可否去断背山为我摘朵最美的百合花';
+                        head = '/wapi/img/mobile/lover/pic_bh.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_bh.png';
+                    }
+                }else if((lover6 == 'a' || lover6 == 'b') && (lover7 == 'a' || lover7 == 'b')){
+                    description = '你的爱情从不将就  一生一世一双人';
+                    if(lover1 == 'a'){
+                        name = "何以琛";
+                        head = '/wapi/img/mobile/lover/pic_hys.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_hys.png';
+                    }else{
+                        name = "朱丽叶";
+                        head = '/wapi/img/mobile/lover/pic_zly.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_zly.png';
+                    }
+                }else if((lover6 == 'c' || lover6 == 'd') && (lover7 == 'a' || lover7 == 'b')){
+                    description = '每段都是真爱  爱了便是爱了';
+                    if(lover1 == 'a'){
+                        name = "峰哥";
+                        head = '/wapi/img/mobile/lover/pic_fg.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_fg.png';
+                    }else{
+                        name = "迅哥";
+                        head = '/wapi/img/mobile/lover/pic_zx.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_zx.png';
+                    }
+                }else if(lover7 == 'c' || lover7 == 'd'){
+                    if(lover1 == 'a'){
+                        name = "大木附体";
+                        description = '率领亿万子弟兵  攻城掠地  沙场秋点兵';
+                        head = '/wapi/img/mobile/lover/pic_dm.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_dm.png';
+                    }else{
+                        name = "暗黑志玲";
+                        description = '穿上衣服，你也要记得我哟';
+                        head = '/wapi/img/mobile/lover/pic_zl.png';
+                        img_url = 'http://wx.test.hipigo.cn/wapi/img/mobile/lover/pic_zl.png';
+                    }
+                }
+                $('#step_one').hide();
+                $('#step_two').show();
+                $('#result_name').text(name);
+                $('#result_description').text(description);
+                $('#result_head').attr('src',head);
+            }else{
+                $('#lover'+num).show();
+            }
+            tree_id.children('input').val(answer);
+        }
+    </script>
+</head>
+<body>
+<!--首页S-->
+<div class="content">
+    <div id="step_one">
+        <img class="top" src="/wapi/img/mobile/lover/bg_top.png">
+        <img class="title" src="/wapi/img/mobile/lover/title.png">
+        <div id="lover0">
+            <p>
+                &nbsp;&nbsp;原来在情人节除了送玫瑰、送巧克力和看别人送玫瑰、巧克力外，还有更高级的玩法啦：为万千曾被你'"遗弃"的子孙'进行虚拟扫墓，除了聊表哀思以外（阿弥陀佛），更能通过这种特别的形式参破自己最终的爱情归属！
+            </p>
+            <div class="join" onclick="show_div(this,1,2,'')">
+                <a href="javascript:void(0);">我要试试</a>
+                <img src="/wapi/img/mobile/lover/bg_button.png">
+            </div>
+        </div>
+        <div id="lover1" style="display: none;">
+            <p>1、你的性别是？</p>
+            <input type="hidden" name="lover1" value=""/>
+            <div class="join" onclick="show_div(this,2,2,'a')">
+                <a href="javascript:void(0);">男</a>
+                <img src="/wapi/img/mobile/lover/bg_button.png">
+            </div>
+            <div class="join_right" onclick="show_div(this,2,2,'b')">
+                <a href="javascript:void(0);">女</a>
+                <img src="/wapi/img/mobile/lover/bg_button2.png">
+            </div>
+        </div>
+        <div id="lover2" style="display: none;">
+            <p>2、你的性取向是？</p>
+            <input type="hidden" name="lover2" value=""/>
+            <div class="join" onclick="show_div(this,3,2,'a')">
+                <a href="javascript:void(0);">同性</a>
+                <img src="/wapi/img/mobile/lover/bg_button.png">
+            </div>
+            <div class="join_right" onclick="show_div(this,3,2,'b')">
+                <a href="javascript:void(0);">异性</a>
+                <img src="/wapi/img/mobile/lover/bg_button2.png">
+            </div>
+        </div>
+        <div id="lover3" style="display: none;">
+            <p>3、你曾在情人节约会吗？</p>
+            <input type="hidden" name="lover3" value=""/>
+            <div class="join" onclick="show_div(this,4,2,'a')">
+                <a href="javascript:void(0);">YES</a>
+                <img src="/wapi/img/mobile/lover/bg_button.png">
+            </div>
+            <div class="join_right" onclick="show_div(this,5,2,'b')">
+                <a href="javascript:void(0);">NO</a>
+                <img src="/wapi/img/mobile/lover/bg_button2.png">
+            </div>
+        </div>
+        <div id="lover4" style="display: none;">
+            <p>4、第一次过情人节时，和你的约会对象到了几垒捏？</p>
+            <input type="hidden" name="lover4" value=""/>
+            <div class="four">
+                <div class="join_left" onclick="show_div(this,5,3,'a')">
+                    <a href="javascript:void(0);">1垒(牵手)</a>
+                    <img src="/wapi/img/mobile/lover/bg_button.png">
+                </div>
+                <div class="join_right" onclick="show_div(this,5,3,'b')">
+                    <a href="javascript:void(0);">2垒（接吻 ）</a>
+                    <img src="/wapi/img/mobile/lover/bg_button2.png">
+                </div>
+                <div class="join_left" onclick="show_div(this,5,3,'c')">
+                    <a href="javascript:void(0);">3垒（摸X）</a>
+                    <img src="/wapi/img/mobile/lover/bg_button.png">
+                </div>
+                <div class="join_right" onclick="show_div(this,6,3,'d')">
+                    <a href="javascript:void(0);">4垒（xxoo）</a>
+                    <img src="/wapi/img/mobile/lover/bg_button2.png">
+                </div>
+            </div>
+        </div>
+        <div id="lover5" style="display: none;">
+            <p>5、你(想)与伴侣有xxoo的经历吗？</p>
+            <input type="hidden" name="lover5" value=""/>
+            <div class="join" onclick="show_div(this,6,2,'a')">
+                <a href="javascript:void(0);">YES</a>
+                <img src="/wapi/img/mobile/lover/bg_button.png">
+            </div>
+            <div class="join_right" onclick="show_div(this,10,2,'b')">
+                <a href="javascript:void(0);">NO</a>
+                <img src="/wapi/img/mobile/lover/bg_button2.png">
+            </div>
+        </div>
+        <div id="lover6" style="display: none;">
+            <p>6、（想）与TAxxoo的地点是？</p>
+            <input type="hidden" name="lover6" value=""/>
+            <div class="four">
+                <div class="join_left" onclick="show_div(this,7,3,'a')">
+                    <a href="javascript:void(0);">家</a>
+                    <img src="/wapi/img/mobile/lover/bg_button.png">
+                </div>
+                <div class="join_right" onclick="show_div(this,7,3,'b')">
+                    <a href="javascript:void(0);">宾馆</a>
+                    <img src="/wapi/img/mobile/lover/bg_button2.png">
+                </div>
+                <div class="join_left" onclick="show_div(this,7,3,'c')">
+                    <a href="javascript:void(0);">车里</a>
+                    <img src="/wapi/img/mobile/lover/bg_button.png">
+                </div>
+                <div class="join_right" onclick="show_div(this,7,3,'d')">
+                    <a href="javascript:void(0);">小树林</a>
+                    <img src="/wapi/img/mobile/lover/bg_button2.png">
+                </div>
+            </div>
+        </div>
+        <div id="lover7" style="display: none;">
+            <p>7、完事儿后子孙们都去了哪儿？</p>
+            <input type="hidden" name="lover7" value=""/>
+            <div class="four">
+                <div class="join_left" onclick="show_div(this,11,3,'a')">
+                    <a href="javascript:void(0);">纸篓</a>
+                    <img src="/wapi/img/mobile/lover/bg_button.png">
+                </div>
+                <div class="join_right" onclick="show_div(this,11,3,'b')">
+                    <a href="javascript:void(0);">墙上</a>
+                    <img src="/wapi/img/mobile/lover/bg_button2.png">
+                </div>
+                <div class="join_left" onclick="show_div(this,11,3,'c')">
+                    <a href="javascript:void(0);">舌尖</a>
+                    <img src="/wapi/img/mobile/lover/bg_button.png">
+                </div>
+                <div class="join_right" onclick="show_div(this,11,3,'d')">
+                    <a href="javascript:void(0);">胃里</a>
+                    <img src="/wapi/img/mobile/lover/bg_button2.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="step_two" style="display: none;">
+        <img class="share" src="/wapi/img/mobile/lover/share.png">
+    </div>
+    <div id="step_three" style="display: none;">
+        <div class="result">
+            <img id="result_head" src="">
+            <p>
+                <b id="result_name"></b>
+                <span id="result_description"></span>
+            </p>
+        </div>
+        <div class="describe">
+            不懂不zao急<br>
+            赏金猎人帮助你&nbsp;&nbsp;登录<a href="http://www.xrenwu.com/">www.xrenwu.com</a>
+        </div>
+    </div>
+</div>
+<!--首页E-->
+</body>
+</html>
+

@@ -1,0 +1,47 @@
+<!--{include file="header.html"}-->
+<script>
+    var offset = 1;
+    $(function () {
+        var loca_url = '<!--{$url}-->/user_activity/leader_lists';
+//        refresh_page('', 1,loca_url,'leader_list');
+        refresh('leader_list', loca_url, 'leader_list', '', 0);
+    });
+
+    //搜索返回刷新
+    function backSearchOrRefresh(obj){
+        var searchinput = $(obj).val();
+        if(searchinput != ''){
+            $('.cancel-circle').show();
+        }else{
+            $('.cancel-circle').hide();
+        }
+    }
+
+    //情况输入框
+    function backsearch(){
+        $('#search_key').val('');
+        refresh('leader_list', '<!--{$url}-->/user_activity/leader_lists', 'leader_list','', 0);
+    }
+</script>
+  <section id="leader_section" class="active">
+  <!---->
+      <!--{include file="nav.tpl"}-->
+  <!---->
+    <article id="leader_container" class="active" data-scroll="true" >
+    <!---->
+      <div class="leaderlist_container" id="leaderlist_container">
+          <div class="enter_search">
+              <div class="search_input relative">
+                  <input type="text" placeholder="输入关键字搜索" class="left" id="search_key" onkeyup="backSearchOrRefresh(this)">
+                  <a class="searchbutton right" onclick="refresh('leader_list', '<!--{$url}-->/user_activity/leader_lists', 'leader_list',$('#search_key').val(), 0);">
+                      <i class="icon search nofloat"></i>
+                  </a>
+                  <!--clear-->
+                  <em class="cleara icon cancel-circle" style="display: none;" onclick="backsearch();"></em>
+              </div>
+          </div>
+        <ul class="leader_list"></ul>
+      </div>
+    </article>
+  </section>
+<!--{include file="footer.html"}-->

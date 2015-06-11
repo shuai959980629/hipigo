@@ -1,0 +1,194 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+    <!-- 左边开始 -->
+    <div class="page-sidebar nav-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <!--{include file="menu.html"}-->
+        <!-- END SIDEBAR MENU -->
+    </div>
+    <!-- 左边结束 -->
+
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- 右边开始-->
+        <div class="container-fluid" >
+            <!--右边标题导航开始-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                    <!--{include file="nav.html"}-->
+                    <!-- END PAGE TITLE & BREADCRUMB-->
+                </div>
+                <!--右边标题导航结束-->
+                <!--中间内容开始-->
+                <input type="hidden" name="rid" id="rid" value="<!--{$id_review}-->"/>
+                <input type="hidden" name="aid" id="aid" value="<!--{$id_activity}-->"/>
+                <div class="content reply_details clearfix fl" style="width:100%;">
+                    <div class="reply">
+                        <p class="clearfix"><!--{$discuss_info.content}--> <!--{if $discuss_info.image_url}--><img src="<!--{$discuss_info.image_url|get_img_url:'community'}-->" /><!--{/if}-->
+                        <!--{foreach from = $att_info item = ai}-->
+                            <img src="<!--{$ai.image_url|get_img_url:'community'}-->" style="height:150px;">
+                            <!--{/foreach}-->
+                        </p>
+                        <div class="details"><input class="span6 m-wrap" name="reply" id="reply" type="text" maxlength="140"/>
+                            <a class=" btn green" href="javascript:void(0)" onClick="submit_reply()">回复</a></div>
+                    </div>
+                    <div id="show_reply">
+                        <table cellpadding="0" cellspacing="0">
+                            <tbody>
+                            <tr class="title">
+                                <td class="name" style="width:30%; overflow:hidden;word-break:break-all;">消息</td>
+                                <td style="width:40%; overflow:hidden;word-break:break-all;">内容</td>
+                                <td>操作</td>
+                            </tr>
+                            <!--{foreach from = $reply_list item = rl key = k}-->
+                            <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                                <td class="name" style="width:30%;overflow:hidden;word-break:break-all;">
+                                    <input name="id_review[]" type="checkbox" value="<!--{$rl.id_review}-->" />
+                                    <a><img src="<!--{if $rl.id_open}--><!--{$rl.head_image_url}--><!--{else}--><!--{$rl.head_image_url|get_img_url:'logo'}--><!--{/if}-->" /><!--{urldecode($rl.name)}--></a>
+                                </td>
+                                <td style="width:40%;overflow:hidden;word-break:break-all;"><span title="<!--{$rl.content}-->"><!--{$rl.content|truncate_utf8:40}--></span></td>
+                                <td><a href="javascript:void(0)" onClick="delete_reply(<!--{$rl.id_review}-->,<!--{$offset}-->)">删除</a></td>
+                            </tr>
+                            <!--{/foreach}-->
+                            </tbody>
+                        </table>
+                        <div class="handle_paging clearfix">
+                            <div class="fl">
+                                <span class="all"><input name="check_all" id="check_all" type="checkbox" value="" />全选</span>
+                                <a class="green" href="javascript:void(0)" onClick="del_community_all()">批量删除</a>
+                            </div>
+                            <!--{if $page_html}-->
+                            <div class="pagination fr">
+                                <ul>
+                                    <!--{$page_html}-->
+                                </ul>
+                            </div>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                </div>
+                <!--中间内容结束-->
+
+                </div>
+                <!--右边中介内容结束-->
+            </div>
+            <!-- 右边结束-->
+        </div>
+        <!-- END PAGE -->
+    </div>
+    <!-- END CONTAINER -->
+
+    <!-- BEGIN FOOTER -->
+    <!--{include file="footer.html"}-->
+    <!-- END PAGE LEVEL SCRIPTS -->
+
+    <script>
+        jQuery(document).ready(function() {
+            App.init();
+            UITree.init();
+        });
+
+        $("#check_all").click(function () {//全选
+            if($(this).attr('checked') != 'checked'){
+                $("input[name ^= 'id_review']").attr("checked",false);
+            }else{
+                $("input[name ^= 'id_review']").attr("checked",true);
+            }
+        });
+
+        $('input[name="id_review[]"]').click(function(){
+            if($(this).attr('checked') != 'checked'){
+                $("#check_all").attr("checked",false);
+            }else{
+                if($("input[name='id_review[]']:checked").length == $("input[name='id_review[]']").length){
+                    $("#check_all").attr("checked",true);
+                }
+            }
+        });
+
+        //回复讨论信息
+        function submit_reply(){
+            $.post('<!--{$url_prefix}-->community/submit_reply', {
+                'id_activity': $('#aid').val(),
+                'id_review': $('#rid').val(),
+                'reply':$('#reply').val()
+            }, function(data){
+                if(data.status == '0'){
+                    alert('没权限执行此操作!');
+                }else{
+                    $('#reply').val('');
+                    $('#show_reply').html(data.data);
+                }
+            }, 'json');
+        }
+
+        //删除评论信息
+        function delete_reply(id_review,offset){
+            if(confirm("你确定要删除该回复信息吗？"))
+            {
+                $.post('<!--{$url_prefix}-->community/del_reply', {
+                    'id_activity': $('#aid').val(),
+                    'id_review':$('#rid').val(),
+                    'delete_id': id_review,
+                    'offset':offset,
+                    'page_type':'one'
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('#show_reply').html(data.data);
+                }, 'json');
+            }
+        }
+
+
+        //批量删除
+        function del_community_all(){
+            if($("input[name='id_review[]']:checked").length == 0){
+                alert('你还没有选中需要删除的！');
+                return false;
+            }
+            var activities = [];
+            $("input[name='id_review[]']:checked").each(function(i){
+                activities[i] = $(this).val();
+            });
+
+            if(confirm("你确定要删除这些回复信息吗？"))
+            {
+                $.post('<!--{$url_prefix}-->community/del_reply', {
+                    'id_review':$('#rid').val(),
+                    'delete_id':activities,
+                    'page_type':'more'
+                }, function(data){
+                    $('#show_reply').html(data.data);
+                }, 'json');
+            }
+        }
+
+        //互动活动列表分页
+        function reply_list_page(offset){
+            $.post('<!--{$url_prefix}-->community/reply_details', {
+                'id_activity' : $('#aid').val(),
+                'id_review' : $('#rid').val(),
+                'offset':offset,
+                'page_type':1
+            }, function(data){
+                $('#show_reply').html(data);
+            }, 'text');
+        }
+
+    </script>
+    <!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

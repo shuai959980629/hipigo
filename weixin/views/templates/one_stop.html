@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>互动游戏,一站到底，首页</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/one-stop.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/swipe.js"></script>
+<script src="<!--{$url_prefix}-->js/question.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+data=<!--{$datas}-->;
+aid = '<!--{$aid}-->';
+oid = '<!--{$oid}-->';	
+base_url='<!--{$url}-->';
+url_prefix='<!--{$url_prefix}-->';
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article,button{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body id="contents">
+<div class="main">
+<!--banner-->
+<div class="container">
+<div class="one-stop"><img src="<!--{$url_prefix}-->img/one-stoptitle.png"/></div>
+<!--主题-->
+<div class="one-stopbgfixed"><img src="<!--{$url_prefix}-->img/one-stopfixed.png"/></div>
+<div class="zhuti">
+<!--{if $activity_status ==1}-->	
+<!--{if $times_num ==1}-->
+<h1>一战到底竞猜活动</h1>
+<h2><span>本次活动共有<!--{$tip}-->题</span><span>限时<!--{$time}-->秒</span></h2>
+<p><a hidefocus="true" style="outline: none; -moz-outline:none;" href="<!--{$url}-->/home/active_details/<!--{$aid}-->">详情请戳<em>→</em></a></p>
+<span class="start" cursor:pointer><button><a href="javascript:void(0);" hidefocus="true">开始</a></button></span>
+<!--{/if}-->
+
+<!--{if $times_num ==0}-->
+<h1>今天答题次数用完啦</h1>
+<h2><span>明天再来吧</span></h2>
+<!--{/if}-->
+<!--{/if}-->
+<!--{if $activity_status ==0}-->
+<h1>活动已被商家删除</h1>
+<h2><span>请选择其他活动</span></h2>
+<!--{/if}-->
+</div>
+</div>
+<div id="show_loading">
+</div>
+<div id="chance_show"></div>
+<footer>powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+</div>
+</body>
+</html>

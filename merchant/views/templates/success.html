@@ -1,0 +1,90 @@
+﻿<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->   
+
+	<div class="page-container row-fluid">
+
+		<!-- 左边开始 -->
+
+		<div class="page-sidebar nav-collapse collapse">
+
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+
+		</div>
+
+		<!-- 左边结束 -->
+
+		<!-- BEGIN PAGE -->
+
+		<div class="page-content" style="background:#333;">
+
+
+			<!-- 右边开始-->
+
+			<div class="container-fluid" >
+
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <div class="prompt">
+                    	<h1 <!--{if $resp.status eq 1}-->class="successful"<!--{else}-->class="error"<!--{/if}-->><!--{$resp.msg}--></h1>
+                        <!--{if !empty($resp.data.add_url) && $resp.status eq 1}-->
+						<a class="btn yellow" href="<!--{$resp.data.add_url|default:''}-->">继续添加</a>
+						<!--{/if}-->
+						<!--{if $resp.status eq 0}-->
+						<a class="btn blue" href="javascript:window.history.go(-1)">返回</a>
+						<!--{/if}-->
+						<!--{if !empty($resp.data.list_url)}-->
+						<a class="btn blue" href="<!--{$resp.data.list_url|default:''}-->">查看列表</a>
+						<!--{/if}-->
+                    </div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+
+			<!-- 右边结束--> 
+
+		</div>
+
+		<!-- END PAGE -->    
+
+	</div>
+
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->   
+
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+
+		jQuery(document).ready(function() {       
+
+		   // initiate layout and plugins
+
+		   App.init();
+
+		   UITree.init();
+
+		});
+
+	</script>
+
+	<!-- END JAVASCRIPTS -->
+
+</body>
+
+<!-- END BODY -->
+
+</html>

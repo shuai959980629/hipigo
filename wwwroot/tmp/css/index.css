@@ -1,0 +1,144 @@
+
+/*top商家部分*/
+.top_seller{
+	background: #fff; width: 98%; padding-left: 2%;height: 80px;overflow: hidden;
+}
+.top_seller p{
+	display: block;
+}
+.top_seller>.seller_message{
+	max-width: 60%;height: 80px;vertical-align:middle;line-height:80px;display:table-cell; padding: 0;
+}
+.top_seller>.seller_message img{
+	max-height: 80px;_margin-top: expression(( 300 - this.height ) / 2);
+}
+.top_seller>.seller_message a{
+	background: #4cc9b6; color: #fff; padding: 0.3% 2%; float: left; display: block;margin-top: 1.5%;
+}
+.top_seller>.seller_message a:hover{
+	background: #28c2ac;
+}
+.top_seller>.other_message,.top_seller>.other_message>a,.top_seller>.user_message,.top_seller>.user_message>a{
+	background: #f24949;width: 80px;font-size:large;line-height: 1.5; height: 100%;
+}
+.top_seller>.other_message a,.top_seller>.user_message a{
+	color: #fff;display: block;width: 100%;
+}
+.top_seller>.user_message a img{
+	width: 80px; height: 80px;
+}
+.other_message span{
+	display: block;width: 65%; padding-right: 5%;text-align: center; line-height: 2.3;
+}
+.other_message i{
+	line-height: 2.8;width: 25%;font-size: larger;
+}
+/*banner*/
+.box_swipe01{
+	overflow:hidden;position:relative;height: 50px;
+}
+.box_swipe01>ul{
+	list-style: none;-webkit-transition: 500ms; height: 50px;
+}
+.box_swipe01>ul>li{
+	vertical-align: top; width: 100%;min-height: 50px;	
+}
+.box_swipe01>ul>li>a>img{
+	width: 100%;
+}
+.box_swipe01>ol{
+	height:20px;position: absolute;z-index:10;bottom:2px;text-align:right;width: 99%;
+}
+.box_swipe01>ol>li{
+	display:inline-block;margin:5px 0 0;width:6px;height:6px;background:#fff;border-radius: 10px;
+}
+.box_swipe01>ol>li.on{
+	background:#4cc9b6;
+}
+/*活动列表*/
+.seller_activity_list{
+	width: 96%;background: #e5e5e5; padding: 5px 2%;
+}
+.seller_activity_list>ul>li{
+	background: #fff; margin-bottom: 5px; padding: 6px 0 0 0;
+}
+.seller_activity_list>ul>li>h4{
+	color: #444; padding: 0 6px 5px;font-size: 1.1rem;
+}
+.activity_pic{
+	display: block; width: 96%; height: 70px;padding: 0 6px;
+}
+.activity_pic img{
+	width: 70px; height: 70px; padding-left: 5px;
+}
+.activity_pic img:first-child{
+	padding-left: 0;
+}
+.source_cash{
+	line-height: 2; width: 96%; padding: 0 6px;
+}
+.source{
+	color: #888; font-size: 13px;line-height: 2.5;
+}
+.cash_status{
+	font-size: 14px;
+}
+.cash_status a{
+	padding: 0 6px;
+}
+.cash_status em{
+	color: #f00; padding-right: 6px;
+}
+.icon-thumbs-up,.icon-comment-alt{
+	font-weight: 300; padding-right: 1px;
+}
+.payer{
+	background: #eee; border-top: 1px  solid #e5e5e5;color: #666;font-size: 13px; padding: 0 6px;line-height: 2.5;
+}
+.website_enter{
+	color: #fff; font-size: larger; text-align: center;line-height: 2; position: fixed;bottom: 0;padding: 0;
+}
+.hipigo_search_btn,.hipigo_search_btn a{
+	background:#4cc9b6; width: 38px; height: 100%; text-align: center; line-height: 2.5;color: #fff; display: block;transition:all 1s ease-in-out;
+}
+.hipigo_search_btn a:hover,.hipigo_search_btn a:active{
+	background: #01a58c;width: 48px;-webkit-transform:translateX(-10px);
+}
+.width48,.width48 a{
+	background:#4cc9b6;width: 48px;height: 100%; text-align: center; line-height: 2.5;color: #fff; display: block;
+}
+.width48 a:hover{
+	background: #01a58c;
+}
+.website_enter button{
+	border: none;height: 35px;line-height: 2.2;color: #fff; 
+}
+.website_enter .goodt{
+	background: #555; width: 30%;
+}
+.website_enter .goodt:hover,.website_enter .goodt:active{
+	background: #222;
+}
+.website_enter .footerbtn{
+	background: #4cc9b6; width: 70%;
+}
+.website_enter .footerbtn:hover,.website_enter .footerbtn:active{
+	background: #01a58c;
+}
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+

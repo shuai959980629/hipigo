@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>创建活动第二步，选填项</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="css/font-awesome.css" />
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/create_activity.css" />
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<!--banner-->
+<div class="container">
+<!--top操作按钮-->
+    <div class="operate container">
+        <span class="return left"><a href="#"><i class="iconfont icon iconfont_10">&#983354</i></a></span>
+        <span class="partake-num left">创建活动<em>(选填项)</em></span>
+        <a href="#" class="join right">完成</a>
+    </div>
+<!--创建活动第一步-->
+    <div class="creat_activity">
+        <dl>
+        	<dd class="price">价格<span class="creat_price right"><input type="text" placeholder="填写活动价格"/><!--<i>￥700</i>--></span></dd>
+            <dd class="title">时间</dd>
+            <dd class="must_details clearfix">
+                <span class="creat_date"><input type="text" class="date-picker left"/><em class="add-on" onClick=""><i class="icon-calendar"></i></em></span>
+                <span class="left">&nbsp;to&nbsp;</span>
+                <span class="creat_date"><input type="text" class="date-picker left"/><em class="add-on" onClick=""><i class="icon-calendar"></i></em></span>
+            </dd>
+            <dd class="title">地址</dd>
+            <dd class="must_details"><input type="text" placeholder="这里填活动举办地址"/></dd>
+            <dd class="title">标签</dd>
+            <dd class="must_details"><input type="text" placeholder="这里可以给活动添加标签，多个以空格隔开"/></dd>
+            <dd class="title">参与条件</dd>
+            <dd class="must_details">
+            	<span class="partake_term"><input type="checkbox"/><em>姓名</em></span>
+                <span class="partake_term"><input type="checkbox"/><em>电话号码</em></span>
+                <span class="partake_term"><input type="checkbox"/><em>自定义</em></span>
+                <p><input type="text" placeholder="输入自定义条件"/><a href="#">+继续添加</a></p>
+            </dd>
+        </dl>
+    </div>
+</div>
+</body>
+</html>

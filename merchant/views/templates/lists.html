@@ -1,0 +1,1278 @@
+<!--{if $page_type == 'commodity'}-->
+    <table width="100%">
+        <tbody>
+        <tr class="big_title">
+            <td class="id_title">标题</td>
+            <td class="title">内容</td>
+            <td>分类</td>
+            <td>价格</td>
+            <td>状态</td>
+            <td>权重</td>
+            <td class="id_title">操作</td>
+        </tr>
+        <!--{if $commodity_list}-->
+        <!--{foreach from = $commodity_list item = cl key = k}-->
+        <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+            <!--<td class="id">{$cl.id_commodity }</td>-->
+            <td class="id_title"><!--{$cl.name}--></td>
+            <td class="title">
+                <div class="pic"><img src="<!--{$cl.image_url|get_img_url:'commodity'}-->"></div>
+                <div class="describe"><!--{strip_tags($cl.descript)|truncate_utf8:30}--></div>
+            </td>
+            <td><!--{$cl.type}--></td>
+            <td><!--{$cl.price}--></td>
+            <td><!--{if $cl.state == 1}-->有效<!--{else}-->无效<!--{/if}--></td>
+            <td><!--{$cl.weight}--></td>
+            <td  class="id_title">
+                <a class="compile" href="<!--{$url_prefix}-->item/edit_item/<!--{$cl.id_commodity}-->/<!--{$offset}-->">编辑</a>
+                <a class="delete" onClick="delete_commodity(<!--{$cl.id_commodity}-->,<!--{$offset}-->)">删除</a>
+                <a class="hot" onClick="join_mall(this,<!--{$offset}-->,<!--{$cl.id_commodity}-->)">加入商城</a>
+            </td>
+        </tr>
+        <!--{/foreach}-->
+        <!--{else}-->
+        <tr>
+            <td colspan="8">
+                还没有物品信息！
+            </td>
+        </tr>
+        <!--{/if}-->
+        </tbody>
+    </table>
+
+<!--{elseif $page_type == 'online_information'}-->
+
+<table width="100%">
+    <tbody>
+    <tr class="big_title">
+        <td>用户名</td>
+        <td>电话</td>
+        <td>车牌号</td>
+        <td>里程</td>
+        <td style="width: 6%">预约时间</td>
+        <td style="width: 20%">预约说明</td>
+        <td>状态</td>
+        <td class="id_title">操作</td>
+    </tr>
+    <!--{if $boi_list}-->
+    <!--{foreach from = $boi_list item = cl key = k}-->
+    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+    <td><!--{$cl.user_name}--></td>
+    <td><!--{$cl.user_phone}--></td>
+    <td><!--{$cl.user_card}--></td>
+    <td><!--{$cl.user_mileage}--></td>
+    <td><!--{$cl.user_time}--></td>
+    <td><!--{$cl.user_desc}--></td>
+    <td><!--{if $cl.state != 1}-->未受理<!--{else}-->已受理<!--{/if}--></td>
+    <td  class="id_title">
+        <a class="compile" href="<!--{$url_prefix}-->car/edit_car/<!--{$cl.id_online}-->/<!--{$offset}-->/<!--{$cm}-->">编辑</a>
+        <a class="delete" onClick="handle_boi(<!--{$cl.id_online}-->,<!--{$offset}-->,'delete')">删除</a>
+        <!--{if $cl.state != 1}-->
+        <a class="hot" href="javascript:void(0)" onClick="handle_boi(<!--{$cl.id_online}-->,<!--{$offset}-->,'update')">受理</a><!--{/if}-->
+    </td>
+    </tr>
+    <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+        <td colspan="8">
+            还没有预约信息！
+        </td>
+    </tr>
+    <!--{/if}-->
+    </tbody>
+</table>
+
+<!--{elseif $page_type == 'activity'}-->
+<table width="100%">
+    <tbody>
+    <tr class="big_title">
+        <td class="title">名称</td>
+        <td>活动类型</td>
+        <td>参与总人数</td>
+        <td>参与总次数</td>
+        <td>获奖人次</td>
+        <td>状态</td>
+        <td>权重</td>
+        <td>发布时间</td>
+        <td class="operate">操作</td>
+    </tr>
+    <!--{if $alist}-->
+        <!--{foreach from=$alist item=at name=alt}-->
+        <!--{if $smarty.foreach.alt.index % 2 == 0}-->
+        <tr>
+            <!--{else}-->
+        <tr  class="bg">
+            <!--{/if}-->
+            <td class="title"><!--{$at.name|truncate_utf8:25}--></td>
+            <td><!--{if $at.type == 'answer'}-->一战到底<!--{elseif $at.type == 'egg'}-->砸金蛋<!--{elseif $at.type == 'event'}-->事件活动<!--{/if}--></td>
+            <td><!--{$at.join_person}--></td>
+            <td><!--{$at.join_count}--></td>
+            <td><!--{$at.award_count}--></td>
+            <td>
+                <!--{if $at.state eq 1}-->
+                有效
+                <!--{else}-->
+                无效
+                <!--{/if}-->
+            </td>
+            <td><!--{$at.weight}--></td>
+            <td><!--{substr($at.created,0,10)}--></td>
+            <td class="operate">
+                <a class="compile" href="<!--{$url_prefix}-->activity/edit_activity/1/<!--{$at.id_activity}-->">编辑</a>
+                <a class="delete" onClick="delete_activity(<!--{$at.id_activity}-->,<!--{$offset}-->)">删除</a>
+                <!--{if $at.type == 'answer'}-->
+                <a class="compile" href="<!--{$url_prefix}-->activity/answer_rank/<!--{$at.id_activity}-->">查看排行</a>
+                <!--{/if}-->
+            </td>
+        </tr>
+        <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+        <td colspan="8">
+            还没有活动信息！
+        </td>
+    </tr>
+    <!--{/if}-->
+    </tbody>
+</table>
+<!--{elseif $page_type == 'goods'}-->
+<table width="100%">
+    <tbody>
+    <tr class="big_title">
+        <td class="title">名称</td>
+        <td>数量</td>
+        <td>图片</td>
+        <td>推荐</td>
+        <td>积分</td>
+        <td>状态</td>
+        <td class="id_title">操作</td>
+    </tr>
+<!--{if $glist}-->
+    <!--{foreach from=$glist item=gt name=gt}-->
+    <!--{if $smarty.foreach.gt.index % 2 == 0}-->
+    <tr>
+        <!--{else}-->
+    <tr  class="bg">
+        <!--{/if}-->
+        <td class="title"><!--{$gt.name}--></td>
+        <td><!--{$gt.quantity}--></td>
+        <td><img src="<!--{$gt.image_url|get_img_url:'commodity'}-->"></td>
+        <td>
+            <!--{if $gt.recommend eq 1}-->
+            <a class="hot" did="recommend" onclick="set_hot(this,<!--{$gt.id_mall}-->,0)">
+            取消推荐
+            <!--{else}-->
+            <a class="hot" did="notrecommend" onclick="set_hot(this,<!--{$gt.id_mall}-->,1)">
+            设为推荐
+            <!--{/if}-->
+            </a>
+        </td>
+        <td class="integral"><!--{$gt.integral}--></td>
+        <td>
+            <!--{if $gt.state eq 'up'}-->
+            <a class="hot" did="up" onclick="set_goods_status(this,<!--{$gt.id_mall}-->,0)">
+            已上架
+            <!--{else}-->
+            <a class="nohot" did="down" onclick="set_goods_status(this,<!--{$gt.id_mall}-->,1)">
+            已下架
+            <!--{/if}-->
+            </a>
+        </td>
+        <td class="id_title">
+            <a class="compile" href="<!--{$url_prefix}-->item/edit_item/<!--{$gt.id_commodity}-->/<!--{$offset}-->/mall">编辑</a>
+            <a class="delete" onclick="delete_goods(<!--{$gt.id_mall}-->,<!--{$offset}-->)">删除</a>
+            <a class="hot" href="<!--{$url_prefix}-->goods/list_comment/<!--{$gt.id_mall}-->">查看评论(<!--{$gt.review_count}-->)</a>
+        </td>
+    </tr>
+    <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+        <td colspan="8">
+            还没有商品信息！
+        </td>
+    </tr>
+    <!--{/if}-->
+
+    </tbody>
+</table>
+<!--{elseif $page_type == 'customer'}-->
+<table width="100%">
+    <tbody>
+    <tr class="big_title">
+        <td class="id">微信昵称</td>
+        <td class="id_title">卡号</td>
+        <td>姓名</td>
+        <td>手机号</td>
+        <td>性别</td>
+        <td>生日</td>
+        <td>城市</td>
+        <td>时间</td>
+        <td>操作</td>
+    </tr>
+    <script src="<!--{$url_prefix}-->media/js/jquery-1.10.1.min.js"></script>
+    <!--{if $customer_list}-->
+    <!--{foreach from = $customer_list item = cl key = k}-->
+    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}--> style="line-height:35px">
+    <td class="id_title" style="width: 19%">
+        <div class="fl" style="padding-right: 5px"><!--{if $cl.id_open}--><!--{urldecode($cl.nick_name)}--><!--{/if}--></div>
+        <!--{if $cl.id_open}--><a href="javascript:void(0)" id="nick<!--{$cl.id_customer}-->" onclick="edit_name(1,<!--{$cl.id_customer}-->)">(<!--{$cl.name_remarks|default:'备注'}-->)</a>
+        <script type="text/javascript">
+            var remarks = $('#nick<!--{$cl.id_customer}-->');
+            var name_remarks = remarks.html();
+            if((name_remarks.length-2) <= 2){
+                remarks.addClass('note_one');
+            }else if((name_remarks.length-2) <= 4 && (name_remarks.length-2) > 2){
+                remarks.addClass('note');
+            }
+        </script>
+        <!--{/if}-->
+        <input type="hidden" id="id_open<!--{$cl.id_customer}-->" value="<!--{$cl.id_open}-->"/>
+        <input type="hidden" id="id_customer[]" name="id_customer[]" value="<!--{$cl.id_customer}-->"/>
+        <div id="editdiv<!--{$cl.id_customer}-->" style="display: none; line-height: 30px;">
+            <input class="span6 m-wrap" type="text" id="nick_name<!--{$cl.id_customer}-->"/>
+            <input class="btn blue" type="button" value="确定" onclick="submit_name(<!--{$cl.id_customer}-->,<!--{$offset}-->);"/>
+            <input class="btn" type="button" value="取消" onclick="edit_name(2,<!--{$cl.id_customer}-->);"/>
+        </div>
+    </td>
+    <td class="id"><!--{$cl.number|sprint_member_card}--></td>
+    <td><!--{$cl.real_name}--></td>
+    <td><!--{$cl.cell_phone}--></td>
+    <td><!--{if $cl.sex == 1}-->男<!--{else}-->女<!--{/if}--></td>
+    <td><!--{$cl.birthday_month}-->-<!--{$cl.birthday_day}--></td>
+    <td><!--{$cl.city}--></td>
+    <td><!--{substr($cl.created,0,10)}--></td>
+    <td>
+        <!--{if $is_business}-->
+        <a href="<!--{$url_prefix}-->customer/edit_customer/<!--{$cl.id_customer}-->">编辑</a>
+        <!--{else}-->
+        <a onclick="show_customer(<!--{$cl.id_customer}-->)">编辑</a>
+        <!--{/if}-->
+        <a onclick="delete_customer(<!--{$cl.id_customer}-->,<!--{$offset}-->)">删除</a></td>
+    </tr>
+    <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+        <td colspan="8">
+            还没有会员信息！
+        </td>
+    </tr>
+    <!--{/if}-->
+    </tbody>
+</table>
+<!--{if $total}--><div class="fl"><p style="line-height: 50px; padding-left: 10px">共<!--{$total}-->条</p></div><!--{/if}-->
+<!--{elseif $page_type == 'info'}-->
+<table width="100%">
+    <tbody>
+    <tr class="big_title">
+        <td class="id_title" style="width:20%">标题</td>
+        <td class="title" style="width:45%">内容</td>
+        <td>分类</td>
+        <td>权重</td>
+        <td>状态</td>
+        <td>推荐</td>
+        <td class="id_title" style="width:20%">操作</td>
+    </tr>
+    <!--{if $info_list}-->
+        <!--{foreach from = $info_list item = cl key = k}-->
+        <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}--> style="line-height:35px;">
+        <td class="id_title" style="width:20%"><!--{$cl.title|truncate_utf8:20}--></td>
+        <td class="title" style="width:45%"><!--{$cl.content|truncate_utf8:50}--></td>
+        <td><!--{$cl.name}--></td>
+        <td><!--{$cl.weight}--></td>
+        <td><!--{if $cl.state == 1}-->有效<!--{else}-->无效<!--{/if}--></td>
+        <td><!--{if $cl.recommend == 1}-->已推荐<!--{else}-->未推荐<!--{/if}--></td>
+        <td  class="id_title" style="width:20%">
+        <!--{if !empty($host)}-->
+            <a class="hot" target="_blank" href="http://<!--{$host}-->/wapi/<!--{$data.user.id_business}-->/<!--{$data.user.id_shop}-->/home/content/<!--{$cl.id_info}-->">浏览</a>
+        <!--{/if}-->
+            <a class="compile" href="<!--{$url_prefix}-->content/edit_content/<!--{$cl.id_info}-->/<!--{$offset}-->">编辑</a>
+            <a class="delete" onClick="delete_content(<!--{$cl.id_info}-->,<!--{$offset}-->)">删除</a>
+        </td>
+        </tr>
+        <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+        <td colspan="8">
+            还没有文章信息！
+        </td>
+    </tr>
+    <!--{/if}-->
+    </tbody>
+</table>
+<!--{elseif $page_type == 'wx_reply'}-->
+
+<table width="100%">
+    <tbody class="fy_data">
+    <tr class="big_title">
+        <td class="choose"></td>
+        <td class="title">关键词</td>
+        <td class="activity_content">回复内容</td>
+        <td>方式</td>
+        <td>操作</td>
+    </tr>
+    <!--{if !empty($wxlist)}-->
+    <!--{foreach from=$wxlist item=wx}-->
+    <tr>
+        <td class="choose"><input name="subBox[]" type="checkbox" value="<!--{$wx.id_msg}-->"></td>
+        <td class="title"><!--{$wx.keyword|truncate_utf8:20}--></td>
+        <td class="activity_content">
+            <!--{if $wx.reply_type eq 'text' || $wx.reply_type eq 'video'}-->
+            <div class="describe"><!--{$wx.reply|truncate_utf8:20}--></div>
+            <!--{elseif $wx.reply_type eq 'image-text'}-->
+            <div class="describe">(<!--{count($wx.cnt)}-->)<!--{$wx.cnt[0]['title']|truncate_utf8:20}--></div>
+            <!--{elseif $wx.reply_type eq 'audio' || $wx.reply_type eq 'image'}-->
+            <div class="describe"></div>
+            <!--{/if}-->
+        </td>
+        <td><!--{if $wx.reply_type eq 'text'}-->文本<!--{elseif $wx.reply_type eq 'image-text'}-->图文<!--{elseif $wx.reply_type eq 'image'}-->图片<!--{elseif $wx.reply_type eq 'audio'}-->音频<!--{elseif $wx.reply_type eq 'video'}-->视频<!--{/if}--></td>
+        <td>
+            <a class="compile" href="<!--{$url_prefix}-->system/wx_imgreply/<!--{$wx.id_msg}-->">编辑</a>
+            <a class="delete" href="javascript:void(0);" onClick="delete_reply(<!--{$wx.id_msg}-->,<!--{$offset}-->,1)">删除</a>
+        </td>
+    </tr>
+    <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+    <td style="padding-left: 5px" colspan="5">没有数据</td>
+    </tr>
+    <!--{/if}-->
+    </tbody>
+</table>
+<!--{elseif $page_type == 'comments'}-->
+<table width="100%">
+    <tbody>
+    <tr class="big_title">
+        <td class="name">姓名</td>
+        <td class="reply_content">回复内容</td>
+        <td>操作</td>
+    </tr>
+    <!--{if $lreview}-->
+    <!--{foreach from=$lreview item=lw name=alt}-->
+    <!--{if $smarty.foreach.alt.index % 2 == 0}-->
+    <tr>
+        <!--{else}-->
+    <tr  class="bg">
+        <!--{/if}-->
+        <td class="name"><!--{urldecode($lw.name)}--></td>
+        <td class="reply_content"><!--{$lw.content|truncate_utf8:30}--></td>
+        <td><a onclick="delete_review(<!--{$lw.id_review}-->,<!--{$cpage}-->)" href="javascript:void(0)" class="del_review">删除</a></td>
+    </tr>
+    <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+        <td colspan="8">
+            还没有评论信息！
+        </td>
+    </tr>
+    <!--{/if}-->
+    </tbody>
+</table>
+<!--{elseif $page_type == 'quick_reply'}-->
+<table width="100%">
+    <tbody>
+    <tr class="big_title" style="line-height: 35px">
+        <td class="id_title" style="width: 19%">姓名</td>
+        <td class="title">内容</td>
+        <td>时间</td>
+        <td class="id_title">操作</td>
+    </tr>
+
+    <script src="<!--{$url_prefix}-->media/js/jquery-1.10.1.min.js"></script>
+    <!--{if $quick_reply}-->
+    <!--{foreach from = $quick_reply item = qr key = k}-->
+    <tr style="line-height: 35px"<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+    <td class="id_title" style="width: 19%">
+        <div class="fl" style="padding-right: 5px"><a href="<!--{$url_prefix}-->system/wx_reply_list/<!--{$qr.id_customer_msg}-->/<!--{$qr.id_open}-->"><!--{urldecode($qr.nick_name)}--></a></div>
+        <a href="javascript:void(0)" id="remarks<!--{$qr.id_customer_msg}-->" onClick="edit_name(1,<!--{$qr.id_customer_msg}-->)" attr="<!--{$qr.name_remarks|default:'备注'}-->"><span>(<!--{$qr.name_remarks|default:'备注'}-->)<b></b></span></a>
+
+        <input type="hidden" id="id_open<!--{$qr.id_customer_msg}-->" value="<!--{$qr.id_open}-->"/>
+        <input type="hidden" id="id_customer_msg[]" name="id_customer_msg[]" value="<!--{$qr.id_customer_msg}-->"/>
+        <div id="edit_name_div<!--{$qr.id_customer_msg}-->" style="display: none; line-height:30px;">
+            <input class="span6 m-wrap" type="text" id="name_remarks<!--{$qr.id_customer_msg}-->" maxlength="4"/>
+            <input class="btn blue" type="button" value="确定" onClick="submit_name(<!--{$qr.id_customer_msg}-->,<!--{$offset}-->);"/>
+            <input class="btn" type="button" value="取消" onClick="edit_name(2,<!--{$qr.id_customer_msg}-->);"/>
+        </div>
+    </td>
+    <td class="title">
+        <div class="describe">
+            <!--{if $qr.msg_type eq 'text'}--><!--base64_decode|-->
+            <!--{$qr.msg_content|replace_emoticons:$qr.msg_content}-->
+            <!--{elseif $qr.msg_type eq 'image'}-->
+            <a href="/biz/system/show_media?name=<!--{$qr.msg_content}-->&type=<!--{$qr.msg_type}-->" class="open-newwd"><img src="/biz/media/image/ico_pic.png" style="width:22px;height: 16px"></a>
+            <!--{elseif $qr.msg_type eq 'audio'}-->
+            <a href="/biz/system/show_media?name=<!--{$qr.msg_content}-->&type=<!--{$qr.msg_type}-->" class="open-newwd"><img src="/biz/media/image/ico_voice.png" style="width:14px;height: 19px"></a>
+            <!--{elseif $qr.msg_type eq 'video'}-->
+            <a href="/biz/system/show_media?name=<!--{$qr.msg_content}-->&type=<!--{$qr.msg_type}-->" class="open-newwd"><img src="/biz/media/image/ico_video.png" style="width:22px;height: 16px"></a>
+            <!--{/if}-->
+        </div>
+    </td>
+    <td><!--{substr($qr.created,0,10)}--></td>
+    <td  class="id_title">
+        <!--{if $qr.time == '1'}-->
+        <a class="hot" href="javascript:void(0)" onClick="show_html(<!--{$qr.id_customer_msg}-->,'<!--{$qr.id_open}-->')">快速回复</a>
+        <!--{else}-->
+        <a class="ed" href="javascript:void(0)">已经过期</a>
+        <!--{/if}-->
+        <a class="delete" onClick="delete_quick_reply(<!--{$qr.id_customer_msg}-->,<!--{$offset}-->)">删除</a>
+        <span><!--{if $qr.is_send > 0}-->已回复<!--{/if}--></span>
+    </td>
+    </tr>
+    <tr style="display: none"><td colspan="4">
+        <div id="edit_div<!--{$qr.id_customer_msg}-->"></div>
+    </td></tr>
+    <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+        <td colspan="8">
+            还没有用户消息！
+        </td>
+    </tr>
+    <!--{/if}-->
+    </tbody>
+</table>
+<!--{elseif $page_type == 'img_text_reply'}-->
+<table class="reply_list">
+    <!--{foreach from = $reply item = qr key = k}-->
+    <tr style="line-height: 35px;"<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+    <td class="id_title" style="width: 19%"><!--{urldecode($nick_name)}--></td>
+    <td class="title">
+        <div class="describe">
+            <!--{$qr.reply_content}-->
+            <!--{if $qr.reply_type == 'image'}-->
+            <img src="/biz/media/image/ico_pic.png" style="width:22px;height: 16px">
+            <!--{/if}-->
+            <!--{if $qr.reply_type == 'audio'}-->
+            <img src="/biz/media/image/ico_voice.png" style="width:14px;height: 19px">
+            <!--{/if}-->
+            <!--{if $qr.reply_type == 'video'}-->
+            <img src="/biz/media/image/ico_video.png" style="width:22px;height: 16px">
+            <!--{/if}-->
+            <!--{if $qr.reply_type == 'image-text'}-->
+            <img src="/biz/media/image/ico_image_text.png" style="width:22px;height: 16px">
+            <!--{/if}-->
+        </div>
+    </td>
+    <td><!--{substr($qr.created,0,10)}--></td>
+    </tr>
+    <!--{/foreach}-->
+</table>
+
+<!--{elseif $page_type == 'site_config'}-->
+
+    <!--{foreach from = $config_info item = c}-->
+<input type="hidden" name="id_config" id="id_config" value="<!--{$c.id_config}-->"/>
+<input type="hidden" name="id_column" id="id_column" value="<!--{$c.id_column}-->"/>
+<input type="hidden" name="is_add" id="is_add" value="edit"/>
+<p>名称</p>
+<div class="content clearfix"><input class="span6 m-wrap" name="name" type="text" value="<!--{$c.name}-->" maxlength="8">
+    <b style=" line-height: 30px; font-weight: normal">（最多输入8个汉字!）</b></div>
+<p>图片<span style="color:#666; padding-left:160px;">图片尺寸：333像素*190像素</span></p>
+<div class="content clearfix">
+    <div class="controls">
+        <!--{if $c.image}-->
+        <div class="fileupload-new thumbnail">
+            <img src="<!--{$c.image|get_img_url:'home'}-->" alt="" style="width:136px;height:85px">
+            <a onClick="closeImg(this,'',0,1)"></a>
+        </div>
+        <!--{/if}-->
+        <div id="swfupload-control">
+            <input type="button" id="button" />
+            <input type="hidden" id="picNum" name="picNum" value="<!--{if $c.image}-->1<!--{else}-->0<!--{/if}-->">
+            <p id="queuestatus" ></p>
+            <ol id="log"></ol>
+        </div>
+        <input type="hidden" id="image_src" name="image_src" value=""/>
+    </div>
+</div>
+<p>点击类型</p>
+<div class="content clearfix">
+    <div class="mold"><input type="radio" name="membership" value="1" onclick="show_div(1)" <!--{if $c.type == 'list'}-->checked<!--{/if}-->/>列表</div>
+    <div class="mold"><input type="radio" name="membership" value="2" onclick="show_div(2)" <!--{if $c.type == 'eitity'}-->checked<!--{/if}-->/>详情</div>
+    <div class="mold"><input type="radio" name="membership" value="3" onclick="show_div(3)" <!--{if $c.type == 'link'}-->checked<!--{/if}-->/>外部链接</div>
+</div>
+<!--详情展示开始-->
+<div <!--{if $c.type != 'eitity'}-->style="display: none;"<!--{/if}--> id="infos">
+    <p>功能模块</p>
+    <div class="content clearfix">
+        <select id="info_">
+            <option value="0">请选择功能模块</option>
+            <!--{foreach from = $sop item = s key = k}-->
+            <option value="<!--{$k}-->" <!--{if $k == $c.object_type}-->selected="true"<!--{/if}-->><!--{$s}--></option>
+            <!--{/foreach}-->
+        </select>
+    </div>
+    <p>实体编号</p>
+    <div class="content clearfix"><input class="span6 m-wrap" name="id_object" type="text" value="<!--{$c.id_object}-->"></div>
+</div>
+<!--详情展示结束-->
+<!--外部链接展示开始-->
+<div <!--{if $c.type != 'link'}-->style="display: none;"<!--{/if}--> id="link">
+    <p>外部链接</p>
+    <div class="content clearfix"><input class="span6 m-wrap" name="url" type="text" value="<!--{$c.url}-->"></div>
+</div>
+<!--外部链接展示结束-->
+<!--列表展示开始-->
+<div id="lists" <!--{if $c.type != 'list'}-->style="display: none;"<!--{/if}-->>
+    <p>功能模块</p>
+    <div class="content clearfix">
+        <select id="info" onchange="get_class(this)">
+            <option value="0">请选择功能模块</option>
+            <!--{foreach from = $sop item = s key = k}-->
+            <option value="<!--{$k}-->" <!--{if $k == $c.object_type}-->selected="true"<!--{/if}-->><!--{$s}--></option>
+            <!--{/foreach}-->
+        </select>
+    </div>
+    <p>分类模块</p>
+    <div class="content clearfix">
+        <select id="commodity_class">
+            <option value="0">请选择分类模块</option>
+            <!--{foreach from = $commodity_class item = cc}-->
+            <option value="<!--{$cc.id_class}-->" <!--{if $cc.id_class == $c.id_object}-->selected="true"<!--{/if}-->><!--{$cc.name}--></option>
+            <!--{/foreach}-->
+        </select>
+    </div>
+</div>
+<div id="page_template" <!--{if $c.type != 'list'}-->style="display: none;"<!--{/if}-->>
+    <p>页面模板</p>
+    <div class="content clearfix">
+        <input type="hidden" name="template" value="<!--{$c.template}-->"/>
+        <div class="template_mold <!--{if $c.template == 1}-->mold_active<!--{/if}-->" onclick="select_template(this,1)"><img src="<!--{$url_prefix}-->media/image/template01.jpg"></div>
+        <div class="template_mold <!--{if $c.template == 2}-->mold_active<!--{/if}-->" onclick="select_template(this,2)"><img src="<!--{$url_prefix}-->media/image/template02.jpg"></div>
+    </div>
+</div>
+<div>
+    <p>权重</p>
+    <div class="content clearfix">
+        <input class="span6 m-wrap" name="weight" type="text" value="<!--{$c.weight}-->" maxlength="5" onKeyUp="validateInt(this);" onBlur="validateInt(this);">
+    </div>
+</div>
+<span class="timex"></span>
+<!--列表展示结束-->
+<input class="btn blue" type="button" value="确定" onclick="send_config();"/>
+<input class="btn" type="button" value="取消" onClick="reset_config();"/>
+    <!--{/foreach}-->
+<!--{elseif $page_type == 'get_class'}-->
+
+    <option value="0">请选择分类模块</option>
+    <!--{foreach from = $commodity_class item = cc}-->
+    <option value="<!--{$cc.id_class}-->" ><!--{$cc.name}--></option>
+    <!--{/foreach}-->
+
+<!--{elseif  $page_type == 'change_page'}-->
+
+    <div style="max-width:768px; margin:0 auto">
+        <div class="swipe">
+            <div class="banner swipe-wrap" id="banner_box" style="visibility: visible;">
+                <ul>
+                    <!--{foreach from=$images item=value}-->
+                    <li><a onclick="return false;"><img src="<!--{$value.0}-->" style="width:100%;border:none"></a></li>
+                    <!--{/foreach}-->
+                </ul>
+                <ol>
+                    <!--{foreach from=$images item=value name=ts}-->
+                    <!--{if $smarty.foreach.ts.index == 0}-->
+                    <li class="on"></li>
+                    <!--{else}-->
+                    <li></li>
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <ul class="showe_showe">
+        <!--{foreach from = $config_info item = ci}-->
+        <li>
+            <!--鼠标指上去的效果-->
+            <span>
+                <img src="<!--{$ci.image|get_img_url:'home'}-->">
+                <b class="name"><!--{$ci.name}--></b>
+                <b class="result" style="display:none;">
+                    <a href="javascript:void(0);" onClick="show_config(<!--{$ci.id_config}-->)">编辑</a>
+                    <a class="delete" href="javascript:void(0);" onClick="delete_config(this,<!--{$ci.id_config}-->)">删除</a>
+                    <a class="view" target="_blank" href="<!--{$ci.link}-->">浏览</a>
+                </b>
+            </span>
+        </li>
+        <!--{/foreach}-->
+        <!--添加开始-->
+        <li class="add">
+            <a href="<!--{$url_prefix}-->home/edit_home/<!--{$page_num}-->"><span>添加</span></a>
+        </li>
+        <!--添加结束-->
+    </ul>
+<script>
+
+    $(document).ready(function(){
+        new Swipe(document.getElementById('banner_box'), {
+            speed:500,
+            auto:3000,
+            continuous:false,
+            stopPropagation:true,
+            disableScroll: true,
+            callback: function(){
+                var lis = $(this.element).next("ol").children();
+                lis.removeClass("on").eq(this.index).addClass("on");
+            }
+        });
+    });
+
+    $(function (){
+        //鼠标滑动到图片上显示效果
+        $('.show').children().children().mouseover(function(){
+            $(this).children().children('.name').hide();
+            $(this).children().children('.result').show();
+        }).mouseout(function(){
+            $(this).children().children('.result').hide();
+            $(this).children().children('.name').show();
+        });
+    });
+</script>
+<!--{elseif  $page_type == 'list_followers'}-->
+    <div class="content clearfix">
+        <ul>
+            <!--{if $list_user}-->
+            <!--{foreach from = $list_user item=lu}-->
+            <li class="clearfix list_user">
+                <input type="hidden" id="id_bn_sub[]" name="id_bn_sub[]" value="<!--{$cl.id_bn_sub}-->"/>
+                <div class="fl">
+                    <img class="pic" src="<!--{if $lu.head_image_url}--><!--{$lu.head_image_url}--><!--{else}--><!--{$url_prefix}-->media/image/ico_user.png<!--{/if}-->">
+                    <!--{if $lu.name_remarks}-->
+                    <span class="name"><!--{$lu.name_remarks}-->(<!--{urldecode($lu.nick_name)}-->)</span>
+                    <!--{else}-->
+                    <span class="name"><!--{urldecode($lu.nick_name)}--></span>
+                    <!--{/if}-->
+                    <!--鼠标指到个人头像时开始-->
+                    <div class="result" style="display: none;">
+                        <p class="tile">详细资料</p>
+                        <div class="content clearfix">
+                            <p style=" margin-top: 5px;"><!--{urldecode($lu.nick_name)}--></p>
+                            <p class="clearfix">
+                                <span class="remark">备注名：<b style="color: #4D90FE; font-weight: normal;"><!--{$lu.name_remarks}--></b></span>
+                                <input type="hidden" value="<!--{$lu.name_remarks}-->" name="remarks"/>
+                                <span class="edit_s"></span>
+                                <a href="javascript:void(0)" onClick="show_html(this,<!--{$lu.id_bn_sub}-->,<!--{$offset}-->,0)"></a>
+                            </p>
+                            <p>地区：<!--{$lu.city}--></p>
+                        </div>
+                    </div>
+                    <!--鼠标指到个人头像时结束-->
+                </div>
+                <div class="fr">
+                    <div></div>
+                    <a class="alter" href="javascript:void(0);" onClick="show_html(this,<!--{$lu.id_bn_sub}-->,<!--{$offset}-->,1)">修改备注</a>
+                </div>
+                <!--鼠标指到个人头像时开始-->
+                <div class="result" style="display: none;">
+                    <p class="tile">详细资料</p>
+                    <div class="content clearfix">
+                        <p><!--{urldecode($lu.nick_name)}--></p>
+                        <p class="clearfix" style="line-height:30px;">
+                            <span class="remark">备注名:<!--{$lu.name_remarks}--></span>
+                            <input type="hidden" value="<!--{$lu.name_remarks}-->" name="remarks"/>
+                            <span class="edit_s"></span>
+                            <a href="javascript:void(0)" onClick="show_html(this,<!--{$lu.id_bn_sub}-->,<!--{$offset}-->,0)"></a>
+                        </p>
+                        <p>地区：<!--{$lu.city}--></p>
+                    </div>
+                </div>
+                <!--鼠标指到个人头像时结束-->
+            </li>
+            <!--{/foreach}-->
+            <!--{else}-->
+            <li>
+                还没有关注者信息哦！
+            </li>
+            <!--{/if}-->
+        </ul>
+    </div>
+    <div class="fl"><p style="line-height: 50px; padding-left: 10px">共<!--{$total}-->条</p></div>
+    <script>
+        //鼠标指上头像显示用户信息
+        $('.list_user').children('.fl').mouseover(function(){
+            $(this).children('.result').show();
+        }).mouseout(function(){
+                    $(this).children('.result').hide();
+                });
+    </script>
+<!--{elseif $page_type == 'list_ticket'}-->
+<table width="100%">
+    <tbody>
+    <tr class="big_title">
+        <td class="title">名称</td>
+        <td>类型</td>
+        <td>总数量</td>
+        <td>剩余数量</td>
+        <td>赠出数量</td>
+        <td>使用数量</td>
+        <td>有效期至</td>
+        <td style="text-align: center;" class="operate">操作</td>
+    </tr>
+    <!--{if $ticket_list}-->
+    <!--{foreach from = $ticket_list item = tl}-->
+    <tr>
+        <td class="title"><a href="<!--{$url_prefix}-->ticket/ticket_detail/<!--{$tl.id_eticket}-->"><!--{$tl.name|truncate_utf8:30}--></a></td>
+        <td><!--{if $tl.type == 'realtime'}-->实时创建<!--{else}-->预先创建<!--{/if}--></td>
+        <td><!--{$tl.quantity}--></td>
+        <td><!--{$tl.over}--></td>
+        <td><!--{$tl.get_quantity}--></td>
+        <td><!--{$tl.use_quantity}--></td>
+        <td><!--{if $tl.valid_end != '0000-00-00 00:00:00'}--><!--{substr($tl.valid_end,0,10)}--><!--{/if}--></td>
+        <td class="operate">
+            <a class="compile" href="<!--{$url_prefix}-->ticket/add_ticket/<!--{$tl.id_eticket}-->">编辑</a>
+            <a class="compile" style="width:100px;" href="<!--{$url_prefix}-->ticket/item_ticket/<!--{$tl.id_eticket}-->">查看详情</a>
+            <!--{if $tl.is_expired == 0}-->
+            <a class="delete" href="javascript:void(0);" onclick="delete_ticket(<!--{$tl.id_eticket}-->,<!--{$offset}-->)">删除</a>
+            <!--{/if}-->
+            <!--{if $tl.type == 'beforehand'}-->
+            <a class="add" href="javascript:void(0);" onclick="add_ticket(<!--{$tl.id_eticket}-->,<!--{$offset}-->)">增加数量</a>
+            <!--{/if}-->
+        </td>
+    </tr>
+    <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+        <td colspan="8">
+            还没有电子券信息！
+        </td>
+    </tr>
+    <!--{/if}-->
+    </tbody>
+</table>
+<!--{elseif $page_type == 'item_ticket'}-->
+<table width="100%">
+    <tbody>
+    <tr class="big_title">
+        <td class="No">验证码</td>
+        <td>获得者</td>
+        <td>状态</td>
+        <td>获得时间</td>
+        <td>使用时间</td>
+    </tr>
+    <!--{if $ticket_item}-->
+    <!--{foreach from = $ticket_item item = ti}-->
+    <tr>
+        <td class="No"><!--{substr($ti.code,0,(count($ti.code)-5))}-->****</td>
+        <td><!--{urldecode($ti.nick_name)}--></td>
+        <td>
+            <!--{if $ti.state == 0}--><span class="used">未获得</span>
+            <!--{elseif $ti.state == 1}--><span class="unused">已获得</span>
+            <!--{elseif $ti.state == 2}--><span class="used">已使用</span>
+            <!--{/if}-->
+        </td>
+        <td><!--{if $ti.get_time != '0000-00-00 00:00:00'}--><!--{$ti.get_time}--><!--{/if}--></td>
+        <td><!--{if $ti.use_time != '0000-00-00 00:00:00'}--><!--{$ti.use_time}--><!--{/if}--></td>
+    </tr>
+    <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+        <td>还没有电子券明细信息哦！</td>
+    </tr>
+    <!--{/if}-->
+    </tbody>
+</table>
+<!--{elseif $page_type == 'verify_ticket'}-->
+    <!--{if $verify_ticket}-->
+        <!--{foreach from = $verify_ticket item = ti}-->
+        <!--{if $ti.verify_ticket == 1}-->
+        <ul>
+            <li class="No"><!--{$ti.code}--></li>
+            <li class="matter">
+                <!--{if $ti.object_type == 'eticket'}-->(电子券)<!--{else}-->(报名码)<!--{/if}-->
+                <!--{$ti.name}--></li>
+            <li><!--{urldecode($ti.nick_name)}--></li>
+            <li><!--{if $ti.get_time != '0000-00-00 00:00:00'}--><!--{$ti.get_time}--><!--{/if}--></li>
+            <li><!--{if $ti.begin_num == 1}-->未到使用时间<!--{elseif $ti.state == 0}--><!--{if $ti.end_num == 1}-->已过期<!--{else}-->未获得<!--{/if}--><!--{elseif $ti.state == 1}--><!--{if $ti.end_num == 1}-->已过期<!--{else}-->已获得<!--{/if}--><!--{elseif $ti.state == 2}-->已使用<!--{/if}--></li>
+            <li><button id="btn_state" <!--{if $ti.state == 0 || $ti.state == 2 || $ti.begin_num == 1 || $ti.end_num == 1}-->class="btn"<!--{elseif $ti.state == 1}-->class="btn red" onclick="change_state(this,<!--{$ti.id_item}-->,<!--{$ti.id_object}-->,'<!--{$ti.object_type}-->')"<!--{/if}-->>点击使用</button></li>
+        </ul>
+        <!--{elseif count($verify_ticket) == 1 && $ti.verify_ticket == 0}-->
+        没有你要搜索的结果！
+        <!--{/if}-->
+        <!--{/foreach}-->
+        <script type="text/javascript">
+            $(function(){
+                if(<!--{$ti.state}--> == 1){
+                    $('#btn_state').focus();
+                }
+            });
+        </script>
+    <!--{else}-->
+        没有你要搜索的结果！
+    <!--{/if}-->
+<!--{elseif $page_type == 'change_ticket'}-->
+
+    <!--{foreach from = $verify_ticket item = vt}-->
+    <tr class="clearfix">
+        <td class="No"><!--{$vt.code}--></td>
+        <td class="matter"><img src="<!--{$vt.image|get_img_url:'ticket'}-->"><!--{$vt.name}--></td>
+        <td><!--{urldecode($vt.nick_name)}--></td>
+        <td><!--{if $vt.get_time != '0000-00-00 00:00:00'}--><!--{$vt.get_time}--><!--{/if}--></td>
+        <td><!--{if $vt.use_time != '0000-00-00 00:00:00'}--><!--{$vt.use_time}--><!--{/if}--></td>
+    </tr>
+    <!--{/foreach}-->
+<!--{elseif $page_type == 'answer_edit'}-->
+    <div id="yizhan_three" class="capacity">
+            <input type="hidden" name="id_subject" id="id_subject" value="<!--{$answer_subject.id_subject}-->"/>
+            <table>
+                <tbody>
+                <tr><td class="title">问题</td><td><textarea class="span6 m-wrap" name="title_e" cols="" rows="" maxlength="50"><!--{$answer_subject.title}--></textarea></td></tr>
+                <tr><td class="title">选项</td>
+                    <td>
+                        <input class="span6 m-wrap" name="select_info_e" type="text" maxlength="20"><a class="btn red added" onclick="add_select_div('edit','select_info_e')">+点击新增</a>
+                        <!--答案列表-->
+                        <div class="issues_list" id="issues_list_e">
+                            <input type="hidden" name="id_option_e" id="id_option_e" value=""/><!--删选项id-->
+                            <ul>
+                                <li class="title">操作<span>名称</span></li>
+                                <!--{foreach from = $answer_subject.desc item=as key=k}-->
+                                <li>
+                                    <input type="hidden" name="select_infos_e[]" value="<!--{$as}-->"/>
+                                    <a href="javascript:void(0)" onclick="delete_option(this,<!--{$answer_subject.id_op.$k}-->,'answer_ok_e');">删除</a>
+                                    <span><!--{$as}--></span>
+                                </li>
+                                <!--{/foreach}-->
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">答案</td>
+                    <td class="answer">
+                        <input type="hidden" value="" name="select_index" id="select_index"/><!--选答案-->
+                        <select name="answer_ok_e" id="answer_ok_e" onchange="$('#select_index').val($('#answer_ok_e').val())">
+                            <!--{foreach from = $answer_subject.desc item=asu key=k}-->
+                            <option value="<!--{$k+1}-->"<!--{if $answer_subject.id_op.$k == $answer_subject.id_options}--> selected="true"<!--{/if}-->><!--{$asu}--></option>
+                            <!--{/foreach}-->
+                        </select>
+                    </td>
+                </tr>
+                <tr><td class="title">权重</td><td>
+                    <input class="span6 m-wrap" name="weight_e" maxlength="5" type="text" value="<!--{$answer_subject.weight}-->" onKeyUp="validateInt(this);" onBlur="validateInt(this);"></td></tr>
+                </tbody>
+            </table>
+        <div class="form-actions">
+            <button class="btn green" onclick="add_answer(3)">保存</button><button class="btn" onclick="$(this).parent().parent().parent().html('');">取消</button>
+        </div>
+    </div>
+    <div id="pop_up" class="pop_ups"></div>
+
+<!--{elseif $activity_type == 'answer'}-->
+    <tbody>
+    <tr class="title">
+        <td class="No">排列</td><td class="headline">标题</td><td class="answer">答案</td><td>操作</td>
+    </tr>
+    <!--{foreach from = $answer_subject item = as key = k}-->
+    <tr>
+        <td class="No"><!--{$k+1}--></td><td class="headline"><!--{$as.title}--></td><td class="answer"><!--{$as.description}--></td>
+        <td><button class="btn green" onclick="edit_answer(this,<!--{$as.id_subject}-->)">编辑</button>
+            <button class="btn" onclick="delete_answer(this,<!--{$as.id_subject}-->)">删除</button></td>
+    </tr>
+    <!--{/foreach}-->
+    </tbody>
+
+
+<!--{elseif $page_type == 'community'}-->
+
+<script type="text/javascript" src="/biz/media/js/zerocliploard/ZeroClipboard.js" charset="utf-8"></script>
+<table cellpadding="0" cellspacing="0" style="width: 100%">
+    <tbody>
+    <tr class="title">
+        <td class="name">活动</td>
+        <td>已参加人数 </td>
+        <td>已验证</td>
+        <td>价格</td>
+        <td>赞</td>
+        <td>评论数</td>
+        <td>浏览数</td>
+        <td class="operation">活动操作</td>
+        <td class="handle">其他操作</td>
+    </tr>
+
+    <!--{if $community_list}-->
+    <!--{foreach from = $community_list item = cl key = k}-->
+    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+    <td class="name">
+        <input name="check_community[]" type="checkbox" value="<!--{$cl.id_activity}-->" <!--{if $cl.join_count <= 0}--><!--{else}-->disabled="false"<!--{/if}--> />
+        <a target="_blank" onclick="show_info(<!--{$cl.id_activity}-->)"><img src="<!--{$cl.posters_url|get_img_url:'community'}-->" /><!--{$cl.name|truncate_utf8:25}--></a>
+    </td>
+    <td><!--{$cl.person_count}--></td>
+    <td><!--{$cl.ticket_count}--></td>
+    <td><!--{if $cl.join_price == 0}-->免费<!--{else}-->￥<!--{$cl.join_price}--><!--{/if}--></td>
+    <td><!--{$cl.appraise_count}--></td>
+    <td><!--{$cl.review_count}--></td>
+    <td><!--{$cl.check_num}--></td>
+    <td class="operation">
+        <!--{if $cl.state == 1}-->
+        <a href="<!--{$url_prefix}-->community/edit_community/<!--{$cl.id_activity}-->/<!--{$offset}-->" class="handlea">编辑</a>
+        <a href="javascript:void(0)" onClick="<!--{if $cl.join_count <= 0}-->del_community(<!--{$cl.id_activity}-->,<!--{$offset}-->)<!--{else}-->alert('已有活动成员，不能被删除');<!--{/if}-->" class="handlea">删除</a>
+        <a href="javascript:void(0)" onClick="update_state(this,<!--{$cl.id_activity}-->,0)">关闭活动</a>
+        <!--{elseif $cl.state == 2}-->
+        <a href="<!--{$url_prefix}-->community/edit_community/<!--{$cl.id_activity}-->/<!--{$offset}-->" class="handlea">编辑</a>
+        <a href="javascript:void(0)" onClick="<!--{if $cl.join_count <= 0}-->del_community(<!--{$cl.id_activity}-->,<!--{$offset}-->)<!--{else}-->alert('已有活动成员，不能被删除');<!--{/if}-->" class="handlea">删除</a>
+        <a href="javascript:void(0)" onClick="update_state(this,<!--{$cl.id_activity}-->,0)">关闭活动</a>
+        <!--{else}-->
+        <a href="<!--{$url_prefix}-->community/edit_community/<!--{$cl.id_activity}-->/<!--{$offset}-->" class="handlea">编辑</a>
+        <a href="javascript:void(0)" onClick="<!--{if $cl.join_count <= 0}-->del_community(<!--{$cl.id_activity}-->,<!--{$offset}-->)<!--{else}-->alert('已有活动成员，不能被删除');<!--{/if}-->" class="handlea">删除</a>
+        <span>关闭活动</span>
+        <!--{/if}-->
+    </td>
+    <td class="handle">
+        <a onclick="show_info(<!--{$cl.id_activity}-->)" class="handlea">查看详情</a>
+        <a href="<!--{$url_prefix}-->community/list_discuss/<!--{$cl.id_activity}-->" class="handlea">查看讨论</a>
+        <a href="<!--{$url_prefix}-->community/list_member/<!--{$cl.id_activity}-->" class="handlea">查看成员</a>
+        <a href="javascript:void(0)" onClick="show_notice_div(<!--{$cl.id_activity}-->)" class="handlea">提货地址</a>
+        <input name="" type="hidden" value="<!--{$cl.share_link}-->" id="inviteLinks<!--{$cl.id_activity}-->" readonly>
+        <a class="handlea" id='d_clip_button<!--{$cl.id_activity}-->' data-clipboard-target="inviteLinks<!--{$cl.id_activity}-->">复制URL</a>
+
+        <script type="text/javascript">
+            // 定义一个新的复制对象
+            var clip<!--{$cl.id_activity}--> = new ZeroClipboard( document.getElementById("d_clip_button<!--{$cl.id_activity}-->"), {
+            moviePath: "/biz/media/js/zerocliploard/ZeroClipboard.swf"
+            } );
+            // 复制内容到剪贴板成功后的操作
+            clip<!--{$cl.id_activity}-->.on( 'complete', function(client, args) {
+                alert("已复制到剪切板!");//+ args.text
+            });
+        </script>
+        <a href="javascript:void(0)" onclick="bind_etickt(<!--{$cl.id_activity}-->)"  class="handlea">绑定电子卷</a>
+        <div onmouseover="setShare('<!--{$cl.name|truncate_utf8:25}-->', '<!--{$cl.share_link}-->');">
+            <!-- JiaThis Button BEGIN -->
+            <div id="ckepop">
+                <a href="http://www.jiathis.com/share/?uid=1398064626603331" target="_blank">分享到</a>
+                <a class="jiathis_button_tsina"></a>
+                <a class="jiathis_button_tqq"></a>
+                <a class="jiathis_button_weixin"></a>
+                <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                <!--<a class="jiathis_counter_style"></a>-->
+            </div>
+            <!-- JiaThis Button END -->
+        </div>
+        <!--{if $cl.id_content}-->
+        <a href="javascript:void(0)" onclick="unbind_content(<!--{$cl.id_activity}-->,<!--{$offset}-->)" class="handlea">解除关联</a>
+        <!--{else}-->
+        <a href="<!--{$url_prefix}-->content/list_content/1/1/<!--{$cl.id_activity}-->" class="handlea">关联文章</a>
+        <!--{/if}-->
+    </td>
+    </tr>
+    <!--{/foreach}-->
+    <!--{else}-->
+    <tr>
+        <td colspan="8">
+            还没有活动信息！
+        </td>
+    </tr>
+    <!--{/if}-->
+    </tbody>
+</table>
+
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1398064626603331" charset="utf-8"></script>
+<!--{elseif $page_type == 'member'}-->
+<table cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    <tr class="title">
+        <td class="name">成员</td>
+        <td>手机号码</td>
+        <td>回复</td>
+        <td class="operate"></td><!--操作-->
+    </tr>
+    <!--{foreach from = $member_list item = ml key = k}-->
+    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+    <td class="name">
+        <div class="pic fl">
+            <input class="id_open" name="id_open[]" type="hidden" value="<!--{$ml.id_open}-->" />
+            <input name="check_member[]" type="checkbox" value="<!--{$ml.id_user}-->" attr="<!--{$ml.cellphone}-->" />
+            <a><img src="<!--{if $ml.head_image_url}--><!--{$ml.head_image_url}--><!--{else}--><!--{$url_prefix}-->media/image/ico_user.png<!--{/if}-->" />
+                <!--{if $ml.role == 2 && $ml.identity != 'visitor'}--> <span></span><!--{/if}--></a>
+        </div>
+        <div class="fl details">
+            <a><!--{urldecode($ml.nick_name)}--></a>
+            <span><!--{substr($ml.created,0,10)}--> 加入</span>
+        </div>
+    </td>
+    <td><!--{$ml.cellphone}--></td>
+    <td><!--{$ml.review_count}--></td>
+    <td class="operate">
+        <div style="display: none;">
+
+            <!--{if $ml.identity != 'visitor'}-->
+            <!--{if $ml.role == 2}-->
+            <a href="javascript:void(0)" onClick="update_role(this,<!--{$ml.id_join}-->,1)">取消管理员</a>
+            <!--{else}-->
+            <a href="javascript:void(0)" onClick="update_role(this,<!--{$ml.id_join}-->,2)">设置管理员</a>
+            <!--{/if}-->
+            <!--{/if}-->
+
+            <a href="javascript:void(0)" onClick="del_member(<!--{$offset}-->,'<!--{$ml.id_user}-->','<!--{$ml.cellphone}-->')">删除</a>
+            <!--{if $ml.lock == 1}-->
+            <a href="javascript:void(0)" onClick="del_lock(this,'<!--{$ml.cellphone}-->')">解除锁定</a>
+            <!--{/if}-->
+        </div>
+    </td>
+    </tr>
+    <!--{/foreach}-->
+    </tbody>
+</table>
+    <script>
+        //鼠标在列表滑动出现操作按钮
+        $('.discuss_list').children('table').children('tbody').children('tr').mouseover(function(){
+            $(this).children('.operate').children('div').show();
+        }).mouseout(function(){
+            $(this).children('.operate').children('div').hide();
+        });
+    </script>
+
+<!--{elseif $page_type == 'member_discuss'}-->
+<table cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    <tr class="title">
+        <td class="namea">消息</td>
+        <td class="name">评论内容</td>
+        <td>评论时间</td>
+        <td>回复</td>
+        <td class="operate">操作</td>
+    </tr>
+
+    <!--{foreach from = $review_list item = rl key = k}-->
+    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+    <td class="namea">
+        <div class="pic fl">
+            <input name="id_review[]" type="checkbox" value="<!--{$rl.id_review}-->" />
+            <a><img src="<!--{if $rl.head_image_url}--><!--{$rl.head_image_url}--><!--{else}--><!--{$rl.head_image_url|get_img_url:'logo'}--><!--{/if}-->" /></a>
+        </div>
+        <div class="fl details">
+            <a><!--{urldecode($rl.name)}--></a>
+            <!--{if $rl.image_url}-->
+            <a class="matter">【图片】</a>
+            <!--{/if}-->
+        </div>
+    </td>
+    <td class="name"><!--{$rl.content}--></td>
+    <td><!--{$rl.created}--></td>
+    <td><!--{$rl.reply_count}--></td>
+    <td class="operate">
+        <a href="<!--{$url_prefix}-->community/reply_details/<!--{$rl.id_review}-->">查看</a>
+        <a href="<!--{$url_prefix}-->community/reply_details/<!--{$rl.id_review}-->">回复</a>
+        <a href="javascript:void(0)" onclick="delete_discuss(<!--{$rl.id_review}-->,<!--{$offset}-->)">删除</a>
+    </td>
+    </tr>
+    <!--{/foreach}-->
+
+    </tbody>
+</table>
+
+<!--{elseif $page_type == 'review_reply'}-->
+<table cellpadding="0" cellspacing="0">
+    <tbody>
+    <tr class="title">
+        <td class="name" style="width:30%">消息</td>
+        <td style="width:40%">内容</td>
+        <td>操作</td>
+    </tr>
+    <!--{foreach from = $reply_list item = rl key = k}-->
+    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+    <td class="name" style="width:30%">
+        <input name="id_review[]" type="checkbox" value="<!--{$rl.id_review}-->" />
+        <a><img src="<!--{if $rl.id_open}--><!--{$rl.head_image_url}--><!--{else}--><!--{$rl.head_image_url|get_img_url:'logo'}--><!--{/if}-->" /><!--{urldecode($rl.name)}--></a>
+    </td>
+    <td style="width:40%;overflow:hidden;word-break:break-all;"><span title="<!--{$rl.content}-->"><!--{$rl.content|truncate_utf8:40}--></span></td>
+
+    <td><a href="javascript:void(0)" onClick="delete_reply(<!--{$rl.id_review}-->,<!--{$offset}-->)">删除</a></td>
+    </tr>
+    <!--{/foreach}-->
+    </tbody>
+</table>
+
+<!--{elseif $page_type == 'member_manage'}-->
+
+<table cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+    <tr class="title">
+        <td class="name">消息</td>
+        <td>最后讨论时间</td>
+        <td class="operate">操作</td>
+    </tr>
+    <!--{foreach from = $member_list item = ml key = k}-->
+    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+    <td class="name">
+        <div class="pic fl">
+            <input name="check_member[]" type="checkbox" value="<!--{$ml.id_join}-->" />
+            <a><img src="<!--{if $ml.head_image_url}--><!--{$ml.head_image_url}--><!--{else}--><!--{$url_prefix}-->media/image/ico_user.png<!--{/if}-->" />
+                <!--{if $ml.role == 2}--> <span></span><!--{/if}--></a>
+        </div>
+        <div class="fl details">
+            <a><!--{if $ml.nick_name}--><!--{urldecode($ml.nick_name)}--><!--{else}-->匿名<!--{/if}--></a>
+            <span><!--{substr($ml.created,0,10)}-->加入<b><!--{$ml.title}--></b></span>
+        </div>
+    </td>
+    <td><!--{substr($ml.update_time,0,10)}--></td>
+    <td class="operate"><a href="javascript:void(0)" onClick="del_member(<!--{$ml.id_join}-->,<!--{$offset}-->,'<!--{$ml.id_open}-->',<!--{$ml.id_activity}-->)">删除</a></td>
+    </tr>
+    <!--{/foreach}-->
+
+    </tbody>
+</table>
+
+<!--{else}-->
+    <table width="100%">
+        <tbody>
+        <tr class="big_title">
+            <td class="title">歌曲名</td>
+            <td>演唱者</td>
+            <td>海报</td>
+            <td class="lyric" style=" width: 40%;">歌词</td>
+            <td style=" width: 10%;">分类</td>
+            <td>权重</td>
+            <td>推荐</td>
+            <td>上传时间</td>
+            <td class="title">操作</td>
+        </tr>
+        <!--{if $song_list}-->
+        <!--{foreach from = $song_list item = sl key = k}-->
+        <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+        <td class="title"><!--{$sl.name|truncate_utf8:15}--></td>
+        <td><!--{$sl.singer|truncate_utf8:6}--></td>
+        <td><img src="<!--{$sl.posters_url|get_img_url:'song'}-->"></td>
+        <td class="lyric" style=" width: 40%;"><!--{strip_tags($sl.lyric)|truncate_utf8:40}--></td>
+        <td style=" width: 10%;"><!--{$sl.type}--></td>
+        <td><!--{$sl.weight}--></td>
+        <td><!--{if $sl.state == 1}-->推荐<!--{else}-->普通<!--{/if}--></td>
+        <td><!--{substr($sl.created,0,10)}--></td>
+        <td class="title"><a class="compile" href="<!--{$url_prefix}-->song/edit_song/<!--{$sl.id_song}-->/<!--{$offset}-->">编辑</a>
+            <a class="delete" onclick="delete_song(<!--{$sl.id_song}-->,<!--{$offset}-->)">删除</a></td>
+        </tr>
+        <!--{/foreach}-->
+        <!--{else}-->
+        <tr>
+            <td colspan="8">
+                还没有歌曲信息！
+            </td>
+        </tr>
+        <!--{/if}-->
+        </tbody>
+    </table>
+<!--{/if}-->
+<!--分页 start-->
+<!--{if $page_type == 'community' || $page_type == 'member' || $page_type == 'member_discuss' || $page_type == 'review_reply' ||  $page_type == 'member_manage'}-->
+    <!--{if $page_type == 'community'}-->
+        <script>
+            $(function (){
+                $("#check_all").click(function () {//全选
+                    if($(this).attr('checked') != 'checked'){
+                        $("input[name ^= 'check_community']").attr("checked",false);
+                    }else{
+                        $("input[name ^= 'check_community']").attr("checked",true);
+                    }
+                });
+
+                $('input[name="check_community[]"]').click(function(){
+                    if($(this).attr('checked') != 'checked'){
+                        $("#check_all").attr("checked",false);
+                    }else{
+                        if($("input[name='check_community[]']:checked").length == $("input[name='check_community[]']").length){
+                            $("#check_all").attr("checked",true);
+                        }
+                    }
+                });
+            });
+        </script>
+        <!--{elseif $page_type == 'member' || $page_type == 'member_manage'}-->
+        <script>
+            $(function (){
+                $("#check_all").click(function () {//全选
+                    if($(this).attr('checked') != 'checked'){
+                        $("input[name ^= 'check_member']").attr("checked",false);
+                    }else{
+                        $("input[name ^= 'check_member']").attr("checked",true);
+                    }
+                });
+
+                $('input[name="check_member[]"]').click(function(){
+                    if($(this).attr('checked') != 'checked'){
+                        $("#check_all").attr("checked",false);
+                    }else{
+                        if($("input[name='check_member[]']:checked").length == $("input[name='check_member[]']").length){
+                            $("#check_all").attr("checked",true);
+                        }
+                    }
+                });
+            });
+        </script>
+        <!--{else}-->
+        <script>
+            $("#check_all").click(function () {//全选
+                if($(this).attr('checked') != 'checked'){
+                    $("input[name ^= 'id_review']").attr("checked",false);
+                }else{
+                    $("input[name ^= 'id_review']").attr("checked",true);
+                }
+            });
+
+            $('input[name="id_review[]"]').click(function(){
+                if($(this).attr('checked') != 'checked'){
+                    $("#check_all").attr("checked",false);
+                }else{
+                    if($("input[name='id_review[]']:checked").length == $("input[name='id_review[]']").length){
+                        $("#check_all").attr("checked",true);
+                    }
+                }
+            });
+        </script>
+        <!--{/if}-->
+    <div class="handle_paging clearfix">
+        <div class="fl">
+            <span class="all"><input name="check_all" id="check_all" type="checkbox" value="" />全选</span>
+            <a class="btn green" href="javascript:void(0)" onclick="del_community_all()">批量删除</a>
+        </div>
+        <!--{if $page_html}-->
+        <div class="pagination fr">
+            <ul>
+                <!--{$page_html}-->
+            </ul>
+        </div>
+        <!--{/if}-->
+    </div>
+<!--{elseif $page_type != 'wx_reply'}-->
+    <!--{if $page_html}-->
+    <div class="pagination">
+        <ul>
+            <!--{$page_html}-->
+        </ul>
+    </div>
+    <!--{/if}-->
+<!--{elseif  $page_type == 'list_followers'}-->
+    <!--{if $page_html}-->
+    <div class="pagination">
+        <ul style="float:right;">
+            <!--{$page_html}-->
+        </ul>
+    </div>
+    <!--{/if}-->
+<!--{else}-->
+    <div>
+        <div class="delete fl" style="margin-top:25px;">
+            <input type="checkbox" value="" id="checkAll">全选
+            <a href="javascript:void(0);" onclick="delete_reply('checked',1,2)">删除</a>
+        </div>
+        <!--{if $page_html}-->
+        <div class="pagination fr">
+            <ul>
+                <!--{$page_html}-->
+            </ul>
+        </div>
+        <!--{/if}-->
+    </div>
+    <script type="text/javascript">
+        //全选和全不选
+        $(function() {
+            $("#checkAll").click(function() {
+                $('input[name="subBox[]"]').attr("checked",this.checked);
+            });
+            var $subBox = $("input[name='subBox[]']");
+            $subBox.click(function(){
+                $("#checkAll").attr("checked",$subBox.length == $("input[name='subBox[]']:checked").length ? true : false);
+            });
+        });
+    </script>
+<!--{/if}-->
+<!--分页 ene-->

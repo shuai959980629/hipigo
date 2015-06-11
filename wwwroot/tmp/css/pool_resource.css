@@ -1,0 +1,30 @@
+body{
+	background: #fff;
+}
+.operate,.resource_search{
+	background: #f4f4f4;
+}
+.resource_search{
+	 width: 96%;padding: 6px 2% 8px; border-bottom: 1px solid #dadada; position: relative;
+}
+.resource_search input{
+	padding: 0 10px 0 5px;height: 30px;
+}
+.resourceli ul li{
+	border-bottom: 1px solid #f0f0f0; line-height: 30px; font-size: 0.95rem; padding: 6px 2%; cursor: pointer;
+}
+.resourceli ul li input{
+	margin: 0 5px 0  0;
+}
+.resourceli ul li:active{
+	background: #ebebeb;
+}
+.resource_search button{
+	color: #fff; border: none; border-radius: 1px; padding: 5px 8px;margin: 2px 0 0 10px;
+}
+.searchbtn{
+	background: #8ebeb7;
+}
+.searchbtn_activation{
+	background: #4cc9b7;
+}

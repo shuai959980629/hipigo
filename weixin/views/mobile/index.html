@@ -1,0 +1,32 @@
+<!--{include file="header.html"}-->
+<section id="index_section" class="active">
+
+<!--{include file="nav.tpl"}-->
+
+<article id="first_container" data-scroll="true" class="active">
+<div class="list_container">
+<!--search-->
+<div class="enter_search">
+<a href="<!--{$url}-->/search/index"><button class="search"><i class="icon search nofloat"></i>搜索</button></a>
+</div>
+
+<!--{if $ad}-->
+<div class="pic_banner relative" id="slider">
+<div >
+<!--{foreach from=$ad item=st name=key}-->
+<div <!--{if ! $smarty.foreach.key.first}-->style="display: none"<!--{/if}-->><a href="javascript: void(0);" ><img src="<!--{$st.image_url}-->" alt="banner图" style="width: 100%; height: 80px;" /></a></div>
+<!--{/foreach}-->
+</div>
+</div>
+<!--{/if}-->
+
+<ul class="list" data-name="商家" rel="<!--{$bid}-->"></ul>
+
+</div>
+
+</article>
+</section>
+
+<!--{include file="footer.html"}-->
+
+

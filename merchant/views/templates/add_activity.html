@@ -1,0 +1,183 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<style type="text/css">
+.portlet-body img{
+	width:auto;
+	height:auto;
+}
+</style>
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN VALIDATION STATES-->
+						<div class="portlet box purple">
+							<div class="portlet-title">
+								<div class="caption"><i class="icon-reorder"></i>
+								<!--{if !empty($eid)}-->
+								编辑活动
+								<!--{else}-->
+								添加活动
+								<!--{/if}-->								
+								</div>
+							</div>
+							<div class="portlet-body form">
+								<!--歌曲添加开始-->
+                                <div class="goods_add">
+								<form action="<!--{$url_prefix}-->activity/<!--{if $eid neq ''}-->edit_activity<!--{else}-->add_activity<!--{/if}-->" id="add_activity" class="form-horizontal" method="post" enctype="multipart/form-data">
+                                    <!--{if !empty($eid)}-->
+									<input type="hidden" name="eid" value="<!--{$eid}-->" />
+									<!--{/if}-->
+                                    <input type="hidden" name="page" value="1" />
+									<input type="hidden" name="formhash" value="<!--{$formhash}-->" />
+                                    <input type="hidden" value="<!--{$url_prefix}-->activity/<!--{if $eid neq ''}-->edit_activity<!--{else}-->add_activity<!--{/if}-->" id="jobaction"/>
+									<div class="alert alert-error hide">
+										<button class="close" data-dismiss="alert"></button>
+										您输入的信息有错误，请仔细检查一下表单
+									</div>
+									<div class="alert alert-success hide">
+										<button class="close" data-dismiss="alert"></button>
+										表单验证成功
+									</div>
+									<div class="control-group">
+										<label class="control-label">活动标题<span class="required">*</span></label>
+										<div class="controls">
+											<input type="text" name="title" data-required="1" class="span6 m-wrap" value="<!--{$md.name|default:''}-->"/><b style=" line-height: 30px; font-weight: normal">（请输入长度在2到25个字符）</b>
+										</div>
+									</div>
+                                    <div class="control-group">
+                                        <label class="control-label">图片<span class="required">*</span></label>
+                                        <div class="controls">
+                                            <div id="show_activity" class="show_synopsis_pic">
+                                                <!--{foreach from=$md.image_url item = bi key=k}-->
+                                                <div class="fileupload-new thumbnail">
+                                                    <img src="<!--{$bi|get_img_url:'activity'}-->" alt="" style="width:136px;height:85px">
+                                                    <a onClick="delete_img(this)"></a>
+                                                </div>
+                                                <!--{/foreach}-->
+                                            </div>
+                                            <input type="button" id="uploadActBtn" value="上传" class="btn blue post_activity_upload"/>
+                                            <p style="display: block; float: left; width: 100%">图片格式：jpg,png,gif,最大尺寸：630X350；最小尺寸：360X200</p>
+                                            <input type="hidden" id="picNum" name="picNum" value="<!--{count($md.image_url)}-->">
+                                            <input type="hidden" id="image_src" name="image_src" value=" "/>
+                                            <input type="hidden" id="image_name" name="image_name" value=" "/>
+                                        </div>
+                                    </div>
+									<div class="control-group">
+										<label class="control-label">内容<span class="required">*</span></label>
+										<div class="controls">
+											<textarea class="span6 m-wrap" name="content" id="content" cols="" rows="" style="visibility:hidden"><!--{$md.content|default:''}--></textarea>
+                                            <b class="fl" style=" line-height: 30px; font-weight: normal;">（请输入长度在2到2000个字符,图片最大尺寸：630X350；最小尺寸：360X200,单张图片上传文件大小不超过1M）</b>
+                                        </div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">状态</label>
+										<div class="controls">
+											<label class="radio">
+                                                <input type="radio" name="status" value="1"<!--{if count($md.state) == 0}--> checked<!--{else}--><!--{if $md.state == '1'}--> checked<!--{/if}--><!--{/if}-->/>
+											    有效
+											</label>
+											<label class="radio">
+                                                <input type="radio" name="status" value="0"<!--{if $md.state === '0'}--> checked<!--{/if}-->/>
+                                                无效
+											</label>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">权重</label>
+										<div class="controls">
+											<input type="text" name="sort" class="m-wrap small" value="<!--{$md.weight|default:0}-->" maxlength="5" onKeyUp="validateInt(this);" onBlur="validateInt(this);"/>
+											<span>只能是数字,值越大显示越靠前</span>
+										</div>
+									</div>
+                                    <div class="control-group">
+                                        <label class="control-label">活动类型</label>
+                                        <div class="controls">
+                                            <select name="type" id="type"<!--{if $eid neq ''}--> disabled='false'<!--{/if}-->>
+                                                <option value="egg"<!--{if $md.type == 'egg'}--> selected="true"<!--{/if}-->>砸金蛋</option>
+                                                <option value="answer"<!--{if $md.type == 'answer'}--> selected="true"<!--{/if}-->>一战到底</option>
+                                                <option value="event"<!--{if $md.type == 'event'}--> selected="true"<!--{/if}-->>事件活动</option>
+                                            </select>
+                                        </div>
+                                    </div>
+									<div class="form-actions">
+										<button type="submit" id="submitForm" class="btn purple">下一步</button>
+                                        <!--{if $eid neq ''}-->
+                                        <a class="btn" href="<!--{$url_prefix}-->activity/edit_activity/2/<!--{$eid}-->">跳过</a>
+                                        <!--{/if}-->
+									</div>
+								</form>
+                                </div>
+                                <!--歌曲添加结束-->
+							</div>
+						</div>
+						<!-- END VALIDATION STATES-->
+				    </div>
+			    </div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<script src="<!--{$url_prefix}-->media/js/layer.min.js"></script>
+	<!-- END PAGE LEVEL STYLES -->
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/ajaxupload.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-min.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/editor.js"></script>
+	<script>
+		jQuery(document).ready(function() {
+            $('#picNum').val(<!--{count($md.image_url)}-->);
+            $('#image_src').val(' ');
+            $('#image_name').val(' ');
+
+		    // initiate layout and plugins
+		    App.init();
+		    FormValidation.init();
+            var url = '<!--{$url_prefix}-->';
+            //上传海报图片
+            uplodImage('uploadActBtn', 'image_src', 'show_activity',url);
+		    //初始化编辑器
+		    editor('content','activity_editor',url);
+		});
+        //删除上传的附件图片
+        function delete_img(obj){
+            $(obj).parent().remove();
+            $('#picNum').val(0);
+            $('#image_src').val('');
+        }
+	</script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

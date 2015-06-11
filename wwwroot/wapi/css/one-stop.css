@@ -1,0 +1,144 @@
+/* ------------------------------------------
+  DEMO PAGE'S STYLES
+--------------------------------------------- */
+body{
+	background: url(../img/one-stopbg.jpg);
+}
+::selection{
+	background:#41bf90; color: #fff;
+}
+.container{
+	height:100%; border: 1px solid rgba(0, 0, 0, 0);
+}
+.zhuti,.one-stop,.one-stopbgfixed{
+	width: 100%; text-align: center;
+}
+.one-stopbgfixed{
+	padding-top: 10px;
+}
+.zhuti h1{
+	width: 100%;font-size: x-large; color: #20a8f8; text-align: center; display: block; font-weight: 300; padding-top: 20px;
+}
+.zhuti h2,.zhuti h2 span{
+	width: 100%; font-size: large; color: #41bf90; text-align: center; display: block; font-weight: 300; line-height: 1.5;
+}
+.zhuti>p,.zhuti>.start{
+	width: 100%; display: block;
+}
+.zhuti>.start{
+	width: 90%; margin: 0 auto;
+}
+.zhuti>p>a{
+    background:#1fa271; color: #fff;border-radius: 20px; border: none; padding: 6px 10px; margin: 0 auto; font-size:larger;
+}
+.zhuti>p>a>em{
+	color: #ff0;
+}
+.zhuti>.start>button,.question .button button{
+	background: #27a5f4;background:-moz-linear-gradient(top, #14aefe, #27a5f4);background:-webkit-linear-gradient(top, #14aefe, #27a5f4);background:-o-linear-gradient(top, #14aefe, #27a5f4);
+	background:linear-gradient(top, #14aefe, #27a5f4); border:3px solid rgba(255,255,255,0.5); border-radius: 6px; margin: 0 auto; 
+	line-height: 1.8; color: #fff; font-size: 1.4em;letter-spacing: 0.5em;width: 100%;
+}
+.zhuti>.start>button>a,.question .button button a{
+    color: #fff;
+}
+
+/*回答问题页面*/
+.question{
+	background: none; margin: 0; padding: 0;
+}
+.question .container{
+	background: none;
+}
+.question .title{
+	background: #41bf90; line-height: 1.2; margin: 0; color: #fff; padding: 10px 10px 0; font-size: 1.2em; position: relative;
+}
+.question .title:after{
+	background: url(../img/titlebg.png) 0 0 repeat-x;content: "";height: 6px;bottom: -6px; left:0;width: 100%; font-family: Arial, Helvetica, sans-serif; position: absolute;
+}
+.question .title>em{
+	color: #cb1a1a; font-size: 2em;
+}
+.question .questioncon,.question .button{
+	width: 90%; margin: 0 auto; padding-top: 0;
+}
+.question .questioncon dl {
+	margin-top: 6px;
+}
+.question .questioncon dt{
+	font-size: larger; padding: 10px 0 5px;
+}
+.question .questioncon dt em{
+	color: #41bf90;
+}
+.question .questioncon dd{
+	background: #f3f3f3;font-size: medium; color: #555555; margin: 10px 0 0; padding: 6px 20px; border-radius: 6px; line-height: 1.8;
+}
+.question .questioncon dd:hover{
+	background: #a8f0d5; cursor: pointer;
+}
+.question .questioncon dd:visited{
+	background:#a8f0d5;
+}
+
+
+/*弹窗*/
+.webgame_msgWindow_mask{
+	background: rgba(0, 0, 0, 0.5);height: 100%;left: 0;position: fixed;top: 0;width: 100%;
+}
+.qusition-modal{
+	width: 80%;background: #fff; border: dotted 4px #41bf8f;position: absolute;text-align: center;z-index: 1;
+}
+.qusition-modal h3,.qusition-modal h4{
+	width:100%; margin-bottom: 0; font-size:medium;
+}
+.qusition-modal h3{	
+	color: #ffc600;font-size: larger;line-height: 1.5;
+}
+.qusition-modal h4{	
+	width: 100%;color: #41bf90; text-align: center; display: block; font-weight: 300;
+}
+
+.qusition-modal>p.prizecon>.bare {
+	border: solid 1px transparent;
+}
+.qusition-modal>p.prizecon>.bare,.qusition-modal>p.prizecon>.prizefont,.qusition-modal>p.prizecon>.rightnum{
+	display: block; float: left; line-height: 1.5;text-align: left;
+}
+
+.qusition-modal>p.prizecon>.rightnum{
+	width: 35%;color: #41bf90;  font-weight: 300; 
+}
+.qusition-modal>p{
+	margin: 0;line-height: 1;
+}
+.qusition-modal>p>button{
+	background: none;color: #f00;border: none; padding: 10px 0; margin: 0 auto; font-size: large; text-align: center;
+}
+.qusition-modal>p>button>em.arrow-right:before{
+	content:"";width: 0; height: 0; line-height: 0; border:6px solid #f00; border-color: transparent transparent transparent #f00;margin: 3.5% 0 0 10px;display: block; float:left;
+}
+.qusition-popup-bt {
+	padding: 3% 0 0 0; margin: 0 auto; width: 80%;
+}
+.qusition-popup-bt button{
+	border-radius: 3px; font-size: 1em; border: none; padding: 0 0.8em; line-height: 2;
+}
+.qusition-popup-bt button a{
+	color: #fff;
+}
+.blue{
+	background: #14adfd;
+}
+.blue:hover{
+	background: #089ce9;
+}
+.yellow{
+	background: #fcc314;
+}
+.yellow:hover{
+	background: #fca714;
+}
+.qusition-popup-bt button em.arrow-right:before{
+	border-color: transparent transparent transparent #fff;margin: 10% 0 0 10px; border-width: 6px;
+}

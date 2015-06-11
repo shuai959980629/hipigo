@@ -1,0 +1,107 @@
+
+.leaguer h1{
+	background: #fff;font-size: 26px; padding: 2%; position: relative;word-break: break-all;
+}
+.leaguer h1:after{
+	content:"";width: 0; height: 0; line-height: 0; border:6px solid #f4f4f4; border-color: transparent transparent #f4f4f4 transparent;display: block; float:left;
+	position: absolute; bottom: -1px;
+}
+.leaguer ul{
+	width: 96%; padding: 2%;
+}
+.leaguer ul li{
+	 width: 100%;border-bottom: 1px solid #ddd; padding: 2% 0;height: 50px; overflow: hidden;
+}
+.leaguer ul li:last-child{
+	border: none;
+}
+.leaguer_head{
+	width: 50px; height: 50px; overflow: hidden;
+}
+.leaguer_msn_top{
+	width: 100%;
+}
+.username{
+	font-size: large; width: 60%;
+}
+.username img{
+	margin-left: 5px;
+}
+.new-code{
+	font-size: small; color: #f24949;
+}
+.leaguer_msn_top em a{
+	padding-left: 10px;
+}
+.leaguer_msn_bottom{
+	width: 100%; color: #666; font-size:x-small; display: inline-block; line-height: 3;
+}
+/*order_detail*/
+.order{
+	padding: 2%;
+}
+.order dt,.order dd{
+	border-bottom: solid 1px #ddd; display: block; padding: 10px 0;
+}
+.order dt{
+	font-size: 26px;
+}
+.order dd em.prise{
+	font-size: small; color: #999;
+}
+.order dd em.prise i{
+	color: #4cc9b6; font-size: x-large;
+}
+.order dd em.prisename{
+	font-size: large; color: #888; line-height: 2;
+}
+.order dd.noborder{ border: none;}
+.order>dd>button{
+	background: #4cc9b6; color: #fff; border: none; width: 80%; margin: 6% auto 0;display: block;line-height: 2; font-size: x-large;
+}
+.order>dd>button:hover{
+	background: #01a58c;
+}
+/*历史订单*/
+.nopaid>.nopaid-title{
+	font-size: larger; color: #999; line-height: 2.5; padding: 0 2%;
+}
+.nopaid>.nopaid-title>em{
+	color: #f24949;
+}
+.nopaid>ul>li{
+	width: 96%; height: 120px;padding: 8px 2%;overflow: hidden;
+}
+.nopaid>ul>li.white{
+	background: #fff;
+}
+.nopaid>ul .paidpic{
+	width: 120px; height: 100%;
+}
+.nopaid>ul .paidcon{
+	padding-left: 6px;
+}
+.nopaid>ul .paidcon h3{
+	max-height: 50px;overflow: hidden
+}
+.nopaid>ul .account-payable{
+	color: #888; font-size: medium; padding-top: 6px;
+}
+.nopaid>ul .pay-state{
+	width: 100%;padding-top: 5%;
+}
+.nopaid>ul .pay-state .not{
+	color: #f24949; line-height: 1.8;
+}
+.nopaid>ul .pay-state .yes{
+	color: #3baa24; line-height: 1.8;
+}
+.nopaid>ul .pay-state .new-code{
+	line-height: 2.5;
+}
+.nopaid>ul .pay-state a{
+	background: #4cc9b6; color: #fff; padding: 0.3% 5%; font-size: large;
+}
+.nopaid>ul .pay-state a:hover{
+	background: #01a58c;
+}

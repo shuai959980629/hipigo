@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title><!--{$title}--></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no" />
+    <!--使网页在苹果设备上运行更好-->
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/index.css" />
+<!--{if $bid ==90}-->	
+<link rel="stylesheet" type="text/css" href="<!--{$url_prefix}-->css1/list1.css" />
+<!--{/if}-->
+<!--{if $bid !=90}-->	
+<link rel="stylesheet" type="text/css" href="<!--{$url_prefix}-->css1/list2.css" />
+<!--{/if}-->
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/iscroll.js"></script>
+<script src="<!--{$url_prefix}-->js/home1.js?v=<!--{$num}-->"></script>
+<script src="<!--{$url_prefix}-->js/swipe.js"></script>
+<script type="text/javascript">
+$(function(){
+new Swipe(document.getElementById('banner_box'), {
+speed:800,
+auto:3000,
+callback: function(){
+var lis = $(this.element).next("ol").children();
+lis.removeClass("on").eq(this.index).addClass("on");
+}
+});
+});
+</script> 
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+base_url='<!--{$url}-->';
+url_prefix='<!--{$url_prefix}-->';
+bid='<!--{$bid}-->';
+sid='<!--{$sid}-->';
+userid='<!--{$userid}-->';
+activity_num = '<!--{$activity_num}-->';
+state = '<!--{$state}-->';
+
+</script>
+
+<style type="text/css">
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<!--banner-->
+<div class="container">
+<!--top商家部分-->
+<!--有hipigo logo 搜索按钮-->
+<!--<div class="top_seller clearfix">
+<p class="hipigo-search left"><img src="img/hipigo.png"/></p>
+<p class="user_message right"><a href="#"><img src="img/incon_user.png"/></a></p>
+<p class="hipigo_search_btn right"><a href="#">搜<br>索</a></p>
+</div>-->
+<!--直接搜索输入框-->
+<div class="top_seller clearfix"  id="header">
+<!--{if $anent ==0 && $bid==90}-->	
+<p class="hipigo-search left"><img src="<!--{$logo_url}-->"/></p>
+<!--{$user_state}-->
+<p class="hipigo_search_btn right"><a href="<!--{$url}-->/community/search">搜<br>索</a></p>
+<!--{/if}-->	
+<!--{if $anent ==1 && $bid==90}-->		
+<p class="hipigo-search left"><img src="<!--{$url_prefix}-->img/erwerma.jpg" ></p>
+<!--{$user_state}-->
+<p class="width48 right" id="search"><a href="<!--{$url}-->/community/search">搜<br>索</a></p>
+<!--{/if}-->
+<!--{if $bid !=90}-->		
+<p class="business-search left"><img src="<!--{$logo_url}-->"/></p>
+<!--{$user_state}-->
+<!--{/if}-->
+</div>
+<div id="wrapper" class="container">
+<div id="scroller">
+<div id="pullDown" class="idle">
+<span class="pullDownIcon"></span>
+<span class="pullDownLabel">下拉刷新...</span>
+</div>
+<!--s幻灯片管理-->
+<!--{if $ad_status ==1 && $ad_num==1}-->
+<div id="banner_box" class="box_swipe01">
+<ul style="height:180px;">
+<!--{foreach from=$ad item=st  key=key}-->		
+<li><a href="<!--{$st.link_url}-->" ><img src="<!--{$st.image_url}-->" alt="" style="height:180px;"></a></li>
+<!--{/foreach}-->
+</ul>
+<ol>
+<!--{foreach from=$ad item=st  key=key}-->
+<li class=""></li>
+<!--{/foreach}-->
+</ol>
+</div>
+<!--{/if}-->
+<!--s广告只有一张-->
+<!--{if $ad_status ==1 && $ad_num==0}-->
+<ul style="height:180px;">
+<!--{foreach from=$ad item=st  key=key}-->
+<li><a href="<!--{$st.link_url}-->" ><img src="<!--{$st.image_url}-->" alt="" style="height:180px;"></a></li>
+<!--{/foreach}-->
+</ul>
+<!--{/if}-->
+<!--e广告只有一张-->
+<!--e幻灯片管理-->
+<!--活动列表-->
+<div class="seller_activity_list">
+  <ul id="thelist"></ul>
+  <div id="next_more" style="height:60px; display: none; cursor: pointer; text-align: center;">显示更多</div>
+</div>
+
+
+<div id="pullUp" class="idle">
+<span class="pullUpIcon"></span>
+<span class="pullUpLabel">显示更多...</span>
+</div>
+
+</div>
+</div>
+<!--footer-->
+
+<!--{if $bid != 90 && $merchant > 0}-->
+
+<!--{if $boolen_role}-->
+<div class="website_enter container">
+
+<a href="http://<!--{$sld_url}-->">
+<button class="goodt left">微官网&gt;&gt;</button>
+</a>
+
+<a href='<!--{$publish_url}-->' >
+<button class="footerbtn left">发布活动</button>
+</a>
+
+</div>
+<!--{else}-->
+<div class="website_enter container">
+<a href="http://<!--{$sld_url}-->"><!--{$title}-->微官网&gt;&gt;</a>
+</div>
+<!--{/if}-->
+
+<!--{else}-->
+
+<!--$boolen_role-->
+<!--达人才能发起活动-->
+<div class="website_enter container">
+<a <!--{if $boolen_role}-->href="<!--{$publish_url}-->"<!--{else}-->onclick="alert_apply()"<!--{/if}-->>
+<button class="footerbtn publish">发布活动</button>
+</a>
+</div>
+
+<!--{/if}-->
+
+</div>
+<div id="show_host" data-big_status=1><div class="show_big_style"></div></div>
+<div id="show_back_top"></div>
+<!--
+<span style="position: absolute; bottom: 5%; left:49%; z-index: -1;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F09afba2396474b8a69122c10b3d862d0' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</span>
+-->	
+</body>
+</html>

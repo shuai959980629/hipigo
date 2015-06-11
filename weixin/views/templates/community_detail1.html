@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>嗨皮Go-<!--{$data.name}--></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/community-detail.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/detail_list.css" />
+<link href="<!--{$url_prefix}-->css1/photoswipe.css" type="text/css" rel="stylesheet" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/iscroll.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/detail.js?v=<!--{$num}-->"></script>
+<script type="text/javascript" src="<!--{$url_prefix}-->js/klass.min.js"></script>
+<script type="text/javascript" src="<!--{$url_prefix}-->js/code.photoswipe-3.0.5.min.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+
+var xcode = '<!--{$xcode}-->';
+var from = '<!--{$from}-->';
+var type = '<!--{$type}-->';
+var userid='<!--{$userid}-->';
+var identity='<!--{$identity}-->';
+var aid='<!--{$aid}-->';
+var oid=1;
+var spking='<!--{$spking}-->';
+var base_url = '<!--{$url}-->';
+var url_prefix='<!--{$url_prefix}-->';
+var surplus = <!--{$data.surplus}-->;
+var join_price = '<!--{$data.join_price}-->';
+var spread = '<!--{$spread}-->';
+
+        setTimeout((function(window, PhotoSwipe){
+            document.addEventListener('DOMContentLoaded', function(){
+                var options = {},
+                        instance = PhotoSwipe.attach( window.document.querySelectorAll('#Gallery a'), options );
+            }, false);
+        }(window, window.Code.PhotoSwipe)),'200');
+
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+#ckepop .jtico:hover{
+    display: inline !important;
+	}
+-->
+</style>
+
+</head>
+<body>
+<div class="container">
+<!--点击分享出现层-->
+    <div class="share-open" style="display:none;">点击这里尽情分享哟！~~~~<img src="<!--{$url_prefix}-->img/zhixiang.png" class="right"/></div>
+<!--operate-->
+    <div class="operate container" id="header">
+    <!--{if $host ==1}-->	
+        <a href="<!--{$url}-->/community/home" class="return left">
+        <!--{/if}-->
+        <!--{if $host ==0}-->	
+        <a href="javascript:history.go(-1);" class="return left">
+        <!--{/if}-->	
+        <i class="iconfont icon iconfont_10">&#983354;</i></a>
+        <!--{if $data.type != 1}-->
+        <span class="partake-num left">
+        <a href="<!--{$url}-->/community/user_att_list?oid=<!--{$oid}-->&aid=<!--{$aid}-->">
+        已<em id="join_count" data-join_count=<!--{$join_num}-->><!--{$join_num}-->人</em>参加
+        </a>
+        </span></span>
+        
+        <!--{if $data.end_date > time()}-->
+          <!--{if $userid != $data.id_business}-->
+          <a href="javascript: void(0);" id="att_activity" class="join right">
+          <!--{if $data.join_price <= 0}-->参加
+          <!--{else}-->付款<!--{/if}-->
+          </a>
+          <!--{/if}-->
+        <!--{else}-->
+          <!--活动已结束 不允许参加-->
+          <a href="javascript: void(0);" class="join right">已结束</a>
+        <!--{/if}-->
+        
+        <!--{/if}-->
+        <!--{if $data.type ==1}-->
+        <span class="partake-num left"><a href="<!--{$url}-->/community/user_att_list?oid=<!--{$oid}-->&aid=<!--{$aid}-->">已有<em id="join_count" data-join_count=<!--{$win_num}-->><!--{$win_num}-->人</em>参与</a></span>
+        <!--{/if}-->
+     </div>
+<!--社区信息-->
+	<div class="container" id="wrapper" >
+		<div id="scroller">
+		<div id="pullDown" class="idle">
+		<span class="pullDownIcon"></span>
+		<span class="pullDownLabel">下拉刷新...</span>
+		</div>	        
+		<!--社区详情-->  	
+			<div class="comm-detail-con">
+			<div id="show_content" class="opens">	
+					
+			<h1><!--{$data.name}-->
+      
+        <i class="red"><!--{if $data.join_price !=0}-->
+				<!--{$data.join_price}-->元
+				<!--{/if}-->
+				<!--{if $data.join_price ==0}-->
+				 免费
+				<!--{/if}-->	</i>
+                <!--{if intval($data.surplus) > 0}-->&nbsp;<span style="font-size: 12px;">仅剩<span style="font-size: 18px;color: red;"><!--{$data.surplus}--></span>份</span>&nbsp;<!--{/if}-->
+        <!--{if $spread ==1 && type !='spread'}-->
+        <em>推广</em>
+        <!--{/if}-->
+      </h1>
+      <!--{if $business_name}-->
+			 <span class="source left">来自
+       <a href="/wapi/<!--{$bid}-->/0/community/home" class="bottle_green">
+       <!--{urldecode($business_name)}--></a></span>
+      <!--{/if}-->
+			 <p class="datail-con"><!--{$data.content}--></p>
+			</div> 
+			<span class="open">
+				<em class="red">
+				<!--{if $data.join_price !=0}-->		
+				<!--{$data.join_price}-->元
+				<!--{/if}-->
+				<!--{if $data.join_price ==0}-->		
+				 免费
+				<!--{/if}-->	
+				</em>
+				<!--{$good}-->
+				<a href="javascript:;" id="style_show" class="gray"><i class="icon-comment-alt gray review_counts"><!--{$data.review_count}--></i></a>
+				<!--{if $anent ==1}-->	
+				<a href="javascript:;" class="gray" id="share"><i class="iconfont icon iconfont_13 gray">&#58899</i>
+				分享
+				</a>
+				<!--{else}-->	
+			   <div  style="display: inline;">
+			   <div id="ckepop" style="display: inline;">
+			   <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank" id="share_pc" style="float: none;
+			   display: inline !important;"></a>
+			   </div>
+			   </div>
+			   <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1398064626603331" charset="utf-8"></script>   
+			   <style type="text/css"> 
+				<!--
+				#ckepop .jtico{
+					display: inline !important;
+					}
+				-->
+				</style>
+			   <!--{/if}-->
+			   <a href="#" id="is_open" class="opens" data-is_open=1><i class="icon-angle-up icon-large"></i><i class="red">收起</i></a>
+			 </span>
+			</div>
+		<!--评论-->
+			<div class="comm-detail-say clearfix" id="content">
+				<ul id="thelist">
+				</ul>
+			  <div id="next_more" style="height:40px;"></div>  
+			</div>
+	<!--滚动结束-->
+		<div id="pullUp" class="idle">
+		<span class="pullUpIcon"></span>
+		<span class="pullUpLabel">显示更多...</span>
+		</div>
+	</div>        
+</div>
+<div class="container" id="footer" data-good=<!--{$data.appraise_count}-->>
+<!--底部按钮-->
+<div id="footer_style">
+
+<!--{if $data.type ==0}-->
+<!--{$good1}-->
+
+<!--{if $data.end_date > time()}-->
+<!--{if $userid == $data.id_business}-->
+<!--管理员-->
+<button class="goodt"  id="style_show" style="width: 66.666667%; float: right;">
+<i class="icon-comment-alt" id="review_count_bm" data-review_count=<!--{$data.review_count}-->></i>评论<i id="review_counts" class="review_counts"><!--{$data.review_count}--></i></button>
+<!--{else}-->
+
+<button class="goodt"  id="style_show">
+<i class="icon-comment-alt" id="review_count_bm" data-review_count=<!--{$data.review_count}-->></i>评论<i id="review_counts" class="review_counts"><!--{$data.review_count}--></i>
+</button>
+
+<button class="footerbtn" id="att_activity">
+<!--{if $data.join_price <= 0}-->参加
+<!--{else}-->
+<i class="iconfont_12">&#58898;</i>付款<!--{$data.join_price}-->
+<!--{/if}-->
+</button>
+<!--{/if}-->
+
+<!--{else}-->
+<!-- 活动已结束，不允许参加活动 -->
+<button class="goodt"  id="style_show" style="width: 66.666667%; float: right;">
+<i class="icon-comment-alt" id="review_count_bm" data-review_count=<!--{$data.review_count}-->></i>评论<i id="review_counts" class="review_counts"><!--{$data.review_count}--></i></button>
+<!--{/if}-->
+
+<!--{/if}-->
+
+<!--{if $data.type ==1}-->
+<!--{$good1}-->
+<button class="goodt"  id="style_show" style="width: 66.666667%; float: right;">
+<i class="icon-comment-alt" id="review_count_bm" data-review_count=<!--{$data.review_count}-->></i>评论<i id="review_counts" class="review_counts"><!--{$data.review_count}--></i></button>
+<!--{/if}-->
+</div>
+<script>
+//评论框
+$('#textarea_in').live('input propertychange', function() {
+var content = $('#textarea_in').val();
+var img_num = $(".closepop");
+var yes_len = img_num.length;
+if(content.length>0){
+$('#send_spking').attr('class','active');	
+}else if(yes_len>0){
+$('#send_spking').attr('class','active');
+}else{
+$('#send_spking').attr('class','enter');	
+}		  
+});
+
+function checkInput() {
+  var condetion = [];
+  var returnBoolean = true;
+  $('[name="condetion[]"]:text').each(function() {
+    condetion.push($(this).val());
+  });
+  
+  for (var i = 0; i < condetion.length; i++) {
+    if( ! condetion[i])
+      returnBoolean = false;
+  }
+  
+  return returnBoolean;
+}
+
+//参加活动
+//输入改变
+function att_activity() {
+  <!--{if $data.join_condetion}-->
+  if(checkInput() && $('#vk_checked').attr('checked')) {
+    $('.caozuo_btn').find(':first')
+                  //.attr('id', 'att_activity1')
+                  .removeClass()
+                  .addClass('make_sure01 left');
+  }
+  else {
+    $('.caozuo_btn').find(':first')
+                  //.removeAttr('id')
+                  .removeClass()
+                  .addClass('make_sure left');
+  }
+  <!--{else}-->
+  if(/^1[3|5|8|6|7|4]\d{9}$/.test(jQuery("#phone").val()) && $("#vk_checked").attr("checked")=='checked') {
+    $('.caozuo_btn').find(':first')
+                  //.attr('id', 'att_activity1')
+                  .removeClass()
+                  .addClass('make_sure01 left');
+  }
+  else {
+  $('.caozuo_btn').find(':first')
+                  //.removeAttr('id')
+                  .removeClass()
+                  .addClass('make_sure left');
+  }
+  <!--{/if}-->
+} 
+	
+//是否接受协议
+$('.protocol').live('click',function(){
+//准用户	
+if(userid == ''){
+if(/^1[3|5|8|6|7|4]\d{9}$/.test(jQuery("#phone").val()) && $("#vk_checked").attr("checked")=='checked'){
+	
+	$('.caozuo_btn').empty();	
+    $('.caozuo_btn').append('<button id="att_activity1" class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button>');
+  
+}else{
+$('.caozuo_btn').empty();	
+$('.caozuo_btn').append('<button class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button>');	
+}
+//登陆用户		
+}else{
+if($("#vk_checked").attr("checked")=='checked')	{
+	
+    $('.caozuo_btn').empty();	
+    $('.caozuo_btn').append('<button id="att_activity1" class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button>');	
+}else{
+	$('.caozuo_btn').empty();	
+    $('.caozuo_btn').append('<button class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button>');
+}
+	
+}	
+
+});
+
+//参加数量+1
+$('#add_ac').live('click',function(){
+surplus = surplus == -1 ? 10000 : surplus;
+var ac_num = $('#ac_num').val();
+if(ac_num < surplus){
+var new_ac_num = parseInt(ac_num)+parseInt(1);
+$('#ac_num').val(new_ac_num);
+//参与价格+
+var add_price = $('#add_price').attr('data-add_price');
+
+var price_total = addValue(join_price,add_price,1);
+$('#add_price').attr('data-add_price',price_total);
+$('#add_price').html(price_total);
+
+}
+})
+//参加数量-1
+$('#sub_ac').live('click',function(){
+var ac_num = $('#ac_num').val();
+if(ac_num >1){
+var new_ac_num = parseInt(ac_num) - parseInt(1);
+$('#ac_num').val(new_ac_num);
+//参与价格-
+var add_price = $('#add_price').attr('data-add_price');
+var price_total = addValue(add_price,join_price,0);
+$('#add_price').attr('data-add_price',price_total);
+$('#add_price').html(price_total);
+	
+}
+})
+//浮点数加减
+function addValue(value1,value2,type){  
+    if(value1=="")value1="0";  
+    if(value2=="")value2="0";  
+    var temp1=0;  
+    var temp2=0;  
+    if(value1.indexOf(".")!=-1)  
+     temp1=value1.length - value1.indexOf(".")-1;  
+    if(value2.indexOf(".")!=-1)  
+     temp2=value2.length - value2.indexOf(".")-1;   
+     var temp=0;  
+    if(type==1){
+       if(temp1>temp2)  
+       temp = (parseFloat(value1)+parseFloat(value2)).toFixed(temp1);  
+       else 
+       temp = (parseFloat(value1)+parseFloat(value2)).toFixed(temp2);   
+       return temp;	
+    }else{
+      if(temp1>temp2)  
+       temp = (parseFloat(value1)-parseFloat(value2)).toFixed(temp1);  
+       else 
+       temp = (parseFloat(value1)-parseFloat(value2)).toFixed(temp2);   
+       return temp;
+    	
+    }
+}
+
+</script>
+<!--评论弹出输入框-->
+<div id="style_show_data" class="discuss-textarea clearfix" data-style_show=0 style="display:none;">
+	<div class="textarea left">
+		<a href="#" class="smile" id="icon_smile" data-state=0><i class="iconfont icon iconfont_640">&#58896</i></a>
+		<a href="javascript:;" id="show_pic" data-reply_one='1' data-show_pic='0' class="other">
+			<i class="iconfont icon iconfont_639 blue-green">&#58890</i><em></em></a>
+		<textarea rows="1" maxlength="500"  id="textarea_in" placeholder="评论内容" style="color:#999"></textarea></div>
+	<button id="send_spking" data-user_name  data-sp_rp=0  data-s_status class="enter">发送</button>
+</div>
+<!--其他选择表情图片-->
+<div class="face-pic" id="show_pic_smile" style="display:none;">
+<ul class="clearfix" id="update_pics">
+
+<li class="left" id="update_pic">
+<span class="icon-pic add relative">	
+<iframe id="upload" style="display:none;" name="upload"></iframe>	
+<script>
+
+		function startUpload()
+		{    
+			
+			 $('#img_new_show').remove();
+		     $('#update_pics').prepend('<li id="img_new_show" class="left">'+
+             '<span class="icon-pic add"><span style="cursor:pointer;" id="closepop" class="closepop"></span><em class="loadings" style="position: absolute;top: 45%;left: 46%;"></em></span>'+
+             '</li>');
+             //正在上传图片的时候不能发送
+             $('#send_spking').attr('class','enter');
+             $('#send_spking').attr('id','send_spking1');
+		}
+
+		function finishupload(data)
+		{  
+			
+			$('#send_spking1').attr('id','send_spking');
+			var img_num = $(".closepop");
+            var yes_len = img_num.length;
+            if(yes_len !=0){ 
+			    $('#img_new_show').remove();
+			    if (data.status > 0) {
+				var img_types =data.url.split('.');
+				var img_sm = img_types[0]+'-small.'+img_types[1];
+				$('#update_pics').prepend('<li class="left">'+
+                '<span class="icon-pic add"><img src="'+img_sm+'" /><span style="cursor:pointer;" class="closepop" data-img_name ="'+data.file_name+'"></span></span>'+
+                '</li>');
+                }
+             } 
+             $('#image_upload').find(':file').replaceWith('<input type="file" name="userfile" onchange="$(this.form).submit();" />');
+		     //计算当前上传的图片数量
+	         img_num_sele();
+		}
+//删除图片		
+$('.closepop').live('click',function(){
+$(this).parents("li").remove();
+img_num_sele();
+})
+
+//取消正在上传的图片
+$('#closepop').live('click',function(){
+$('#img_new_show').remove();	
+});
+
+//计算当前上传的图片数量
+function img_num_sele(){
+var content = $('#textarea_in').val();	
+var img_num = $(".closepop");
+var yes_len = img_num.length;
+//显示状态
+if(yes_len>0){
+$('#show_pic').html('<i class="iconfont icon iconfont_639 blue-green">&#58890</i><em></em>');
+$('#send_spking').attr('class','active');	
+}else{
+	if(content.length==0){$('#send_spking').attr('class','enter');}
+$('#show_pic').html('<i class="iconfont icon iconfont_639">&#58890</i>');	
+}
+var no_len = 9-yes_len;
+$('#yes_sele').html(yes_len);
+$('#no_sele').html(no_len);
+if(yes_len>=9){
+$('#update_pic').hide();	
+}else{
+$('#update_pic').show();	
+}	
+
+}	
+</script>	
+<form action="<!--{$url}-->/tpicture/upload?aid=<!--{$data.id_activity}-->"  method="post" onsubmit="startUpload()" id="image_upload" enctype="multipart/form-data" target="upload">	
+		<input type="file" name="userfile" onchange="$(this.form).submit();" />
+		<input type="submit" value="浏览" style="display:none;"/>
+	</form>
+	<a href="javascript:;"><i class="iconfont icon iconfont_14">&#58900</i></a>
+</span>
+</li>
+<p class="hint">已选<i id="yes_sele">0</i>张，还有<i id="no_sele">9</i>张可选</p>
+</ul>
+<!--这是表情排列S-->
+<ul class="expression clearfix" id="show_smile" style="display:none;">
+<!--{foreach from=$row item=st  key=key}-->		
+<li><a href="javascript:;" class="smile_ck" data-smile-name=<!--{$key}-->><img src="<!--{$st}-->"/></a></li>
+<!--{/foreach}-->
+</ul>
+<!--这是表情排列E-->
+</div>
+<!--E-->
+</div>
+</div>
+<!--footer-->
+<footer class="hidden">powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+<div id="show_host" data-big_status=1><div class="show_big_style"></div></div>
+
+
+<!--弹窗S-->
+<div class="modalv1" id="modal" style="display:none;">
+    <dl>
+        <dt><span class="left">价格</span><span class="right"><em>
+        	<!--{if $data.join_price !=0}-->	
+        	<i id="add_price" data-add_price='<!--{$data.join_price}-->'><!--{$data.join_price}--></i>元
+        	<!--{/if}-->
+        	<!--{if $data.join_price ==0}-->
+        	免费
+        	<!--{/if}-->
+        	</em></span></dt>
+        <!--{if $data.join_price !=0}-->	
+		<dd class="choose-number">
+			<span class="left">数量</span><span class="amount right">
+				<!--{if $data.surplus > 0 || $data.surplus ==-1}-->
+				<a href="javascript:;" id="add_ac">+</a>
+				<input id="ac_num" type="text" readonly value="1"/>
+				<a href="javascript:;" id="sub_ac">-</a>
+				<!--{/if}-->
+				<!--{if $data.surplus <=0 && $data.surplus !=-1}-->
+				<a href="javascript:;" id="add_ac"><font color="#888888">+</font></a>
+				<input id="ac_num" type="text" readonly value="0"/>
+				<a href="javascript:;" id="sub_ac"><font color="#888888">-</font></a>
+				<!--{/if}-->
+		</span>
+		</dd>
+		<!--{/if}-->
+
+        <!--{if $data.join_condetion}-->
+        <!--{foreach from=$data.join_condetion key=key item=value}-->
+        <dd><input type="text" name="condetion[]" class="import_phone"  maxlength="<!--{if $value == '电话号码'}-->11<!--{else}-->30<!--{/if}-->" pre-data="<!--{$value}-->" placeholder="<!--{if $value == '电话号码'}-->手机号码将接收消费码,请认真输入<!--{else}-->请输入<!--{$value}--><!--{/if}-->" oninput="att_activity()" onpropertychange="att_activity(this)"/></dd>
+        <!--{/foreach}-->
+        <!--{else}-->
+        <dd><input id="cell_phone" type="text" placeholder="手机号码将接收消费码,请认真输入" oninput="att_activity()" onpropertychange="att_activity()" class="import_phone"/></dd>
+        <!--{/if}-->
+        <dd class="protocol"><input id="vk_checked" type="checkbox"  checked="checked"  class="left">你已阅读并同意<a href="<!--{$url}-->/community/user_agreement?suserid=<!--{$suserid}-->&aid=<!--{$aid}-->">嗨皮GO用户使用协议</a></dd>
+        <dd class="caozuo_btn"><button id="att_activity1" class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button></dd>
+    </dl>
+</div>
+<div class="modalv1" id="modalv2" style="display:none;">
+    <dl>
+    	<dd><img src="<!--{$url_prefix}-->img/loading.gif"></dd>
+    	<br>
+        <dd>请稍等</dd>
+    </dl>
+</div>
+<div id="show_back_top"></div>
+<div id="prompt"></div>
+<!--
+<span style="position: absolute; bottom: 5%; left:49%; z-index: -1;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F09afba2396474b8a69122c10b3d862d0' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</span>
+-->	
+</body>
+</html>

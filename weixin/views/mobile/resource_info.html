@@ -1,0 +1,43 @@
+<!--{include file="header.html"}-->
+<script>
+
+$(function () {
+  $('.buy').click(function () {
+    popupBuy($(this).attr('rel'), 'resource_by');
+  });
+  
+  //页面滚动效果
+  J.Scroll("#resource_info_container");
+});
+
+</script>
+
+<section id="resource_info_section" class="active">
+
+<!--{include file="nav.tpl"}-->
+
+<article id="resource_info_container" class="active clearfix" data-scroll="true">
+<div>
+<div class="resource_detail_container">
+<h1><!--{$resourceInfo.resource_title}--></h1>
+
+<p>
+<span class="num_price left">
+数量：<em class="red"><!--{$resourceInfo.num}--></em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+价格：<em class="red"><!--{$resourceInfo.price}--></em>
+</span>
+<button class="right buy" rel="<!--{$resourceInfo.id_resource}-->" >购买</button>
+</p>
+
+<p class="direction_use">
+<span><!--{$resourceInfo.deadline}--></span><br />
+使用说明：<br/>
+<!--{$resourceInfo.desc}-->
+</p>
+</div>
+</div>
+
+</article>
+</section>
+
+<!--{include file="footer.html"}-->

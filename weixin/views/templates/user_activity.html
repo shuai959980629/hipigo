@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>嗨皮Go-个人中心</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/personal.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/user_activity.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/iscroll.js"></script>
+<script src="<!--{$url_prefix}-->js/user_activity.js?v=<!--{$num}-->"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript">
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+url_prefix='<!--{$url_prefix}-->';
+bid='<!--{$bid}-->';
+sid='<!--{$sid}-->';
+cook_userid='<!--{$userid}-->';
+userid='<!--{$id_user}-->';
+phone='<!--{$user_info.nick_name}-->';
+id_join='<!--{$id_join}-->';
+activity_num = '<!--{$activity_num}-->';
+//identity = '<!--{$identity}-->';
+</script>
+
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<input type="hidden" name="userid" id="userid" value="<!--{$user_info.id_user}-->"/>
+
+<!--banner-->
+<div class="container">
+<!--top操作按钮-->
+    <div class="operate container" id="header">
+        <a href="<!--{$url}-->/community/home" class="return left"><i class="iconfont icon iconfont_10">&#983354</i></a><!--javascript:history.go(-1);-->
+        <span class="partake-num left"><!--{urldecode($user_info.nick_name)}--></span>
+        <!--{if $uid eq $userid}-->
+            <!--{if $identity == 'register' || $identity == 'wechat'}-->
+                <a href="<!--{$url_prefix}-->90/0/user_activity/user_info" class="join right">编辑</a>
+            <!--{else}-->
+            <a href="<!--{$url_prefix}-->90/0/user/login" class="join right">登录</a>
+            <!--{/if}-->
+        <!--{/if}-->
+    </div>
+
+<!--背景图片处-->
+<div class="user_background">
+<img class="background" src="<!--{$bg_image}-->"/>
+<img class="user_iocon" src="<!--{if $user_info.head_image_url}--><!--{$user_info.head_image_url}--><!--{else}--><!--{$url_prefix}-->img/default-header.png<!--{/if}-->"/>
+
+    <!--{if $user_info.id_role != 4}-->
+<!--{if $identity == 'register' || $identity == 'wechat'}-->
+<div class="apply_master">
+<!--{if ! $boolean}-->
+    <!--{if $experCount != 'join'}-->
+        <!--{if $experCount == 0}-->
+        <a href="<!--{$apply_for_expert}-->"><button>申请达人</button></a>
+        <!--{else}-->
+        <a href="javascript: void(0);"><button>达人申请中</button></a>
+        <!--{/if}-->
+    <!--{/if}-->
+<!--{else}-->
+    <!--{if $uid eq $userid}-->
+<a href="<!--{$publish_url}-->"><button class="right">发布活动</button></a><br/>
+<a href="<!--{$verify_url}-->"><button class="right">验证电子码</button></a><br/>
+<a href="javascript: void(0);"><button class="right" onclick="my_resource(this)">我的资源</button></a>
+    <!--{/if}-->
+<!--{/if}-->
+</div>
+<!--{/if}-->
+    <!--{/if}-->
+</div>
+
+<!--下拉刷新开始-->
+<div id="wrapper" class="container" style="top:235px;">
+    <div id="scroller">
+        <div id="pullDown" class="idle">
+            <span class="pullDownIcon"></span>
+            <span class="pullDownLabel">下拉刷新...</span>
+        </div>
+        <!--下拉刷新结束-->
+
+    <input type="hidden" value="0" name="page_type" id="page_type"/>
+    <!--个人主页-->
+    <div class="personal_homepage clearfix">
+        <ul id="thelist">
+        </ul>
+    </div>
+<div id="next_more" style="height:40px;"></div>    
+<div id="pullUp" class="idle">
+<span class="pullUpIcon"></span>
+<span class="pullUpLabel">显示更多...</span>
+</div>
+
+</div>
+</div>
+<!--footer-->
+    <div id="show_host"><div class="show_big_style"></div></div>
+    <div id="show_back_top"></div>
+</div>
+
+<!--弹窗S-->
+<div id="user_code_more" style="display: none;">
+<div class="modalv1" id="yzm">
+</div>
+<div class="webgame_msgWindow_mask"></div>
+</div>
+<!--弹窗E-->
+</body>
+</html>

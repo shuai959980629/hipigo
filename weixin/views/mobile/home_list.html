@@ -1,0 +1,88 @@
+<!--{if ! $lists}-->no_data<!--{else}-->
+<!--{foreach from=$lists item=list  key=key}-->
+<li>
+<!--{if $list.object_type == 'user' }-->
+<a href="<!--{$url}-->/user_activity/index?userid=<!--{$list.id_business}-->">
+<!--{else}-->
+<a href="/wapi/<!--{$list.id_business}-->/0/community/home">
+<!--{/if}-->
+
+<span class="user_head left">
+<img src="<!--{$list.img_path}-->" alt="图片" class="user_head_img"/>
+<!--{if $list.object_type == 'user' }-->
+<img src="/wapi/img/mobile/leader_icon.png" class="leader_icon"/>
+<!--{/if}-->
+</span>
+</a>
+
+<div class="one_part" >
+<a href="<!--{$url}-->/community/detail?aid=<!--{$list.id_activity}-->">
+<div class="one_part_left left">
+<strong><!--{$list.name}--></strong>
+
+<!--{if ! $list.reviews.content}-->
+<p><!--{$list.content}--></p>
+<!--{else}-->
+<p><!--{urldecode($list.reviews.id_customer.nick_name|default:$list.reviews.id_customer.account_name)}-->：<!--{$list.reviews.content}--></p>
+<!--{/if}-->
+</div>
+
+<div class="one_part_right right red">
+<!--{if ! $list.join_price}-->
+<em>免费</em>
+<!--{elseif $list.join_price > 999 }-->
+<em>999</em><sup class="red">+</sup>元
+<!--{else}-->
+<em><!--{$list.join_price}--></em>元
+<!--{/if}-->
+</div>
+</a>
+</div>
+
+<!--{if $screenURL != 'square/square_index'}-->
+<!--{if $list.join.count_join > 0 || $list.review_count > 0 || $list.appraise_count > 0}-->
+<p class="payer_add_icon">
+<!--{if $list.join.count_join > 0 }-->
+<span class="payer left">
+来自
+<!--{if $list.join.id_user}-->
+<a href="<!--{$url}-->/user_activity/index?userid=<!--{$list.join.id_user}-->" class="haveback">
+<em><!--{urldecode($list.join.nick_name)|default:$list.join.account_name}--></em></a>
+<!--{else}-->
+匿名
+<!--{/if}-->
+等
+<!--{if $list.join_price > 0 }-->
+<!--{$list.join.count_join}-->人付费
+<!--{else}-->
+<!--{$list.join.count_join}-->人参加
+<!--{/if}-->
+</span>
+<!--{/if}-->
+
+<!--{if $list.review_count || $list.appraise_count}-->
+<span class="add_icon right">
+<!--{if $list.review_count}-->
+<b><i class="iconfont icon iconfont_1">&#58904;</i>
+<!--{if $list.review_count > 99 }-->
+99<sup class="red">+</sup>
+<!--{else}--><!--{$list.review_count}--><!--{/if}-->
+</b>
+<!--{/if}-->
+
+<!--{if $list.appraise_count}-->
+<b><i class="iconfont icon iconfont_2">&#58901;</i>
+<!--{if $list.appraise_count > 99 }-->
+99<sup class="red">+</sup>
+<!--{else}--><!--{$list.appraise_count}--><!--{/if}-->
+</b>
+<!--{/if}-->
+</span>
+<!--{/if}-->
+</p>
+<!--{/if}-->
+<!--{/if}-->
+
+</li>
+<!--{/foreach}-->
+<!--{/if}-->

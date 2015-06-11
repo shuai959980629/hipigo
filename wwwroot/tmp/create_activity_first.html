@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>创建活动第一步，必填项</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="css/font-awesome.css">
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/create_activity.css" />
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<!--banner-->
+<div class="container">
+<!--top操作按钮-->
+    <div class="operate container">
+        <span class="return left"><a href="#"><i class="iconfont icon iconfont_10">&#983354</i></a></span>
+        <span class="partake-num left">创建活动<em>(必填项)</em></span>
+        <a href="#" class="join right">下一步</a>
+    </div>
+<!--创建活动第一步-->
+    <div class="creat_activity">
+        <dl>
+            <dd class="title">标题<em>*</em></dd>
+            <dd class="must_details"><input type="text" placeholder="这里填写标题，标题写在这里，可以是64个字之内的"/></dd>
+            <dd class="title">数量<em>*</em></dd>
+            <dd class="must_details"><input type="text" placeholder="这里输入活动数量，为空则不限制"/></dd>
+            <dd class="title">详情<em>*</em></dd>
+            <dd class="must_details"><textarea rows="1" cols="20">这里是活动详情</textarea></dd>
+        </dl>
+        <dl class="logout">
+            <dt>使用我的资源</dt>
+            <dd>暂无资源<button class="buy_resource right">购买资源</button></dd>
+            <dd>
+               <input type="search" placeholder="输入资源关键字" class="left"/><a href="" class="search-btn left"><i class="iconfont icon iconfont_15">&#983340</i></a>
+               <!--输入框获焦时候的交互
+               <input type="search" placeholder="输入资源关键字" class="left"/><a href="" class="search-btn left green"><i class="iconfont icon iconfont_15">&#983340</i></a>-->
+            </dd>
+        	<dd><input type="checkbox"/><a href="#">这里是我的资源1</a></dd>
+            <dd><input type="checkbox"/><a href="#">这里是我的资源2</a></dd>
+            <dd><input type="checkbox"/><a href="#">这里是我的资源我的资源3</a></dd>
+            <dd><input type="checkbox"/><a href="#">这里是我的资源我的资源4</a></dd>
+            <dd><input type="checkbox"/><a href="#">这里是我的资源我的资源5</a></dd>
+        	<ol>
+            <li class="on"></li>
+            <li class=""></li>
+            <li class=""></li>
+            <li class=""></li>
+            </ol>
+        </dl>
+    
+        <dl class="logout">
+            <dt>资源库</dt>
+        	<dd><input type="checkbox"/><a href="#">这里是我的资源1</a></dd>
+            <dd><input type="checkbox"/><a href="#">这里是我的资源2</a></dd>
+            <dd><input type="checkbox"/><a href="#">这里是我的资源我的资源3</a></dd>
+            <dd><input type="checkbox"/><a href="#">这里是我的资源我的资源4</a></dd>
+            <dd><input type="checkbox"/><a href="#">这里是我的资源我的资源5</a></dd>
+            <dd><a href="pool_resource.html" class="more_resource right">查看更多资源</a></dd>        
+        </dl>
+    
+    
+    
+    
+    </div>
+    
+<!--footer-->
+</div>
+</body>
+</html>

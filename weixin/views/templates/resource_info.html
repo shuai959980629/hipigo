@@ -1,0 +1,51 @@
+<div class="title">详情</div>
+
+<div class="content clearfix" style="padding-top: 25px;">
+
+<div  class="clearfix" style="width:100%;margin-bottom:10px;">
+<b class="left">资源名称：</b>
+<span class="label-detail-pop left"><!--{$resource.resource_title}--></span>
+</div>
+
+<div class="label-detail-num clearfix">
+
+<!--{if $source == 'buy'}-->
+<b class="left" style="margin-right: 20%;"><i class="left">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量：</i>
+<span class="buynum left"><a href="javascript: void(0);" id="add_ac">+</a>
+<input id="num" type="text" readonly value="1" num-total="<!--{$resource.num}-->" />
+<a href="javascript: void(0);" id="sub_ac">-</a></span>
+</b>
+
+<!--{else if $source == 'info'}-->
+<b class="left" style="margin-right: 20%;">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量：
+<input id="num" type="hidden" value="1" num-total="<!--{$resource.num}-->" />
+<em><!--{if $resource.num <= -1}-->不限制<!--{else}--><!--{$resource.num}--><!--{/if}--></em>
+</b>
+<!--{/if}-->
+
+<b class="left">价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：
+<em class="price">
+<!--{if $resource.price == '0.00'}-->免费
+<!--{else}-->￥ <!--{number_format($pay + $resource.price, 2)}-->
+<!--{/if}-->
+</em>
+</b>
+</div>
+
+<div class="clearfix left" style="width:100%;">
+<b class="left">使用说明：</b>
+<div class="use-direction left">
+<!--{$resource.desc|default:'没有使用说明哦！'}-->
+
+<!--{foreach from = $resource_atta item = ra}-->
+<img src="<!--{$ra.image_url|get_img_url:resource}-->">
+<!--{/foreach}-->
+</div>
+</div>
+
+</div>
+
+<div class="caozuo_btn">
+<button class="make_sure01 left" id="buy" rel='<!--{$resource.id_resource}-->'>购买</button>
+<button id="come_back" class="cancel right" >取消</button>
+</div>

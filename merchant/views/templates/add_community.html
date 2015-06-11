@@ -1,0 +1,372 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+<!-- BEGIN SIDEBAR -->
+<div class="page-sidebar nav-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!--{include file="menu.html"}-->
+    <!-- END SIDEBAR MENU -->
+</div>
+<!-- END SIDEBAR -->
+<!-- BEGIN PAGE -->
+<div class="page-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <!--{include file="nav.html"}-->
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+        <!-- BEGIN PAGE CONTENT-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN VALIDATION STATES-->
+                <div class="portlet box purple">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-reorder"></i><!--{$current.last}--></div>
+                    </div>
+                    <div class="portlet-body form">
+                        <!--添加开始-->
+                        <div class="goods_add">
+                            <form action="<!--{$url_prefix}--><!--{$url_action}-->" id="form_community_add" class="form-horizontal" method="post" enctype="multipart/form-data" onKeyPress="if(event.keyCode==13){return false;}">
+                                <input type="hidden" name="id_activity" value="<!--{$community_info.id_activity}-->"/>
+                                <input type="hidden" value="<!--{$url_prefix}--><!--{$url_action}-->" id="jobaction"/>
+                                <div class="alert alert-error hide">
+                                    <button class="close" data-dismiss="alert"></button>
+                                    请确保输入的内容符合提交条件，再点击提交！
+                                </div>
+                                <div class="alert alert-success hide">
+                                    <button class="close" data-dismiss="alert"></button>
+                                    你的信息已成功完成验证！
+                                </div>
+                                <!--中间内容开始-->
+                                <div class="add_activity clearfix">
+                                    <div class="clearfix">
+                                        <div class="poster fl">
+                                            <div class="load" style="display: none;"><img id="load" src="<!--{$url_prefix}-->media/image/load.gif" style="width:85px;height: 81px;"></div>
+                                            <div id="show_community" style="height: 227px;"><!--{if $community_info.posters_url}--><img src="<!--{$community_info.posters_url|get_img_url:'community'}-->"/><!--{else}--><!--{/if}--></div>
+                                            <input type="hidden" value="" name="image_src" id="image_src"/>
+                                            <input type="button" id="uploadAdBtn" value="上传" class="btn blue upload_img"/>
+
+                                            <p style="margin-top: 10px; width: 100%">图片格式：jpg,png,gif,大小不超过2兆,最大尺寸为1920*1080;
+                                                <input type="hidden" id="picNum" name="picNum" value="<!--{if empty($community_info.posters_url)}-->0<!--{else}-->1<!--{/if}-->">
+                                            </p>
+                                        </div>
+                                        <div class="fl write">
+                                            <div class="write_row">
+                                                <div class="import clearfix"><input name="title" id="title" type="text" value="<!--{$community_info.name}-->" maxlength="64"/><span class="title">标题<em>*</em>：</span></div>
+                                                <p>必填，名称不能为空且长度不能过64字</p>
+                                            </div>
+										    <div class="write_row">
+                                            <div class="import clearfix"><input class="cost" name="price" id="price" maxlength="6" type="text" <!--{if $community_info.join_price == 0 && $community_info.join_price != null}-->disabled="disabled"<!--{else}-->value="<!--{$community_info.join_price}-->"<!--{/if}--> onKeyUp="validatePices(this);" onBlur="validatePices(this);"/>
+                                                    <span class="title">价格：</span><span><input type="checkbox" onclick="click_('price')" name="price_checkbox" id="price_checkbox" style="width:12px;margin-top: 0;border: none;" <!--{if $community_info.join_price == 0 && $community_info.join_price != null}-->checked="checked"<!--{/if}-->>免费</span></div>
+                                                <p>直接按照支付的金额支付,<em style="color:#e02222;font-style:normal">最大可设置五位数</em></p>
+                                            </div>
+                                            <div class="write_row">
+                                                <div class="import clearfix"><input class="cost" name="total" id="total" type="text" <!--{if $community_info.total >= 0}-->value="<!--{$community_info.total}-->"<!--{else}-->disabled="disabled"<!--{/if}--> onKeyUp="validateInt(this);" onBlur="validateInt(this);"/>
+                                                    <span class="title">数量：</span><span><input type="checkbox" onclick="click_('total')" name="total_checkbox" id="total_checkbox" style="width:12px;margin-top: 0;border: none;" <!--{if $community_info.total < 0}-->checked="checked"<!--{/if}-->>充足</span></div>
+                                            </div>
+                                            <div class="write_row">
+                                                <div class="import clearfix"><input class="cost" name="start_time" id="start_time" type="text" value="<!--{date('Y-m-d',$community_info.start_date)}-->" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',errDealMode:1,readOnly:true})"/>至
+                                                    <input class="cost" name="end_time" id="end_time" type="text" value="<!--{date('Y-m-d',$community_info.end_date)}-->" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',errDealMode:1,readOnly:true})"/>
+                                                    <span class="title">时间：</span></div>
+                                                <p>活动会根据你设置的开始时间或结束时间来判断活动是否开启购买/参加</p>
+                                            </div>
+                                            <div class="write_row">
+                                                <div class="import clearfix"><input name="tag" id="tag" type="text" value="<!--{$community_info.tag_name}-->"/>
+                                                    <span class="title">标签：</span></div>
+                                                <p>设置好的标签将会被搜索的的机率越高，多个标签以“,”分隔</p>
+                                            </div>
+                                            <!--活动分类-->
+                                            <div class="write_row">
+                                                <div class="import clearfix">
+                                                    <span class="title">分类：</span>
+                                                    <span>
+                                                        <input type="radio" name="type" value="0"<!--{if $community_info.type == 0}--> checked="checked"<!--{/if}--> style="width:12px;margin-top: 0;border: none;" onclick="show_discount(0)"/>普通活动
+                                                        <input type="radio" name="type" value="2"<!--{if $community_info.type == 2}--> checked="checked"<!--{/if}--> style="width:12px;margin: 0 0 0 10px;border: none;" onclick="show_discount(2)"/>秒杀活动
+                                                    </span>
+                                                </div>
+                                                <p>默认为普通活动</p>
+                                            </div>
+                                            <div class="write_row" id="discount_price_div"<!--{if $community_info.type == 0}--> style="display: none;"<!--{/if}-->>
+                                                <div class="import clearfix"><input class="cost" name="discount_price" id="discount_price" maxlength="6" type="text" <!--{if $community_info.preferential_price == 0 && $community_info.preferential_price != null}-->disabled="disabled"<!--{else}-->value="<!--{$community_info.preferential_price}-->"<!--{/if}--> onKeyUp="validatePices(this);" onBlur="validatePices(this);"/>
+                                                    <span class="title">优惠价：</span><span><input type="checkbox" onclick="click_('discount_price')" name="discount_price_checkbox" id="discount_price_checkbox" style="width:12px;margin-top: 0;border: none;" <!--{if $community_info.preferential_price == 0 && $community_info.preferential_price != null}-->checked="checked"<!--{/if}-->>免费</span></div>
+                                                <p>优惠价将做为最终成交价格</p>
+                                            </div>
+                                            <div class="write_row">
+                                                <div class="import clearfix"><span class="title">内容<em>*</em>：</span>
+                                                    <textarea name="content" id="content" cols="" rows=""><!--{$community_info.content}--></textarea>
+                                                    <p>请输入长度在10到60000个汉字</p>
+													<p class="appoint-seller"<!--{if $community_info.type == 2}--> style="display: none;"<!--{/if}-->>
+														<span><input name="check_seller" <!--{if $verify_info}-->checked="true"<!--{/if}--> type="checkbox" class="checkbox" onclick="check_bus(this)" >指定商户验证</span>
+														<span id="select_div"  <!--{if $verify_info}--><!--{else}-->style="display: none;"<!--{/if}-->>
+															<input id="seek" name="seek" type="text" value="" placeholder="输入后请按回车搜索" onKeyPress="if(event.keyCode==13){search_business(this)}">
+															<b id="search_result"></b><b id="add_btn" style="display: none;" onclick="add_business()" class="btn green">添加</b>
+														</span>
+                                                        <input type="hidden" value="" name="delete_business_id" id="delete_business_id"/>
+														<span id="show_select_div">
+                                                            <!--{foreach from = $verify_info item = vi}-->
+                                                            <em class="checked"><!--{$vi.name}-->
+                                                                <a href="javascript:void(0)" onclick="delete_verify(this,<!--{$vi.id_ver_biz}-->)" class="select2-search-choice-close" tabindex="-1"></a>
+                                                                <input type="hidden" value="<!--{$vi.id_business}-->" name="bid_str[]" attr="<!--{$vi.id_ver_biz}-->"/>
+                                                                <input type="hidden" value="<!--{$vi.id_shop}-->" name="sid_str[]"/>
+                                                            </em>
+                                                            <!--{/foreach}-->
+														<!--<em class="checked">舞东风超市<a href="#" onclick="return false;" class="select2-search-choice-close" tabindex="-1"></a></em>-->
+														</span>
+														<br>
+													</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--中间内容结束-->
+                            </form>
+                            <div class="form-actions">
+                                <button type="submit" class="btn purple" id="submitForm" onclick="submit_form()">发布</button>
+                            </div>
+                        </div>
+                        <!--添加结束-->
+                    </div>
+                </div>
+                <!-- END VALIDATION STATES-->
+            </div>
+        </div>
+    <!-- END PAGE CONTENT-->
+    </div>
+<!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL STYLES -->
+<!--<script type="text/javascript" src="&lt;!&ndash;{$url_prefix}&ndash;&gt;media/js/swfupload/swfupload.js"></script>-->
+<!--<script type="text/javascript" src="&lt;!&ndash;{$url_prefix}&ndash;&gt;media/js/jquery.swfupload.js"></script>-->
+<script type="text/javascript" src="<!--{$url_prefix}-->media/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="<!--{$url_prefix}-->media/js/ajaxupload.js"></script>
+
+<script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-min.js"></script>
+<script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+<script src="<!--{$url_prefix}-->media/kindeditor/editor.js"></script>
+
+<script>
+jQuery(document).ready(function() {
+    $('#picNum').val(<!--{if empty($community_info.posters_url)}-->0<!--{else}-->1<!--{/if}-->);
+    $('#image_src').val(' ');
+
+    App.init();
+    FormValidation.communityInit();
+    var url = '<!--{$url_prefix}-->';
+    editor('content','community_editor',url);
+    //上传海报图片
+    uplodImage('uploadAdBtn', 'image_src', 'show_community',url);
+});
+
+function  show_discount(num){
+    if(num == 2){
+        $('#discount_price_div').show();
+        $('.appoint-seller').hide();
+    }else{
+        $('#discount_price_div').hide();
+        $('.appoint-seller').show();
+    }
+}
+
+function click_(obj){
+    if($('#'+obj).attr('disabled') == 'disabled'){
+        $('#'+obj).attr('disabled',false);
+    }else{
+        $('#'+obj).attr('disabled','disabled');
+    }
+}
+
+function submit_form(){
+    //价格复选框
+    if($('#price_checkbox').attr('checked') != 'checked'){
+        var prices = $('#price').val();
+        var price = prices.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        if(price == ''){
+            alert('如果不填写价格请勾选后面复选框！');
+            return false;
+        }
+    }
+    //数量复选框
+    if($('#total_checkbox').attr('checked') != 'checked'){
+        var totals = $('#total').val();
+        var total = totals.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        if(total == ''){
+            alert('如果不填写数量请勾选后面复选框！');
+            return false;
+        }
+    }
+
+    var date  = $('[name=start_time]:text').val();
+    var date1 = $('[name=end_time]:text').val();
+    if(date || date1) {
+        if (date >= date1) {
+            alert('活动结束时间必须大于开始时间！');
+            return false;
+        }
+    }
+
+    //优惠价格复选框
+    if($('#discount_price_checkbox').attr('checked') != 'checked' && $('input[name="type"]:checked').val() == 2){
+        var discount_prices = $('#discount_price').val();
+        var discount_price = discount_prices.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        if(discount_price == ''){
+            alert('如果不填写优惠价格请勾选后面复选框！');
+            return false;
+        }
+    }
+    if($('#search_result').html() != ''){
+        $('#search_result').html('');
+    }
+    $("#form_community_add").submit();
+//    $('#submitForm').attr('onClick','return false;');
+}
+
+//删除验证商家信息
+function delete_verify(obj,id_ver_biz){
+    if($("#delete_business_id").val() == ''){
+        $("#delete_business_id").val(id_ver_biz);
+    }else{
+        $("#delete_business_id").val($("#delete_business_id").val()+','+id_ver_biz);
+    }
+    $(obj).parent().remove();
+}
+
+//添加验证商家
+function add_business(){
+    var flag = 0;
+    $("input[name='bid_str[]']").each(function(i){
+        var bid_str= $(this).val();
+        $('#search_result').children('em').children('input[name="id_business[]"]').each(function(bs){
+            if($(this).val() == bid_str){
+                $("input[name='sid_str[]']").each(function(s){
+                    var sid_str = $(this).val();
+                    if(s == i){
+                        $('#search_result').children('em').children('input[name="id_shop[]"]').each(function(ss){
+                            if($(this).val() == sid_str){
+                                flag = 1;
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+    $('#show_select_div').children('em').children('input[name="id_business[]"]').each(function(i1){
+        var id_business= $(this).val();
+        $('#search_result').children('em').children('input[name="id_business[]"]').each(function(bs){
+            if($(this).val() == id_business){
+                $('#show_select_div').children('em').children('input[name="id_shop[]"]').each(function(s1){
+                    var id_shop = $(this).val();
+                    $('#search_result').children('em').children('input[name="id_shop[]"]').each(function(ss){
+                        if($(this).val() == id_shop){
+                            flag = 1;
+                        }
+                    });
+                });
+            }
+        });
+    });
+    if(flag == 1){
+        alert('此验证商家已被添加过了！');
+        flag = 0;
+        return;
+    }
+    $('#search_result').children('em').children('a').show();
+    var html = $('#search_result').html();
+    $('#show_select_div').append(html);
+
+    $('#search_result').html('');
+    $('#add_btn').hide();
+}
+
+//搜索关键字
+function search_business(obj){
+    var search_keys = $(obj).val();
+    var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+    if(search_key == ''){
+        $('#search_result').html('');
+        return;
+    }else{
+        $.post('<!--{$url_prefix}-->community/search_business', {
+            'search_key':search_key=='输入后请按回车搜索'?'':search_key
+        }, function(data){
+            var result = data.data;
+            var html = '';
+        if(result.length > 0){
+            $(obj).val('');
+
+            $.each(result, function(key, value) {
+                html += '<em class="checked">' +value.name+
+                        '<a href="javascript:void(0)" onclick="$(this).parent().remove();" class="select2-search-choice-close" style="display: none;"></a>' +
+                        '<input type="hidden" value="'+value.id_business+'" name="id_business[]"/>' +
+                        '<input type="hidden" value="'+value.id_shop+'" name="id_shop[]"/></em>';
+            });
+            $('#add_btn').show();
+        }else{
+            html = '你输入的商户不存在！';
+        }
+        $('#search_result').html(html);
+//        var activities = [];
+//        var id_opens = [];
+//        $("input[name='check_member[]']:checked").each(function(i){
+//            activities[i] = $(this).val();
+//            id_opens[i] = $(this).parent().children('.id_open').val();
+//        });
+
+        }, 'json');
+    }
+}
+
+//选择指定商户
+function check_bus(obj){
+    if($(obj).attr('checked') != 'checked'){
+        $("input[name='bid_str[]']").each(function(b){
+            var va = $(this).attr('attr');
+            if($("#delete_business_id").val() == ''){
+                $("#delete_business_id").val(va);
+            }else{
+                $("#delete_business_id").val($("#delete_business_id").val()+','+va);
+            }
+        });
+
+        $('#select_div').hide();
+        $('#add_btn').hide();
+        $('#show_select_div').html('');
+        $('#search_result').html('');
+    }else{
+        $('#select_div').show();
+    }
+}
+//发送电话验证码
+function send_code(){
+    var phone = $('#phone').val();
+    $.post('<!--{$url_prefix}-->user/send_code', {
+        'phone':phone
+    }, function(data){
+        $('#code').html(data);
+    }, 'text');
+}
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

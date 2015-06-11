@@ -1,0 +1,28 @@
+<!--{include file="header.html"}-->
+<script>
+    var url = '/wapi/<!--{$bid}-->/<!--{$sid}-->';
+</script>
+<section id="forgot_password_section" class="active">
+    <!---->
+    <!--{include file="nav.tpl"}-->
+    <!---->
+    <article id="three_container" class="active" data-scroll="true" >
+        <div class="three_list_container">
+            <ul>
+                <li class="clearfix"><span class="iconfont icon iconfont_4 left">&#58906;</span>
+                    <input placeholder="请输入你的新密码" type="password" id="newPWD" onfocus="restyle(this)"  onblur="chekcpwd(this)" class="left"/>
+                </li>
+                <li class="clearfix"><span class="iconfont icon iconfont_4 left">&#58906;</span>
+                    <input placeholder="再次输入你的新密码" type="password" id="newPWDC"  onfocus="restyle(this)"  onblur="chekcpwd(this)" class="left"/>
+                </li>
+                <button class="button" onclick="ensure()" id="ensure">确定</button>
+            </ul>
+        </div>
+    </article>
+</section>
+<div class="instant_tip" style="display:none;"></div>
+<!--弹窗E-->
+<script>
+    remove_share();
+</script>
+<!--{include file="footer.html"}-->

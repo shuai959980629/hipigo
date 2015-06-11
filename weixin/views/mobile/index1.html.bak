@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>模拟app</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="stylesheet" href="css/Jingle.css">
+<link rel="stylesheet" href="css/index.css">
+<script type="text/javascript" src="js/zepto.js"></script>
+<script type="text/javascript" src="js/iscroll.js"></script>
+<script type="text/javascript" src="js/template.min.js"></script>
+<script type="text/javascript" src="js/Jingle.debug.js"></script>
+<!---PC端测试时需要这个文件，将click事件模拟成touch事件，正式上线删除该js文件即可--->
+<script type="text/javascript" src="js/zepto.touch2mouse.js"></script>
+
+<script>
+window.onload = function(){
+  Jingle.launch();
+};
+</script>
+</head>
+
+
+
+<body>
+<div id="aside_container" >
+<aside id="index_aside" data-position="left" data-transition="push" >
+<h3>账号登录</h3>
+<ul>
+<li>活动</li>
+<li>创建活动</li>
+<li>系统</li>
+<li>设置</li>
+<li>退出</li>
+</ul>
+</aside>
+</div>
+<div id="section_container">
+<section id="index_section" class="active">
+<!---->
+<header>
+<nav class="left"><a href="#index_aside" data-target="menu">菜单</a></nav>
+<h1 class="title">活动</h1>
+<nav class="right"></nav>
+</header>
+<!---->
+<nav class="header-secondary">
+
+<a href="#" data-index="0" class="active">商家</a>
+<a href="#" data-index="1">广场</a>
+<a href="#" data-index="2">个人中心</a>
+
+</nav>
+<!---->
+<article id="index_article" class="active" data-scroll="true" >
+<div>
+<div class="list_container" data-url="http://api.eoe.cn//client/news?k=lists&amp;t=new">
+<div class="pic_banner"><img src="img/pic_banner.jpg" alt=""/></div>
+<div>
+<ul class="list" data-name="商家">
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+</ul>
+<button class="block" style="background-color:#eee;color:#666 !important;" data-url="http://api.eoe.cn//client/news?k=lists&amp;pageNum=2&amp;t=new">点击加载更多</button>
+</div>
+</div>
+<!--广场-->
+<div class="list_container" data-url="http://api.eoe.cn//client/news?k=lists&amp;t=top">
+<div>
+<ul class="list" data-name="广场">
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+<li>
+<span class="user_head"><img src="img/user_head.jpg"/></span>
+<div class="one-part">
+<strong>湖南卫视《爸爸去哪儿》拍摄地——普者黑6日自驾之旅</strong><em>刚刚</em>
+<p>小编:探索世外桃源—湖南卫视《爸爸去哪儿》拍摄地普者黑6日自驾之旅</p>
+</div>
+</li>
+</ul>
+<button class="block" style="background-color:#eee;color:#666 !important;" data-url="http://api.eoe.cn//client/news?k=lists&amp;pageNum=2&amp;t=new">点击加载更多</button>
+</div>
+</div>
+</div>
+<!---->
+
+</article>
+
+
+
+
+
+</section>
+</div>
+
+</body>
+</html>

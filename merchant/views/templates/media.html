@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<title>查看详细</title>
+</head>
+<body>
+
+<!--{if $type == 'image'}-->
+
+<img src="<!--{$media_url}-->" />
+
+<!--{elseif $type == 'audio'}-->
+
+<audio src="<!--{$media_url}-->" controls="controls">
+</audio>
+
+<!--{elseif $type == 'video'}-->
+<video width="352" height="264" controls autobuffer>
+	 <source src="<!--{$media_url}-->" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'></source>
+</video>
+<!--{/if}-->
+
+</body>
+</html>

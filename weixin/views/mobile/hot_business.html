@@ -1,0 +1,49 @@
+<!--{include file="header.html"}-->
+<script>
+    var offset = 1;
+    $(function () {
+        var loca_url = '<!--{$url}-->/home/business_lists';
+//        refresh_page('', 0,loca_url,'business_list');
+        refresh('business_list', loca_url, 'business_list', '', 0);
+    });
+
+
+    //搜索返回刷新
+    function backSearchOrRefresh(obj){
+        var searchinput = $(obj).val();
+        if(searchinput != ''){
+            $('.cancel-circle').show();
+        }else{
+            $('.cancel-circle').hide();
+        }
+    }
+
+    //情况输入框
+    function backsearch(){
+        $('#search_key').val('');
+        refresh('business_list', '<!--{$url}-->/home/business_lists', 'business_list','', 0);
+    }
+
+</script>
+  <section id="business_section" class="active">
+  <!---->
+      <!--{include file="nav.tpl"}-->
+  <!---->
+    <article id="business_container" class="active" data-scroll="true" >
+    <!---->
+      <div class="businesslist_container" id="businesslist_container">
+          <div class="enter_search">
+              <div class="search_input relative">
+                  <input type="text" placeholder="输入关键字搜索" class="left" id="search_key" onkeyup="backSearchOrRefresh(this)">
+                  <a class="searchbutton right" onclick="refresh('business_list', '<!--{$url}-->/home/business_lists', 'business_list', $('#search_key').val(), 0);">
+                      <i class="icon search nofloat"></i>
+                  </a>
+                  <!--clear-->
+                  <em class="cleara icon cancel-circle" style="display: none;" onclick="backsearch()"></em>
+              </div>
+          </div>
+        <ul class="business_list"></ul>
+      </div>
+    </article>
+  </section>
+<!--{include file="footer.html"}-->

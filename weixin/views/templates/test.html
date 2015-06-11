@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>饮食、美食列表</title>
+<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+<link rel="stylesheet" href="/css/bootstrap.css" />
+<link rel="stylesheet" href="/css/foods.css" />
+<link rel="stylesheet" href="/css/bootstrap-responsive.css" />
+<!-- 加入后变为响应式布局，去掉变为固定宽度布局 -->
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<!--[if lt IE 9]>
+  <script src="/js/html5.js"></script>
+<![endif]-->
+<style>
+#masonry_container {
+	min-height: 600px;
+}
+#masonry {
+	padding: 0;
+	margin: 0 auto;
+}
+
+#masonry .thumbnail {
+	float: left;
+	padding: 0;
+	margin-right:5px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.175);
+	min-height: 1px;
+	border: 1px solid #fff;
+}
+@media (max-width: 320px) {
+	#masonry {
+		padding: 0 0 0 5px;
+		margin: 0 auto;
+	}
+	.thumbnail {
+	    max-width: 48%;
+        float: left;	
+     }	 
+}
+@media (min-width: 320px) and (max-width: 480px) {
+	.thumbnail {
+	    max-width: 47.7%;
+        float: left;	
+     }	
+}
+
+@media (min-width: 480px) {
+	#masonry {
+		padding: 0 0 0 5px;
+		margin: 0 auto;
+	}
+	.thumbnail {
+	    max-width: 47.7%;
+        float: left;	
+     }
+}
+@media(min-width:992px){
+	.thumbnail {
+		width: 19%;
+	}
+}
+#masonry .thumbnail .imgs {
+	padding: 1px;
+	height: auto;
+	overflow: hidden;
+}
+
+#masonry .thumbnail .imgs img {
+	margin-bottom: 1px;
+}
+
+#masonry .thumbnail .caption {
+	padding-top: 0;
+	font-size: 13px;
+	padding-top: 5px;
+	border-top: solid 1px #eee;
+}
+
+#masonry .thumbnail .caption .title {
+	font-size: 13px;
+	margin: 5px 0;
+	text-align: left;
+	color: #666;
+}
+#masonry .thumbnail .caption .title a{
+	color: #666;
+}
+#masonry .thumbnail .caption .author {
+	font-size: 11px;
+	text-align: right;
+}
+#masonry .thumbnail .caption .author a {
+	color: #1d96a7;
+}
+.lightbox .lb-image {
+	max-width: none;
+}
+.loading{
+	background: #000;filter:alpha(opacity=70); -moz-opacity:0.7; -khtml-opacity: 0.7; opacity: 0.7; 
+	border: solid 1px #b6b6b6; box-shadow: 0px 0px 2px #999; position: fixed; width: 45%; color: #fff; 
+	text-align: center; padding: 10px;left: 25%; bottom: 40%;font-size: small;display:block;z-index: 2;
+}
+.loading img{
+	width: 20px; margin-right: 10px;
+}
+.error_pop{
+	background: #000;filter:alpha(opacity=70); -moz-opacity:0.7; -khtml-opacity: 0.7; opacity: 0.7; 
+	border: solid 1px #b6b6b6; box-shadow: 1px 1px 5px #999; position: fixed; width: 40%; color: #fff; 
+	text-align: center; padding: 12px 20px;left: 25%; bottom: 12%;font-size: small;display:none;
+}
+</style>
+</head>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+	<div id="masonry_container" class="container">
+	<div class="bc-social clearfix">
+	<ul class="bc-social-buttons">
+	<li <!--{if $ctype eq 1}-->class="active"<!--{/if}-->><a href="/home/foods/<!--{$cpage}-->/1">店内美食</a></li>
+	<li <!--{if $ctype neq 1}-->class="active"<!--{/if}-->><a href="/home/foods">饮品推荐</a></li>
+	</ul>
+	</div>
+	
+		<div class="loading"><img src="/img/loading.gif">正在努力加载</div>
+		<div id="masonry" class="container-fluid">
+			
+		</div>
+
+		<div id="masonry_ghost" class="hide">
+		<!--{if !empty($commodity_info)}-->
+			<!--{foreach from = $commodity_info item = c}-->
+			<div class="thumbnail">
+				<div class="imgs">
+					<input type="hidden" value="<!--{$c.image_url|get_img_url:'commodity'}-->"> <a
+						href="home/foodcontent/<!--{$c.id_commodity}-->/shop
+						data-lightbox="lightbox_"><img
+						src="<!--{$c.image_url|get_img_url:'commodity'}-->"></a>
+				</div>
+				<div class="caption">
+					<div class="title">
+						<a target="_blank"
+							href="/home/foodcontent/<!--{$c.id_commodity}-->/shop"><!--{$c.name|strip_tags|truncate:20}--></a>
+					</div>
+					<div class="content"></div>
+					<div class="author">
+						<a href="/home/foodcontent/<!--{$c.id_commodity}-->/shop">详细&gt;&gt;</a>
+					</div>
+				</div>
+			</div>
+			<!--{/foreach}-->
+		<!--{else}-->
+			<div class="thumbnail">
+				<div class="error_pop">没有数据了</div>
+			</div>
+		<!--{/if}-->
+		</div>
+
+		<input type="hidden" name="cpage" value="<!--{$cpage}-->" id="cpage" />
+	</div>
+
+	<footer class="footer"> </footer>
+
+	<script src="/js/masonry.pkgd.min.js"></script>
+	<script src="/js/imagesloaded.pkgd.min.js"></script>
+	<script src="/js/lightbox-2.6.min.js"></script>
+
+	<script>
+		
+		$(document).ready(function() {
+			var container = $('#masonry');
+			var loading = $('.loading');
+			var item = $("#masonry_ghost").find('.thumbnail');
+			
+			container.append(item);
+			container.imagesLoaded(function() {
+				container.masonry({
+					itemSelector : '.thumbnail'
+				});
+			});
+			
+			loading.hide();
+			
+			$(window).bind("scroll",function(){
+			    // 判断窗口的滚动条是否接近页面底部
+			    loading.show();
+			    if($(document).height() - $(window).height() - $(document).scrollTop() < 10) {
+			    	var page = parseInt($("#cpage").val())+1;
+			    	if($('#masonry').find('.error_pop').length <= 0){
+			    		$.ajax({
+							url : '/home/foods/' + page + '/'+'<!--{$ctype}-->'+'/'+Math.random(),
+							type : "get",
+							success : function(data) {
+								result = $(data).find("#masonry_ghost").find('.thumbnail');
+								nexpage = $(data).find("#cpage").val();
+								if (nexpage) {
+									$("#cpage").val(nexpage);
+								}
+								if (result.get(0) != undefined) {
+									container.append(result).masonry( 'appended',result);
+									/* container.imagesLoaded(function() {
+										container.masonry({
+											itemSelector : '.thumbnail',
+											isFitWidth : true
+										},true);
+									}); */
+								}
+							}
+						});
+			    	}
+			    	loading.hide();
+			    }
+			});
+
+		});
+	</script>
+
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+body{
+	background: #fff;
+}
+.operate,.resource_search{
+	background: #f4f4f4; margin: 0;
+}
+.resource_search{
+	 width: 96%;padding: 6px 2% 8px; border-bottom: 1px solid #dadada; position: relative;
+}
+.resource_search input{
+	padding: 0 10px 0 5px;height: 30px;
+}
+.resourceli{
+  padding-top: 90px;
+}
+.resourceli ul li{
+	border-bottom: 1px solid #f0f0f0; height: 30px;line-height: 30px; font-size: 0.95rem; padding: 6px 2%; cursor: pointer;
+}
+.resourceli ul li span{
+  width: 68%;display: block;height: 30px;overflow: hidden;float: left;word-break: break-all;
+}
+.resourceli ul li input{
+	margin: -3px 5px 0  0;
+}
+.resourceli ul li:active{
+	background: #ebebeb;
+}
+.resourceli ul li button{
+  border: none;color: #fff;margin-top: 5px;padding: 0 5px;
+}
+.resourceli .info{
+  background: #555;
+}
+.resourceli .info:hover,.resourceli .info:active{
+  background: #222;
+}
+.resourceli .buy{
+  background: #4cc9b6; margin-left: 5px;
+}
+.resourceli .buy:hover,.resourceli .buy:active{
+  background: #01a58c; 
+}
+.resource_search button{
+	color: #fff; border: none; border-radius: 1px; padding: 5px 8px;margin: 2px 0 0 10px;
+}
+.searchbtn{
+	background: #8ebeb7;
+}
+.searchbtn_activation{
+	background: #4cc9b7;
+}
+/*×ÊÔ´ÏêÇéµ¯´°*/
+.modalv1 .title{
+  height: 40px; line-height: 40px;text-align: left; font-size: 1.2rem;border-bottom: 1px solid #666
+}
+.content{
+  font-size: 0.95rem; text-align: left;padding: 20px 0;
+}
+.content b{
+  font-weight: 700; padding-right: 5px;
+}
+.content b em{
+  font-style: normal;color: #4cc9b6;font-weight: 300;
+}
+.label-detail-pop,.use-direction{
+  width: 70%;word-wrap: break-word;word-break: break-all;
+}
+.label-detail-num {
+  padding-bottom: 10px;
+}
+.label-detail-num a{
+  padding: 0 5px;display: block;width: 12px;height: 22px;border: solid 1px #999;color: #fff;margin: 0 3px 0;float: right;line-height: 1.2;
+}
+.label-detail-num input{
+  background: none;height: 22px;padding: 0;line-height: 1.2; width: 30%;text-align: center;float: right;border: solid 1px #999;color: #fff;
+}
+.buynum input{
+  width: 40%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

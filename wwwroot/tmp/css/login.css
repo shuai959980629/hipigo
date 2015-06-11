@@ -1,0 +1,39 @@
+
+.return{
+	background: #f24a4a; height: 100%;padding: 0 2%; display:block;color: #fff; cursor: pointer;
+}
+.return:hover{
+	background: #ea2b2b;
+}
+.return>.iconfont_10{
+	font-size: 26px;
+}
+.skip_refer{
+	width: 92%; margin:10px auto 0;
+}
+.register_btn{
+	color: #f00;
+}
+.skip_refer a:active{
+	background: #ebebeb;
+}
+/*register*/
+.xt-code{
+	width: 94%;margin: 0 auto;
+}
+.xt-code input{
+	width: 61%;padding:10px 2% 0;background: none;border: none;border-bottom: 2px solid #ccc; border-radius: 0 0 0 4px;height: 35px;display: block;color: #999;outline: none;
+}
+.xt-code input:focus{
+	border-bottom: 2px solid #50c328;
+}
+.xt-code span{
+	background: url(../img/cut-off-rule.png) left bottom no-repeat;width: 35%;border-bottom: 2px solid #ccc; border-radius: 0 0 4px 0;
+	height: 35px;display: block; padding-top: 10px; text-align: center; line-height: 2.1;
+}
+.xt-code span em{
+	color: #f38484;
+}
+.xt-code span a{
+	margin-left: 8px; font-size: 14px;
+}

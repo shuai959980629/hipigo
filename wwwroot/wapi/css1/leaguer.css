@@ -1,0 +1,77 @@
+
+.leaguer h1{
+	background: #d9d9d9;font-size: 1.1rem; position: relative;word-break: break-all;height: 40px;line-height: 40px;
+}
+.notice{
+	padding: 15px 2% 6px;
+}
+.notice em{
+	font-size: large;
+}
+.leaguer ul{
+	width: 96%; padding:0 2%;
+}
+.leaguer ul li{
+	 width: 100%;border-bottom: 1px solid #ddd; padding: 2% 0;height: 50px; overflow: hidden;
+}
+.leaguer ul li:last-child{
+	border: none;
+}
+.leaguer_head{
+	width: 50px; height: 50px; overflow: hidden;
+}
+.leaguer_msn{
+	padding-left: 8px;
+}
+.leaguer_msn_top{
+	width: 100%;
+}
+.username{
+	font-size: 1.1rem; width: 62%;
+}
+.username img{
+	margin-left: 5px;
+}
+.history{
+	color: #666; font-size: medium;
+}
+.leaguer_msn_bottom{
+	width: 100%; font-size: small; color: #666;display: inline-block; line-height: 2;
+}
+.history{
+	color: #666; font-size: medium; padding: 0 10px;
+}
+.usergreen{
+	color: #4cc9b7;
+}
+.manage{
+	background: #f00; color: #fff; font-size: medium; padding: 0 3px; margin: 0 6px;
+}
+.leaguer_msn_top .iconfont_10{ 
+	padding: 10px;
+}
+.icon-lock{
+	color: #f00;
+}
+.user_code{
+	font-size: large; color: #f24949;
+}
+.error-cue{
+	width: 50%; margin: 20% auto 0;display: block; text-align: center;font-size: large; color: #333;
+}
+.error-cue .icon-github-alt{
+	color: #d6d6d6;font-size: 100px;text-shadow: -1px -1px 0 #ccc,1px 1px 0 #fff,1px 1px 0 #fcfcfc;
+}
+/*V1.2*/
+.leaguer_msn_bottom a{
+	font-size: medium;
+}
+.modalv1 ul li{
+	font-size: large; color: #f24949; line-height: 2;
+}
+.sjlogo{
+	padding: 0 2% 15px;
+}
+.sjlogo a{
+	display: block; float:left; cursor: pointer; margin: 12px 10px 0 0;
+}

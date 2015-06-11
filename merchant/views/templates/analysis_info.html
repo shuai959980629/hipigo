@@ -1,0 +1,334 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+
+	<div class="page-container row-fluid">
+
+		<!-- BEGIN SIDEBAR -->
+
+		<div class="page-sidebar nav-collapse collapse">
+
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+
+		</div>		
+
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->  
+
+		<div class="page-content">
+
+			<!-- BEGIN PAGE CONTAINER-->
+
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE HEADER-->   
+
+			    <div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+
+
+					</div>
+
+				</div>
+
+				<!-- END PAGE HEADER-->
+
+				<!-- BEGIN PAGE CONTENT-->
+
+				<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN VALIDATION STATES-->
+
+						<div class="portlet box blue hide">
+
+							<div class="portlet-title">
+
+								<div class="caption"><i class="icon-reorder"></i><!--{$current.last}--></div>
+
+							</div>
+
+							<div class="portlet-body form" >
+
+								<div class="row-fluid">
+
+									<div class="span6">
+
+										<!--BEGIN TABS-->
+
+										<div class="tabbable tabbable-custom" style="margin:20px 0 20px 10px;width:880px;">
+
+											<ul class="nav nav-tabs">
+
+												<li<!--{if $active eq 1}--> class="active"<!--{/if}-->><a href="<!--{$url_prefix}-->analysis/info">昨日</a></li>
+
+												<li<!--{if $active eq 2}--> class="active"<!--{/if}-->><a href="<!--{$url_prefix}-->analysis/info/2">上周</a></li>
+
+												<li<!--{if $active eq 3}--> class="active"<!--{/if}-->><a href="<!--{$url_prefix}-->analysis/info/3">上月</a></li>
+
+											</ul>
+											<style>
+												.tab_jtd{
+													width:145px;height:100px;border:1px solid #cdcdcd;padding:20px;text-align:center
+												}
+												.tab_jtd .tr_tit{font-size:18px;font-weight:blod;height:40px}
+												.tab_jtd .tr_cnt{font-size:32px;color:blue}
+											</style>
+											<div class="tab-content" style="float:left">
+
+												<table>
+													<tr>
+														<td class="tab_jtd">
+															<p class="tr_tit">阅读次数</p>
+															<p class="tr_cnt"><!--{$sub}--></p>
+														</td>
+													</tr>
+												</table>
+												
+											</div>
+
+										</div>
+
+										<!--END TABS-->
+
+									</div>
+									
+
+								</div>
+
+								
+							</div>
+
+						</div>
+
+						<!-- END VALIDATION STATES-->
+						 <!--详细数据开始-->
+                        <div class="portlet box yellow">
+
+                            <div class="portlet-title">
+
+                                <div class="caption"><i class="icon-reorder"></i><!--{$current.last}--></div>
+
+                            </div>
+                            <!--详细数据详细内容开始-->
+                            <div class="portlet-body form clearfix" style="overflow:visible;">
+                                <div id="user_minute" class="image fl" style="border-right:#999 0px solid">
+                                    <div class="time clearfix">
+                                        <ul>
+                                            <li>
+                                                <span id="currentY" data="<!--{$smarty.now|date_format:'%Y'}-->"><!--{$smarty.now|date_format:'%Y'}-->年</span><a class="right" href="#"></a>                                            
+                                            </li>
+                                            <li>
+                                                <span id="current" data="<!--{$smarty.now|date_format:'%m'}-->"><!--{$smarty.now|date_format:'%m'}-->月</span>
+                                                <!--鼠标点击效果开始-->
+                                                <div id="v_m-list" class="popup" style="display: none;">
+                                                	<ul>
+                                                    	<li class="m-list" id="m_01" data='01'>01月</li>
+                                                        <li class="m-list" id="m_02" data='02' >02月</li>
+                                                         <!--已设定的月份显示-->
+                                                        <li class="m-list" id="m_03" data='03'>03月</li>
+                                                        <li class="m-list" id="m_04" data='04'>04月</li>
+                                                        <li class="m-list" id="m_05" data='05'>05月</li>
+                                                        <li class="m-list" id="m_06" data='06'>06月</li>
+                                                        <li class="m-list" id="m_07" data='07'>07月</li>
+                                                        <li class="m-list" id="m_08" data='08'>08月</li>
+                                                        <li class="m-list" id="m_09" data='09'>09月</li>
+                                                        <li class="m-list" id="m_10" data='10'>10月</li>
+                                                        <li class="m-list" id="m_11" data='11'>11月</li>
+                                                        <li class="m-list" id="m_12" data='12'>12月</li>
+                                                    </ul>
+                                                </div>
+                                                <!--鼠标点击效果结束-->
+                                            </li>
+                                            <li class="derive"><a class="btn blue" id="exp_link" href="javascript:exp_info();">点击导出</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="matter">
+                                        <ul>
+                                            <li class="title">
+                                                <span>时间</span><span>阅读次数</span>
+                                            </li>
+                                            <div id="reader-m-cnt">
+                                            
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="user_minute" class="image fl" style="border-left:#999 0px solid">
+                                    <div class="time clearfix">
+                                        <ul>
+                                            <li><span id="current_d" data="1" >当日阅读TOP</span>
+                                            	<!--鼠标点击效果开始-->
+                                                <div id="v_d-list" class="popup" style="display: none;">
+                                                	<ul>
+                                                    	<li class="d-list" id="d_1" data='1'>当日阅读TOP</li>
+                                                        <li class="d-list" id="d_2" data='2' >上周阅读TOP</li>
+                                                    </ul>
+                                                </div>
+                                                <!--鼠标点击效果结束-->
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="matter else">
+                                        <ul>
+                                            <li class="title">
+                                                <span class="no">序列</span><span class="title">内容标题</span><span class="time">阅读次数</span>
+                                            </li>
+                                            <div id="contain-view-diver"></div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--详细数据详细内容结束-->
+                        </div>
+                        <!--详细数据结束-->
+				    </div>
+
+			    </div>
+
+				<!-- END PAGE CONTENT-->         
+
+			</div>
+
+			<!-- END PAGE CONTAINER-->
+
+		</div>
+
+		<!-- END PAGE -->  
+
+	</div>
+
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+
+	<!-- END PAGE LEVEL STYLES -->    
+
+	<script>
+		jQuery(document).ready(function() {
+
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.modify_passwd();
+           get_analysis_list("<!--{$smarty.now|date_format:'%Y'}-->","<!--{$smarty.now|date_format:'%m'}-->");
+           get_view_cnt(1);
+           show_month();
+           show_day();
+		});
+        
+        function get_analysis_list(year,month){  
+            $.ajax({
+               type: "POST",
+               url : '<!--{$url}-->/biz/analysis/get_analysis_list',
+               data: "year="+year+"&month="+month,
+               success: function(msg){
+                    var dataObj=eval("("+msg+")");
+                    var str = '';
+                    if($(".detail-m-list").length){
+                        $(".detail-m-list").remove();            
+                    }
+                    for(i=0;i<dataObj.length;i++){
+                       str += '<li class="detail-m-list"><span>'+dataObj[i]['date']+'</span><span>'+dataObj[i]['read']+'</span></li>';
+                    }
+                    $("#reader-m-cnt").append(str);
+               }
+            });
+        }
+        
+        
+        function get_view_cnt(type){  
+            $.ajax({
+               type: "POST",
+               url : '<!--{$url}-->/biz/analysis/get_view_cnt',
+               data: "type="+type,
+               success: function(msg){
+                    var dataObj=eval("("+msg+")");
+                    var str = '';
+                    if($(".view-list").length){
+                        $(".view-list").remove();            
+                    }
+                    for(i=0;i<dataObj.length;i++){
+                       str += '<li class="view-list"><span class="no">'+(i+1)+'</span><span class="title">'+dataObj[i]['title']+'</span><span class="time">'+dataObj[i]['num']+'</span></li>';
+                    }
+                    $("#contain-view-diver").append(str);
+               }
+            });
+        }
+        
+        function show_month(){
+            $("#current").click(function(){
+                var id = $(this).attr("data");
+                $("#m_"+id).addClass('designate');
+                $("#v_m-list").removeClass('hidden').slideDown("slow");
+                $('.m-list').live("click",function(){
+                    var m = $(this).attr('data');
+                    var t = $(this).html();
+                    $("#current").attr("data",m);
+                    $("#current").html(t);
+                    $('.m-list').removeClass('designate');
+                    $(this).addClass('designate');
+                    $("#v_m-list").hide();
+                    get_analysis_list('2014',m);
+                });
+                
+                
+            })
+        }
+        
+        function show_day(){
+            
+            $("#current_d").click(function(){
+                var id = $(this).attr("data");
+                $("#d_"+id).addClass('designate');
+                $("#v_d-list").removeClass('hidden').slideDown("slow");
+                $('.d-list').live("click",function(){
+                    var d = $(this).attr('data');
+                    var t = $(this).html();
+                    $("#current_d").attr("data",d);
+                    $("#current_d").html(t);
+                    $('.d-list').removeClass('designate');
+                    $(this).addClass('designate');
+                    $("#v_d-list").hide();
+                    get_view_cnt(d);
+                });
+                
+                
+            })  
+        }
+        function exp_info(){
+            var link = "<!--{$url}-->/biz/analysis/exp_info";
+            var m = $("#current").attr("data");
+            var y = $("#currentY").attr("data");
+            var params = y+"-"+m; 
+            window.location.href=link+"?d="+params;
+            //window.open(link+"?d="+params);    
+        }
+        
+	</script>
+
+	<!-- END JAVASCRIPTS -->   
+
+</body>
+
+<!-- END BODY -->
+
+</html>

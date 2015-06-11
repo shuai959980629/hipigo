@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>评论的回复详情,社区,商户自己的社区平台</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="css/font-awesome.css" />
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/community-detail.css" />
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/swipe.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+.link {position:absolute;left:0;width:100%;height:0;background:#F7F7F7;overflow:hidden;visibility:hidden; margin:0;}
+ .title {position:relative;cursor:pointer; background:  url(images/menu10.gif);;width:156;color:#000;font-family:trebuchet MS;verdana;font-size:12px;left:0;line-height:24px;overflow:hidden; text-align:center; margin:0px;}
+ .title_o {position:relative;cursor:pointer;background:  url(images/menu10.gif) 0 -24px;width:156;color:#000;font-family:trebuchet MS;verdana;font-size:12px;left:0;line-height:24px;overflow:hidden;text-align:center;}
+#frames ul{
+list-style:none;
+margin:0px 0px 0px 2px;
+padding:0;
+font-family:Arial, Helvetica, sans-serif;
+font-size:12px;}
+-->
+</style>
+
+</head>
+<body>
+<div class="main">
+<div class="container">
+<!--operate-->
+<div class="operate">
+<span class="return left"><a href="#"><i class="iconfont icon iconfont_10">&#983354</i></a></span>
+<span class="partake-num left"><a href="#">已有<em>9人</em>参加</a></span>
+<a href="#" class="join right">参加</a>
+</div>
+<!--评论-->
+<div class="comm-detail-say clearfix">
+<ul>
+<li>
+<p class="say-pic left"><img src="img/50x50.jpg"/></p>
+<p class="say-person left">
+<span class="say-person-name">
+<em class="left">家妹</em><a href="#" class="right"><i class="icon-comments-alt"></i></a>
+<span class="time">04-16</span>
+<span class="say-person-con">真的吗？真的吗？真的吗？真的吗？真的吗？</span>
+<span class="reply">
+<b><em>sunshine:</em>是不是真的呢？<i>2014-4-14</i></b>
+<b><em>啦暥:</em>好像是真的呢<i>2014-4-15</i></b>
+<b><em>laura</em>回复<em>sunshine:</em>你是不是试过哦？<i>刚刚</i></b>
+</span>
+</span>
+</p>
+</li>
+</ul>
+</div>
+<!--底部按钮-->
+<div class="bottom-thumbs-up">
+<button><i class="icon-thumbs-up"></i>赞2</button>
+<button><i class="icon-comment-alt"></i>评论100</button>
+</div>
+<!--评论弹出输入框-->
+<div class="discuss-textarea clearfix">
+<a href="#" class="other left">&nbsp;</a>
+<div class="textarea left"><textarea></textarea></div>
+<button class="enter right">发送</button>
+</div>
+<!--其他选择表情图片-->
+<div class="face-pic">
+<ul class="clearfix">
+<li class="left">
+<span class="icon-pic"><a href="#"><i class="iconfont icon iconfont_10">&#983347</i></a></span>
+<span class="icon-describe">表情</span>
+</li>
+<li class="left">
+<span class="icon-pic"><a href="#"><i class="icon-picture"></i></a></span>
+<span class="icon-describe">图片</span>
+</li>
+</ul>
+<!--这是表情排列S-->
+<ul class="expression clearfix hidden">
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+<li><a href="#"><img src="img/emoji_85.png"/></a></li>
+</ul>
+<!--这是表情排列E-->
+</div>
+
+
+</div>
+<!--footer-->
+<footer class="hidden">powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+</div>
+------script脚本（用来控制菜单的）--------
+<script type="text/javascript"><!--
+var object = new Array();
+function Slide(N,oCont){
+ this.N  = N;
+ this.S  = 1.1;
+ this.object = new Array();
+ this.CObj = function (parent,N){
+  this.parent = parent;
+  this.N = N;
+  this.obj = parent.frm[N];
+  this.tit = this.obj.firstChild;
+  this.div = this.obj.getElementsByTagName("div")[1];
+  this.div.style.visibility = "hidden";
+  this.y0 = N * 24;
+  this.Y1 = this.y0;
+  this.obj.style.top = this.y0;
+  this.obj.style.height = parent.H - (parent.NF-1) * 24 - 3;
+  this.obj.style.visibility = "visible";
+  this.obj.parent = this;
+  this.run = false;
+  this.move = function(){
+   with(this){
+    dy = (y1-y0)/parent.S;
+    if(Math.abs(dy)>.1){
+     y0+=dy;
+     obj.style.top = Math.round(y0);
+     setTimeout("object["+parent.N+"].object["+N+"].move();", 16);
+    } else {
+     run = false;
+     if(dy>0)div.style.visibility="hidden";
+     else if(N>0)parent.object[N-1].div.style.visibility="hidden";
+    }
+   }
+  }
+  this.obj.onmouseover = function(){
+   with(this.parent){
+    if(!run){
+     run = true;
+     div.style.visibility="visible";
+     for(i=0;i<parent.NF;i++)parent.object[i].tit.className = "title";
+     tit.className = "title_o";
+     for(i=0;i<=N;i++){
+      parent.object[i].y1 = i*24;
+      parent.object[i].move();
+     }
+     for(i=N+1;i<parent.NF;i++){
+      parent.object[i].y1 = parent.H-(parent.NF-i)*24;
+      parent.object[i].move();
+     }
+    }
+   }
+  }
+ }
+ this.frm = document.getElementById(oCont);
+ this.H = parseInt(this.frm.style.height);
+ this.frm = this.frm.getElementsByTagName("span");
+ this.NF = this.frm.length;
+ for(i=0;i<this.NF;i++) this.object[i] = new this.CObj(this, i);
+ this.object[0].obj.onmouseover();
+ this.S = 10;
+}
+onload = function() {
+ object[0] = new Slide(0, "frames");
+}
+//-->
+</script>
+----------div内容如下----------
+<div style="position:absolute;left:50%;top:30%"> 
+  <div id="frames" style="position:absolute;width:156px;height:450;left:-403px;top:150px;overflow:hidden"> 
+ <span class="link"> 
+    <div class="title"><b>  contato /<i> contact</i></b></div>
+    <div> 
+      <ul>
+  <li><img src="images/new_ico.gif"> &nbsp;膨胀节</li>
+  <li><img src="images/new_ico.gif"> 膨胀节</li>
+  <li><img src="images/new_ico.gif"> 膨胀节</li>
+
+  </ul> 
+    </div>
+    </span>
+<span class="link"> 
+    <div class="title"><b>  contato /<i> contact</i></b></div>
+    <div> 
+      <ul>
+   <li><img src="images/new_ico.gif"> &nbsp;膨胀节</li>
+   <li><img src="images/new_ico.gif"> 膨胀节</li>
+   <li><img src="images/new_ico.gif"> 膨胀节</li>
+  </ul> 
+    </div>
+    </span>
+ </div>
+</div>
+----------div内容如上----------
+</body>
+</html>

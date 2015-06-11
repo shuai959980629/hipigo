@@ -1,0 +1,980 @@
+<!--{include file="header.html"}-->
+<link rel="stylesheet" href="/wapi/css/about.css" />
+<link rel="stylesheet" href="/wapi/css/index1.css" />
+<script src="/wapi/js/jquery.js"></script>
+<script src="/wapi/js/bootstrap.js"></script>
+<script src="/wapi/js/swipe.js"></script>
+<style>
+    .swipe {
+        overflow: hidden;
+        visibility: hidden;
+        position: relative;
+    }
+        /* Swipe 2 required styles */
+    .swipe-wrap {
+        overflow: hidden;
+        position: relative;
+    }
+    .swipe-wrap > figure {
+        float:left;
+        width:100%;
+        position: relative;
+    }
+        /* END required styles */
+</style>
+<!-- END HEAD -->
+<link rel="stylesheet" type="text/css" href="<!--{$url_prefix}-->media/css/chosen.css" />
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar nav-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <!--{include file="menu.html"}-->
+        <!-- END SIDEBAR MENU -->
+    </div>
+    <!-- END SIDEBAR -->
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- BEGIN PAGE CONTAINER-->
+        <div class="container-fluid">
+            <!-- BEGIN PAGE HEADER-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                    <!--{include file="nav.html"}-->
+                    <!-- END PAGE TITLE & BREADCRUMB-->
+                </div>
+            </div>
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN VALIDATION STATES-->
+                    <div class="portlet box purple">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-reorder"></i><!--{$current.last}--></div>
+                        </div>
+                        <div class="portlet-body form">
+                            <!--首页栏目管理开始-->
+                                <div id="home_column" class="home_column">
+                                    <!--首页栏左边展示开始-->
+                                    <div class="show fl">
+
+                                        <div style="max-width:768px; margin:0 auto">
+                                        <div class="swipe">
+                                            <div class="banner swipe-wrap" id="banner_box" style="visibility: visible;">
+                                                <ul>
+                                                    <!--{foreach from=$images item=value}-->
+                                                    <li style="width:100%;"><a onClick="return false;"><img src="<!--{$value.0}-->" style="width:100%;border:none"></a></li>
+                                                    <!--{/foreach}-->
+                                                </ul>
+                                                <ol>
+                                                    <!--{foreach from=$images item=value name=ts}-->
+                                                    <!--{if $smarty.foreach.ts.index == 0}-->
+                                                    <li class="on"></li>
+                                                    <!--{else}-->
+                                                    <li></li>
+                                                    <!--{/if}-->
+                                                    <!--{/foreach}-->
+                                                </ol>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <ul class="showe_showe">
+                                            <!--{foreach from = $config_info item = ci}-->
+                                            <li>
+                                                 <!--鼠标指上去的效果-->
+                                                <span>
+                                                    <img src="<!--{$ci.image|get_img_url:'home'}-->">
+                                                    <b class="name"><!--{$ci.name}--></b>
+                                                    <b class="result" style="display:none;">
+                                                        <a href="javascript:void(0);" onClick="show_config(<!--{$ci.id_config}-->)">编辑</a>
+                                                        <a class="delete" href="javascript:void(0);" onClick="delete_config(this,<!--{$ci.id_config}-->)">删除</a>
+                                                        <a class="view" target="_blank" href="<!--{$ci.link}-->">浏览</a>
+                                                    </b>
+                                                </span>
+                                            </li>
+                                            <!--{/foreach}-->
+                                             <!--添加开始-->
+                                             <li class="add">
+                                                <a href="<!--{$url_prefix}-->home/edit_home/<!--{$page_num}-->"><span>添加</span></a>
+                                            </li>
+                                            <!--添加结束-->
+                                        </ul>
+                                    </div>
+                                    <!--首页栏左边展示结束-->
+                                    <!--首页栏右边添加开始-->
+                                    <input type="hidden" name="id_business" id="id_business" value="<!--{$id_business}-->"/>
+
+                                    <div class="amend fl">
+                                        <div id="new_div">
+                                            <p>页面模块编号</p>
+                                            <div class="content clearfix">
+                                                <select id="page_column" name="page_column" style="margin: 0;" onChange="change_page(this)">
+                                                    <option value="0">首页</option>
+                                                    <!--{foreach from = $page_info item = pi}-->
+                                                    <option value="<!--{$pi.id_column}-->" <!--{if $pi.id_column == $page_num}-->selected="selelcted"<!--{/if}-->><!--{$pi.name}--></option>
+                                                    <!--{/foreach}-->
+                                                </select>
+                                                <a class="btn green" onClick="show_page_div()">增加</a>
+                                            </div>
+
+                                            <div id="img_div">
+                                                <p>滚动图片模块</p>
+                                                <input type="hidden" id="image_id" name="image_id" value=""/>
+                                                <input type="hidden" id="imgNum" name="imgNum" value="<!--{$image_url_count}-->">
+                                                <div class="clearfix" >
+                                                    <!--{foreach from=$images item=value}-->
+                                                    <div class="fileupload-new thumbnail">
+                                                        <img src="<!--{$value.0}-->" alt="" style="width:136px;height:85px">
+                                                        <!--<a onClick="del(this,&lt;!&ndash;{$value.id_attachment}&ndash;&gt;)"></a>-->
+                                                    </div>
+                                                    <!--{/foreach}-->
+                                                    <!--<div class="fileupload-new thumbnail">-->
+                                                    <!--<span class="add">添加</span>-->
+                                                    <!--</div>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <hr/>
+                                    <div id="edit_div">
+                                        <input type="hidden" name="id_config" id="id_config" value="0"/>
+                                        <input type="hidden" name="id_column" id="id_column" value="0"/>
+                                        <input type="hidden" name="is_add" id="is_add" value="add"/>
+
+                                        <p>名称</p>
+                                        <div class="content clearfix"><input class="span6 m-wrap" name="name" type="text" maxlength="8">
+                                            <b style=" line-height: 30px; font-weight: normal">（最多输入8个汉字!）</b></div>
+                                        <p>图片<span style="color:#666; padding-left:215px;">图片尺寸：333像素*190像素</span></p>
+                                        <div class="content clearfix">
+                                            <!--<div class="put span6 m-wrap">
+                                                <a href="#" class="span6 m-wrap"><img src="/biz/media/image/ico_put.png">上传</a>
+                                            </div>-->
+                                            <div class="controls">
+                                                <!--{if $c.image}-->
+                                                <div class="fileupload-new thumbnail">
+                                                    <img src="<!--{$c.image|get_img_url:'home'}-->" alt="" style="width:136px;height:85px">
+                                                    <a onClick="closeImg(this,'',0,1)"></a>
+                                                </div>
+                                                <!--{/if}-->
+                                                <div id="swfupload-control">
+                                                    <input type="button" id="button" />
+                                                    <input type="hidden" id="picNum" name="picNum" value="0">
+                                                    <p id="queuestatus" ></p>
+                                                    <ol id="log"></ol>
+                                                </div>
+                                                <input type="hidden" id="image_src" name="image_src" value=""/>
+                                            </div>
+                                        </div>
+                                        <p>点击类型</p>
+                                        <div class="content clearfix">
+                                            <div class="mold"><input type="radio" name="membership" value="1" onClick="show_div(1)" checked/>列表</div>
+                                            <div class="mold"><input type="radio" name="membership" value="2" onClick="show_div(2)"/>详情</div>
+                                            <div class="mold"><input type="radio" name="membership" value="3" onClick="show_div(3)"/>外部链接</div>
+                                        </div>
+                                        <!--详情展示开始-->
+                                        <div style="display: none;" id="infos">
+                                            <p>功能模块</p>
+                                            <div class="content clearfix">
+                                                <select id="info_">
+                                                    <option value="0">请选择功能模块</option>
+                                                    <!--{foreach from = $sop item = s key = k}-->
+                                                    <option value="<!--{$k}-->"><!--{$s}--></option>
+                                                    <!--{/foreach}-->
+                                                </select>
+                                            </div>
+                                            <p>实体编号</p>
+                                            <div class="content clearfix"><input class="span6 m-wrap" name="id_object" type="text"></div>
+                                        </div>
+                                        <!--详情展示结束-->
+                                        <!--外部链接展示开始-->
+                                        <div style="display: none;" id="link">
+                                            <p>外部链接</p>
+                                            <div class="content clearfix"><input class="span6 m-wrap" name="url" type="text"></div>
+                                        </div>
+                                        <!--外部链接展示结束-->
+                                        <!--列表展示开始-->
+                                        <div id="lists">
+                                            <p>功能模块</p>
+                                            <div class="content clearfix">
+                                                <select id="info" onChange="get_class(this)">
+                                                    <option value="0">请选择功能模块</option>
+                                                    <!--{foreach from = $sop item = s key = k}-->
+                                                    <option value="<!--{$k}-->"><!--{$s}--></option>
+                                                    <!--{/foreach}-->
+                                                </select>
+                                            </div>
+                                            <p>分类模块</p>
+                                            <div class="content clearfix">
+                                                <select id="commodity_class">
+                                                    <option value="0">请选择分类模块</option>
+                                                    <!--{foreach from = $commodity_class item = cc}-->
+                                                    <!--<option value="&lt;!&ndash;{$cc.id_class}&ndash;&gt;">&lt;!&ndash;{$cc.name}&ndash;&gt;</option>-->
+                                                    <!--{/foreach}-->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="page_template">
+                                            <p>页面模板</p>
+                                            <div class="content clearfix">
+                                                <input type="hidden" name="template" value="1"/>
+                                              <ul>
+                                                <li class="template_li">
+                                                  <p class="template_mold mold_active" onclick="select_template(this,1)"><img src="<!--{$url_prefix}-->media/image/template01.jpg"></p>
+                                                  <p>时间图文列表</p>
+                                                </li>
+                                                <li class="template_li">
+                                                  <p class="template_mold" onclick="select_template(this,2)"><img src="<!--{$url_prefix}-->media/image/template02.jpg"></p>
+                                                  <p>纯图文列表</p>
+                                                </li>
+                                              </ul>                               
+                                            </div>
+                                        </div>
+                                        <div>
+                                        <p>权重</p>
+                                        <div class="content clearfix">
+                                            <input class="span6 m-wrap" name="weight" type="text" value="0" maxlength="5" onKeyUp="validateInt(this);" onBlur="validateInt(this);">
+                                        </div>
+                                        </div>
+                                        <span class="timex"></span>
+                                        <!--列表展示结束-->
+                                        <input class="btn blue" type="button" value="确定" onClick="send_config();"/>
+                                        <input class="btn" type="button" value="取消" onClick="reset_config();"/>
+                                    </div>
+                                    </div>
+                                     <!--首页栏右边添加结束-->
+                                </div>
+                            <!--首页栏目管理结束-->
+                        </div>
+                    </div>
+                    <!-- END VALIDATION STATES-->
+              </div>
+          </div>
+            <!-- END PAGE CONTENT-->
+        </div>
+        <!-- END PAGE CONTAINER-->
+    </div>
+    <!-- END PAGE -->
+</div>
+<div id="show_div" style="display: none;">
+    页面名称：<input type="text" name="name" id="name" maxlength="10"/>
+    <input type="button" value="确定" class="btn green" onClick="add_column()"/>
+    <input type="button" value="取消" class="btn" onClick="hide_div()"/>
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL STYLES -->
+<script type="text/javascript" src="<!--{$url_prefix}-->media/js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="<!--{$url_prefix}-->media/js/jquery.swfupload.js"></script>
+	<script>
+        $(document).ready(function(){
+            new Swipe(document.getElementById('banner_box'), {
+                speed:500,
+                auto:3000,
+                continuous:false,
+                stopPropagation:true,
+                disableScroll: true,
+                callback: function(){
+                    var lis = $(this.element).next("ol").children();
+                    lis.removeClass("on").eq(this.index).addClass("on");
+                }
+            });
+        });
+
+		jQuery(document).ready(function() {
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.init();
+		});
+
+        //选择页面模板
+        function select_template(obj,num){
+            $(obj).parent().parent().find('.template_mold').removeClass('mold_active');
+            $(obj).addClass('mold_active');
+
+            $('input[name="template"]').val(num);
+        }
+
+        //删除滚动的图片
+        function del(obj,num,type){
+            $('#imgNum').val(parseInt($('#imgNum').val())-1);
+            $(obj).parent().remove();
+            if(type == 1){
+                var imgsrcArray = $('#logo_src').val().split(",");
+                for(var i=0;i<imgsrcArray.length;i++){
+                    if(imgsrcArray[i] == num){
+                        imgsrcArray.splice(i,1);
+                        $('#logo_src').val(imgsrcArray);
+                    }
+                }
+            }else{
+                if($('#image_id').val() != ""){
+                    $('#image_id').val($('#image_id').val() + "," +num);
+                } else{
+                    $('#image_id').val(num);
+                }
+            }
+        }
+
+        //页面模块的选中改变的时候触发的
+        function change_page(obj){
+            var page_num = $(obj).val();//页面对应id
+            $.post('<!--{$url_prefix}-->home/change_page', {
+                'page_num': page_num
+            }, function(data){
+                $('.show').html(data.list_left);
+
+                var html = '<p>滚动图片模块(图片格式：jpg,png,gif,推荐尺寸320px X 200px(最小: 320px X 200px;最大: 800px X 500px);)</p><input type="hidden" id="image_id" name="image_id" value=""/>' +
+                        '<input type="hidden" id="imgNum" name="imgNum" value="'+data.list_right.image_url_count+'"><div class="clearfix" >';
+                if(page_num == 0){
+                    $.each(data.list_right.images, function(key, val) {
+                        html += '<div class="fileupload-new thumbnail">' +
+                                '<img src="'+val[0]+'" alt="" style="width:136px;height:85px"></div>';
+                    });
+                }else{
+                    $.each(data.list_right.images, function(key, val) {
+                        html += '<div class="fileupload-new thumbnail">' +
+                                '<img src="'+val[0]+'" alt="" style="width:136px;height:85px">' +
+                                '<a onClick="del(this,'+val[1]+',0)"></a></div>';
+                    });
+                    html += '<div id="show_upload_img"></div><div style=" width:100%;display:block" class="fileupload-new thumbnail">' +
+                            '<div id="swfupload-controlA"><span id="spanButtonPlaceholder"></span><input type="hidden" id="logoNum" name="logoNum" value="0">' +
+                            '<p id="queuestatusA" ></p><ol id="logA"></ol></div><input type="hidden" id="logo_src" name="logo_src" value=""/>' +
+                            '<span class="btn blue" onclick="save_top_img()">保存</span></div></div>';
+                }
+
+                $('#img_div').html(html);
+                add_top_img();
+                $('#id_config').val(page_num);
+            }, 'json');
+        }
+
+        function show_upload_img(file_name,url){
+            var html = '<div class="fileupload-new thumbnail">' +
+                    '<img src="'+url+'" alt="" style="width:136px;height:85px">' +
+                    '<a onClick="del(this,\''+file_name+'\',1)"></a></div>';
+            $('#show_upload_img').append(html);
+        }
+
+        //保存微官网配置顶部滚动图片
+        function save_top_img(){
+            var logo_src = $('#logo_src').val();
+            var image_id = $('#image_id').val();
+            if(logo_src == '' && image_id == ''){
+                alert('你没有操作图片，无需保存！');
+                return;
+            }
+            $.post('<!--{$url_prefix}-->home/save_top_img', {
+                'id_config':  $('#id_config').val(),
+                'logo_src':  logo_src,
+                'image_id': image_id
+            }, function(data){
+                alert(data);
+                $('#logo_src').val('');
+                $('#imgNum').val(parseInt($('#imgNum').val())+parseInt($('#logoNum').val()));
+                $('#logoNum').val(0);
+                $('#image_id').val('');
+            }, 'text');
+        }
+
+        //展示增加页面名的div
+        function show_page_div(){
+//            $('#pop_up').show();
+            $('#show_div').show();
+            $('body').append('<div id="pop_up"></div>');
+        }
+
+        //隐藏增加页面名的div
+        function hide_div(){
+            $('#pop_up').remove();
+            $('#show_div').hide();
+        }
+
+        //增加页面模块内容
+        function add_column(){
+            var name=$('#name').val();
+            $.post('<!--{$url_prefix}-->home/add_column', {
+                'name': name
+            }, function(data){
+                $('#pop_up').remove();
+                $('#show_div').hide();
+                $('#page_column').append('<option value="'+data.data+'">'+name+'</option>');
+            }, 'json');
+        }
+
+        var len = 0;
+        $(function (){
+            //鼠标滑动到图片上显示效果
+            $('.show').children().children().mouseover(function(){
+                $(this).children().children('.name').hide();
+                $(this).children().children('.result').show();
+            }).mouseout(function(){
+                $(this).children().children('.result').hide();
+                $(this).children().children('.name').show();
+            });
+            init_upload();
+        });
+
+        //分类展示
+        function get_class(obj){
+            $.post('<!--{$url_prefix}-->home/get_class', {
+                'type': $(obj).val()
+            }, function(data){
+                $('#commodity_class').html(data);
+            }, 'text');
+        }
+
+        //展示首页配置 编辑配置
+        function show_config(id_config){
+            $.post('<!--{$url_prefix}-->home/show_config', {
+                'id_config': id_config
+            }, function(data){
+                $('#edit_div').html(data);
+                init_upload();
+            }, 'text');
+        }
+
+        //发布首页配置
+        function send_config(){
+            var name = $('input[name="name"]').val();
+//            var name = names.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+//            if(name == ''){
+//                alert('请输入名称！');
+//                return;
+//            }
+            var picnum = $('#picNum').val();
+            if(picnum == 0){
+                alert('请至少上传一张图片！');
+                return;
+            }
+
+            var weight = $('input[name="weight"]').val();
+            var id_object = 0;
+            var membership = $('input[name="membership"]:checked').val();
+            var url,info,type = '';
+            if(membership == 1){//列表
+                info =$('#info').val();
+                id_object =$('#commodity_class').val();
+//                url = $('input[name="url"]').val();
+                if(info == 0){
+                    alert('请选择功能模块！');
+                    return;
+                }
+                if(id_object == 0){
+                    alert('请选择分类模块！');
+                    return;
+                }
+                type = 'list';
+//                url = 'wapi/'+$('#id_business').val()+'/0/home/class_list?r='+info+'&c='+id_object;
+            }else if(membership == 2){//详情
+                info =$('#info_').val();
+                id_object =$('input[name="id_object"]').val();
+                if(info == 0){
+                    alert('请选择功能模块！');
+                    return;
+                }
+                if(id_object == 0){
+                    alert('请填写实体编号！');
+                    return;
+                }
+                type = 'eitity';
+            }else{//外部链接
+                var urls = $('input[name="url"]').val();
+                url = urls.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+                if(url == ''){
+                    alert('请填写链接地址！');
+                    return;
+                }
+                type = 'link';
+            }
+            if(weight == ''){
+                weight = 0;
+            }
+            $.post('<!--{$url_prefix}-->home/edit_home', {
+                'id_config': $('#id_config').val(),
+                'page_column':$('#page_column').val(),
+                'name': name,
+                'image': $('#image_src').val(),
+                'type': type,
+                'object_type': info,
+                'id_object': id_object,
+                'url': url,
+                'weight': weight,
+                'logo_src':$('#logo_src').val(),
+                'image_id':$('#image_id').val(),
+                'template':$('input[name="template"]').val(),
+                'is_add':$('#is_add').val()
+            }, function(data){
+                alert(data.msg);
+
+                $('input[name="name"]').val('');
+                $('#image_src').val('');
+                $('#picNum').val(0);
+                $('input[name="membership"]:first').attr('checked','true');
+                $('input[name="id_object"]').val('');
+                $('input[name="url"]').val('');
+                $('input[name="weight"]').val(0);
+                $('#info').val(0);
+                $('#info_').val(0);
+                $('input[name="template"]').val(1);
+                $('#commodity_class').val(0);
+//                $('#page_column').val(0);
+
+                window.location.reload();
+            }, 'json');
+        }
+
+        //展示分类配置 是否是第三方链接或详情页面
+        function show_div(num){
+            if(num == 1){//列表
+                $('#infos').hide();
+                $('#link').hide();
+                $('#lists').show();
+                $('#page_template').show();
+            }else if(num == 2){//详情
+                $('#infos').show();
+                $('#link').hide();
+                $('#lists').hide();
+                $('#page_template').hide();
+            }else{//外部链接
+                $('#infos').hide();
+                $('#link').show();
+                $('#lists').hide();
+                $('#page_template').hide();
+            }
+        }
+
+        //删除首页配置
+    function delete_config(obj,id_config){
+        if(confirm("你确定要删除该模块信息吗？"))
+        {
+            $.post('<!--{$url_prefix}-->home/delete_site_config', {
+                'id_config': id_config
+            }, function(data){
+                if(data.status == 1){
+                    $(obj).parent().parent().parent().remove();
+                }else{
+                    alert(data.msg);
+                }
+            }, 'json');
+        }
+    }
+
+        //取消编辑
+        function reset_config(){
+            if(confirm("你确定要取消当前编辑吗？"))
+            {
+                $('input[name="name"]').val('');
+                $('#image_src').val('');
+                $('#picNum').val(0);
+                $('input[name="membership"]:first').attr('checked','true');
+                $('#infos').hide();
+                $('#link').hide();
+                $('#lists').show();
+                $('input[name="id_object"]').val('');
+                $('input[name="url"]').val('');
+                $('input[name="weight"]').val(0);
+                $('#info').val(0);
+                $('#info_').val(0);
+                $('#commodity_class').val(0);
+                $('.fileupload-new').remove();
+                $('#id_config').val(0);
+                $('input[name="template"]').val(1);
+                $('#log').html('');
+            }
+        }
+
+    function init_upload(){
+        $('#swfupload-control').swfupload({
+            upload_url: '<!--{$url_prefix}-->files/upload_all_file/home',
+            file_post_name: 'uploadfile',
+            file_size_limit : '150',
+            file_types : "*.jpg;*.png",
+            file_types_description : "Image files",
+            file_upload_limit : 0,
+            flash_url : "<!--{$url_prefix}-->media/js/swfupload/swfupload.swf",
+            button_image_url : '<!--{$url_prefix}-->media/js/swfupload/wdp_buttons_upload_114x29_.png',
+            button_width : 417,
+            button_height : 32,
+            button_placeholder : $('#button')[0],
+            button_action:SWFUpload.BUTTON_ACTION.SELECT_FILE,
+            debug: false 
+        }).bind('fileQueued', function(event, file){
+            if(parseInt($('#picNum').val()) >= 1){
+                alert("图片只能传送1张!");
+                var swfu = $.swfupload.getInstance('#swfupload-control');
+                swfu.cancelUpload(file.id);
+                len = 1;
+                return false;
+            }
+            $('#picNum').val(parseInt($('#picNum').val())+1);
+            var listitem='<li id="'+file.id+'" ><b class="js-component-icon nui-ico fl"></b>'+
+                    '<em>'+file.name+'</em> '+
+                    '<span class="file_cancel" style="display: none;">删除</span>'+
+                    '<span class="cancel" >删除</span>'+
+                    '<div class="progressbar" style="display:none;"><div class="progress" ></div></div><span class="progressvalue" ></span>'+
+                    '<p class="status" >等待中..</p>'+
+                    '</li>';
+
+            $('#log').append(listitem);
+            $('li#'+file.id+' .cancel').bind('click', function(){
+                var swfu = $.swfupload.getInstance('#swfupload-control');
+                swfu.cancelUpload(file.id);
+
+                $('li#'+file.id).slideUp('fast');
+
+                $('#submitForm').addClass('purple');
+                $('#submitForm').attr('onClick','');
+                $('#form_item_add').attr('action',$("#jobaction").val());
+            });
+
+            if($('#submitForm').attr('class') == 'btn purple'){
+                $('#submitForm').removeClass('purple');
+                $('#submitForm').attr('onClick','return false;');
+                $('#form_item_add').attr('action','');
+            }
+
+            // start the upload since it's queued
+            $(this).swfupload('startUpload');
+        }).bind('fileQueueError', function(event, file, errorCode, message){
+            if(file){
+                alert(file.name+' 的文件已超限，详细请见备注！');//大小('+Math.round(file.size/1024)+'KB)
+            }else
+                alert('超过队列数了！');
+        }) .bind('uploadStart', function(event, file){
+            $('#log li#'+file.id).find('div.progressbar').css('display','block');
+            $('#log li#'+file.id).find('p.status').text('');
+            $('#log li#'+file.id).find('span.progressvalue').text('0%');
+//                $('#log li#'+file.id).find('span.cancel').hide();
+        })
+        .bind('uploadProgress', function(event, file, bytesLoaded){
+            //Show Progress
+            var percentage=Math.round((bytesLoaded/file.size)*100);
+            percentage = percentage>100?100:percentage;
+            $('#log li#'+file.id).find('div.progress').css('width', percentage +'%');
+            $('#log li#'+file.id).find('span.progressvalue').text(percentage+'%');
+            if(percentage >= 100){
+                $('#log li#'+file.id).find('div.progressbar').css('display','none');
+                $('#log li#'+file.id).find('span.progressvalue').text('');
+                $('#log li#'+file.id).addClass('success').find('p.status').html('('+Math.round(file.size/1024)+' KB)<i>请等待...</i>');//+pathtofile
+                if($('#log li#'+file.id).find('span.cancel').css('display') != 'none'){
+                    $('#log li#'+file.id).find('span.cancel').hide();
+                    $('#log li#'+file.id).find('span.file_cancel').show();
+                    $('li#'+file.id+' .file_cancel').unbind('click');
+                    $('li#'+file.id+' .file_cancel').bind('click', function(){
+                        var swfu = $.swfupload.getInstance('#swfupload-control');
+                        swfu.cancelUpload(file.id);
+                        closeImg(this,file.name,0,0);//,file.type.substr(1,3)
+                    });
+                }
+
+                $('#submitForm').addClass('purple');
+                $('#submitForm').attr('onClick','');
+                $('#form_item_add').attr('action',$("#jobaction").val());
+            }
+        })
+        .bind('uploadError', function(event, file, message){
+            $('#log li#'+file.id).find('div.progressbar').css('display','none');
+            $('#log li#'+file.id).find('span.progressvalue').text('');
+            $('#log li#'+file.id).addClass('success').find('p.status').html('<i>上传失败</i>');//+pathtofile
+//                $('#log li#'+file.id).find('span.cancel').show();
+//                if($('#log li#'+file.id).find('span.cancel').css('display') != 'none'){
+            $('#log li#'+file.id).find('span.cancel').hide();
+            $('#log li#'+file.id).find('span.file_cancel').show();
+            $('li#'+file.id+' .file_cancel').unbind('click');
+            $('li#'+file.id+' .file_cancel').bind('click', function(){
+                var swfu = $.swfupload.getInstance('#swfupload-control');
+                swfu.cancelUpload(file.id);
+                closeImg(this,file.name,1,0);//,file.type.substr(1,3)
+            });
+//                }
+
+            if(len != 1){
+                $('#picNum').val(parseInt($('#picNum').val())-1);
+            }else{
+                len = 0;
+            }
+        })
+        .bind('uploadSuccess', function(event, file, serverDatas){
+            var serverData = $.parseJSON(serverDatas);
+            if(serverData.error == 1){
+                html_notice('操作失败',serverData.message,serverData);
+                $('#log li#'+file.id).find('div.progressbar').css('display','none');
+                $('#log li#'+file.id).find('span.progressvalue').text('');
+                $('#log li#'+file.id).addClass('success').find('p.status').html('<i>上传失败</i>');//+pathtofile
+//                $('#log li#'+file.id).find('span.cancel').show();
+//                        if($('#log li#'+file.id).find('span.cancel').css('display') != 'none'){
+                $('#log li#'+file.id).find('span.cancel').hide();
+                $('#log li#'+file.id).find('span.file_cancel').show();
+                $('li#'+file.id+' .file_cancel').unbind('click');
+                $('li#'+file.id+' .file_cancel').bind('click', function(){
+                    var swfu = $.swfupload.getInstance('#swfupload-control');
+                    swfu.cancelUpload(file.id);
+                    closeImg(this,file.name,1,0);//,file.type.substr(1,3)
+                });
+//                        }
+
+                if(len != 1){
+                    $('#picNum').val(parseInt($('#picNum').val())-1);
+                }else{
+                    len = 0;
+                }
+            }else{
+                var item=$('#log li#'+file.id);
+                item.find('div.progressbar').css('display','none');
+                item.find('span.progressvalue').text('');
+
+                $('#log li#'+file.id).find('.js-component-icon').html('<img src="'+serverData.path+'"/>');
+
+                item.addClass('success').find('p.status').html('('+Math.round(file.size/1024)+' KB)<i>上传完成</i>');//+pathtofile
+//                item.find('span.cancel').show();
+                if(item.find('span.file_cancel').css('display') == 'none'){
+                    item.find('span.cancel').hide();
+                    item.find('span.file_cancel').show();
+                    $('li#'+file.id+' .file_cancel').unbind('click');
+                    $('li#'+file.id+' .file_cancel').bind('click', function(){
+                        var swfu = $.swfupload.getInstance('#swfupload-control');
+                        swfu.cancelUpload(file.id);
+                        closeImg(this,file.name,0,0);//,file.type.substr(1,3)
+                    });
+                }
+//                    if($('#image_src').val() != " "){
+                if($('#image_src').val() != ""){
+                    $('#image_src').val($('#image_src').val() + "," +serverData.message);
+                } else{
+                    $('#image_src').val(serverData.message);
+                }
+//                    } else{
+//                        $('#image_src').val(serverData.message);
+//                    }
+                //图片上传成功去除错误提示
+                $(this).children('.help-inline').remove();
+                $(this).parent().parent().removeClass('error');
+
+                $('#submitForm').addClass('purple');
+                $('#submitForm').attr('onClick','');
+                $('#form_item_add').attr('action',$("#jobaction").val());
+
+            }
+        })
+        .bind('uploadComplete', function(event, file){
+            $(this).swfupload('startUpload');
+        })
+    }
+    var lenA = 0;
+    function add_top_img(){
+        $('#swfupload-controlA').swfupload({
+            upload_url: '<!--{$url_prefix}-->files/upload_all_file/site',//<!--{$sessionid}-->"upload-file.php",
+            file_post_name: 'uploadfile',
+            file_size_limit : '2048',
+            file_types : "*.jpg;*.png;*.gif",
+            file_types_description : "Image files",
+            file_upload_limit : 0,
+            flash_url : "<!--{$url_prefix}-->media/js/swfupload/swfupload.swf",
+            button_image_url : '<!--{$url_prefix}-->media/js/swfupload/wdp_buttons_upload_114x29.png',
+            button_placeholder_id : 'spanButtonPlaceholder',
+            button_width : 114,
+            button_height : 29,
+        //button_placeholder : $('#buttonA')[0],
+            button_action:SWFUpload.BUTTON_ACTION.SELECT_FILE,
+            debug: false
+        }).bind('fileQueued', function(event, file){
+            if((parseInt($('#logoNum').val()) + parseInt($('#imgNum').val())) >= 5){
+                alert("文件最多只能传送5个!");
+                var swfu = $.swfupload.getInstance('#swfupload-controlA');
+                swfu.cancelUpload(file.id);
+                lenA = 1;
+                return false;
+            }
+            $('#logoNum').val(parseInt($('#logoNum').val())+1);
+
+            var listitem='<li id="'+file.id+'" ><b class="js-component-icon nui-ico fl"></b>'+
+                    '<em>'+file.name+'</em> '+
+                    '<span class="file_cancel" style="display:none">删除</span>'+
+                    '<span class="cancel" >删除</span>'+
+                    '<div class="progressbar" style="display:none;"><div class="progress" ></div></div><span class="progressvalue" ></span>'+
+                    '<p class="status" >等待中..</p>'+
+                    '</li>';
+
+            $('#logA').append(listitem);
+            $('li#'+file.id+' .cancel').bind('click', function(){
+                var swfu = $.swfupload.getInstance('#swfupload-controlA');
+                swfu.cancelUpload(file.id);
+
+                $('li#'+file.id).slideUp('fast');
+
+                $('#submitForm').addClass('green');
+                $('#submitForm').attr('onClick','');
+                $('#form_synopsis_edit').attr('action',$("#jobaction").val());
+            });
+
+            if($('#submitForm').attr('class') == 'btn green'){
+                $('#submitForm').removeClass('green');
+                $('#submitForm').attr('onClick','return false;');
+                $('#form_synopsis_edit').attr('action','');
+            }
+            // start the upload since it's queued
+            $(this).swfupload('startUpload');
+        })
+            .bind('fileQueueError', function(event, file, errorCode, message){
+                if(file){
+                    alert(file.name+' 的文件已超限，详细请见备注！');//大小('+Math.round(file.size/1024)+'KB)
+                }else
+                    alert('超过队列数了！');
+            })
+            .bind('uploadStart', function(event, file){
+                $('#logA li#'+file.id).find('div.progressbar').css('display','block');
+                $('#logA li#'+file.id).find('p.status').text('');
+                $('#logA li#'+file.id).find('span.progressvalue').text('0%');
+//                $('#logA li#'+file.id).find('span.cancel').hide();
+            })
+            .bind('uploadProgress', function(event, file, bytesLoaded){
+                //Show Progress
+                var percentage=Math.round((bytesLoaded/file.size)*100);
+                percentage = percentage>100?100:percentage;
+                $('#logA li#'+file.id).find('div.progress').css('width', percentage +'%');
+                $('#logA li#'+file.id).find('span.progressvalue').text(percentage+'%');
+                if(percentage >= 100){
+                    $('#logA li#'+file.id).find('div.progressbar').css('display','none');
+                    $('#logA li#'+file.id).find('span.progressvalue').text('');
+                    $('#logA li#'+file.id).addClass('success').find('p.status').html('('+Math.round(file.size/1024)+' KB)<i>请等待</i>');//+pathtofile
+//                    $('#logA li#'+file.id).find('span.cancel').show();
+
+                    if($('#logA li#'+file.id).find('span.cancel').css('display') != 'none'){
+                        $('#logA li#'+file.id).find('span.cancel').hide();
+                        $('#logA li#'+file.id).find('span.file_cancel').show();
+                        $('li#'+file.id+' .file_cancel').unbind('click');
+                        $('li#'+file.id+' .file_cancel').bind('click', function(){
+                            var swfu = $.swfupload.getInstance('#swfupload-control');
+                            swfu.cancelUpload(file.id);
+                            closeImgA(this,file.name,'logo_src','logoNum');
+                        });
+                    }
+                }
+            })
+            .bind('uploadError', function(event, file, message){
+                $('#logA li#'+file.id).find('div.progressbar').css('display','none');
+                $('#logA li#'+file.id).find('span.progressvalue').text('');
+                $('#logA li#'+file.id).addClass('success').find('p.status').html('<i>上传失败</i>');//+pathtofile
+//                $('#logA li#'+file.id).find('span.cancel').show();
+
+//                if($('#logA li#'+file.id).find('span.cancel').css('display') != 'none'){
+                $('#logA li#'+file.id).find('span.cancel').hide();
+                $('#logA li#'+file.id).find('span.file_cancel').show();
+                $('li#'+file.id+' .file_cancel').unbind('click');
+                $('li#'+file.id+' .file_cancel').bind('click', function(){
+                    var swfu = $.swfupload.getInstance('#swfupload-control');
+                    swfu.cancelUpload(file.id);
+                    closeImgA(this,file.name,'logo_src','logoNum',1);
+                });
+//                }
+                if(lenA != 1){
+                    $('#logoNum').val(parseInt($('#logoNum').val())-1);
+                }else{
+                    lenA = 0;
+                }
+            })
+            .bind('uploadSuccess', function(event, file, serverDatas){
+                var serverData = $.parseJSON(serverDatas);
+                if(serverData.error == 1){
+                    html_notice('操作失败',serverData.message,serverData);
+                    $('#logA li#'+file.id).find('div.progressbar').css('display','none');
+                    $('#logA li#'+file.id).find('span.progressvalue').text('');
+                    $('#logA li#'+file.id).addClass('success').find('p.status').html('<i>上传失败</i>');//+pathtofile
+//                $('#logA li#'+file.id).find('span.cancel').show();
+
+//                        if($('#logA li#'+file.id).find('span.cancel').css('display') != 'none'){
+                    $('#logA li#'+file.id).find('span.cancel').hide();
+                    $('#logA li#'+file.id).find('span.file_cancel').show();
+                    $('li#'+file.id+' .file_cancel').unbind('click');
+                    $('li#'+file.id+' .file_cancel').bind('click', function(){
+                        var swfu = $.swfupload.getInstance('#swfupload-control');
+                        swfu.cancelUpload(file.id);
+                        closeImgA(this,file.name,'logo_src','logoNum',1);
+                    });
+//                        }
+                    if(lenA != 1){
+                        $('#logoNum').val(parseInt($('#logoNum').val())-1);
+                    }else{
+                        lenA = 0;
+                    }
+                }else{
+                    var item=$('#logA li#'+file.id);
+                    item.find('div.progressbar').css('display','none');
+                    item.find('span.progressvalue').text('');
+
+                    item.addClass('success').find('p.status').html('('+Math.round(file.size/1024)+' KB)<i>上传完成</i>');//+pathtofile
+//                item.find('span.cancel').show();
+
+                    if(item.find('span.file_cancel').css('display') == 'none'){
+                        item.find('span.cancel').hide();
+                        item.find('span.file_cancel').show();
+                        $('li#'+file.id+' .file_cancel').unbind('click');
+                        $('li#'+file.id+' .file_cancel').bind('click', function(){
+                            var swfu = $.swfupload.getInstance('#swfupload-control');
+                            swfu.cancelUpload(file.id);
+                            closeImgA(this,file.name,'logo_src','logoNum');
+                        });
+                    }
+                    if(parseInt($('#logoNum').val()) <= 1){
+                        $('#logo_src').val(serverData.file_name);
+                    }else{
+                        $('#logo_src').val($('#logo_src').val() + "," +serverData.file_name);
+                    }
+
+                    //图片上传成功去除错误提示
+                    $(this).children('.help-inline').remove();
+                    $(this).parent().parent().removeClass('error');
+
+                    //移除进度栏
+                    $('#logA li#'+file.id).remove();
+                    show_upload_img(serverData.file_name,serverData.url);
+                }
+            })
+            .bind('uploadComplete', function(event, file){
+                $(this).swfupload('startUpload');
+            });
+    }
+
+        //删除图片
+        function closeImg(obj,src,type,num){
+            if(num == 1){
+                $(obj).parent().remove();
+                $('#picNum').val(0);
+            }else{
+                $(obj).parent().remove();
+                if(type != 1){
+                    $('#picNum').val(parseInt($('#picNum').val())-1);
+                }
+                $('#image_src').val('');
+            }
+        }
+
+        //删除上传的企业附件图片
+        function closeImgA(obj,src,image_src,num,type){
+            $(obj).parent().remove();
+            if(type != 1){
+                $('#'+num).val($('#'+num).val() - 1);
+            }
+            var img_srcs = $('#'+image_src).val();
+
+            var imgsrcArray = img_srcs.split(",");
+            for(var i=0;i<imgsrcArray.length;i++){
+                if(imgsrcArray[i] == src){
+                    imgsrcArray.splice(i,1);
+                    $('#'+image_src).val(imgsrcArray);
+                }
+            }
+        }
+	</script>
+	<!-- END JAVASCRIPTS -->   
+</body>
+<!-- END BODY -->
+
+</html>

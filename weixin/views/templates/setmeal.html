@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>超值套餐</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" /><!-- 加入后变为响应式布局，去掉变为固定宽度布局 -->
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/setmeal.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<!--[if lt IE 9]>
+  <script src="<!--{$url_prefix}-->js/html5.js"></script>
+<![endif]-->
+<body>
+<div class="main">
+<div class="container clearfix">
+    <!--{foreach from=$commodityList item=value name=foo}-->
+    <div class="row-fluid <!--{if $smarty.foreach.foo.index%2 == 0}-->mar-top<!--{/if}-->">
+        <!--{foreach from=$value item=li name=foo1}-->
+        <!--{if $smarty.foreach.foo.index%2 == 0}-->
+        <div class="<!--{if $smarty.foreach.foo1.index%2 == 0}-->span2<!--{elseif $smarty.foreach.foo1.index%2 == 1}-->span10<!--{/if}--> mar click" id="<!--{$li.id_commodity}-->">
+        <!--{else}-->
+        <div class="<!--{if $smarty.foreach.foo1.index%3 == 0}-->span4 blue<!--{elseif $smarty.foreach.foo1.index%3 == 1}-->span4 pink<!--{elseif $smarty.foreach.foo1.index%3 == 2}-->span4 green<!--{/if}--> mar click" id="<!--{$li.id_commodity}-->">
+         <!--{/if}-->
+            <div class="set_desc"><!--{$li.descript}--></div>
+            <span class="setmeal_title"><!--{$li.name}--></span>
+        </div>
+        <!--{/foreach}-->
+    </div>
+    <!--{/foreach}-->
+</div>
+<div id="fullbg" style="display: none"></div>
+<div id="detail" style="display: none;">
+    <div id="div_body"></div>
+    <div id="div_footer"><input type="button" onclick="div_click()" value="确定"></div>
+</div>
+<footer>powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+</div>
+<script type="text/javascript" src="<!--{$url_prefix}-->js/yui.js"></script>
+<script type="text/javascript" src="<!--{$url_prefix}-->js/msgwindow.js"></script>
+<script type="text/javascript">
+    $('.click').bind('click', function(){
+        var val = $(this).children('div').text();
+        var height = $(this).offset().top;
+        var left = parseInt((parseInt($('body').width()) - parseInt($('#detail').width()))/2);
+        //alert(val);
+        $('#div_body').html(val);
+        $('#fullbg').css('height',$('body').height()+'px').show();
+        //$('#detail').css('top',height+'px').css('left',left+'px').show();
+        $('#detail').show();
+    });
+    function div_click(){
+        $('#fullbg').hide();$('#detail').hide();
+    }
+     /*YUI().use("msgWindow","node",function(Y){
+            Y.all('.click').on("click",function(){
+                var val = $(this).children('.set_desc').innerHTML;
+                new Y.MsgWindow().alert({
+                    content:val,
+                    //hasCloseBtn : true,
+                });
+            });
+        })*/
+</script>
+
+</body>
+</html>

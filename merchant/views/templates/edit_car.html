@@ -1,0 +1,193 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<style type="text/css">
+    .portlet-body img{
+        width:auto;
+        height:auto;
+    }
+</style>
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+
+		</div>
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+
+						<!-- BEGIN VALIDATION STATES-->
+						<div class="portlet box purple">
+							<div class="portlet-title">
+								<div class="caption"><i class="icon-reorder"></i>编辑预约信息</div>
+							</div>
+
+							<div class="portlet-body form">
+								<!--内容添加开始-->
+                                <div class="goods_add">
+								<form action="<!--{$url_prefix}--><!--{$url_action}-->" id="form_car_add" name="form_car_add" class="form-horizontal" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="id_online" value="<!--{$id_online}-->"/>
+                                    <input type="hidden" name="offset" value="<!--{$offset}-->"/>
+									<div class="alert alert-error hide">
+										<button class="close" data-dismiss="alert"></button>
+                                        请确保输入的内容符合提交条件，再点击提交！
+									</div>
+
+									<div class="alert alert-success hide">
+										<button class="close" data-dismiss="alert"></button>
+                                        你的信息已成功完成验证！
+									</div>
+
+                                    <div class="control-group">
+										<label class="control-label">申请用户名</label>
+										<div class="controls"><!--{$info.user_name}--></div>
+                                    </div>
+                                    <div class="control-group">
+										<label class="control-label">申请电话号码<span class="required">*</span></label>
+										<div class="controls"><!--{$info.user_phone}--></div>
+                                    </div>
+
+									<div class="control-group">
+										<label class="control-label">预约时间<span class="required">*</span></label>
+                                        <div class="controls"><input value="<!--{$info.user_time}-->" name="user_time" id="user_time" class="span6 m-wrap"/></div>
+									</div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">车牌号<span class="required">*</span></label>
+                                        <div class="controls">
+                                            <input value="<!--{$info.user_card}-->" name="user_card" id="user_card" class="span6 m-wrap" maxlength="7"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">里程数<span class="required">*</span></label>
+                                        <div class="controls">
+                                            <input value="<!--{$info.user_mileage}-->" name="user_mileage" id="user_mileage" class="span6 m-wrap"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">预约说明</label>
+                                        <div class="controls">
+                                            <textarea name="desc" id="desc" style="width: 660px; height: 180px;"><!--{$info.user_desc}--></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">状态</label>
+                                        <div class="controls">
+                                            <label class="radio">
+                                                <input type="radio" name="state" value="0"<!--{if count($info.state) == 0}--> checked<!--{else}--><!--{if $info.state == '0'}--> checked<!--{/if}--><!--{/if}-->/>
+                                                未受理
+                                            </label>
+                                            <label class="radio">
+                                                <input type="radio" name="state" value="1"<!--{if $info.state === '1'}--> checked<!--{/if}-->/>
+                                                已受理
+                                            </label>
+                                        </div>
+                                    </div>
+
+									<div class="form-actions">
+										<button type="submit" class="btn purple" id="submitForm" >确定</button>
+                                        <a class="btn" href="<!--{$url_prefix}-->car/list_information/<!--{$offset}-->?cm=<!--{$cm}-->">返回列表》</a>
+									</div>
+								</form>
+                                </div>
+                                <!--歌曲添加结束-->
+							</div>
+						</div>
+						<!-- END VALIDATION STATES-->
+				    </div>
+			    </div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL STYLES -->
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/swfupload/swfupload.js"></script>
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/jquery.swfupload.js"></script>
+    
+    <script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-min.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/editor.js"></script>
+    <script src="<!--{$url_prefix}-->media/kindeditor/plugins/code/prettify.js"></script>
+
+	<script>
+		jQuery(document).ready(function() {
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.carInit();
+//		   editor('content');
+
+            var editor;
+            KindEditor.ready(function(K) {
+                editor = K.create('textarea[name="content"]', {
+                    resizeType : 1,
+                    themeType:'default',
+                    allowImageUpload : true,
+                    uploadJson:'<!--{$url_prefix}-->files/upload_all_file/content',
+                    shadowMode:false,
+                    allowMediaUpload:false,
+                    afterBlur:function(){
+                        this.sync();
+                        var content = $('#content').val();
+                        if(60000 > content.length && content.length > 10){
+                            $('#content').parent().children('.help-inline').remove();
+                            $('#content').parent().parent().removeClass('error');
+                        }
+                    },
+//                    //获取图片上传成功过后的图片地址
+//                    afterUpload: function (url) {
+//                        alert(url);
+//                    },
+                    items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
+                        'bold', 'italic', 'underline', 'removeformat', '|',
+                        'justifyleft', 'justifycenter', 'justifyright',
+                        'insertorderedlist', 'insertunorderedlist' ,'|','table','|','image', 'multiimage','|','link','unlink','emoticons','media']//,'media'
+                });
+            });
+        });
+
+    </script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

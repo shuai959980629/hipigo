@@ -1,0 +1,675 @@
+html {
+	font-size: 100%;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;height: 100%;
+}
+em,i,li{font-style: normal;list-style: none;}
+sub,sup{font-size: 1rem;}
+img {
+	width: auto\9;height: auto;max-width: 100%;vertical-align: middle;border: 0;-ms-interpolation-mode: bicubic;
+}
+@-ms-viewport {
+  width: device-width;
+}
+.nofloat{
+  float: none;
+}
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
+.margintop27{
+  margin-top: 27px;
+}
+/*color*/
+.red{
+  color: #f24949;
+}
+.red01{
+  color: #f00;
+}
+.black{
+  color: #000;
+}
+.gray{
+  color: #777;
+}
+
+.green{
+  color: #4cc9b6;
+}
+.blackish_green{
+  color: #4bd79d;
+}
+.orange_color{
+  color: #f90;
+}
+.blue{
+  color: #57bdf2;
+}
+.grn{
+  color: #8cd720;
+}
+.yellow{
+  color: #ecb50d;
+}
+.bottle_green{
+  color: #057362;
+}
+.bluish_green{
+  color: #3baa24;
+}
+
+.relative{
+  position: relative;
+}
+.hidden{
+  visibility: hidden;display: none;
+}
+.haveback:active{
+  background: #eaeaea;
+}
+.reddot{
+  position: absolute;background: #f00;width: 10px;height: 10px;display: block;border-radius: 20px;top: 6px;right: 5px;
+}
+.new_icon{
+  background: url(/wapi/img/mobile/new_icon.gif);position: absolute;width: 17px;height: 8px;display: block;top: 6px;right: 1px;
+}
+.iconfont{
+  font-size: 1.1rem;font-style: normal;-webkit-font-smoothing: antialiased;-webkit-text-stroke-width: 0.2px;-moz-osx-font-smoothing: grayscale;
+}
+@-webkit-viewport { width: device-width; }
+@-moz-viewport { width: device-width; }
+@-ms-viewport { width: device-width; }
+@-o-viewport { width: device-width; }
+@viewport { width: device-width; }
+
+@font-face {font-family: "iconfont_1";
+    src: url("http://at.alicdn.com/t/font_1406779945_074046.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1406779945_074046.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1406779945_074046.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1406779945_074046.svg#iconfont") format("svg");
+}
+.iconfont_1{
+	font-family: 'iconfont_1' !important;
+}
+@font-face {font-family: "iconfont_2";
+    src: url("http://at.alicdn.com/t/font_1406779945_074046.eot?#iefix") format("embedded-opentype"),
+    url("http://at.alicdn.com/t/font_1406779945_074046.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1406779945_074046.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1406779945_074046.svg#iconfont") format("svg");
+}
+.iconfont_2{
+	font-family: 'iconfont_2' !important;
+}
+@font-face {font-family: "iconfont_3";
+    src: url("http://at.alicdn.com/t/font_1406800228_3901975.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1406800228_3901975.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1406800228_3901975.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1406800228_3901975.svg#iconfont") format("svg");
+}
+.iconfont_3{
+	font-family: 'iconfont_3' !important;
+}
+@font-face {font-family: "iconfont_4";
+    src: url("http://at.alicdn.com/t/font_1406800228_3901975.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1406800228_3901975.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1406800228_3901975.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1406800228_3901975.svg#iconfont") format("svg");
+}
+.iconfont_4{
+	font-family: 'iconfont_4' !important;
+}
+@font-face {font-family: "iconfont_5";
+      src: url("http://at.alicdn.com/t/font_1406800228_3901975.eot?#iefix") format("embedded-opentype"), 
+      url("http://at.alicdn.com/t/font_1406800228_3901975.woff") format("woff"), 
+      url("http://at.alicdn.com/t/font_1406800228_3901975.ttf") format("truetype"), 
+      url("http://at.alicdn.com/t/font_1406800228_3901975.svg#iconfont") format("svg");
+}
+.iconfont_5{
+	font-family: 'iconfont_5' !important;
+}
+@font-face {font-family: "iconfont_6";
+      src: url("http://at.alicdn.com/t/font_1406859813_9201505.eot?#iefix") format("embedded-opentype"), 
+      url("http://at.alicdn.com/t/font_1406859813_9201505.woff") format("woff"), 
+      url("http://at.alicdn.com/t/font_1406859813_9201505.ttf") format("truetype"), 
+      url("http://at.alicdn.com/t/font_1406859813_9201505.svg#iconfont") format("svg");
+}
+.iconfont_6{
+	font-family: 'iconfont_6' !important;
+}
+@font-face {font-family: "iconfont_7";
+       src: url("http://at.alicdn.com/t/font_1406862267_9749868.eot?#iefix") format("embedded-opentype"), 
+       url("http://at.alicdn.com/t/font_1406862267_9749868.woff") format("woff"), 
+       url("http://at.alicdn.com/t/font_1406862267_9749868.ttf") format("truetype"), 
+       url("http://at.alicdn.com/t/font_1406862267_9749868.svg#iconfont") format("svg");
+}
+.iconfont_7{
+	font-family: 'iconfont_7' !important;
+}
+@font-face {font-family: "iconfont_8";
+        src: url("http://at.alicdn.com/t/font_1407139676_3622038.eot?#iefix") format("embedded-opentype"), 
+        url("http://at.alicdn.com/t/font_1407139676_3622038.woff") format("woff"), 
+        url("http://at.alicdn.com/t/font_1407139676_3622038.ttf") format("truetype"), 
+        url("http://at.alicdn.com/t/font_1407139676_3622038.svg#iconfont") format("svg");
+}
+.iconfont_8{
+	font-family: 'iconfont_8' !important;background: #ed4b97;border-radius: 30px;
+}
+@font-face {font-family: "iconfont_9";
+        src: url("http://at.alicdn.com/t/font_1407139676_3622038.eot?#iefix") format("embedded-opentype"), 
+        url("http://at.alicdn.com/t/font_1407139676_3622038.woff") format("woff"), 
+        url("http://at.alicdn.com/t/font_1407139676_3622038.ttf") format("truetype"), 
+        url("http://at.alicdn.com/t/font_1407139676_3622038.svg#iconfont") format("svg");
+}
+.iconfont_9{
+	font-family: 'iconfont_9' !important;background: #2584fa;border-radius: 30px;
+}
+@font-face {font-family: "iconfont_10";
+    src: url("http://at.alicdn.com/t/font_1401158182_6869004.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1401158182_6869004.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1401158182_6869004.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1401158182_6869004.svg#iconfont") format("svg");
+}
+.iconfont_10{
+	font-family: 'iconfont_10' !important;color: #999;padding-left: 0;margin-right: 0;
+}
+@font-face {
+    font-family: "iconfont_11";
+    src: url("http://at.alicdn.com/t/font_1407380031_51754.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1407380031_51754.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1407380031_51754.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1407380031_51754.svg#iconfont") format("svg");
+}
+.iconfont_11 {
+    font-family: 'iconfont_11' !important;color: #f37569;font-size: 2rem;
+}
+@font-face {
+    font-family: "iconfont_12";
+    src: url("http://at.alicdn.com/t/font_1407380031_51754.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1407380031_51754.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1407380031_51754.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1407380031_51754.svg#iconfont") format("svg");
+}
+.iconfont_12 {
+    font-family: 'iconfont_12' !important;color: #eaa032;font-size: 2.4rem;
+}
+@font-face {
+    font-family: "iconfont_13";
+    src: url('http://at.alicdn.com/t/font_1407738807_8098361.eot'); /* IE9*/
+    src: url('http://at.alicdn.com/t/font_1407738807_8098361.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('http://at.alicdn.com/t/font_1407738807_8098361.woff') format('woff'), /* chrome��firefox */
+    url('http://at.alicdn.com/t/font_1407738807_8098361.ttf') format('truetype'), /* chrome��firefox��opera��Safari, Android, iOS 4.2+*/
+    url('http://at.alicdn.com/t/font_1407738807_8098361.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont_13 {
+    font-family: 'iconfont_13' !important;color: #eaa032;font-size: 2.4rem;
+}
+@font-face {
+    font-family: "iconfont_14";
+    src: url('http://at.alicdn.com/t/font_1407738807_8098361.eot'); /* IE9*/
+    src: url('http://at.alicdn.com/t/font_1407738807_8098361.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('http://at.alicdn.com/t/font_1407738807_8098361.woff') format('woff'), /* chrome��firefox */
+    url('http://at.alicdn.com/t/font_1407738807_8098361.ttf') format('truetype'), /* chrome��firefox��opera��Safari, Android, iOS 4.2+*/
+    url('http://at.alicdn.com/t/font_1407738807_8098361.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont_14 {
+    font-family: 'iconfont_14' !important;
+}
+@font-face {
+    font-family: "iconfont_15";
+    src: url("http://at.alicdn.com/t/font_1407823930_3744533.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1407823930_3744533.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1407823930_3744533.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1407823930_3744533.svg#iconfont") format("svg");
+}
+.iconfont_15 {
+    font-family: 'iconfont_15' !important;
+}
+@font-face {
+    font-family: "iconfont_16";
+    src: url("http://at.alicdn.com/t/font_1407892980_5711408.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1407892980_5711408.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1407892980_5711408.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1407892980_5711408.svg#iconfont") format("svg");
+}
+.iconfont_16 {
+    font-family: 'iconfont_16' !important;
+}
+@font-face {
+    font-family: "iconfont_17";
+    src: url("http://at.alicdn.com/t/font_1407923521_2144866.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1407923521_2144866.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1407923521_2144866.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1407923521_2144866.svg#iconfont") format("svg");
+}
+.iconfont_17 {
+    font-family: 'iconfont_17' !important;
+}
+@font-face {
+    font-family: "iconfont_18";
+    src: url("http://at.alicdn.com/t/font_1408332407_415914.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1408332407_415914.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1408332407_415914.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1408332407_415914.svg#iconfont") format("svg");
+}
+.iconfont_18 {
+    font-family: 'iconfont_18' !important;
+}
+@font-face {
+    font-family: "iconfont_19";
+    src: url("http://at.alicdn.com/t/font_1401158182_6869004.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1401158182_6869004.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1401158182_6869004.ttf") format("truetype"),
+    url("http://at.alicdn.com/t/font_1401158182_6869004.svg#iconfont") format("svg");
+}
+.iconfont_19{
+    font-family: 'iconfont_19' !important; font-style: normal;background: #2584fa;border-radius: 30px;
+    margin-left: 5px;font-size: 0.6rem;width: 18px;height: 18px;display: inline-block;line-height: 22px;
+}
+@font-face {
+    font-family: "iconfont_20";
+    src: url("http://at.alicdn.com/t/font_1409295444_4153478.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1409295444_4153478.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1409295444_4153478.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1409295444_4153478.svg#iconfont") format("svg");
+}
+.iconfont_20{
+    font-family: 'iconfont_20' !important; font-style: normal;font-size: 0.85rem;
+}
+@font-face {
+    font-family: "iconfont_21";
+    src: url("http://at.alicdn.com/t/font_1411352947_0677047.eot?#iefix") format("embedded-opentype"), 
+    url("http://at.alicdn.com/t/font_1411352947_0677047.woff") format("woff"), 
+    url("http://at.alicdn.com/t/font_1411352947_0677047.ttf") format("truetype"), 
+    url("http://at.alicdn.com/t/font_1411352947_0677047.svg#iconfont") format("svg");
+}
+.iconfont_21 {
+    font-family: "iconfont_21" !important;font-size: 16px;font-style: normal;
+}
+#forgot_password_section .iconfont_10,#cool_life_section .iconfont_10{
+  color: #fff;line-height: 2;padding: 0;margin: 0;
+}
+/*����*/
+.enter_search{
+  background: #e9e9e9;height: 56px;padding: 8px 10px;
+}
+.search{
+  background: #fff; width: 100%; height: 40px;border-radius: 2px;color: #999;font-size: 1rem;
+}
+.searchbutton  .search{
+  color: #f24949;
+}
+.search.icon{
+  float: none;
+}
+.three_list_container > ul > li > input.error{
+    border-bottom: 1px solid #f00;
+}
+.refer {
+    background:#9dfae1;border: 1px solid #8cf3d7;
+}
+/**/
+.user_head{
+  width:60px; height: 60px; display: block;position: relative;
+}
+.user_head img{
+  width: 60px;height: 60px;
+}
+.user_head .leader_icon{
+  width: 16px;height: 16px;position: absolute;right:-3px; bottom: -2px;
+}
+.instant_tip{
+  position: absolute;background: rgba(0,0,0,0.5);top: 55%;left: 25%;color: #fff;z-index: 6;font-size: 0.95rem;padding: 10px 20px;border-radius: 2px;
+  width: 50%;text-align: center;
+}
+.instant_tip img{
+  margin-right: 6px;width: 20px;
+}
+/**/
+.pull_down{
+  position: absolute;background: #fff;box-shadow: 0 1px 1px #c0c0c0; top: 44px; right: 0;z-index: 2; color: #333;font-size: 0.9rem;
+}
+.pull_down a{
+  color: #333; padding: 0 10px; line-height: 2;border-bottom: solid 1px #f3f3f3;width: 100%;display: inline-block;
+}
+/**/
+.go_back{
+  background:rgba(0,0,0,0.5);color: #fff; position: absolute;top: 10px; left: 15px;padding: 5px 8px;border-radius: 3px;
+}
+.go_back .iconfont{
+  font-size: 2rem;color: #fff;line-height: 1;padding: 0;margin: 0;
+}
+.go_back:active{
+  background:rgba(0,0,0,0.6);
+}
+/**/
+.but{
+   background: #fff; border: none;color: #fff;padding: 0 5px;border-radius: 2px; font-size: 0.85rem;
+   margin-left: 5px;border: 1px solid #49d69c; color: #49d69c;
+}
+.but:hover,.but:active{
+  background: #f9f9f9; 
+}
+.edit{
+   border: 1px solid #49d69c; color: #49d69c;
+}
+.close{
+   border: 1px solid #f66262; color: #f66262;
+}
+.disable{
+  border: 1px solid #666; color: #666;
+}
+/**/
+.numchooise li{
+  width: 100%;display: inline-block;border-bottom: 1px solid #ddd;padding: 12px 0;
+}
+.numchooiserg{
+  color: #999;
+}
+.numchooiserg em{
+  font-size: 1.5rem;
+}
+.numchooise .payinput{
+  border:none; box-shadow: none;background: none;padding: 0;height: 20px;text-align: right;
+}
+.logout dd .onlyread-num a,.numchooiserg a{
+ display: block;width: 20px;height: 20px;border: solid 1px #49d69c;color: #49d69c;margin: 0 3px 0;
+ float: right;line-height:20px;text-align: center;border-radius: 2px;
+}
+.logout dd .onlyread-num a.readonly,.numchooiserg a.readonly{
+  border: solid 1px #b4c4bd;color: #b4c4bd;
+}
+.logout dd .onlyread-num input,.numchooiserg input{
+  border: solid 1px #49d69c;color: #49d69c;height: 20px;padding: 0;line-height: 20px; width: 40%;text-align: center;border-radius: 2px;margin-bottom: 0;
+}
+.numchooiserg .numchooiserg_phone{
+  border: none;background: none;box-shadow: none;width: 100%;text-align: right;color:#333;
+}
+/**/
+.autorun{
+  background: rgba(0,0,0,0.5); width: 60px;height: 45px; position: fixed; bottom: 6px; right: 0; cursor: pointer;text-align: center;z-index: 10;
+}
+.autorun .iconfont_10,.autorun .iconfont_18{
+  color: #ddd; font-size: 3rem;margin: 0;
+}
+.autorun .iconfont_18{
+  font-size: 2.6rem;
+}
+.autorun:active{
+  background: rgba(0,0,0,0.6); 
+}
+/**/
+.no_data{
+  width: 68%;margin: 0 auto;padding: 10% 0 3%;text-align: center;
+}
+.no_data p{
+  font-size: 0.95rem; color: #bbb; text-align: center; margin-top: 15px;
+}
+@media (max-width: 319px) {
+  .one_part{
+    width: 78.5%;
+  }
+  .three_list_container>ul>li>input{
+    width: 82%;/** BY Jamai 修改 原来为 width: 86%*/
+  }
+  .title_part{
+    width: 73%;
+  }
+  .personal_user_head{
+    left: 37.5%;
+  }
+  .user_activity_mes{
+    width: 80%
+  }
+  .publish_activity01_container .must_details .date-picker{
+	 width: 72%;
+  }
+  .say-person{
+   width: 89%;
+  }
+  .comment_area{
+   width: 50%;
+  }
+   /*seckill*/
+  .seckill_list_left{
+    width: 100px;height: 100px;line-height: 100px;
+  }
+  .seckill_list_right{
+    width: 64%;
+  } 
+  .seckill_list_title{
+    height: 22px;
+  }
+  .seckill_list_limit{
+    padding: 5px 0;
+  }
+}
+@media (min-width:320px) and (max-width: 399px) {
+  .one_part{
+    width: 80%;
+  }
+  .three_list_container>ul>li>input{
+    width: 80%;/** BY Jamai 修改 原来为 width: 86%*/
+  }
+  .title_part{
+    width: 78%;
+  }
+  .personal_user_head{
+    left: 36.5%;
+  }
+  .user_activity_mes{
+    width: 73%
+  }
+  .publish_activity01_container .must_details .date-picker{
+	   width: 72%;
+  }
+  .say-person{
+   width: 89%;
+  }  
+  .comment_area{
+   width: 54%;
+  }
+}
+@media (max-width: 399px){
+   /*seckill*/
+  .seckill_list_left{
+    width: 100px;height: 100px;line-height: 100px;
+  }
+    .seckill_list_left img{
+    _margin-top: expression(( 100 - this.height ) / 2);max-height: 100px;
+  }
+  .seckill_list_right{
+    width: 66%;
+  } 
+  .seckill_list_title{
+    height: 22px;
+  }
+  .seckill_list_limit{
+    padding: 5px 0;
+  }
+}
+@media (min-width:400px) and (max-width: 432px) {
+  .one_part{
+    width: 84%;
+  }
+  .three_list_container>ul>li>input{
+    width: 85%;/** BY Jamai 修改 原来为 width: 89.5%*/
+  }
+  .title_part{
+    width: 84%;
+  }
+  .personal_user_head{
+    left: 40.5%;
+  }
+  .user_activity_mes{
+    width: 78.5%
+  }
+  .publish_activity01_container .must_details .date-picker{
+	  width: 77%;
+  }
+  .say-person{
+   width: 92%;
+  }
+  .comment_area{
+   width: 64%;
+  }
+   /*seckill*/
+  .seckill_list_left{
+    width: 120px;height: 120px;line-height: 120px;
+  }
+  .seckill_list_left img{
+    _margin-top: expression(( 120 - this.height ) / 2);max-height: 120px;
+  }
+  .seckill_list_right{
+    width: 64%;
+  } 
+  .seckill_list_title{
+    height: 22px;
+  }
+  .seckill_list_limit{
+    padding: 12px 0;
+  }
+}
+@media (min-width:433px) and (max-width: 767px) {
+  .one_part{
+    width: 86%;
+  }
+   .three_list_container>ul>li>input{
+    width: 85%;/** BY Jamai 修改 原来为 width: 94%*/
+  }
+  .title_part{
+    width: 85%;
+  }
+  .personal_user_head{
+    left: 43%;
+  }
+  .user_activity_mes{
+    width: 90.5%
+  }
+  .publish_activity01_container .must_details .date-picker{
+	  width: 80%;
+  }
+  .say-person{
+   width: 93%;
+  }
+  .comment_area{
+   width: 80%;
+  }
+   /*seckill*/
+  .seckill_list_left{
+    width: 160px;height: 160px;line-height: 160px;
+  }
+  .seckill_list_left img{
+    _margin-top: expression(( 160 - this.height ) / 2);max-height: 160px;
+  }  
+  .seckill_list_right{
+    width: 64%;
+  } 
+  .seckill_list_title{
+    height: 45px;
+  }
+  .seckill_list_limit{
+    padding: 20px 0;
+  }
+}
+@media (min-width:768px) and (max-width: 979px){
+  .one_part{
+    width: 92%;
+  }
+  .three_list_container>ul>li>input{
+    width: 93%;
+  }
+  .title_part{
+    width: 96.3%;
+  }
+  .personal_user_head{
+    left: 44.5%;
+  }
+  .user_activity_mes{
+    width: 91%
+  }
+  .publish_activity01_container .must_details .date-picker{
+	  width: 91%;
+  }
+  .say-person{
+   width: 95.5%;
+  }
+  .comment_area{
+   width: 80.5%;
+  }
+   /*seckill*/
+  .seckill_list_left{
+    width: 160px;height: 160px;line-height: 160px;
+  }
+  .seckill_list_left img{
+    _margin-top: expression(( 160 - this.height ) / 2);max-height: 160px;
+  }  
+  .seckill_list_right{
+    width: 78%;
+  } 
+  .seckill_list_title{
+    height: 45px;
+  }
+  .seckill_list_limit{
+    padding: 20px 0;
+  }
+}
+@media (min-width:980px){
+  .one_part{
+    width: 96.3%;
+  }
+  .three_list_container>ul>li>input{
+    width: 96%;
+  }
+  .title_part{
+    width: 96.3%;
+  }
+  .personal_user_head{
+    left: 47.5%;
+  }
+  .user_activity_mes{
+    width: 96%
+  }
+  .publish_activity01_container .must_details .date-picker{
+	  width: 91%;
+  }
+  .say-person{
+   width: 98%;
+  }
+  .comment_area{
+   width: 91%;
+  }
+   /*seckill*/
+  .seckill_list_left{
+    width: 160px;height: 160px;line-height: 160px;
+  }
+  .seckill_list_left img{
+    _margin-top: expression(( 160 - this.height ) / 2);max-height: 160px;
+  }
+  .seckill_list_right{
+    width: 90%;
+  }
+  .seckill_list_title{
+    height: 45px;
+  }
+  .seckill_list_limit{
+    padding: 20px 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

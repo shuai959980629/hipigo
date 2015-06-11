@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>会员卡</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" /><!-- 加入后变为响应式布局，去掉变为固定宽度布局 -->
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/member.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<!--[if lt IE 9]>
+<script src="<!--{$url_prefix}-->js/html5.js"></script>
+<![endif]-->
+<body>
+<div class="main">
+<div class="container clearfix">
+<!-- 代码 开始 -->
+<p class="vip"><img src="<!--{$url_prefix}-->img/memberlink.png"/></p>
+<p class="replay-vip">
+<input class="inreplay-vip" value="领取您的会员卡" type="button" id="inreplay-vip" />
+</p>
+</div>
+<!-- 代码 结束 -->
+<footer>powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+</div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var oauth = '<!--{$oauth}-->';
+		$("#inreplay-vip").click(function(){
+			window.location.href = oauth;
+		});
+	});
+</script>
+</html>

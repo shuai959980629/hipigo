@@ -1,0 +1,485 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<style type="text/css">
+    .portlet-body img{
+        width:auto;
+        height:auto;
+    }
+    .controls [type="radio"]{
+        margin-top: -1px;
+        margin-left: 10px;
+    }
+</style>
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+<div class="page-sidebar nav-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!--{include file="menu.html"}-->
+    <!-- END SIDEBAR MENU -->
+</div>
+<!-- BEGIN PAGE -->
+<div class="page-content">
+<!-- BEGIN PAGE CONTAINER-->
+<div class="container-fluid">
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <!--{include file="nav.html"}-->
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN PAGE CONTENT-->
+<div class="row-fluid">
+<div class="span12">
+<!-- BEGIN VALIDATION STATES-->
+<div class="portlet box green">
+<div class="portlet-title">
+    <div class="caption"><i class="icon-reorder"></i>会员信息</div>
+</div>
+
+<div class="portlet-body form">
+<!--歌曲添加开始-->
+<div class="goods_add">
+<form action="<!--{$url_prefix}--><!--{$url_action}-->" id="form_shop_edit" class="form-horizontal" method="post" enctype="multipart/form-data">
+<input type="hidden" value="<!--{$url_prefix}--><!--{$url_action}-->" id="jobaction"/>
+<input type="hidden" value="<!--{$id_customer}-->" name="id_customer" id="id_customer"/>
+<div class="alert alert-error hide">
+    <button class="close" data-dismiss="alert"></button>
+    请确保输入的内容符合提交条件，再点击提交！
+</div>
+
+<div class="alert alert-success hide">
+    <button class="close" data-dismiss="alert"></button>
+    你的信息已成功完成验证！
+</div>
+<div class="control-group">
+    <label class="control-label">门店</label>
+    <div class="controls">
+        <!--{if $is_shop == 1}-->
+        <input type="hidden" value="<!--{$id_shop}-->" name="shop_"/><!--{$shop_name}-->
+        <!--{else}-->
+        <select name="shop_" id="shop_">
+            <!--{foreach from=$shop_list item= s}-->
+            <option value="<!--{$s.id_shop}-->"<!--{if $s.id_shop == $customer_info.id_shop}-->selected="selected"<!--{/if}-->><!--{$s.name}--></option>
+            <!--{/foreach}-->
+        </select>
+        <!--{/if}-->
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">姓名</label>
+    <div class="controls">
+        <input name="real_name" type="text" value="<!--{$customer_info.real_name}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">性别</label>
+    <div class="controls">
+        <input type="radio" name="sex" value="1" <!--{if $customer_info.sex == 1 || empty($customer_info.sex)}-->checked="checked"<!--{/if}-->/>男
+        <input type="radio" name="sex" value="2" <!--{if $customer_info.sex == 2}-->checked="checked"<!--{/if}-->/>女
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">身份证号</label>
+    <div class="controls">
+        <input name="number" type="text" value="<!--{$customer_info.card_number}-->" class="span6 m-wrap" onKeyUp="validateCard(this);" onBlur="validateCard(this);"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">联系电话</label>
+    <div class="controls">
+        <input name="phone" type="text" value="<!--{$customer_info.cell_phone}-->" class="span6 m-wrap" onKeyUp="validatePhone(this);" onBlur="validatePhone(this);"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">头像</label>
+    <div class="controls">
+        <div id="show_customer" class="show_synopsis_pic">
+            <!--{if $customer_info.image_url}-->
+            <div class="fileupload-new thumbnail">
+                <img src="<!--{$customer_info.image_url|get_img_url:'customer'}-->" alt="" style="width:136px;height:85px">
+                <a onClick="delete_img(this)"></a>
+            </div>
+            <!--{/if}-->
+        </div>
+        <input type="button" id="uploadHeadBtn" value="上传" class="btn blue post_activity_upload"/>
+        <p style="display: block; float: left; width: 100%">图片格式：jpg,png,gif,推荐尺寸320px X 200px(最小: 320px X 200px;最大: 800px X 500px)</p>
+        <input type="hidden" id="image_src" name="image_src" value="<!--{$customer_info.image_url|get_img_url:'customer'}-->"/>
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">QQ</label>
+    <div class="controls">
+        <input name="qq" type="text" value="<!--{$customer_info.qq}-->" class="span6 m-wrap" onKeyUp="validateInt(this);" onBlur="validateInt(this);"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">微信号</label>
+    <div class="controls">
+        <input name="weixin" type="text" value="<!--{$customer_info.weixin}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">最佳联系方式</label>
+    <div class="controls">
+        <input type="radio" name="optimal_contact" value="1" <!--{if $customer_info.optimal_contact == 1 || empty($customer_info.optimal_contact)}-->checked="checked"<!--{/if}-->/>电话
+        <input type="radio" name="optimal_contact" value="2" <!--{if $customer_info.optimal_contact == 2}-->checked="checked"<!--{/if}-->/>微信
+        <input type="radio" name="optimal_contact" value="3" <!--{if $customer_info.optimal_contact == 3}-->checked="checked"<!--{/if}-->/>短信
+        <input type="radio" name="optimal_contact" value="4" <!--{if $customer_info.optimal_contact == 4}-->checked="checked"<!--{/if}-->/>QQ
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">最佳联络时间</label>
+    <div class="controls">
+        <input name="optimal_time" readonly="true" type="text" value="<!--{$customer_info.optimal_time_start}-->" class="span6 m-wrap"
+               onfocus="WdatePicker({skin:'whyGreen',dateFmt:'H:mm:ss',errDealMode:1,readOnly:true})"/>
+        到
+        <input name="optimal_time_end" readonly="true" type="text" value="<!--{$customer_info.optimal_time_end}-->" class="span6 m-wrap"
+               onfocus="WdatePicker({skin:'whyGreen',dateFmt:'H:mm:ss',errDealMode:1,readOnly:true})"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">生日</label>
+    <div class="controls">
+        <select name="birthday_month" id="birthday_month" style="outline: none;">
+            <option value="1">出生月</option>
+            <!--{for $i = 1; $i <= 12; $i++}-->
+            <option value="<!--{$i}-->" <!--{if $i == $customer_info.birthday_month}-->selected="selected"<!--{/if}-->><!--{$i}-->月</option>
+            <!--{/for}-->
+        </select>
+        <select name="birthday_day" id="birthday_day" style="margin-right:0;outline: none;">
+            <option value="1">出生日</option>
+        </select>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">身高</label>
+    <div class="controls">
+        <input name="height" type="text" value="<!--{$customer_info.height}-->" class="span6 m-wrap" onKeyUp="validatePices(this);" onBlur="validatePices(this);"/>cm
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">体重</label>
+    <div class="controls">
+        <input name="body_weight" type="text" value="<!--{$customer_info.body_weight}-->" class="span6 m-wrap" onKeyUp="validatePices(this);" onBlur="validatePices(this);"/>kg
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">血型</label>
+    <div class="controls">
+        <input name="blood" type="text" value="<!--{$customer_info.blood}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">国籍</label>
+    <div class="controls">
+        <input name="nationality" type="text" value="<!--{$customer_info.nationality}-->" class="span6 m-wrap"/>籍
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">民族</label>
+    <div class="controls">
+        <input name="nation" type="text" value="<!--{$customer_info.nation}-->" class="span6 m-wrap"/>族
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">户籍所在地</label>
+    <div class="controls">
+        <input name="domicile" type="text" value="<!--{$customer_info.domicile}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">现居地址</label>
+    <div class="controls">
+        <input name="address" type="text" value="<!--{$customer_info.address}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">婚姻状况</label>
+    <div class="controls">
+        <input type="radio" name="marital_status" value="1" <!--{if $customer_info.marital_status == 1 || empty($customer_info.marital_status)}-->checked="checked"<!--{/if}-->/>单身
+        <input type="radio" name="marital_status" value="2" <!--{if $customer_info.marital_status == 2}-->checked="checked"<!--{/if}-->/>未婚
+        <input type="radio" name="marital_status" value="3" <!--{if $customer_info.marital_status == 3}-->checked="checked"<!--{/if}-->/>已婚
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">学历</label>
+    <div class="controls">
+        <select name="education">
+            <option value="本科" <!--{if $customer_info.education == '本科'}-->selected="selected"<!--{/if}-->>本科</option>
+            <option value="大专" <!--{if $customer_info.education == '大专'}-->selected="selected"<!--{/if}-->>大专</option>
+            <option value="高中" <!--{if $customer_info.education == '高中'}-->selected="selected"<!--{/if}-->>高中</option>
+            <option value="初中" <!--{if $customer_info.education == '初中'}-->selected="selected"<!--{/if}-->>初中</option>
+            <option value="小学" <!--{if $customer_info.education == '小学'}-->selected="selected"<!--{/if}-->>小学</option>
+        </select>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">月薪</label>
+    <div class="controls">
+        <input name="salary" type="text" value="<!--{$customer_info.salary}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">工作状态</label>
+    <div class="controls">
+        <select name="working_condition">
+            <option value="轻松稳定" <!--{if $customer_info.working_condition == '轻松稳定'}-->selected="selected"<!--{/if}-->>轻松稳定</option>
+            <option value="朝九晚五" <!--{if $customer_info.working_condition == '朝九晚五'}-->selected="selected"<!--{/if}-->>朝九晚五</option>
+            <option value="偶尔加班" <!--{if $customer_info.working_condition == '偶尔加班'}-->selected="selected"<!--{/if}-->>偶尔加班</option>
+            <option value="经常加班" <!--{if $customer_info.working_condition == '经常加班'}-->selected="selected"<!--{/if}-->>经常加班</option>
+            <option value="偶尔出差" <!--{if $customer_info.working_condition == '偶尔出差'}-->selected="selected"<!--{/if}-->>偶尔出差</option>
+            <option value="经常出差" <!--{if $customer_info.working_condition == '经常出差'}-->selected="selected"<!--{/if}-->>经常出差</option>
+            <option value="经常有应酬" <!--{if $customer_info.working_condition == '经常有应酬'}-->selected="selected"<!--{/if}-->>经常有应酬</option>
+            <option value="工作时间自由" <!--{if $customer_info.working_condition == '工作时间自由'}-->selected="selected"<!--{/if}-->>工作时间自由</option>
+            <option value="待业" <!--{if $customer_info.working_condition == '待业'}-->selected="selected"<!--{/if}-->>待业</option>
+        </select>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">职业</label>
+    <div class="controls">
+        <input name="occupation" type="text" value="<!--{$customer_info.occupation}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">公司类型</label>
+    <div class="controls">
+        <select name="company_type">
+            <option value="政府机关" <!--{if $customer_info.company_type == '政府机关'}-->selected="selected"<!--{/if}-->>政府机关</option>
+            <option value="事业单位" <!--{if $customer_info.company_type == '事业单位'}-->selected="selected"<!--{/if}-->>事业单位</option>
+            <option value="外企企业" <!--{if $customer_info.company_type == '外企企业'}-->selected="selected"<!--{/if}-->>外企企业</option>
+            <option value="世界500强" <!--{if $customer_info.company_type == '世界500强'}-->selected="selected"<!--{/if}-->>世界500强</option>
+            <option value="上市公司" <!--{if $customer_info.company_type == '上市公司'}-->selected="selected"<!--{/if}-->>上市公司</option>
+            <option value="国有企业" <!--{if $customer_info.company_type == '国有企业'}-->selected="selected"<!--{/if}-->>国有企业</option>
+            <option value="私营企业" <!--{if $customer_info.company_type == '私营企业'}-->selected="selected"<!--{/if}-->>私营企业</option>
+            <option value="自有公司" <!--{if $customer_info.company_type == '自有公司'}-->selected="selected"<!--{/if}-->>自有公司</option>
+        </select>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">公司行业</label>
+    <div class="controls">
+        <input name="company_industry" type="text" value="<!--{$customer_info.company_industry}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">公司名称</label>
+    <div class="controls">
+        <input name="company_name" type="text" value="<!--{$customer_info.company_name}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">购车</label>
+    <div class="controls">
+        <input name="car" type="text" value="<!--{$customer_info.car}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">是否购房</label>
+    <div class="controls">
+        <input type="radio" name="purchase" value="1" <!--{if $customer_info.purchase == 1 || empty($customer_info.purchase)}-->checked="checked"<!--{/if}-->/>是
+        <input type="radio" name="purchase" value="2" <!--{if $customer_info.purchase == 2}-->checked="checked"<!--{/if}-->/>否
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">是否吸烟</label>
+    <div class="controls">
+        <input type="radio" name="smoking" value="1" <!--{if $customer_info.smoking == 1 || empty($customer_info.smoking)}-->checked="checked"<!--{/if}-->/>是
+        <input type="radio" name="smoking" value="2" <!--{if $customer_info.smoking == 2}-->checked="checked"<!--{/if}-->/>否
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">是否饮酒</label>
+    <div class="controls">
+        <input type="radio" name="drink" value="1" <!--{if $customer_info.drink == 1 || empty($customer_info.drink)}-->checked="checked"<!--{/if}-->/>是
+        <input type="radio" name="drink" value="2" <!--{if $customer_info.drink == 2}-->checked="checked"<!--{/if}-->/>否
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">作息习惯</label>
+    <div class="controls">
+        <input name="habits" type="text" value="<!--{$customer_info.habits}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">宗教信仰</label>
+    <div class="controls">
+        <input name="religion" type="text" value="<!--{$customer_info.religion}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">兴趣爱好</label>
+    <div class="controls">
+        <input name="interests" type="text" value="<!--{$customer_info.interests}-->" class="span6 m-wrap"/>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">学习前身体状况</label>
+    <div class="controls">
+        <textarea class="span6 m-wrap" name="before_learning" id="before_learning" cols="" rows=""  style="visibility:hidden"><!--{$customer_info.before_learning}--></textarea>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">一阶段练习情况</label>
+    <div class="controls">
+        <textarea class="span6 m-wrap" name="one_learning" id="one_learning" cols="" rows=""  style="visibility:hidden"><!--{$customer_info.one_learning}--></textarea>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">练习21天后身体变化</label>
+    <div class="controls">
+        <textarea class="span6 m-wrap" name="sw_learning" id="sw_learning" cols="" rows=""  style="visibility:hidden"><!--{$customer_info.sw_learning}--></textarea>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">二阶段练习情况</label>
+    <div class="controls">
+        <textarea class="span6 m-wrap" name="two_learning" id="two_learning" cols="" rows=""  style="visibility:hidden"><!--{$customer_info.two_learning}--></textarea>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">练习49天后身体变化</label>
+    <div class="controls">
+        <textarea class="span6 m-wrap" name="fw_learning" id="fw_learning" cols="" rows=""  style="visibility:hidden"><!--{$customer_info.fw_learning}--></textarea>
+    </div>
+</div>
+<div class="form-actions">
+    <button type="submit" class="btn green" id="submitForm">确定</button>
+</div>
+</form>
+</div>
+<!--歌曲添加结束-->
+</div>
+</div>
+<!-- END VALIDATION STATES-->
+</div>
+</div>
+<!-- END PAGE CONTENT-->
+</div>
+<!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL STYLES -->
+
+<script type="text/javascript" src="<!--{$url_prefix}-->media/js/ajaxupload.js"></script>
+<script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-min.js"></script>
+<script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="<!--{$url_prefix}-->media/js/My97DatePicker/WdatePicker.js"></script>
+
+<script>
+    jQuery(document).ready(function() {
+        $('#contact_count').val(<!--{$contact_count}-->);
+        $('#delcontact').val('');
+        $('#phone_name').val('');
+        $('#phone').val('');
+
+        $('#image_src').val('');
+
+        // initiate layout and plugins
+        App.init();
+//		   FormValidation.shopInit();
+        var url = '<!--{$url_prefix}-->';
+        //上传海报图片
+        uplodImage('uploadHeadBtn', 'image_src', 'show_customer',url);
+        //编辑器绑定
+        editor_('before_learning','before_train',url);//学习前身体状况
+        editor_('one_learning','before_train',url);//一阶段练习情况
+        editor_('sw_learning','after_train',url);//练习21天后身体变化
+        editor_('two_learning','before_train',url);//二阶段练习情况
+        editor_('fw_learning','after_train',url);//练习49天后身体变化
+
+        var optn_ = '';
+        var mth_ = <!--{$customer_info.birthday_day|default:1}-->;
+        if(mth_ == 2){
+            optn_ = create_opentis(29,mth_);
+        }else if(mth_ == 1 || mth_ == 3 || mth_ == 5 || mth_ == 7 || mth_ == 8 || mth_ == 10 || mth_ == 12){
+            optn_ = create_opentis(31,mth_);
+        }else{
+            optn_ = create_opentis(30,mth_);
+        }
+        if(mth_){
+            $("#birthday_day").append(optn_);
+        }
+
+        $("#birthday_month").change(function(){
+            var mth = $(this).val();
+            if(mth > 0){
+                $("#birthday_day").empty();
+                var optn = '';
+                if(mth == 2){
+                    optn = create_opentis(29,1);
+                }else if(mth == 1 || mth == 3 || mth == 5 || mth == 7 || mth == 8 || mth == 10 || mth == 12){
+                    optn = create_opentis(31,1);
+                }else{
+                    optn = create_opentis(30,1);
+                }
+                if(mth){
+                    $("#birthday_day").append(optn);
+                }
+            }else{
+                $("#birthday_day").empty();
+                $("#birthday_day").append('<option value="1">出生日</option>');
+            }
+        });
+
+    });
+
+    function create_opentis(length,day){
+        var optn = '';
+        for(var i=1 ;i <= length; i++){
+            optn += '<option value="'+i+'"';
+            if(i== day){
+                optn += ' selected="selected"';
+            }
+            optn += '>'+i+'日</option>';
+        }
+        return optn;
+    }
+
+    function editor_(name,path,doman){
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('textarea[name="'+name+'"]', {
+                resizeType : 1,
+                themeType:'default',
+                allowImageUpload : true,
+                uploadJson:doman+'files/upload_all_file/'+path,
+                shadowMode:false,
+                allowMediaUpload:false,
+                afterBlur:function(){
+                    this.sync();
+                },
+                items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
+                    'bold', 'italic', 'underline', '|',
+                    'justifyleft', 'justifycenter', 'justifyright',
+                    'insertorderedlist', 'insertunorderedlist','|','link','unlink','|','image','emoticons' ]
+            });
+        });
+    }
+
+    //删除商店图片
+    function delete_img(obj){
+        $(obj).parent().remove();
+        $('#image_src').val('');
+    }
+
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

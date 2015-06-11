@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title><!--{$title}--></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/personal.css?v=<!--{$num}-->" />
+
+<script type="text/javascript" src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script type="text/javascript" src="<!--{$url_prefix}-->js/ajaxupload.js"></script>
+
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+var base_url='<!--{$url}-->';
+</script>
+
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+<script type="text/javascript">
+$(function () {
+  var button = $('#upload_button'), interval;
+  var fileType = "all", fileNum = "one";
+  new AjaxUpload(button, {
+    action: base_url + '/tpicture/uploadPic?file=card',
+    name: 'card', //file的name
+    //当选择文件后执行的方法,ext存在文件后续,可以在这里判断文件格式
+    onChange: function (file, ext) {
+       //内容
+    },
+   //提交文件时执行，也可以在这里判断文件格式
+    onSubmit: function (file, ext) {
+      if (fileType == "pic") {
+        if (ext && /^(jpg|png|jpeg|gif)$/.test(ext)) {
+          this.setData({
+            'info': '文件类型为图片'
+          });
+        }
+        else {
+          alert('图片类型错误！'); return false;
+        }
+      }
+      button.text('上传中');
+      if (fileNum == 'one')
+        this.disable();
+      //显示上传中的代码
+      interval = window.setInterval(function () {
+        var text = button.text();
+        if (text.length < 14) {
+           button.text(text + '.');
+        } 
+        else {
+            button.text('上传中');
+        }
+      }, 200);
+    },
+    onComplete: function (file, response) {//文件提交完后执行
+      response = $.parseJSON(response);
+      if(response.code == 1) {
+        $('[name=pic]:hidden').val(response.success);
+        //$('<img id="upload_button" src="' + response.success + 
+        //            '" alt="card" />').appendTo('#upload_button');
+
+        button.html('<img id="upload_button" src="' + response.success + 
+                    '" alt="card" />');
+        window.clearInterval(interval);
+        this.enable();
+      }
+    }
+  });
+  $('.join').click(function () {
+    $("#expert").submit();
+  });
+});
+
+var sub_expert = function () {
+  if( ! $('[name=nickname]:text').val()) {
+    alert('姓名不能是空的');
+    return false;
+  }
+  if ( ! /^[\u4e00-\u9fa5]+$/.test($("[name=nickname]:text").val())) {
+    alert("姓名一定是中文");
+    return false;
+  }
+  if( ! $('[name=addr]:text').val()) {
+    alert('地址不能是空的');
+    return false;
+  }
+  if( ! $('[name=card]:text').val()) {
+    alert('证件号是空的啦！');
+    return false;
+  }
+  var reg = /^(\d{6})(18|19|20)?(\d{2})([01]\d)([0123]\d)(\d{3})(\d|X)?$/;
+  if( ! reg.test($('[name=card]:text').val())) {
+    alert('您确定证件号码正确?');
+    return false;
+  }
+  if( ! $('[name=phone]:text').val()) {
+    alert('您没手机号码？');
+    return false;
+  }
+  if( ! /^1[3|5|8|6|7|4]\d{9}$/.test($('[name=phone]:text').val())) {
+   alert("胡乱输入手机号码是不会通过验证的哦！");
+   return false;
+  }
+  if( ! $('[name=pic]:hidden').val()) {
+    alert('您还没有上传您的证件照呢');
+    return false;
+  }
+  return true;
+}
+</script>
+
+
+</head>
+<body>
+<div class="container">
+
+<form method="post" id="expert" enctype="multipart/form-data" onsubmit="return sub_expert();" action="<!--{$url_action}-->">
+<!--top操作按钮-->
+<div class="operate container">
+<a href="javascript:window.location.href='<!--{$bak_url}-->'" class="return left"><i class="iconfont icon iconfont_10">&#983354;</i></a>
+<span class="partake-num left">填写达人申请资料</span>
+<a href="javascript:" class="join right">保存</a>
+</div>
+
+<!--会员信息-->
+<dl class="personal reply-doyen">
+<dd>
+<span class="name left">真实姓名</span>
+<!-- class="concrete_name right" -->
+<input type="text" name="nickname" class="right" placeholder="这里填写你的真实姓名" />
+</dd>
+
+<dd>
+<span class="name left">所在地</span>
+<input type="text" name="addr" class="right" placeholder="请输入你的真实地址" />
+</dd>
+
+<dd>
+<span class="name left">身份证号</span>
+<input type="text" name="card" class="right" placeholder="填写你的身份证件号" />
+</dd>
+
+<dd><span class="name left">手机号码</span>
+<input type="text" name="phone" class="right" placeholder="这里填写你的常用手机号码" />
+</dd>
+
+<dd class="head logout noborder">
+<span class="name left">身份证件照</span>
+<span class="concrete_name right" id="upload_button">
+<a href="javascript: void(0);" class="paper-upload">点击上传</a>
+</span>
+<input type="hidden" name="pic" value="" />
+<span class="showFile"></span>
+</dd>
+
+</dl>
+</form>
+
+</div>
+</body>
+</html>

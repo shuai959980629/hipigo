@@ -1,0 +1,182 @@
+
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+
+<!-- 左边开始 -->
+<div class="page-sidebar nav-collapse collapse">
+<!-- BEGIN SIDEBAR MENU -->
+<!--{include file="menu.html"}-->
+<!-- END SIDEBAR MENU -->
+</div>
+<!-- 左边结束 -->
+
+<!-- BEGIN PAGE -->
+<div class="page-content">
+<!-- 右边开始-->
+<div class="container-fluid" >
+
+<!--右边标题导航开始-->
+<div class="row-fluid">
+<div class="span12">
+<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+<!--{include file="nav.html"}-->
+<!-- END PAGE TITLE & BREADCRUMB-->
+</div>
+</div>
+<!--右边标题导航结束-->
+
+<!--中间内容开始-->
+<div class="add_activity clearfix">
+<div class="clearfix">
+<div class="fl write nopadding">
+
+<h2>绑定银行卡或支付宝帐号</h2><br />
+
+<div class="write_row">
+<div class="import clearfix" id="pay_way">
+<span class="title resources_title">账户类型：</span>
+<a class="alipay<!--{if $business_info.type == 'alipay'}--> hover<!--{/if}-->"></a>
+<a class="card<!--{if $business_info.type == 'bank'}--> hover<!--{/if}-->">银行卡</a>
+    <input type="hidden" name="type" id="type" value="<!--{$business_info.type|default:'alipay'}-->"/>
+</div>
+</div>
+
+<div id="card_pay" <!--{if $business_info.type == 'alipay' || empty($business_info.type)}--> style="display: none;"<!--{/if}-->>
+<div class="write_row">
+<div class="import clearfix">
+<input name="open_bank" type="text" value="<!--{$business_info.open_bank}-->" placeholder="需要输入开户银行名称" />
+<span class="title resources_title">开户银行：</span>
+</div>
+</div>
+
+<div class="write_row">
+<div class="import clearfix">
+<input class="cost" name="card_account" type="text" value="<!--{if $business_info.type == 'bank'}--><!--{$business_info.card_account}--><!--{/if}-->" placeholder="需要输入将被使用的银行卡卡号" />
+<span class="title resources_title">银行卡卡号：</span>
+</div>
+</div>
+</div>
+
+<div class="write_row" id="alipay_pay" <!--{if $business_info.type != 'alipay' && !empty($business_info.type)}--> style="display: none;"<!--{/if}-->>
+<div class="import clearfix">
+<input name="account" type="text" value="<!--{if $business_info.type == 'alipay'}--><!--{$business_info.card_account}--><!--{/if}-->" placeholder="请输入您的支付宝帐号" />
+<span class="title resources_title">支付宝帐号：</span>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<!--中间内容结束-->
+<div class="settlement_btn">
+<button class="btn green" id="bind" >绑定</button>
+</div>
+</div>
+<!-- 右边结束-->
+</div>
+<!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL SCRIPTS -->
+
+<script>
+  jQuery(document).ready(function() {
+    App.init();
+    UITree.init();
+  });
+  
+//  var way = '';
+  //选择绑定结算方式
+  $('#pay_way a').click(function () {
+    $('#pay_way a').removeClass('hover');
+    $(this).addClass('hover');
+    if($(this).index() == 1) { //alipay
+      $('#card_pay').hide();
+      $('#alipay_pay').show();
+//      way = 'alipay';
+        $('#type').val('alipay');
+    }
+    else { //银行卡
+      $('#card_pay').show();
+      $('#alipay_pay').hide();
+//      way = 'bank_pay';
+        $('#type').val('bank');
+    }
+  });
+
+  //提交绑定
+  $('#bind').click(function () {
+    var type = $('#type').val();
+    var accounts = $('input[name="account"]').val();
+    var account = accounts.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+    var open_banks = $('input[name="open_bank"]').val();
+    var open_bank = open_banks.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+    var card_accounts = $('input[name="card_account"]').val();
+    var card_account = card_accounts.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+
+      if(type == 'alipay'){
+          card_account = '';
+      }else{
+          account = '';
+      }
+        if(account == '' && type == 'alipay'){
+            alert('请输入支付宝绑定账号');
+            return false;
+        }else if(open_bank == '' && type == 'bank'){
+            alert('请输入银行开户银行名称');
+            return false;
+        }else if(card_account == '' && type == 'bank'){
+            alert('请输入银行开户银行卡号');
+            return false;
+        }else{
+            $.post('<!--{$url_prefix}-->settings/bind_account', {
+                'type': type,
+                'account':account,
+                'open_bank':open_bank,
+                'card_account':card_account
+            }, function(data){
+                alert('绑定成功！');
+                window.location.reload();
+            }, 'text');
+        }
+  });
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

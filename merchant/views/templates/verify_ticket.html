@@ -1,0 +1,151 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+<!-- BEGIN SIDEBAR -->
+<div class="page-sidebar nav-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!--{include file="menu.html"}-->
+    <!-- END SIDEBAR MENU -->
+</div>
+<!-- END SIDEBAR -->
+
+<!-- BEGIN PAGE -->
+<div class="page-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <!--{include file="nav.html"}-->
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+
+        <!-- BEGIN PAGE CONTENT-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN VALIDATION STATES-->
+                <div class="portlet box yellow">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-reorder"></i>电子券验证</div>
+                    </div>
+                    <div class="portlet-body form verify_e_coupon"  style="overflow:visible;">
+                        <!--验证电子券开始-->
+                        <!--验证电子券搜索开始-->
+                        <div class="seek_verify">
+                            <p>验证电子券<span class="hunt"></span></p>
+                            <div class="seek">校验码
+                                <input class="span6 m-wrap" id="keyword" name="keyword" type="text" onkeypress="if(event.keyCode==13){search_key()}">
+                                <button class="btn red" onclick="search_key()">搜索</button>
+                            </div>
+                            <!--验证电子券搜索显示内容-->
+                            <div class="details clearfix">
+                            </div>
+                        </div>
+                        <!--验证电子搜索结束-->
+                        <div class="history">
+                            <p>验证码记录<span class="history"></span></p>
+                            <table>
+                                <tbody id="verify_show">
+                                <tr class="title clearfix">
+                                    <td class="No">校验码 </td><td class="matter">验证码</td><td>获得者</td><td>获得时间</td><td>使用时间</td>
+                                </tr>
+                                <!--{if $verify_ticket}-->
+                                <!--{foreach from = $verify_ticket item = vt}-->
+                                <tr class="clearfix">
+                                    <td class="No"><!--{$vt.code}--></td>
+                                    <td class="matter">
+                                        <!--{if $vt.object_type == 'eticket'}-->(电子券)<!--{else}-->(消费码)<!--{/if}-->
+                                        <!--<img src="&lt;!&ndash;{$vt.image|get_img_url:'ticket'}&ndash;&gt;">-->
+                                        <!--{$vt.name}--></td>
+                                    <td><!--{urldecode($vt.nick_name)}--></td>
+                                    <td><!--{if $vt.get_time != '0000-00-00 00:00:00'}--><!--{$vt.get_time}--><!--{/if}--></td>
+                                    <td><!--{if $vt.use_time != '0000-00-00 00:00:00'}--><!--{$vt.use_time}--><!--{/if}--></td>
+                                </tr>
+                                <!--{/foreach}-->
+                                <!--{else}-->
+                                还没有电子券验证记录！
+                                <!--{/if}-->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--验证电子结束-->
+                    </div>
+                </div>
+                <!-- END VALIDATION STATES-->
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+    </div>
+    <!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+
+<script>
+    jQuery(document).ready(function() {
+        App.init();
+        UITree.init();
+    });
+   $(function(){
+       $('#keyword').val('');
+       $('#keyword').focus();
+   });
+
+    //搜索关键字
+    function search_key(){
+        var search_keys = $('#keyword').val();
+        var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        if(search_key == ''){
+            alert('请输入你要搜索的验证码！');
+            return;
+        }else{
+            $.post('<!--{$url_prefix}-->ticket/verify_ticket', {
+                'search_key':search_key,
+                'ispage' : 1
+            }, function(data){
+                $('.details').html(data);
+                $('#keyword').val('');
+            }, 'text');
+        }
+    }
+
+    //搜索返回刷新
+//    function backSearchOrRefresh(){
+//        var searchinput = $('#keyword').val();
+//        if(searchinput == ''){
+//            $('.details').html('');
+//        }
+//    }
+
+    //点击使用该电子券
+    function change_state(obj,id_item,id_ticket,object_type){
+        $.post('<!--{$url_prefix}-->ticket/change_ticket_state', {
+            'id_item':id_item,
+            'id_ticket':id_ticket,
+            'object_type':object_type
+        }, function(data){
+            if(data.status == '0'){
+                alert('操作失败!');
+            }else{
+                window.location.reload();
+            }
+        }, 'json');
+    }
+
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

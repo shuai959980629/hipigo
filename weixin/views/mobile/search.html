@@ -1,0 +1,78 @@
+<!--{include file="header.html"}-->
+<section id="search_section" class="active">
+    <!--{include file="nav.tpl"}-->
+    <article id="search_list" data-scroll="true" class="active">
+      <div>
+      <!--search-->
+      <div class="searcharea">
+        <div class="search_input relative">
+            <input type="hidden" value="<!--{$type}-->" id="type" name="type"/>
+            <input type="text" placeholder="输入关键字搜索" class="left" id="search_key" onkeyup="backSearchOrRefresh(this)"/>
+            <a onclick="search_(this)" class="searchbutton right"><i class="icon search nofloat"></i></a>
+            <!--clear-->
+            <em class="cleara icon cancel-circle" style="display: none;" onclick="back_search()"></em>
+        </div>
+      </div>
+        <ul class="keywords">
+            <h4>热门搜索</h4>
+            <!--{foreach from = $tag_info item = ti key = k}-->
+            <li><a href="javascript:void(0)" onclick="search_key('<!--{$ti.tag_name}-->')" class="<!--{$ti.color}-->"><!--{$ti.tag_name}--></a></li>
+            <!--{/foreach}-->
+        </ul>
+        <p class="hotkeywords" style="display: none;">热门关键字：
+            <!--{foreach from = $tag item = t key = k}-->
+            <a href="javascript:void(0)" onclick="search_key('<!--{$t.tag_name}-->')" class="haveback"><!--{$t.tag_name}--></a>
+            <!--{/foreach}-->
+        </p>
+        <ul class="search_result"></ul>
+      </div>
+    </article>
+</section>
+
+<script>
+    var offset = 1;
+    $(function () {
+        var loca_url = '<!--{$url}-->/search/search_lists?type=<!--{$type}-->';
+//        refresh_page('', 0,loca_url,'search_result');
+        refresh('search_result', loca_url, 'search_result', '', 0);
+    });
+
+    //搜索返回刷新
+    function backSearchOrRefresh(obj){
+        var searchinput = $(obj).val();
+        if(searchinput != ''){
+            $('.cancel-circle').show();
+        }else{
+            $('.cancel-circle').hide();
+        }
+    }
+
+    //搜索
+    function search_(obj){
+        search_key($(obj).prev().val());
+    }
+    function search_key(kw){
+        if(kw){
+            $('#search_key').val(kw);
+            $('.cancel-circle').show();
+            $('.keywords').hide();
+            $('.hotkeywords').show();
+//            $('.search_result').show();
+//            refresh_page(kw,0,loca_url,'search_result');
+            var loca_url = '<!--{$url}-->/search/search_lists?type=<!--{$type}-->';
+            refresh('search_result', loca_url, 'search_result', kw, 0);
+        }
+    }
+    //取消搜索
+    function back_search(){
+        $('#search_key').val('');
+        $('.cancel-circle').hide();
+        $('.keywords').show();
+        $('.hotkeywords').hide();
+//        $('.search_result').hide();
+//        refresh_page('',0,loca_url,'search_result');
+        var loca_url = '<!--{$url}-->/search/search_lists?type=<!--{$type}-->';
+        refresh('search_result', loca_url, 'search_result', '', 0);
+    }
+</script>
+<!--{include file="footer.html"}-->

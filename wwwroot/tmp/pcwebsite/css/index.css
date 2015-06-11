@@ -1,0 +1,204 @@
+/* ------------------------------------------
+  DEMO PAGE'S STYLES
+--------------------------------------------- */
+/*首页*/
+
+header{
+	background: url(../img/banner_bg_1.jpg) 0 0 no-repeat;width: 100%;height: 640px;
+}
+.banner{
+	position: relative;
+}
+.bar-code-detail{
+	width: 320px; padding-top: 80px;
+}
+.gallery{
+	position: absolute;right:0; top: 50px;
+}
+.barfont{
+	background: url(../img/barfontbg.png) center bottom no-repeat;text-align: center; font-size: 32px; color: #fff;display: block; line-height: 1.8; padding-bottom: 75px;
+}
+.bar-code{
+	background: rgba(243,73,74,0.3); padding: 6px;display: block; width: 238px; height: 238px;margin: 30px 0 0 35px;
+}
+.blockone{
+	background: url(../img/blockonebg.png); padding: 100px 0 10px 0;
+}
+.blockonefont{
+	width: 39%;line-height: 2; padding-top: 100px;
+}
+.blockonefont span{
+	text-indent: 2em; font-size: 20px; display: block; 
+}
+.blockonefont span em{
+	color: #f05133; font-size: 30px;
+}
+.blocktwo{
+	background: #e9ebee; padding: 30px 0 10px;
+}
+.blocktwofont{
+	padding-top: 0;
+}
+.blockthree{
+	background: #fff;padding: 50px 0;
+}
+.blockthreefont{
+	padding: 0;
+}
+
+/*登录*/
+.loginheader{
+	height: 68px; overflow: hidden;
+}
+.loginblock{
+	padding: 30px 0 312px;
+}
+.logincontain{
+	background: #fff; padding: 3px 3px 20px; border: 3px solid #4cc9b7;width: 396px; margin-top: 30px;
+}
+.logincontain h3{
+	border-bottom: 1px solid #e2e2e2; padding: 0; margin: 0; line-height: 3;
+}
+.logincontain h3 a{
+	width: 50%; text-align: center; display: block; float: left; color: #333;
+}
+.logincontain .peachblow{
+	color: #f3494a;
+}
+.logincontain .peachblow:hover,.logincontain .peachblow:active{
+	color: #ea2b2b;
+}
+.control-group{
+	width: 90%; padding: 25px 20px; margin: 0 auto;
+}
+.control-group input{
+	border: 1px solid #e2e2e2; border-left: 2px solid #4cc9b7;height: 40px; width: 89%; line-height: 40px; margin-bottom: 20px; padding-left: 35px;
+}
+.control-group input:focus{
+	border: 1px solid #999;border-left: 2px solid #4cc9b7;
+}
+.icon-user{
+	background: url(../img/loginicon.png) 8px 10px no-repeat;
+}
+.icon-lock{
+	background: url(../img/loginicon.png) 8px -39px no-repeat;
+}
+.control-group button{
+	margin: 10px auto 15px;display: block;
+}
+.green{
+	background: #4cc9b7;border: none; color: #fff; font-size: 20px; cursor: pointer; line-height: 42px; padding: 0 40%;
+}
+.green img{
+	margin-top: 11px; display: block;
+}
+.green em{
+	padding-right: 5px;
+}
+.green:hover{
+	background: #2ec6b0;
+}
+.green:active{
+	background:#01a58c;
+}
+.control-group .rememberposs input{
+	width: 12px; height: 12px;
+}
+/*注册*/
+.registerblock{
+	width: 994px;background: #fff; border: 3px solid #4cc9b7; margin: 60px auto 20px; padding: 10px 0 50px;
+}
+.registerblock h3{
+	color: #f3494a;border-bottom: 1px solid #e2e2e2; padding: 0 0 0 20px; margin: 0; line-height: 3;
+}
+.controls{
+	padding: 20px 20px 0;
+}
+.controls label{
+	width: 105px; text-align: right; display: block; padding-right: 10px; line-height: 36px;
+}
+.controls label em{
+	color: #f00;
+}
+.controls input,.controls select,.controls textarea{
+	width: 40%; border: 1px solid #e2e2e2;height: 36px;line-height: 36px;
+}
+.controls input:focus,.controls textarea:focus{
+	border: 1px solid #999;
+}
+.controls p{
+	color: #999; font-size: 14px; line-height: 1.8;display: inline-block;width: 89%;padding-left: 115px;
+}
+.controls select{
+	width: 20%; margin-right: 10px;
+}
+.controls .width30{
+	width: 30%;
+}
+.upload{
+	background: #e5e5e5; border: none;cursor: pointer;padding: 6px 25px;
+}
+.upload:hover{
+	background: #ddd;
+}
+.upload:active{
+	background: #ccc;
+}
+.controls .explain{
+	width: 55%; padding-left: 8px;
+}
+.thumbnail{
+	width: 156px; height: 87px; position: relative; display: block;
+}
+.thumbnail img{
+	width: 136px; height: 85px; border: 1px solid #ddd;
+}
+.close{
+	background:url(../img/chosen-sprite.png) no-repeat  -45px -1px; position:absolute; top:-5px; right:13px; width:15px; height:10px; display:block; cursor: pointer;
+}
+.close:hover{
+	 background:url(../img/chosen-sprite.png) no-repeat  -45px -12px; position:absolute; top:-5px; right:13px; width:15px; height:10px; display:block; cursor: pointer;
+}
+.martop25{
+	margin-top: 25px;
+}
+.controls textarea{
+	width: 85%;height: 180px;resize: none;
+}
+.controlsbtn{
+	padding: 60px 0 20px 130px;
+}
+.controlsbtn span{
+	font-size: 14px; line-height: 40px;
+}
+.controlsbtn span input{
+	margin-top: 15px;display: block;
+}
+.controlsbtn a{
+	color: #f3494a;
+}
+.controlsbtn a:hover{
+	color: ##ea2b2b;
+}
+.controlsbtn button{
+	margin: 0 auto 15px;display: block;
+}
+.controlsbtn .green{
+	padding: 0 20%;
+}
+.controlsbtn p{
+	text-align: center;display: inline-block;width: 90%;
+}
+/*注册协议*/
+.para_title{
+	font-size: 16px; font-weight: 700;
+}
+.para_title,.para{
+	padding: 10px 20px; line-height: 2;
+}
+.para{
+	font-size: 14px;
+}
+.applybtn{
+	padding-left: 0;
+}

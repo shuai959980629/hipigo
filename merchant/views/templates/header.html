@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+	<meta charset="utf-8" />
+	<title><!--{if $current.business_name}--><!--{$current.business_name}--> - <!--{if $current.last }--><!--{$current.last}--><!--{else}-->V平台首页<!--{/if}--><!--{else}-->商家平台管理系统<!--{/if}--></title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->
+	<link href="<!--{$url_prefix}-->media/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="<!--{$url_prefix}-->media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+	<link href="<!--{$url_prefix}-->media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+	<link href="<!--{$url_prefix}-->media/css/style-metro.css" rel="stylesheet" type="text/css"/>
+	<link href="<!--{$url_prefix}-->media/css/style.css" rel="stylesheet" type="text/css"/>
+	<link href="<!--{$url_prefix}-->media/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+	<link href="<!--{$url_prefix}-->media/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+<!--{if $page_type != 'img_text_reply' && $page_type != 'site_config' && $page_type != 'list_followers' && $page_type != 'wx_attention_reply' && $page_type != 'wx_imgreply' && $page_type != 'add_ticket' && $page_type != 'answer_two' && $page_type != 'egg_two' && $page_type != 'event_two' && $page_type != 'community' && $page_type != 'member'}-->
+<!--<link href="&lt;!&ndash;{$url_prefix}&ndash;&gt;media/css/uniform.default.css" rel="stylesheet" type="text/css"/>-->
+<!--{/if}-->
+<!-- END GLOBAL MANDATORY STYLES -->
+
+	<!-- BEGIN PAGE LEVEL STYLES -->
+	<link rel="stylesheet" type="text/css" href="<!--{$url_prefix}-->media/css/select2_metro.css" />
+	<link rel="stylesheet" type="text/css" href="<!--{$url_prefix}-->media/css/chosen.css" />
+	<!-- END PAGE LEVEL STYLES -->
+
+	<link rel="shortcut icon" href="<!--{$url_prefix}-->media/image/favicon.ico" />
+	<link rel="shortcut icon" href="<!--{$url_prefix}-->media/kindeditor/themes/default/default.css" />
+  <link href="<!--{$url_prefix}-->media/css/global.css" type="text/css" rel="stylesheet" />
+</head>

@@ -1,0 +1,502 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+    <!-- 左边开始 -->
+    <div class="page-sidebar nav-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <!--{include file="menu.html"}-->
+        <!-- END SIDEBAR MENU -->
+    </div>
+    <!-- 左边结束 -->
+
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- 右边开始-->
+        <div class="container-fluid" >
+            <!--右边标题导航开始-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                    <!--{include file="nav.html"}-->
+                    <!-- END PAGE TITLE & BREADCRUMB-->
+                </div>
+
+                <!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <p class="fl"></p>
+
+                    <div class="link">
+                        <a href="<!--{$url_prefix}-->community/discuss_manage">讨论管理</a>
+                        <a href="<!--{$url_prefix}-->community/member_manage">成员管理</a>
+                    </div>
+                    <div>
+                        <input id="seek" name="seek" type="text"  value="输入后请按回车搜索" title="输入后请按回车搜索" onKeyPress="if(event.keyCode==13){search_community(this)}" onKeyUp="backSearchOrRefresh(this)" onBlur="search_community(this)"/>
+                        <a class="hunt" href="#"></a>
+                    </div>
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                            <!--中间内容开始-->
+                            <div class="content event_list clearfix">
+                                <script type="text/javascript" src="/biz/media/js/zerocliploard/ZeroClipboard.js" charset="utf-8"></script>
+                                <table cellpadding="0" cellspacing="0" style="width: 100%">
+                                    <tbody>
+                                    <tr class="title">
+                                        <td class="name">活动</td>
+                                        <td>已参加人数 </td>
+										<td>已验证</td>
+                                        <td>价格</td>
+                                        <td>赞</td>
+										<td>评论数</td>
+										<td>浏览数</td>
+                                        <td class="operation">活动操作</td>
+                                        <td class="handle">其他操作</td>
+                                    </tr>
+                                    <!--{if $community_list}-->
+                                    <!--{foreach from = $community_list item = cl key = k}-->
+                                    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                                        <td class="name">
+                                            <input name="check_community[]" type="checkbox" value="<!--{$cl.id_activity}-->" <!--{if $cl.join_count <= 0}--><!--{else}-->disabled="false"<!--{/if}--> />
+                                           <a target="_blank" onclick="show_info(<!--{$cl.id_activity}-->)"><img src="<!--{$cl.posters_url|get_img_url:'community'}-->" /><!--{$cl.name|truncate_utf8:25}--></a>
+                                        </td>
+                                        <td><!--{$cl.person_count}--></td>
+										<td><!--{$cl.ticket_count}--></td>
+                                        <td><!--{if $cl.join_price == 0}-->免费<!--{else}-->￥<!--{$cl.join_price}--><!--{/if}--></td>
+                                        <td><!--{$cl.appraise_count}--></td>
+										<td><!--{$cl.review_count}--></td>
+										<td><!--{$cl.check_num}--></td>
+                                        <td class="operation">
+                                            <!--{if $cl.state == 1}-->
+                                            <!-- <a href="javascript:void(0)" onClick="update_state(this,<!--{$cl.id_activity}-->,2)">开启活动</a> -->
+											<a href="<!--{$url_prefix}-->community/edit_community/<!--{$cl.id_activity}-->/<!--{$offset}-->" class="handlea">编辑</a>
+                                            <a href="javascript:void(0)" onClick="<!--{if $cl.join_count <= 0}-->del_community(<!--{$cl.id_activity}-->,<!--{$offset}-->)<!--{else}-->alert('已有活动成员，不能被删除');<!--{/if}-->" class="handlea">删除</a>
+                                            <a href="javascript:void(0)" onClick="update_state(this,<!--{$cl.id_activity}-->,0)">关闭活动</a>
+                                            <!--{elseif $cl.state == 2}-->
+                                            <a href="<!--{$url_prefix}-->community/to_join_community/<!--{$cl.id_activity}-->/<!--{$offset}-->" class="handlea">参加活动</a>
+											<a href="<!--{$url_prefix}-->community/edit_community/<!--{$cl.id_activity}-->/<!--{$offset}-->" class="handlea">编辑</a>
+                                            <a href="javascript:void(0)" onClick="<!--{if $cl.join_count <= 0}-->del_community(<!--{$cl.id_activity}-->,<!--{$offset}-->)<!--{else}-->alert('已有活动成员，不能被删除');<!--{/if}-->" class="handlea">删除</a>
+                                            <a href="javascript:void(0)" onClick="update_state(this,<!--{$cl.id_activity}-->,0)">关闭活动</a>
+                                            <!--{else}-->
+											<a href="<!--{$url_prefix}-->community/edit_community/<!--{$cl.id_activity}-->/<!--{$offset}-->" class="handlea">编辑</a>
+                                            <a href="javascript:void(0)" onClick="<!--{if $cl.join_count <= 0}-->del_community(<!--{$cl.id_activity}-->,<!--{$offset}-->)<!--{else}-->alert('已有活动成员，不能被删除');<!--{/if}-->" class="handlea">删除</a>
+                                            <span>关闭活动</span>
+                                            <!--{/if}-->
+                                        </td>
+                                        <td class="handle">
+                                            <div id="show_notice<!--{$cl.id_activity}-->" style="display: none;"><!--{$cl.notice}--></div>
+                                            <a onclick="show_info(<!--{$cl.id_activity}-->)" class="handlea">查看详情</a>
+                                            <a href="<!--{$url_prefix}-->community/list_discuss/<!--{$cl.id_activity}-->" class="handlea">查看讨论</a>
+                                            <a href="<!--{$url_prefix}-->community/list_member/<!--{$cl.id_activity}-->" class="handlea">查看成员</a>
+                                            <a href="javascript:void(0)" onClick="show_notice_div(this,<!--{$cl.id_activity}-->)" class="handlea">提货地址</a>
+                                            <input name="" type="hidden" value="<!--{$cl.share_link}-->" id="inviteLinks<!--{$cl.id_activity}-->" readonly>
+                                            <a class="handlea" id='d_clip_button<!--{$cl.id_activity}-->' data-clipboard-target="inviteLinks<!--{$cl.id_activity}-->">复制URL</a>
+
+                                            <script type="text/javascript">
+                                                // 定义一个新的复制对象
+                                                var clip<!--{$cl.id_activity}--> = new ZeroClipboard( document.getElementById("d_clip_button<!--{$cl.id_activity}-->"), {
+                                                    moviePath: "/biz/media/js/zerocliploard/ZeroClipboard.swf"
+                                                } );
+                                                // 复制内容到剪贴板成功后的操作
+                                                clip<!--{$cl.id_activity}-->.on( 'complete', function(client, args) {
+                                                    alert("已复制到剪切板!");//+ args.text
+                                                });
+                                            </script>
+
+                                            <a href="javascript:void(0)" onclick="bind_etickt(<!--{$cl.id_activity}-->)"  class="handlea">绑定电子卷</a>
+											<div onmouseover="setShare('<!--{$cl.name|truncate_utf8:25}-->', '<!--{$cl.share_link}-->');">
+                                                <!-- JiaThis Button BEGIN -->
+                                                <div id="ckepop">
+                                                    <a href="http://www.jiathis.com/share/?uid=1398064626603331" target="_blank">分享到</a>
+                                                    <a class="jiathis_button_tsina"></a>
+                                                    <a class="jiathis_button_tqq"></a>
+                                                    <a class="jiathis_button_weixin"></a>
+                                                    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                                                    <!--<a class="jiathis_counter_style"></a>-->
+                                                </div>
+                                                <!-- JiaThis Button END -->
+                                            </div>
+                                            <!--{if $cl.id_content}-->
+                                            <a href="javascript:void(0)" onclick="unbind_content(<!--{$cl.id_activity}-->,<!--{$offset}-->)" class="handlea">解除关联</a>
+                                            <!--{else}-->
+                                            <a href="<!--{$url_prefix}-->content/list_content/1/1/<!--{$cl.id_activity}-->" class="handlea">关联文章</a>
+                                            <!--{/if}-->
+                                        </td>
+                                    </tr>
+                                    <!--{/foreach}-->
+                                    <!--{else}-->
+                                    <tr>
+                                        <td colspan="8">
+                                            还没有活动信息！
+                                        </td>
+                                    </tr>
+                                    <!--{/if}-->
+                                    </tbody>
+                                </table>
+
+                                <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1398064626603331" charset="utf-8"></script>
+                                <div class="handle_paging clearfix">
+                                    <div class="fl">
+                                        <span class="all"><input name="check_all" id="check_all" type="checkbox" value="" />全选</span>
+                                        <a class="btn green" href="javascript:void(0)" onClick="del_community_all()">批量删除</a>
+                                    </div>
+                                    <!--{if $page_html}-->
+                                    <div class="pagination fr">
+                                        <ul>
+                                            <!--{$page_html}-->
+                                        </ul>
+                                    </div>
+                                    <!--{/if}-->
+                                </div>
+                            </div>
+                            <!--中间内容结束-->
+                        </div>
+                    </div>
+                </div>
+                <!--右边中介内容结束-->
+            </div>
+            <!-- 右边结束-->
+        </div>
+        <!-- END PAGE -->
+    </div>
+
+    <!--公告弹出框-->
+    <div id="prompt" style="width:800px;top:20%;display:none">
+        <div class="title">提货地址<a id="close">关闭</a></div>
+        <p style="padding-left: 20px; line-height: 30px; margin-top: 10px; " id="show_tip"><b style="color: #f00">温馨提示：</b>请输入15个字以内的公告</p>
+        <div class="content">
+            <div style="width:100%;height:40px;margin-bottom:10px">
+                <div style="width:100%;height:100%;float:left">
+                    <input id="id_activity" name="id_activity" type="hidden"/>
+                    <input id="notice" placeholder="请输入要公告的内容" name="notice" type="text" maxlength="15" class="fl address_input" style="height: 30px;box-shadow: none;" />
+                    <div class="prompt_button fr" style="padding: 0;"><a class="determine" style="margin: 0;">确定</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--绑定电子卷弹出框-->
+    <div id="pop_div" style="width:800px;height:360px;top:20%;display:none">
+        <div class="title">绑定电子卷<a id="pop_close">关闭</a></div>
+        <p style="padding-left: 20px; line-height: 30px; margin-top: 10px; " id="show_pop_tip"><b style="color: #f00">温馨提示：</b>一个活动可以绑定多种电子卷(单击即可选中)</p>
+        <div class="content">
+            <div style="width:100%;height:230px;margin-bottom:10px">
+                <div style="width:100%;height:100%;float:left">
+                    <input id="id_activity_eticket" name="id_activity_eticket" type="hidden"/>
+                    <div id="box_list" style="height:150px;width:100%;" >
+                        <ul id="left" style="display:block;float:left;height:100%;width:360px;border:1px solid #ddd;OVERFLOW-Y: auto; OVERFLOW-X:hidden">
+                             <!--{foreach from = $elist item=li key=Key}-->
+                                <li style="cursor:pointer;"><a title="<!--{$li.name}-->" data="<!--{$li.id_eticket}-->" class="eticket"><!--{$li.name}--></a></li>
+                             <!--{/foreach}-->
+                        </ul>
+                        <div id="mid" style="float:left;height:100%;width:30px;line-height:150px;text-align:center;font-size:15px; font-weight:bold;">&hArr;</div>
+                        <div id="eticketDIV" style="float:left;height:93%;width:355px;font-size:12px;color:#9C9C9C;border:1px solid #ddd;OVERFLOW-Y: auto; OVERFLOW-X:hidden; padding: 5px;">
+                        </div>
+                    </div>
+                    <div class="prompt_button fr" style="margin-top:5px;padding: 0;"><a class="bindeticket" style="margin: 0;background:#35a948">确定</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="show_community_info" style="width:800px;height:360px;top:20%;display:none">
+        <div class="title">活动详情<a onclick="$(this).parent().parent().hide();$('#pop_up').hide();">关闭</a></div>
+        <div class="content" id="show_info" style="max-height:290px;">
+        </div>
+    </div>
+    <div id="pop_up" style="display:none"></div>
+    <!-- END CONTAINER -->
+
+    <!-- BEGIN FOOTER -->
+    <!--{include file="footer.html"}-->
+    <!-- END PAGE LEVEL SCRIPTS -->
+
+<script>
+    jQuery(document).ready(function() {
+        App.init();
+        UITree.init();
+
+        $(".eticket").live('click',function(){
+            var is_go = 0;
+            var eid = $(this).attr('data');
+            var ename = $(this).attr('title');
+            var html = '<div class="eticket_list" id="eticket'+eid+'" style="cursor:pointer;margin:3px,5px ,0,0;" onclick="$(this).remove();">'+
+                            '<input type="hidden" name="eid[]" value="'+eid+'"/>'+
+                                '<span class="checked">'+ename+
+                                '<a style="cursor:pointer;" onclick="$(this).parent().remove();" class="select2-search-choice-close"></a></span>'+
+                        '</div>';
+            $('input[name="eid[]"]').each(function(){
+                var val = $(this).val();
+                if(eid==val){
+                    alert('该电子卷已经被选中了!');
+                    is_go = 1;
+                    return false;
+                }
+            });
+            if(is_go == 1){
+                return false;
+            }
+           $('#eticketDIV').append(html);
+        });
+
+        $(".bindeticket").click(function(){
+            var id_eticket = [];
+            $("input[name='eid[]']").each(function(i){
+                id_eticket[i] = $(this).val();
+            });
+            if(!id_eticket.length){
+                alert('请选择需要绑定的电子卷!');
+                return false;
+            }
+            $.post('<!--{$url_prefix}-->community/bind_activ_eticket', {
+                'id_activity':$('#id_activity_eticket').val(),
+                'id_eticket':id_eticket
+            }, function(msg){
+                 $("#pop_div").hide();
+                 $("#pop_up").hide();
+                 if(msg.status){
+                    alert('电子卷绑定成功！');
+                 }else{
+                    alert('电子卷绑定失败！');
+                 }
+
+            }, 'json');
+        });
+    });
+
+    //显示活动详情
+    function show_info(id_activity){
+        $.post('<!--{$url_prefix}-->community/show_info', {
+            'aid' : id_activity
+        }, function(data){
+            $('#show_community_info').show();
+            $('#pop_up').show();
+            var html = '';
+            $.each(data.data, function (key, value) {
+                html += '<p style="text-align: center; font-size: 16px;font-weight: 700;color: #333;">'+value.name+'</p><p>'+value.content+'</p>';
+            });
+            $('#show_info').html(html);
+        }, 'json');
+    }
+
+
+    //发布公告
+    $(".determine").click(function(){
+        var notices = $('#notice').val();
+        var notice = notices.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        if(notice != ''){
+            $.post('<!--{$url_prefix}-->community/publish_notice', {
+                'id_activity' : $('#id_activity').val(),
+                'notice' : notice
+            }, function(data){
+                alert(data.msg);
+                $("#prompt").hide();
+                $("#pop_up").hide();
+                $('#notice').val('');
+                $('#show_notice'+$('#id_activity').val()).text(notice);
+            }, 'json');
+        }else{
+            alert('还没有输入公告呢！');
+        }
+    });
+
+    $("#close").click(function(){
+        $("#prompt").hide();
+        $("#pop_up").hide();
+    });
+
+    $("#pop_close").click(function(){
+        $("#pop_div").hide();
+        $("#pop_up").hide();
+    });
+
+    //展示发布公告的弹出层
+    function show_notice_div(obj,aid){
+        $("#prompt").show();
+        $("#pop_up").show();
+        $('#notice').val($(obj).parent().children('#show_notice'+aid).text());
+        $('#id_activity').val(aid);
+    }
+
+
+    function setShare(title, url) {
+        jiathis_config.title = title;
+        jiathis_config.url = url;
+    }
+    var jiathis_config = {
+        url: "",
+        title: ""
+    }
+
+    $("#check_all").click(function () {//全选
+        if($(this).attr('checked') != 'checked'){
+            $("input[name ^= 'check_community']").attr("checked",false);
+        }else{
+            $("input[name ^= 'check_community']").attr("checked",true);
+
+            $("input[name='check_community[]']").each(function(i){
+                if($(this).attr('disabled') == 'disabled'){
+                    $(this).attr("checked",false);
+                }
+            });
+        }
+    });
+
+    $('input[name="check_community[]"]').click(function(){
+        if($(this).attr('checked') != 'checked'){
+            $("#check_all").attr("checked",false);
+        }else{
+            if($("input[name='check_community[]']:checked").length == $("input[name='check_community[]']").length){
+                $("#check_all").attr("checked",true);
+            }
+        }
+    });
+
+    //搜索提示效果
+    $("input[name='seek']").click(function(){
+        if($(this).val() == $(this).attr('title')){
+            $(this).val('');
+        }
+    }).blur(function(){
+        if($(this).val() == ''){
+            $(this).val($(this).attr('title'));
+        }
+    });
+
+
+    //删除互动活动列表信息
+    function del_community(id_activity,offset){
+        if(confirm("你确定要删除该活动信息吗？"))
+        {
+            var search_key = $('input[name="seek"]').val();
+            $.post('<!--{$url_prefix}-->community/del_community', {
+                'id_activity': id_activity,
+                'search_key':search_key=='输入后请按回车搜索'?'':search_key,
+                'offset':offset,
+                'page_type':'one'
+            }, function(data){
+                if(data.status == '0'){
+                    alert('没权限执行此操作!');
+                }else
+                    $('.event_list').html(data.data);
+            }, 'json');
+        }
+    }
+
+
+    //批量删除
+    function del_community_all(){
+        if($("input[name='check_community[]']:checked").length == 0){
+            alert('你还没有选中需要删除的！');
+            return false;
+        }
+        var activities = [];
+        $("input[name='check_community[]']:checked").each(function(i){
+            activities[i] = $(this).val();
+        });
+
+        if(confirm("你确定要删除这些活动信息吗？"))
+        {
+            var search_key = $('input[name="seek"]').val();
+            $.post('<!--{$url_prefix}-->community/del_community', {
+                'search_key':search_key=='输入后请按回车搜索'?'':search_key,
+                'id_activity' : activities,
+                'page_type':'more'
+            }, function(data){
+                $('.event_list').html(data.data);
+            }, 'json');
+        }
+    }
+
+
+    //开启  关闭 活动
+    function update_state(obj,id_activity,num){
+        $.post('<!--{$url_prefix}-->community/update_state', {
+            'id_activity':id_activity,
+            'state': num
+        }, function(data){
+            alert(data.data);
+            var html = '';
+            if(num == 2){
+                html = '<a href="javascript:void(0)" onclick="update_state(this,'+id_activity+',0)">关闭活动</a>';
+            }else{
+                html = '<span>关闭活动</span>';
+            }
+            $(obj).parent().append(html);
+            $(obj).remove();
+        }, 'json');
+    }
+
+    //互动活动列表分页
+    function community_list_page(offset){
+        var search_key = $('input[name="seek"]').val();
+        $.post('<!--{$url_prefix}-->community/list_community', {
+                'search_key':search_key=='输入后请按回车搜索'?'':search_key,
+                'offset':offset,
+                'page_type':1
+        }, function(data){
+            $('.event_list').html(data);
+        }, 'text');
+    }
+
+    //搜索关键字
+    function search_community(obj){
+        var search_keys = $(obj).val();
+        var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        if(search_key == ''){
+//                alert('请输入你要搜索的文字内容！');
+            return;
+        }else{
+            $.post('<!--{$url_prefix}-->community/search_community', {
+                'search_key':search_key=='输入后请按回车搜索'?'':search_key,
+                'offset':1
+            }, function(data){
+                $('.event_list').html(data);
+            }, 'text');
+        }
+    }
+    //搜索返回刷新
+    function backSearchOrRefresh(obj){
+        var searchinput = $(obj).val();
+        if(searchinput == ''){
+            community_list_page(1);
+        }
+    }
+
+    function bind_etickt(aid){
+        if($(".eticket_list").length){
+            $(".eticket_list").remove();
+        }
+        $("#pop_div").show();
+        $("#pop_up").show();
+        $('#id_activity_eticket').val(aid);
+    }
+
+    /*
+    zxx
+    解除绑定文章
+     */
+    function unbind_content(id_activity,offset){
+        if(confirm('你确定解除该活动的绑定吗？')){
+            $.post('<!--{$url_prefix}-->community/unbind_content', {
+                'id_activity':id_activity
+            }, function(data){
+                community_list_page(offset);
+            }, 'text');
+        }
+    }
+</script>
+    <!-- END JAVASCRIPTS -->
+
+</body>
+
+<!-- END BODY -->
+
+</html>

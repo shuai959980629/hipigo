@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>他人的个人主页,hipigo,嗨皮狗2.0</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/Jingle.css">
+<link rel="stylesheet" href="css/index.css">
+<script type="text/javascript" src="js/zepto.js"></script>
+<script type="text/javascript" src="js/iscroll.js"></script>
+<script type="text/javascript" src="js/template.min.js"></script>
+<script type="text/javascript" src="js/Jingle.debug.js"></script>
+<!---PC端测试时需要这个文件，将click事件模拟成touch事件，正式上线删除该js文件即可--->
+<script type="text/javascript" src="js/zepto.touch2mouse.js"></script>
+
+<script>
+window.onload = function(){
+  Jingle.launch({
+  appType:muti,
+  });
+};
+</script>
+</head>
+
+
+
+<body>
+<div id="section_container">
+<section id="index_section" class="active">
+<!---->
+<article id="personal_homepage_container" class="active" data-scroll="true" >
+<!---->
+<div class="personal_center">
+<p class="custombg"><img src="img/homepagebg.jpg" class="custom_bg"/>
+<span class="personal_user_head"><img src="img/user_head.jpg"/></span>
+<span class="nickname">糖糖哥哥的宝贝<i class="iconfont icon iconfont_9">&#58911;</i></span>
+<span class="autograph">开心就笑，不开心就过会在笑</span>
+<button class="go_back"><i class="iconfont icon iconfont_10">&#983698;</i></button>
+</p>
+<ul class="personal_homepage_activity clearfix">
+<li>
+  <span class="left time"><b>05</b>8月</span>
+  <span class="user_activity_mes right">
+  <a href=""><span class="user_head left"><img src="img/user_head.jpg"/><img src="img/leader_icon.png" class="leader_icon"/></span></a>
+  <h4><a href="activity_detail.html">2014年陈奕迅LIFE演唱会，在成都展示</a></h4>
+  </span>
+</li>
+<li>
+  <span class="left time"></span>
+  <span class="user_activity_mes right">
+  <h4><a href="#">2014年陈奕迅LIFE演唱会，在成都展示</a></h4>
+  </span>
+</li>
+<li>
+  <span class="left time"><b>11</b>7月</span>
+  <span class="user_activity_mes right">
+  <h4><a href="#">2014年陈奕迅LIFE演唱会，在成都展示</a></h4>
+  </span>
+</li>
+<li>
+  <span class="left time"><b>09</b>5月</span>
+  <span class="user_activity_mes right">
+  <h4><a href="#">2014年陈奕迅LIFE演唱会，在成都展示</a></h4>
+  </span>
+</li>
+</ul>
+<a class="more left" href="#"><b>查看更多∨</b></a>
+</div>
+</article>
+</section>
+</div>
+
+</body>
+</html>

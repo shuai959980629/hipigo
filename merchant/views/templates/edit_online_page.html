@@ -1,0 +1,155 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<style type="text/css">
+    .portlet-body img{
+        width:auto;
+        height:auto;
+    }
+</style>
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN VALIDATION STATES-->
+						<div class="portlet box purple">
+							<div class="portlet-title">
+								<div class="caption"><i class="icon-reorder"></i><!--{$current.last}--></div>
+							</div>
+
+							<div class="portlet-body form">
+								<!--内容添加开始-->
+                                <div class="goods_add">
+								<!--<form id="form_car_add" name="form_car_add" class="form-horizontal" method="post" enctype="multipart/form-data">-->
+                                    <form class="form-horizontal">
+                                        <input type="hidden" name="submit_type" value="<!--{$type}-->"/>
+                                    <div class="control-group">
+										<label class="control-label">banner图<span class="required">*</span></label>
+										<div class="controls">
+                                            <div id="show_banner" class="show_synopsis_pic">
+                                                <!--{if $ad.image_url}-->
+                                                <div class="fileupload-new thumbnail">
+                                                    <img src="<!--{$ad.image_url|get_img_url:'banner'}-->" alt="" style="width:136px;height:85px">
+                                                </div>
+                                                <!--{/if}-->
+                                            </div>
+                                            <input type="button" id="uploadBtn" value="上传" class="btn blue post_activity_upload"/>
+                                            <p style="display: block; float: left; width: 100%">图片格式：jpg,png,gif,推荐尺寸 984px X 640px;文件大小不超过2M</p>
+                                            <input type="hidden" id="image_src" name="image_src" value="<!--{$ad.image_url}-->"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+										<label class="control-label">详细说明：<span class="required">*</span></label>
+										<div class="controls">
+                                            <textarea name="desc" id="desc" style="width: 660px; height: 180px;"><!--{$ad.description}--></textarea>
+                                        </div>
+                                    </div>
+									<div class="form-actions">
+										<button type="button" class="btn purple" onclick="submit_info()">确定</button>
+									</div>
+								</form>
+                                </div>
+                                <!--歌曲添加结束-->
+							</div>
+						</div>
+						<!-- END VALIDATION STATES-->
+				    </div>
+			    </div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL STYLES -->
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/ajaxupload.js"></script>
+    <script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-min.js"></script>
+    <script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+    <script src="<!--{$url_prefix}-->media/kindeditor/editor.js"></script>
+	<script>
+		jQuery(document).ready(function() {
+		   // initiate layout and plugins
+		   App.init();
+            var url = '<!--{$url_prefix}-->';
+            //上传海报图片
+            uplodImage('uploadBtn', 'image_src', 'show_banner',url);
+            var editor;
+            KindEditor.ready(function(K) {
+                editor = K.create('textarea[name="desc"]', {
+                    resizeType : 1,
+                    themeType:'default',
+//                    allowImageUpload : true,
+//                    uploadJson:url+'files/upload_all_file/'+path,
+                    shadowMode:false,
+                    allowMediaUpload:false,
+                    afterBlur:function(){
+                        this.sync();
+                    },
+                    items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
+                        'bold', 'italic', 'underline', 'removeformat', '|',
+                        'justifyleft', 'justifycenter', 'justifyright',
+                        'insertorderedlist', 'insertunorderedlist','|','table','|','link','unlink','|','emoticons' ]
+                });
+            });
+        });
+
+        //提交预约专线网页信息
+        function submit_info(){
+            var image_src = $("#image_src").val();
+            if(image_src == ''){
+                alert('你还没有上传图片哦！');
+                return;
+            }
+            var desc = $("#desc").val();
+            var descs = desc.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(descs == ''){
+                alert('请写一些详细说明后再提交吧！');
+                return;
+            }
+            $.post('<!--{$url_prefix}-->car/edit_online_page', {
+                'image_src': image_src,
+                'desc':desc,
+                'submit_type':$('input[name="submit_type"]').val()
+            }, function(data){
+                alert("提交完成！");
+            window.location.reload();
+            }, 'text');
+        }
+
+
+    </script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

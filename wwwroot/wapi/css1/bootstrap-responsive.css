@@ -1,0 +1,584 @@
+/*!
+ * Bootstrap Responsive v2.3.2
+ *
+ * Copyright 2012 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ */
+
+.clearfix {
+  *zoom: 1;
+}
+
+.clearfix:before,.clearfix:after {
+  display: table;line-height: 0;content: "";
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.hide-text {
+  font: 0/0 a;color: transparent;text-shadow: none;background-color: transparent;border: 0;
+}
+
+.input-block-level {
+  display: block;width: 100%;min-height: 30px;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;
+}
+
+@-ms-viewport {
+  width: device-width;
+}
+
+.hidden {
+  display: none;visibility: hidden;
+}
+.no-visibile {
+  visibility: hidden;
+}
+.visible-phone {
+  display: none !important;
+}
+
+.visible-tablet {
+  display: none !important;
+}
+
+.hidden-desktop {
+  display: none !important;
+}
+
+.visible-desktop {
+  display: inherit !important;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important ;
+  }
+  .visible-tablet {
+    display: inherit !important;
+  }
+  .hidden-tablet {
+    display: none !important;
+  }
+}
+@media (min-width:320px) and (max-width: 399px) {
+  .page-header h1 small {
+    display: block;line-height: 20px;
+  }
+  input[type="checkbox"],
+  input[type="radio"] {
+    border: 1px solid #ccc;
+  }
+  .container span [class^="icon-"], .container span [class*=" icon-"],.row .span2 span{
+    padding-top:0;
+  }
+    /*activity*/
+  .comm-detail>.comm-detail-rg{
+	width: 60.8%;
+  }
+  .activity_mes{
+	width: 60.5%;
+  }
+  .nopaid>ul .paidcon{
+	width: 59%;
+  }
+  .operate>.partake-num{
+	width: 65%;
+  }
+  .top_seller>.seller_message{
+	padding: 2% 0 0;
+  }
+  .leaguer_msn{
+	width:81%;
+  }
+  .comm-detail-say .say-person,.gallery,.pic_reply{
+	width: 87%;
+  }
+   /*V1.1*/
+  .discuss-textarea>.textarea{
+	width: 83.5%;
+  }
+  .discuss-textarea>.textarea>textarea{
+	width: 69%;
+   }
+  .user_activity_mes{
+	width: 75%
+   }
+   /*V1.2*/
+   .search input{
+	width: 82%;
+	}
+   .icon-search{
+	left: 8px;
+	}
+   .closepop{
+	right: 8px;
+	}
+	.payer{
+	width: 96.6%%;  
+	}
+	.hipigo-search{
+	width: 62.5%;
+	}
+	.box_swipe01{
+	height: 135px;
+	}
+	.top_seller>.business-search {
+	max-width: 76.5%;
+	}
+   .discuss-textarea>.textarea>.reply-textarea{
+   width: 84%;
+   }
+   .searchli h3{
+    width: 73.5%;
+   }
+            /*V2.0*/
+   .creat_activity .must_details .date-picker{
+	   width: 72%;
+    }
+   .resource_search input{
+	width: 77%;
+	}
+	.closepoprec{
+	right: 20%;
+	}
+    .buynum{
+  width: 45%;margin-bottom: 10px;
+  }
+}
+@media (min-width: 433px) and (max-width: 767px) {
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important;
+  }
+  .visible-phone {
+    display: inherit !important;
+  }
+  .hidden-phone {
+    display: none !important;
+  }
+  /*activity*/
+  .activity_mes{
+	width: 72%;
+  }
+  .nopaid>ul .paidcon,.comm-detail>.comm-detail-rg{
+	width: 71%;
+  }
+  .top_seller>.seller_message{
+	padding: 1.5% 0 0;
+  }
+  .operate>.partake-num{
+	width: 69.5%;
+  }
+  .comm-detail-say .say-person,.gallery,.pic_reply{
+	width: 91%;
+  }
+  .leaguer_msn{
+	width:86.5%;
+  }
+     /*V1.1*/
+  .discuss-textarea>.textarea{
+	width: 88%;
+  }
+  .discuss-textarea>.textarea>textarea{
+	width: 78%;
+   }
+  .user_activity_mes{
+	width: 81.5%
+   }
+   /*V1.2*/
+   .search input{
+	width: 89%;
+	}
+   .icon-search{
+	left: 16px;
+	}
+   .closepop{
+	right: 20px;
+	}
+	.payer{
+	width: 97.3%;  
+	}
+	.hipigo-search{
+	width: 72%;
+	}
+	.box_swipe01{
+	height: 180px;
+	}
+    .top_seller>.business-search {
+	max-width: 82.6%;
+	}
+   .discuss-textarea>.textarea>.reply-textarea{
+   width: 89%;
+   }
+   .searchli h3{
+    width: 80.5%;
+   }
+      /*V2.0*/
+   .creat_activity .must_details .date-picker{
+	   width: 80%;
+    }
+   .resource_search input{
+    width: 83.5%;
+    }
+    .closepoprec{
+    right: 10%;
+    }
+    .buynum{
+    width: 39%;margin-bottom: 10px;
+    }
+}
+@media (min-width: 768px) and (max-width: 800px) {
+   /*V1.1*/
+  .discuss-textarea>.textarea{
+	width: 93%;
+  }
+  .discuss-textarea>.textarea>textarea{
+	width: 94%;
+   }
+    	/*V1.2*/
+   .search input{
+	width: 90%;
+	}
+   .icon-search{
+	left: 16px;
+	}
+   .closepop{
+	right: 20px;
+	}
+	.payer{
+	width: 98.7%;  
+	}
+	.hipigo-search{
+	width: 73%;
+	}
+	.top_seller>.business-search {
+	max-width: 75%;
+	}
+   .discuss-textarea>.textarea>.reply-textarea{
+   width: 95%;
+   }
+   .searchli h3{
+    width: 77.5%;
+   }
+            /*V2.0*/
+   .creat_activity .must_details .date-picker{
+	   width: 72%;
+    }
+   .resource_search input{
+	width: 92%;
+	}
+    .buynum{
+  width: 49%;margin-bottom: 10px;
+  }
+}
+@media (min-width: 400px) and (max-width: 432px) {
+  /*activity*/
+  .activity_mes{
+	width: 69%;
+  }
+  .nopaid>ul .paidcon,.comm-detail>.comm-detail-rg{
+	width: 68.5%;
+  }
+  .top_seller>.seller_message{
+	padding: 1.5% 0 0;
+  }
+  .operate>.partake-num{
+	width: 70%;
+  }
+  .comm-detail-say .say-person,.gallery,.pic_reply{
+	width: 91%;
+  }
+  .leaguer_msn{
+	width:85%;
+  }
+     /*V1.1*/
+  .discuss-textarea>.textarea{
+	width: 87%;
+  }
+  .discuss-textarea>.textarea>textarea{
+	width: 75%;
+   }
+  .user_activity_mes{
+	width: 79%
+   }
+   /*V1.2*/
+   .search input{
+	width: 85%;
+	}
+   .icon-search{
+	left: 8px;
+	}
+   .closepop{
+	right: 8px;
+	}
+	.payer{
+	width: 97%;  
+	}
+	.hipigo-search{
+	width: 70%;
+	}
+	.top_seller>.business-search {
+	max-width: 80.7%;
+	}
+   .discuss-textarea>.textarea>.reply-textarea{
+   width: 88%;
+   }	
+   .searchli h3{
+    width: 78%;
+   }
+         /*V2.0*/
+   .creat_activity .must_details .date-picker{
+	   width: 77%;
+    }
+   .resource_search input{
+	width:81.5%;
+	}
+	.closepoprec{
+	right: 15%;
+	}  
+  .buynum{
+  width: 39%;margin-bottom: 10px;
+  }
+}
+.visible-print {
+  display: none !important;
+}
+
+@media print {
+  .visible-print {
+    display: inherit !important;
+  }
+  .hidden-print {
+    display: none !important;
+  }
+}
+
+@media (min-width: 980px) {
+  [class*="span"] {
+    float: left;
+    min-height: 1px;
+    margin-left: 30px;
+  }
+  .container,
+  .navbar-static-top .container,
+  .navbar-fixed-top .container,
+  .navbar-fixed-bottom .container{
+    width: 960px; margin: 0 auto; clear: both;
+  }
+   /*activity*/
+  .activity_mes,.nopaid>ul .paidcon{
+	width: 85.5%;
+  }
+  .comm-detail>.comm-detail-rg{
+    width: 82.5%;padding-right: 3%;position:relative;
+  }
+  .top_seller>.seller_message{
+	padding: 1% 0 0;
+  }
+  .leaguer_msn{
+	width:93%;
+  }
+  .operate>.partake-num{
+	width: 84.5%;
+  }
+  .comm-detail-say .say-person,.gallery,.pic_reply{
+	width: 96%;
+  }
+  .comm-detail-rg>.coinandland>.land>.share{
+	display: none;
+  }
+    /*V1.1*/
+  .discuss-textarea>.textarea{
+	width: 94.5%;
+  }
+  .discuss-textarea>.textarea>textarea{
+	width: 91%;
+   }
+   .discuss-textarea>.textarea>.reply-textarea{
+   width: 95%;
+   }
+  .user_activity_mes{
+	width: 91%
+   }
+   .modalv1{
+	width: 55%; left: 21.5%; 
+	}
+   .modalv_opu{
+	width: 16%; left: 42%;
+  }
+   	/*V1.2*/
+   .search input{
+	width: 91%;
+	}
+   .icon-search{
+	left: 16px;
+	}
+   .closepop{
+	right: 16px;
+	}
+	.payer{
+	width: 98.7%;  
+	}
+	.hipigo-search{
+	width: 73%;
+	}
+	.box_swipe01{
+	height: 180px;
+	}
+	.top_seller>.business-search {
+	max-width: 91.5%;
+	}
+   .searchli h3{
+    width: 90.5%;
+   }
+      /*V2.0*/
+   .creat_activity .must_details .date-picker{
+	   width: 90%;
+    }
+   .resource_search input{
+	width: 92%;
+	}
+   .closepoprec{
+	right: 8%;
+	}
+    .buynum{
+  width: 49%;margin-bottom: 10px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+
+  [class*="span"] {
+    float: left;min-height: 1px;margin-left: 20px;
+  }
+  .container,
+  .navbar-static-top .container,
+  .navbar-fixed-top .container,
+  .navbar-fixed-bottom .container {
+    width: 724px;
+  }
+
+  /*activity*/
+  .top_seller>.seller_message{
+	padding: 1% 0 0;
+  }
+  .leaguer_msn{
+	width:90%;
+  }
+  .modalv1{
+	width: 84%; left: 7%; 
+	}
+  .modalv_opu{
+	width: 74%; left: 13%;
+  }
+  	.box_swipe01{
+	height: 180px;
+	}
+	.top_seller>.business-search {
+	max-width: 75%;
+	}
+   .searchli h3{
+    width: 77.5%;
+   }
+       /*V2.0*/
+   .creat_activity .must_details .date-picker{
+	   width: 72%;
+    }
+   .resource_search input{
+    width: 89%;
+    }
+    .buynum{
+    width: 49%;margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-right: 0;padding-left: 0;
+  }
+  .container{
+    width: 100%; margin: 0 auto; clear: both;
+  }
+  .modalv1{
+	width: 93%; left: 3%; 
+}
+  .modalv_opu{
+	width: 74%; left: 13%;
+  }
+}
+
+@media (max-width: 359px){
+  .operate>.partake-num{
+	width: 60.5%;
+  }
+  .comm-detail>.comm-detail-rg {
+	width: 58.8%;
+}
+ 	/*V1.2*/
+   .search input{
+	width: 82%;
+	}
+   .icon-search{
+	left: 8px;
+	}
+   .closepop{
+	right: 8px;
+	}
+	.payer{
+	width: 96.1%;  
+	}
+	.hipigo-search{
+	width: 60%;
+	}
+	.box_swipe01{
+	height: 120px;
+	}
+}
+@media (max-width: 320px){
+	.discuss-textarea>.textarea {
+	width: 82%;
+	}
+	.discuss-textarea>.textarea>textarea {
+	width: 68.5%;
+	}
+    .top_seller>.business-search {
+	max-width: 74.4%;
+	}
+   .discuss-textarea>.textarea>.reply-textarea{
+   width: 83%;
+   }
+   .searchli h3{
+    width: 71.5%;
+   }
+   .user_activity_mes {
+    width: 73%;
+    }
+         /*V2.0*/
+   .creat_activity .must_details .date-picker{
+	   width: 72%;
+    }
+   .resource_search input{
+	width: 75%;
+	}
+   .closepoprec{
+	right: 21%;
+	}
+  .buynum{
+  width: 49%;margin-bottom: 10px;
+  }
+}
+@media (max-width: 979px) {
+  body {
+    padding-top: 0;
+  }
+}

@@ -1,0 +1,392 @@
+.active_details{
+  background: #fff;box-shadow:0 1px 2px #e4e4e4;padding: 10px 0 1px;
+}
+.headaddname{
+  display: inline-block;width: 100%; padding: 0 10px;
+}
+.headname{
+  width: 76%;
+}
+.headname img{
+  width: 50px;height: 50px;margin-right: 6px;
+}
+.headname b{
+  display: block; font-size: 1rem;min-height: 24px;line-height: 1.2;color: #333;
+}
+.headname .publishtime{
+  color: #888; font-size: 0.85rem;padding-top: 5px;
+}
+.headaddname button{
+  background: #fdfdfd;color: #4cc9b6; border: 1px solid #dcdcdc; border-radius: 3px;padding: 0 8px;line-height: 1.8;margin-top: 10px;
+}
+.headaddname button .icon{
+  font-size: 0.95rem;
+}
+.active_details h1{
+  font-size: 1.1rem;margin: 10px 0 3px 0; padding: 0 10px;
+}
+.active_details h1 em{
+  margin-left: 8px; font-size: 1.2rem;
+}
+.tabs{
+  display: block; width: 100%; font-size: 0.85rem; color: #999; padding: 0 10px;
+}
+.describe{
+  display: block; width: 100%; font-size: 1rem; color: #666; padding: 10px 0; line-height: 1.5; padding: 0 10px;
+}
+.open{
+  font-size: 0.85rem; text-align: center; display: block; width: 100%; padding: 0 10px;
+}
+.open .icon{
+  font-weight: 700;
+}
+.other_info{
+  border-top: 1px solid #e2e2e2;color: #666; font-size: 0.95rem; line-height: 2; padding: 0 10px;
+}
+.other_info .icon{
+  color: #333; margin-right: 6px;font-weight: 700;
+}
+.end{
+  color: #333;
+}
+.active_time{
+  width: 100%;display: inline-block;height: 30px; line-height: 30px;
+}
+.other_info .iconfont_15{
+  font-weight: 300;font-size: 1.6rem;margin-left: -4px;margin-right: 4px;
+}
+.laud{
+  background: #f7f7f7;color: #666; padding: 0 10px; font-size: 0.85rem; line-height:1.8;
+}
+.laud button,.title_switch button{
+  background: #fdfdfd;color: #666; border: 1px solid #dcdcdc; border-radius: 3px;padding: 0 8px;line-height: 1.5;margin-top: 2px;font-size: 0.95rem;
+}
+.laud button:active,.title_switch button:active{
+  background:#e7e7e7;
+}
+.laud .icon,.title_switch .icon{
+  height: 18px;margin-top: -1px;font-weight: 700;float: none;
+}
+/**/
+.leagueradddiscuss{
+  background: #fff; margin-top: 8px;width: 100%;box-shadow:0 1px 2px #e4e4e4;
+}
+.title_switch{
+  display: inline-block;width: 100%; padding: 5px 10px;line-height: 2;border-bottom: 1px solid #e2e2e2;font-size: 0.95rem;color: #ccc;
+}
+.title_switch>span>a{
+  color: #888;height: 100%;display: inline-block;
+}
+.title_switch>span>.active01{
+  color: #333;position: relative;
+}
+.active01 .iconfont_10{
+  background: #fff;position: absolute;display: block;right:50%;bottom:-9px;color: #e2e2e2;font-weight: 300;
+  line-height: 12px;height: 10px;width: 12px;text-indent: -3px;
+}
+.leaguer{
+  padding: 0 10px 6px; font-size: 0.95rem;
+}
+.leaguerhead a{
+  color: #666;
+}
+.leaguerhead img{
+  width: 30px; height: 30px; margin-right: 6px;
+}
+.leaguer li{
+  height: 42px;border-bottom: 1px solid #e2e2e2; padding: 6px 0;
+}
+.leaguer li:last-child{
+  border-bottom: none;
+}
+.leaguercode b{
+  display: block; text-align: right;margin-top: -7px; line-height: 1.5;
+}
+.leaguercode .code{
+  font-size: 1.05rem; font-weight: 700;
+}
+.leaguercode b a{
+  font-size: 0.85rem; cursor: pointer;
+}
+/**/
+.discuss>li{
+	border-top: 1px solid #ddd; padding: 10px 10px 0;width: 100%; float: left;
+}
+.discuss>li:first-child{
+	border-top: none; 
+}
+.discuss .say-pic{
+	width:30px; height: 30px;
+}
+.discuss .say-pic img{
+	border-radius: 2px;
+}
+.discuss .say-person{
+	padding-left: 6px;margin-top: -5px; color: #444;font-size: 0.95rem;
+}
+.discuss .say-person-name{
+	width: 90%;
+}
+.discuss .say-person-name em,.discuss .say-person-name .reply em,.discuss.reply_one,.pic_reply em{
+	color:#f24949;line-height: 1.5;
+}
+.discuss .say-person-name em{
+	font-size: 0.95rem;
+}
+.discuss.say-person-name .reply .see-more,.pic_reply .see-more{
+	width: 100%; display: block;cursor:pointer; text-align: right;
+}
+.discuss .say-person-name .reply .see-more a,.pic_reply .see-more a{
+	color: #3baa24;font-size: 0.85rem;float: right;line-height: 1;margin-bottom: 5px;
+}
+.discuss .say-person-name .reply .see-more a:hover{
+	background: #ebebeb;
+}
+.name_time .time{
+	color: #999; font-size:small;display: inline-block;line-height: 1.8;float: right;
+}
+.discuss .say-person-name .say-person-con,.discuss .say-person-name .reply{
+	display: inline-block; width: 100%; word-wrap: break-word;padding-bottom: 5px;
+}
+.discuss .say-person-name .say-person-con:active{
+	background: #f0f0f0;
+}
+.discuss .say-person-name .say-person-con img,.discuss .say-person-name .reply img{
+	width: 100px;height: 80px;margin: 6px 6px 0 0;
+}
+.discuss .say-person-name .say-person-con .add_face,.discuss .say-person-name .reply .add_face{
+  width: 30px;height: 30px;
+}
+.discuss .say-person-name .say-person-con{
+	padding-bottom: 6px;
+}
+.discuss .say-person-name .reply{
+	background: #f5f5f5; padding: 0 6px;margin-bottom: 5px;
+}
+.pic_reply{
+	display: inline-block;padding: 6px 0;border-top: 1px solid #ddd;
+}
+.discuss .say-person-name .reply b,.pic_reply b{
+	display: inline-block; width: 100%;font-size: 0.95rem;line-height: 1.2;
+}
+.discuss .say-person-name .reply b:active,.discuss .say-person-name .reply b:active,.pic_reply b:hover,.pic_reply b:active{
+	background: #efefef;
+}
+.discuss .say-person-name .reply b i,.pic_reply b i{
+	font-size: small;padding-left: 10px;color: #999;
+}
+/**/
+.comment_popup{
+  position: fixed; bottom: 0;left: 0;width: 100%;z-index: 2;
+}
+.comment_choose{
+  background: #fafafa;min-height: 36px;padding: 6px 0;border: 1px solid #d9d9d9; border-left: none; border-right: none;overflow: hidden;
+}
+.comment_choose a{
+  height: 36px;width: 39px;padding-left: 6px;
+}
+.comment_choose .icon{
+  color: #666; font-size: 53px;display: block;margin-top: -16px;margin-left: -8px;
+}
+.comment_choose .more_choice{
+  padding-left: 0;margin-left: 8px;
+}
+.comment_area{
+  margin: 0 0 0 3px;box-shadow: none;resize:none;font-size: 0.9rem;padding: 2px 5px;height: 36px;line-height: 1.5;
+}
+.send{
+  background: #f3f3f3; border: 1px solid #ccc;color: #333;padding: 6px 8px;margin: 0 0 0 6px;
+}
+.comment_choose .send_active01{
+  background: #4cc9b6; color: #fff; border: 1px solid #3bb9a6;
+}
+.dot{
+  position: absolute;background: #f24949;width: 8px;height: 8px;top: 1px;right: 3px;border-radius: 20px;
+}
+.rotate{
+  -moz-transform: rotate(45deg);-webkit-transform: rotate(45deg);-o-transform: rotate(45deg);-ms-transform:rotate(45deg);transform: rotate(45deg);
+  -moz-transform-origin: 60% 49%;-webkit-transform-origin: 60% 49%;-o-transform-origin: 60% 49%;-ms-transform-origin: 60% 49%;transform-origin: 60% 49%;
+  -moz-transition: all 0.5s ease-in;-webkit-transition: all 0.5s ease-in;-o-transition: all 0.5s ease-in;transition: all 0.5s ease-in;
+}
+.pop_pic_expression{
+  background: #f0f0f0;
+}
+.pop_pic{
+  padding: 15px;
+}
+.pop_pic li{
+  width: 85px;height: 85px;padding: 0 15px 15px 0; float: left; text-align: center;
+}
+.pop_pic li img{
+  width: 70px;height: 70px;border-radius: 3px;
+}
+.delete{
+  position: absolute;top: -10px;right: 3px; cursor: pointer;
+}
+.cancel-circle{
+  color: rgba(242,73,73,0.6);
+}
+.delete:active .cancel-circle{
+  color: rgba(242,73,73,0.9);
+}
+.pop_pic li .pica{
+  width: 100%;height: 100%;display: block;
+}
+.pop_pic li .iconfont_16{ 
+  color:#f37569;font-size: 3.8rem;display: block;width: 100%;height: 58px;line-height: 55px;
+}
+.pop_pic li em{
+  color: #666; font-size: 0.85rem;display: block;
+}
+.detail_hint{
+  text-align: center; color: #999; font-size: 0.85rem;display: inline-block;width: 100%;
+}
+.pop_expression{
+  padding: 15px 10px;
+}
+.pop_expression li{
+  width: 16%; float: left;text-align: center;
+}
+.pop_expression li a{
+  width: 85%;display: block;padding: 5px;
+}
+
+/**/
+.share_hit {
+  position: fixed; top: 0; right: 0;z-index: 91;
+}
+.protocol{
+  display: block;width: 100%;color: #666; font-size: 0.85rem;line-height: 2;
+}
+.protocol a{
+  color: #666; 
+}
+.protocol input{
+  margin: 0 5px 0 0;
+}
+
+/*seckill_details*/
+.seckill_details{
+  background: #fff;
+}
+.seckill_banner,.seckill_banner img{
+  width: 100%;height: 240px;
+}
+.seckill_title_state,.seckill_prime_price{
+  border-bottom: 1px solid #e2e2e2;padding: 10px 0;margin: 0 10px;
+}
+.seckill_prime_price{
+  margin-bottom: 10px;padding: 6px 0;
+}
+.seckill_detail_title{
+  width:68%; padding-right: 8px;font-size: 1rem; color: #333;border-right: 1px solid #e2e2e2;
+}
+.seckill_state{
+  padding-left: 8px;font-size: 0.85rem;width: 32%;border-left: 1px solid #e2e2e2;position: relative;left: -1px;
+}
+.seckill_state em,.seckill_state b{
+  width: 100%; display: block;
+}
+.seckill_state b{
+  background: #333;color: #fff;font-size: 1rem;padding: 1px 6px;
+}
+.seckill_state button{
+  border-radius: 2px; float: right;font-size: 1.25rem;padding: 8px 10px;display: block;width: 100%;
+}
+.immediately_buy{
+  background: #ff5000;
+}
+.grayish{
+  background: #999; cursor:inherit; 
+}
+.seckill_price{
+  width: 60%;
+}
+.seckill_price em{
+  font-size: 2rem; display: block;width: 100%;
+}
+.seckill_price i{
+  font-size: 0.95rem;color: #888;display: block;width: 100%;text-decoration:line-through;padding-left: 8px;
+}
+.limit{
+  font-size: 0.95rem;width: 40%;text-align: right;
+}
+.limit b,.limit i{
+  display: block;width: 100%;
+}
+.limit b{
+  color: #333; line-height: 40px;
+}
+.limit i{
+  color: #888;
+}
+.limit i em{
+  color: #333;
+}
+/*√Î…±¡–±Ì*/
+#seckill_list_container{
+  background: #f9f9f9;
+}
+.seckill_list_ul_container li{
+  padding: 10px;border-bottom: 1px solid #e2e2e2;
+}
+.seckill_list_left{
+  background: #fff;text-align:center;vertical-align:middle;display:table-cell;
+}
+.seckill_list_right{
+   padding-left: 10px;
+}
+.seckill_list_title,.seckill_list_limit,.seckill_list_price{
+  display: block;width: 100%;
+}
+.seckill_list_price{
+  padding-top: 10px;
+}
+.seckill_list_title{
+  font-size: 1.1rem;overflow: hidden;color: #333;
+}
+.seckill_list_limit{
+  font-size: 0.95rem;color: #999;
+}
+.seckill_list_limit em{
+  color: #333;
+}
+.seckill_list_price b{
+  padding-top: 3px;
+}
+.seckill_list_price b em,.seckill_list_price b i{
+  display: block;width: 100%;
+}
+.seckill_list_price b em{
+  font-size: 1.5rem; margin-left: -7px;line-height: 0.8;
+}
+.seckill_list_price b i{
+  font-size: 0.95rem;color: #888;text-decoration:line-through;
+}
+.seckill_list_price button{
+  border-radius: 2px; float: right;font-size: 1.25rem;padding: 8px 10px;
+}
+.seckill_list_price .countdown{
+  background: #333;cursor: inherit;padding: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

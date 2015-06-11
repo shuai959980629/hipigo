@@ -1,0 +1,340 @@
+<!--{include file="header.html"}-->
+<script type="text/javascript">
+var url = '<!--{$url}-->';
+</script>
+<section id="active_details_section" class="active">
+
+<!--{include file="nav.tpl"}-->
+
+  <!---->
+    <article id="active_details_container" class="active" data-scroll="true" >
+    <!---->
+      <div class="details_container">
+        <!--详情-->
+        <div class="active_details list">
+          <p class="headaddname">
+            <span class="headname left">
+			<img src="<!--{$header_img }-->" class="left"/>
+			<b><!--{urldecode($business_name)}--></b>
+			<b class="publishtime"><!--{$data.created }--></b>
+			
+			</span>
+			
+			<!--{if $data.end_date > time()}-->
+
+			<!--{if $free == 1 }-->
+
+				<!--{if $data.join_price >0}-->	
+					<!--{if $is_att_add == 0 }-->
+					<button class="right" id="p_review_f" ><i class="iconfont icon iconfont_14">&#58898;</i>付款</button>
+					<!--{/if}-->
+				<!--{else}-->
+
+					<!--{if $is_att_add == 0 }-->
+					<button class="right"  id="p_review_f" >参加</button>
+					<!--{/if}-->
+
+				<!--{/if}-->
+
+			<!--{/if}-->
+
+
+			<!--{/if}-->
+          </p>
+          <h1><!--{$data.name }-->
+		  
+
+		  <em class="red">
+		  <!--{if $data.join_price >0}-->
+		  <!--{$data.join_price }-->元
+		  <!--{else}-->
+          免费
+		 <!--{/if}-->
+		  </em>
+		  
+		  </h1>
+
+			
+          <p class="tabs"><!--{$tags}--></p>
+
+	
+          <div class="describe">
+		  <!--{if $upc == false}-->
+          <!--{$data.content}-->
+		  <!--{/if}-->
+          </div>
+
+		    <b class="open" id="ope">
+        <a href="javascript: void(0);" class="red">
+        <i class="iconfont icon iconfont_10">&#983722;</i><span>收起全部</span></a></b>
+
+          <p class="other_info clearfix">
+
+		  <!--{if $data.object_type == 'user'}-->
+            <span class="active_time left">
+				 <b class="left"><i class="iconfont icon iconfont_10">&#983702;</i><!--{$n_start_date }-->—<!--{$n_end_date }--></b>
+				
+
+				<!--{if $data.end_date > time()}-->
+					<!--{if $free == 1 }-->
+					  <b class="blackish_green right">进行中</b>
+					<!--{else}-->
+					  <b class="end right">已结束</b>
+					<!--{/if}-->
+				<!--{else}-->
+					  <b class="end right">已结束</b>
+				<!--{/if}-->
+				</span>
+			<!--{/if}-->
+
+			<!--{if $data.addr!=''}-->		
+            <span class="active_time left"><i class="iconfont icon iconfont_10">&#983701;</i><!--{$data.addr}--></span>
+			<!--{/if}-->
+
+			<!--{if $resource_count>0}-->	
+            <span class="active_time left"><i class="iconfont icon iconfont_15">&#58917;</i>使用了<em class="red"><!--{$resource_count}--></em>个资源</span>
+			<!--{/if}-->
+
+          </p>
+          <p class="laud clearfix">
+            <span class="left"><i class="iconfont icon iconfont_2 blackish_green">&#58902;</i>
+			<em class="blackish_green">
+
+			<!--{if $n_appraises_name == ''}-->
+			</em>
+			<!--{else}-->
+			<!--{$n_appraises_name}--></em>等人觉得很赞
+			<!--{/if}-->
+			<span id="app_count">
+			<!--{if $data.appraise_count >0}-->
+			<!--{$data.appraise_count}-->
+			<!--{/if}-->
+			</span>
+			
+
+			</span>
+            <button class="right" id="z_button"><i class="iconfont icon iconfont_2 blackish_green">&#58901;</i>赞</button>
+            <button class="right hidden" id="x_button"><i class="iconfont icon iconfont_2 blackish_green">&#58902;</i>取消</button>
+          </p>
+        </div>
+        <!--活动状况-->
+        <div class="leagueradddiscuss">
+        <!--成员-->
+           <p class="title_switch">
+             <span class="left">
+               <a href="javascript: void(0);" id="c_review">参加人数 <span id="join_num"><!--{$join_num}--><span></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+               <a href="javascript: void(0);" id="p_review" class="active01">评论 <span id="spking_count"><!--{$spking_count}--><span>
+                <i class="iconfont icon iconfont_10">&#983722;</i></a></span>
+             <button class="right" id="p_review_r"><i class="iconfont icon iconfont_1 red">&#58904;</i>评论</button>
+           </p>
+
+		   <ul class="leaguer clearfix" id="leaguer">
+			
+			<!--{if $eticket_users_count > 0}-->
+			<!--{foreach from=$eticket_users item=st  key=key name=ct}-->
+             <li>
+			
+              <span  class="leaguerhead left">
+			  <a href="<!--{$url}-->/user_activity/index?userid=<!--{$st.id_user}-->" class="haveback">
+			  <img src="<!--{$st.header_img}-->"/>
+
+				<!--{if $st.id_user==$userid}-->		
+			  <em class="blackish_green"><!--{$st.name}--></em>
+			  <!--{else}-->
+			  <em><!--{$st.name}--></em>
+				<!--{/if}-->
+
+			  </a>
+			  </span>
+		
+              <span class="leaguercode right">
+				
+			  <!--{foreach from=$st.eticket_item item=sts  key=key name=cts}-->
+
+			  <!--{if $smarty.foreach.cts.iteration == 1}-->
+
+			  <b class="code red"><!--{$sts.code}--></b>
+
+			  <!--{if $st.eticket_user_counts > 1}-->
+			  <b>
+			  <a class="bluish_green haveback" id="<!--{$aid}-->" data-source="<!--{$st.eticket_type}-->">查看更多消费码</a>
+			  </b>
+
+			  <!--{/if}-->
+
+			  <!--{/if}-->
+
+			  <!--{/foreach}-->
+			  </span>
+             </li>
+            <!--{/foreach}-->
+
+			<!--{else}-->
+					 <div class="no_data">
+					 <img src="/wapi/img/mobile/no_thing.png" alt="no_data" />
+					 <p>该活动暂时没有用户参加<br />
+			<!--{/if}-->
+
+           </ul>
+
+           <ul class="discuss clearfix"  id="discuss">
+
+			<!--{if $spking_users_count > 0}-->
+
+			<!--{foreach from=$spking_users item=st  key=key name=ct}-->
+                <li>
+                    <p class="say-pic left"><img src="<!--{$st.header_img}-->"/></p>
+                    <p class="say-person left">
+                        <span class="say-person-name">
+                            <span class="name_time"><em class="left"><!--{$st.name}--></em><i class="time"><!--{$st.created}--></i></span>      
+
+						 	<!--{if $st.spking_users_review_count == 0}-->
+                            <span class="say-person-con"   data-id-parent="<!--{$st.id_review}-->"><!--{$st.content}--><!--{if $st.content!=''}--><br><!--{/if}--><!--{$st.review_imgs}--></span>
+							<!--{else}-->
+                            <span class="say-person-con"   data-id-parent="<!--{$st.id_parent}-->"><!--{$st.content}--><!--{if $st.content!=''}--><br><!--{/if}--><!--{$st.review_imgs}--></span>
+							<!--{/if}-->
+							
+						 	<!--{if $st.spking_users_review_count >0}-->
+							<span class="reply" id="reply_<!--{$st.id_review}-->">
+								<!--{foreach from=$st.review item=sts  key=key name=cts}-->	
+                              <b><em class="replyname"><!--{$sts.name}--></em> <a class="replycontent"  data-id-parent="<!--{$sts.id_parent}-->" style="color:#000000"> <!--{$sts.content}--></a><i><!--{$sts.created}--></i></b>
+								<!--{/foreach}-->
+								<!--{if $smarty.foreach.cts.iteration > 2}-->
+								<b><em class="see-more"><a href="#" data-id-parent="<!--{$sts.id_parent}-->" id="<!--{($st.spking_users_review_count/3)+1}-->" class="see_more_c">查看更多>></a></em></b>
+								<!--{/if}-->
+							</span>
+							<!--{/if}-->
+
+                        </span>
+                    </p>
+                </li>
+			 <!--{/foreach}--> 
+
+			<!--{else}-->
+			 <div class="no_data">
+			 <img src="/wapi/img/mobile/no_thing.png" alt="no_data" />
+			 <p>该活动暂时没有评论<br />
+			 </div>
+			<!--{/if}-->
+
+           </ul>
+
+		<iframe id="upload" style="display:none;" name="upload"></iframe>	
+        </div>
+      </div>
+    </article>
+            <!--评论输入框-->
+        <div class="comment_popup" style="display:none;">
+
+          <div class="comment_choose">
+            <a href="#" id="smile" class="smile left"><i class="iconfont icon iconfont_16">&#58914;</i></a>
+            <!--默认的加号选项-->
+            <a href="#" id="iconudd" class="more_choice left relative"><i class="iconfont icon iconfont_16">&#58918;</i><em class=""></em></a>
+            <!--当有图的时候加号选项-->          
+            <a href="#" id="iconadd" class="more_choice left hidden"><i class="iconfont icon iconfont_16 rotate">&#58918;</i><em class=""></em></a>     
+            <textarea id="comment_area_details" data-id-parent="0" placeholder="评论内容" class="comment_area left"></textarea>
+            <button id="sendbutton" class="send left">发送</button>
+			<input type="text" value="" style="display:none;" id="user_name_review"/>
+          </div>
+
+          <!--点击多选按钮\表情弹出-->
+          <div class="pop_pic_expression">
+            <ul class="pop_pic clearfix"  style="display:none;">
+			<form action="<!--{$url}-->/tpicture/upload?aid=<!--{$data.id_activity}-->"  method="post"  id="image_upload" enctype="multipart/form-data" target="upload">	
+			  <input type="file" name="userfile" id="relative_file" style="position: absolute;top: 20;left: 0;width: 100px;height: 70px;opacity: 0;filter: alpha(opacity=0);cursor: pointer;" />
+			  <input type="submit" value="浏览" style="display:none;"/>
+			 </form>
+			  <li>
+			  <a href="#" class="pica">
+			  <i class="iconfont icon iconfont_16">&#58913;</i>
+			  <em>图片</em>
+			  </a>
+			  </li>
+			  <div id="relative_pic">
+              
+			  </div>
+              <p class="detail_hint">已选0张，还有9张可选</p>
+            </ul>
+
+            <!--表情-->
+            <ul class="pop_expression clearfix" style="display:none;">
+			<!--{foreach from=$row item=st  key=key}-->		
+              <li><a class="haveback" data-simg-key="<!--{$key}-->" href="#"><img class="add_face" src="<!--{$st}-->"/></a></li>
+			 <!--{/foreach}-->
+            </ul>       
+          </div>
+
+        </div>
+  </section>
+<!--分享弹窗-->
+
+<!--{if $is_new_activity == true}-->
+<p class="share_hit"><img src="/wapi/img/mobile/share_hit.png"/></p>
+<div id="jingle_popup_mask" style="display: block;"></div>
+<!--{else}-->
+<p class="share_hit" style="display:none;"><img src="/wapi/img/mobile/share_hit.png"/></p>
+<div id="jingle_popup_mask"></div>
+<!--{/if}-->
+<script type="text/javascript">   
+$.fn.extend({
+
+    textareaAutoHeight: function (options) {
+
+        this._options = {
+            minHeight: 0,
+            maxHeight: 65
+        }
+
+        this.init = function () {
+            for (var p in options) {
+                this._options[p] = options[p];
+            }
+            if (this._options.minHeight == 0) {
+                this._options.minHeight=parseFloat($(this).height());
+            }
+            for (var p in this._options) {
+                if ($(this).attr(p) == null) {
+                    $(this).attr(p, this._options[p]);
+                }
+            }
+           $(this).keyup(this.resetHeight).change(this.resetHeight).focus(this.resetHeight);
+        }
+
+        this.resetHeight = function () {
+            var _minHeight = parseFloat($(this).attr("minHeight"));
+            var _maxHeight = parseFloat($(this).attr("maxHeight"));
+
+            if (!$.browser.msie) {
+                $(this).height(0);
+            }
+
+            var h = parseFloat(this.scrollHeight);
+            h = h < _minHeight ? _minHeight :
+                    h > _maxHeight ? _maxHeight : h;
+
+			var hz = 6;
+
+			if(h<20){
+				hz = 4;
+			}
+
+            $(this).height(h-hz).scrollTop(h);
+
+            if (h >= _maxHeight) {
+                $(this).css("overflow-y", "scroll");
+            }else {
+                $(this).css("overflow-y", "hidden");
+            }
+
+        }
+
+        this.init();
+    }
+
+});
+</script>
+<script>
+  //最小高度为36px，最大高度为65px
+  $("#comment_area_details").textareaAutoHeight({ minHeight:36, maxHeight:65});
+</script>
+<!--{include file="footer.html"}-->	

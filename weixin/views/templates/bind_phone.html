@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>嗨皮Go-绑定手机-社区会员</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/login.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/hipigouser.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<div class="main">
+    <div class="container">
+        <!--login-->
+        <a href="javascript:history.go(-1);" class="return left"><i class="iconfont icon iconfont_10">&#983354</i></a>
+        <p class="clearfix"></p>
+        <p class="xt-code">
+        	<input placeholder="输入你绑定的手机号码" id="phone" class="left"/>
+            <span class="left"><a href="javascript:void(0);" id="send" class="gain">获取验证码</a><a href="javascript:void(0);" id="wait" style="display: none;" class="gray">60s&nbsp;重新获取</a></span>
+        </p>
+       <input placeholder="请输入手机验证码" id="valicode" class="login_input"/>
+        <button class="refer" id="authrize">确定</button>
+        <button id="authrizeING" class="refer01" style="display:none;"><em class="loadings"></em>确定中</button>
+    </div>
+    <!--footer-->
+    <footer><!--powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a--></footer>
+</div>
+<!--弹窗S-->
+<div class="modalv_opu hidden" onclick="hidePop()" id="pop">
+<i class="icon-remove"></i><span id="tip"></span>
+</div>
+<!--弹窗E-->
+<script>
+var auth = {"phone":false,"code":false};
+$(document).ready(function(){
+    $("#phone").blur(function(){
+        var phone = $(this).val();
+        if(phone.length==0){
+            $(this).css("border-bottom","2px solid #f00");
+            $("#authrize").attr('class','refer');
+            auth.phone = false;
+        }else if (!rule.phonereg.test(phone)){
+            showPop("手机号码输入错误!");
+            $("#authrize").attr('class','refer');
+            $(this).css("border-bottom","2px solid #f00");
+            auth.phone = false;
+        }else{
+            $(this).css("border-bottom","2px solid #e2e2e2");
+            $("#authrize").attr('class','refer01');
+            //$(this).removeAttr('readonly');
+            auth.phone =  true;
+        }        
+    })
+    
+    $("#phone").focus(function(){
+        $(this).css("border-bottom","2px solid #50c328");
+        //$(this).removeAttr('readonly');
+        $("#authrize").attr('class','refer');
+    })
+    
+    $("#valicode").blur(function(){
+        var vcode = $(this).val();
+        if(vcode.length==0){
+            $(this).attr('class','error');
+            $("#authrize").attr('class','refer');
+            auth.code = false;
+        }else{
+           $(this).attr('class','login_input');
+           $("#authrize").attr('class','refer01');
+           auth.code = true;
+           //$(".login_input").removeAttr('readonly'); 
+        }
+    })
+    
+    $("#valicode").focus(function(){
+        $(this).attr('class','login_input');
+        $("#authrize").attr('class','refer');
+        //$(".login_input").removeAttr('readonly');
+    })
+    
+    
+    $("#send").click(function(){
+        var phone = $("#phone").val();
+        $("#authrize").attr('class','refer');
+        if(auth.phone==false){
+            showPop("请输入你绑定的手机号码!");
+            $("#phone").css("border-bottom","2px solid #f00");
+            return false;
+        }
+        var showTimmer;
+        if (showTimmer) {
+           clearTimeout(showTimmer);
+        }
+        //gain
+        //$("#send").attr('class','gray');
+        $("#send").hide();
+        $("#wait").show();
+        $("#wait").html("获取验证码");
+        $.ajax({    
+                url:'/wapi/<!--{$bid}-->/<!--{$sid}-->/user/getcode',
+                data:'phone='+phone,
+                async: true,
+                dataType: 'json',
+                type:'post',
+                success:function(data){
+                    if(data.status){
+                        var timeSecond = 60;
+                        showTimmer = setInterval(function () {
+                            $("#wait").html(timeSecond+"s&nbsp;重新获取");
+                            timeSecond--;
+                            if (timeSecond < 0) {
+                                clearTimeout(showTimmer);
+                                $("#send").show();
+                                $("#wait").hide();
+                                $("#wait").html("60s&nbsp;重新获取");
+                            }
+                        },1000)
+
+                    }else{
+                        $("#login").show();
+                        $("#loginING").hide();
+                        $("#send").show();
+                        $("#wait").hide();
+                        showPop(data.msg);
+                    }
+               }
+            })   
+    })
+    
+    
+    $("#authrize").click(function(){
+        var code = $("#valicode").val();
+        var phone = $("#phone").val();
+        if(auth.phone==false || auth.code == false){
+            $("#authrize").attr('class','refer');
+            if(auth.phone==false){
+                showPop("请输入你绑定的手机号码!");
+                $("#phone").css("border-bottom","2px solid #f00");
+                return false;
+            }
+            if(auth.code==false){
+                showPop("请输入手机验证码！");
+                $("#valicode").attr('class','error');
+                return false;
+            }
+            return false;
+        }
+        /*
+        if(phone.length==0){
+            showPop("请输入手机号码！");
+            $("#phone").css("border-bottom","2px solid #f00");
+            return false;
+        }
+        if(code.length==0){
+            showPop("请输入手机验证码！");
+            $("#valicode").attr('class','error');
+            return false;
+        }
+        */
+        $("#authrize").hide();
+        $("#authrizeING").show();
+        $.ajax({    
+            url:'/wapi/<!--{$bid}-->/<!--{$sid}-->/user/bind',
+            data:'code='+code+"&phone="+phone,
+            async: true,
+            dataType: 'json',
+            type:'post',
+            success:function(data){
+                if(data.status){
+                   window.location.href="/wapi/<!--{$bid}-->/<!--{$sid}-->/community/home"
+                }else{
+                    $("#authrize").show();
+                    $("#authrizeING").hide();
+                    $("#valicode").attr('class','error');
+                    $("#authrize").attr('class','refer');
+                    showPop(data.msg);
+                }
+           }
+        })  
+        
+    })
+    
+    
+    
+})
+
+</script>
+</body>
+</html>

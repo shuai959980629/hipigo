@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>活动详情</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" /><!-- 加入后变为响应式布局，去掉变为固定宽度布局 -->
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/details.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<!--[if lt IE 9]>
+  <script src="<!--{$url_prefix}-->js/html5.js"></script>
+<![endif]-->
+
+</head>
+
+
+<body>
+<div class="main">
+<div class="container clearfix">
+<h1><!--{$activity.name}--></h1>
+<small><!--{substr($activity.created,0,4)}-->年<!--{substr($activity.created,5,2)}-->月<!--{substr($activity.created,8,2)}-->日</small>
+<article>
+    <!--{if ($activity.image_url)}--><img style="padding-bottom:15px;" src="<!--{$activity.path}-->"><!--{/if}-->
+    <div id="activity_content"><!--{$activity.content}--></div>
+</article>
+</div>
+        <div class="error_pop"></div>
+        <div id="content" style="display:none;"><!--{$activity.content}--></div>
+<script type="text/javascript">
+    var content = $('#content').html();
+    var html_audio = content.match(/<[embed|embed].*?src=[\'|\"](.*?(?:[\.mp3|\.ogg|\.wav]))[\'|\"].*?[\/]?>/ig);  //content.replace(/<[embed|embed].*?src=[\'|\"](.*?(?:[\.mp3|\.ogg|\.wav]))[\'|\"].*?[\/]?>/ig, ",");
+
+    var html = content;
+if(html_audio != null){
+    if(html_audio.length > 0){
+        var img_name = '';
+        for(var i=0;i<html_audio.length;i++){
+            img_name = html_audio[i].match(/<embed.*src\s*=\s*[\"|\']?\s*([^>\"\'\s]*)/i);
+            if(img_name.length >= 2){
+                html = html.replace(html_audio[i],'<div onclick="bind_play(this,'+i+')" id="audio_div'+i+'" class="audioplay"><img src="/wapi/img/play.png"/><input type="hidden" name="audio_src" value="'+img_name[1]+'" /></div>');
+            }
+        }
+    }
+}
+$('#activity_content').html(html);
+
+    function bind_play(obj,num){
+        var pli = $(obj);
+        var index = $("#activity_content div").index(pli);
+        if(pli.attr('class') == 'audioplay playing'){
+            pli.removeClass('playing');
+            if($('#audio_'+index).get(0)){
+                $('#audio_'+index).get(0).pause();
+            }
+            pli.children('img').attr('src','/wapi/img/play.png');
+        }else{
+            pli.addClass('playing');
+            var a_src = pli.find('input[name=audio_src]').val();
+            var point = a_src.lastIndexOf(".");
+            var type = a_src.substr(point);
+            var a_type = 'mpeg';
+            if(type == '.wav'){
+                a_type = 'wav';
+            }else if(type == '.ogg'){
+                a_type = 'ogg';
+            }else if(type == '.mp3'){
+            }else{
+                $('.error_pop').text('您的浏览器不支持播放该歌曲').show();
+                return false;
+            }
+
+            var playnum = 0;
+            for(var a=0;a< $('audio').length;a++){
+                if(!$('audio')[a].paused){
+                    playnum = a;
+                    $('audio')[a].pause();
+                    if(a!=num){
+                        $('#audio_div'+a).removeClass('playing');
+                        $('#audio_div'+a).children('img').attr('src','/wapi/img/play.png');
+                    }
+                }
+            }
+            var audioHtml = '<audio id="audio_' + index +'" controls="controls" preload="auto"><source src="'+ a_src +'"></source></audio>';
+
+            if(!$('#audio_'+index)[0]){
+                $("#audio_div"+index).append(audioHtml);
+            }
+//            $('#audio_'+index).hide();
+            pli.children('img').attr('src','/wapi/img/stop.png');
+            $('#audio_'+index).get(0).play();
+        }
+    }
+</script>
+
+<footer>powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+</div>
+</body>
+</html>

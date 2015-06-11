@@ -1,0 +1,172 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+
+	<div class="page-container row-fluid">
+
+		<!-- BEGIN SIDEBAR -->
+
+		<div class="page-sidebar nav-collapse collapse">
+
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+
+		</div>		
+
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->  
+
+		<div class="page-content">
+
+			<!-- BEGIN PAGE CONTAINER-->
+
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE HEADER-->   
+
+			    <div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+
+
+					</div>
+
+				</div>
+
+				<!-- END PAGE HEADER-->
+
+				<!-- BEGIN PAGE CONTENT-->
+
+				<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN VALIDATION STATES-->
+
+						<div class="portlet box green">
+
+							<div class="portlet-title">
+
+								<div class="caption"><i class="icon-reorder"></i>修改密码</div>
+
+							</div>
+
+							<div class="portlet-body form">
+
+								<!--歌曲添加开始-->
+                                <div class="goods_add">
+								<form action="<!--{$url_prefix}-->system/edit_passwd" id="modify_passwd" class="form-horizontal" method="post">
+                                    
+									<div class="alert alert-error hide">
+
+										<button class="close" data-dismiss="alert"></button>
+
+										您输入的信息有误
+
+									</div>
+
+									<div class="alert alert-success hide">
+
+										<button class="close" data-dismiss="alert"></button>
+
+										输入正确
+
+									</div>
+									<div class="control-group">
+
+										<label class="control-label">当前密码<span class="required">*</span></label>
+
+										<div class="controls">
+											<input type="password" class="span6 m-wrap" name="opasswd" id="opasswd" oncopy="return false;" oncut="return false;" onpaste="return false"/>
+										</div>
+
+									</div>
+                                    <div class="control-group">
+
+										<label class="control-label">新密码<span class="required">*</span></label>
+
+										<div class="controls">
+											<input type="password" class="span6 m-wrap" name="npasswd" id="npasswd" maxlength="25" oncopy="return false;" oncut="return false;" onpaste="return false"/>
+										</div>
+
+									</div>
+                                    <div class="control-group" style="margin-bottom:20px">
+
+										<label class="control-label">确认密码<span class="required">*</span></label>
+
+										<div class="controls">
+											<input type="password" class="span6 m-wrap" name="rnpasswd" maxlength="25" oncopy="return false;" oncut="return false;" onpaste="return false"/>
+										</div>
+									</div>
+									<div class="form-actions">
+										<button type="submit" class="btn green">确定</button>
+										<button type="reset" class="btn">取消</button>
+									</div>
+
+								</form>
+                                </div>
+                                <!--歌曲添加结束-->
+							</div>
+
+						</div>
+
+						<!-- END VALIDATION STATES-->
+
+				    </div>
+
+			    </div>
+
+				<!-- END PAGE CONTENT-->         
+
+			</div>
+
+			<!-- END PAGE CONTAINER-->
+
+		</div>
+
+		<!-- END PAGE -->  
+
+	</div>
+
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+
+	<!-- END PAGE LEVEL STYLES -->    
+
+	<script>
+        $(function(){
+            setTimeout(function(){$('#opasswd').val('');}, 100);
+        });
+		jQuery(document).ready(function() {
+
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.modify_passwd();
+		});
+
+	</script>
+
+	<!-- END JAVASCRIPTS -->   
+
+</body>
+
+<!-- END BODY -->
+
+</html>

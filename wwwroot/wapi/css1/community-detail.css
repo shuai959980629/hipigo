@@ -1,0 +1,265 @@
+.container{
+	padding: 0;
+}
+.operate>.partake-num{
+	line-height: 1.7;}
+.operate>.partake-num>a>em{
+	color: #f24949; font-size: x-large;
+}
+.comm-detail-con{
+	padding: 0 2% 2px; margin: 2px 0 0;color: #333;width: 96%;overflow: hidden;border-bottom: solid 1px #ddd;
+}
+.comm-detail-con>#show_content>h1{
+	font-size: 1.1rem; padding:0;word-break: break-all; padding-bottom: 5px; font-weight: 700;
+}
+.comm-detail-con>#show_content>h1>i{
+  font-weight: 700; padding-left: 10px;
+}
+.comm-detail-con>#show_content>h1>em{
+	color: #fff;background: #ea2b2b;font-weight: 300;padding: 0 2px;font-size: 0.95rem;margin-left: 8px;
+}
+.datail-con{
+	color: #666;font-size: 0.95rem;
+}
+.icon-angle-down,.icon-angle-up{
+	color: #666;
+}
+.open{
+	width: 100%; display: inline-block;text-align: right;font-size: 0.95rem;
+}
+.open a{
+	color: #000; margin: 0 0 0 10px;
+}
+.comm-detail-say{
+	padding: 0 2%; background: #eee;
+}
+.comm-detail-say>ul>li{
+	border-top: 1px solid #ddd; padding: 10px 0 0;width: 100%; float: left;
+}
+.comm-detail-say>ul>li:first-child{
+	border-top: none; 
+}
+.comm-detail-say .say-pic{
+	width:30px; height: 30px;
+}
+.comm-detail-say .say-pic img{
+	border-radius: 2px;
+}
+.comm-detail-say .say-person{
+	padding-left: 6px;margin-top: -2px; color: #444;font-size: 0.95rem;
+}
+.comm-detail-say .say-person-name{
+	width: 90%;
+}
+.comm-detail-say .say-person-name em,.comm-detail-say .say-person-name .reply em,.comm-detail-say .reply_one,.pic_reply em{
+	color:#f24949;line-height: 1;
+}
+.comm-detail-say .say-person-name em{
+	font-size: 1rem;
+}
+.comm-detail-say .say-person-name .reply .see-more,.pic_reply .see-more{
+	width: 100%; display: block;cursor:pointer; text-align: right;
+}
+.comm-detail-say .say-person-name .reply .see-more a,.pic_reply .see-more a{
+	color: #3baa24;
+}
+.comm-detail-say .say-person-name .reply .see-more a:hover{
+	background: #ebebeb;
+}
+.comm-detail-say .say-person-name .icon-comments-alt{
+	color: #666;
+}
+.comm-detail-say .say-person-name a:hover .icon-comments-alt{
+	color: #28c2ac;
+}
+.comm-detail-say .say-person-name .time{
+	color: #999; font-size:small;display: inline-block; width: 100%;line-height: 1;float: left;
+}
+.comm-detail-say .say-person-name .say-person-con,.comm-detail-say .say-person-name .reply{
+	display: inline-block; width: 100%; padding-top: 6px;word-wrap: break-word
+}
+.comm-detail-say .say-person-name .say-person-con img,.comm-detail-say .say-person-name .reply img{
+	width: 30px;
+}
+.comm-detail-say .say-person-name .say-person-con{
+	padding-bottom: 6px;
+}
+.comm-detail-say .say-person-name .say-person-con span{
+	display: block;padding-bottom: 6px;
+}
+.comm-detail-say .say-person-name .reply{
+	border-top: 1px solid #ddd;
+}
+.comm-detail-say .say-person-name  .icon-comments-alt,.comm-detail-say #thelist .icon-comments-alt{
+	color: #666; font-size: large; padding:2px 5px 2px 8px
+}
+.pic_reply{
+	display: inline-block;padding: 6px 0;border-top: 1px solid #ddd;
+}
+.comm-detail-say .say-person-name .reply b,.pic_reply b{
+	display: inline-block; width: 100%; font-size: 0.9rem;line-height:1;
+}
+.comm-detail-say .say-person-name .reply b:hover,.comm-detail-say .say-person-name .reply b:active,.pic_reply b:hover,.pic_reply b:active{
+	background: #ebebeb;
+}
+.comm-detail-say .say-person-name .reply b i,.pic_reply b i{
+	font-size: small;padding-left: 10px;color: #999;
+}
+.comm-detail-say .say-person-name #thelist .replytime{
+	font-size: small;color: #999;
+}
+.footerbtn,.goodt,.payment{
+	background: #4cc9b6;height:35px;width: 33.333333333333333%;text-align: center;line-height: 2.2;font-size: 15px; color: #fff; border: none;float: left; padding:1px 0 0;
+}
+.footerbtn:hover,.footerbtn:active{
+	background: #01a58c;
+}
+.goodt{
+	background: #555;
+}
+.goodt:hover,.goodt:active{
+	background: #222;
+}
+.payment{
+	background: #f24949; padding:0;
+}
+.payment:hover,.payment:active{
+	background: #ea2b2b;
+}
+.goodt .icon-thumbs-up,.footerbtn .icon-comment-alt,.goodt .iconfont_638{
+	font-size: large; color: #fff;padding-right: 4px;
+}
+/*pc分享*/
+.jiathis_txt{
+	/*position: absolute;top: 94px;right: 0px;*/
+}
+/*评论弹出输入框*/
+.discuss-textarea{
+	width: 100%;background: #f4f4f4;padding:0;float: left;border-top: solid 1px #e3e3e3;border-bottom: solid 1px #e3e3e3;
+}
+.discuss-textarea>.other{
+	color: #c0c0c0;line-height: 0.8;float: left;padding-top: 6px;
+}
+.discuss-textarea>.other:hover{
+	color:#999; 
+}
+.discuss-textarea>.other:active{
+	color:#4cc9b6; 
+}
+/*V1.1*/ 
+.discuss-textarea>.textarea{
+	padding-right: 6px; position: relative;
+}
+.discuss-textarea>.textarea>a{
+	float: left;padding: 5px 0 0;line-height: 1;
+}
+.discuss-textarea>.textarea>textarea{
+	background: none;border: none;border-bottom: 2px solid #ccc; resize: none;box-shadow: none; border-radius: 4px;outline: none;
+	overflow: auto;margin: 0; padding: 10px 0 0 0;line-height: 2;min-height: 26px;
+}
+.discuss-textarea>.textarea>textarea:focus{
+	border-bottom: 2px solid #50c328;
+}
+.smile{
+	color:#ccc;
+}
+.smile:active .iconfont_640,.other:active .iconfont_639{
+	color: #4cc9b6;
+}
+.other{
+	position: relative;margin-left: -5px;
+}
+@-moz-document url-prefix() /*Firefox*/{
+	.other{
+		margin-top: 3px;
+	}
+	.discuss-textarea > .textarea > textarea{
+		height: 30px;line-height: 30px;
+	}
+}
+.other em{
+	background: #f24949; border-radius: 20px; width: 6px; height: 6px; display: block; position: absolute;top: 8px;right: 5px;
+}
+.discuss-textarea>.enter,.discuss-textarea>.active{
+	background: #f3f3f3; border: 1px solid #c0c0c0;border-radius: 3px; line-height: 2.2; padding: 0 8px;margin-top: 8px;outline: none;
+}
+.discuss-textarea>.enter:active,.discuss-textarea>.active{
+	background: #4cc9b6; border: 1px solid #3bb9a6; color: #fff;
+}
+.share-open{
+	background: #fbbf08;width: 96%;text-align: center; font-size: large; color: #fff; padding: 6px 2%;
+}
+.face-pic{
+	width: 96%; height: 42%; background: #f4f4f4; padding: 2%;
+}
+.face-pic li{
+	width:80px; margin-right: 18px; text-align: center; padding-top: 10px; position: relative;
+}
+.face-pic li .icon-pic,.face-pic li .add{
+	display: block; background: #ddd; width: 97%;font-size:xx-large; line-height: 2; border-radius: 2px;
+}
+.face-pic li .icon-pic .closepop{
+	background: rgba(0,0,0,0.55);padding: 2px;
+}
+.face-pic li .icon-pic .closepop:hover{
+	background: rgba(0,0,0,0.65);
+}
+.face-pic li .add{
+	line-height: 1.8;height: 80px;
+}
+.face-pic li .add>img{
+	height:100%;
+}
+.face-pic li .relative{
+	position: relative;
+}
+.face-pic li .relative input{
+	position: absolute;top: 0;left: 0;width: 100%;height: 100%;opacity:0;filter:alpha(opacity=0); cursor: pointer;
+}
+.face-pic li .icon-pic .iconfont_10{
+	font-size:xx-large; margin: 0;
+}
+.face-pic li .icon-pic:hover{
+	background: #cecece; cursor: pointer;
+}
+.face-pic li .icon-pic a{
+	color: #7c7c7c;
+}
+.face-pic li .icon-describe{
+	color: #7c7c7c; font-size: small;
+}
+.face-pic .expression li{
+	width: 10%; padding: 10px 2% 0; text-align: center; overflow: hidden; float: left;
+}
+.show_big_style{
+ text-align: center;z-index: 3;position: fixed;left: 20%; top:30%;
+}
+/*V1.2*/
+.face-pic li .add{
+	border: 2px dotted #bbb;background: none;height:100px
+}
+.face-pic li .add:hover{
+	background: #eaeaea; cursor: pointer;
+}
+.hint{
+	display: block; width: 100%; text-align: center;color: #999;float: left;
+}
+.source{
+	display: block; width: 100%; font-size: 13px; padding-bottom: 10px;
+}
+#ckepop .jtico:hover{
+	display: inline !important;
+}
+.gallery,.pic_reply{
+	float: right;
+}
+.gallery li{
+	float: left;margin: 0 0 6px 6px;
+}
+.gallery li:first-child{
+	margin-left: 0;
+}
+.gallery li img{
+	height: 100px;
+}
+

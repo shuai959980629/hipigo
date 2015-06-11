@@ -1,0 +1,371 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+<!-- BEGIN SIDEBAR -->
+<div class="page-sidebar nav-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!--{include file="menu.html"}-->
+    <!-- END SIDEBAR MENU -->
+</div>
+<!-- END SIDEBAR -->
+<!-- BEGIN PAGE -->
+<div class="page-content">
+<!-- BEGIN PAGE CONTAINER-->
+<div class="container-fluid">
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <!--{include file="nav.html"}-->
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN PAGE CONTENT-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN VALIDATION STATES-->
+        <div class="portlet box purple">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-reorder"></i>第二步设置活动规则</div>
+            </div>
+            <div class="portlet-body form yizhan">
+                <!--创建一战到底开始-->
+                <div class="goods_add">
+                <form action="<!--{$url_prefix}-->activity/<!--{if $eid neq ''}-->edit_activity<!--{else}-->add_activity<!--{/if}-->" id="answer_two" class="form-horizontal" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="eid" value="<!--{$eid}-->" />
+                    <input type="hidden" name="a_id" value="<!--{$a_id}-->"/>
+                    <input type="hidden" name="activity_type" value="<!--{$activity_type}-->"/>
+                    <input type="hidden" name="page" value="2" />
+                    <input type="hidden" name="formhash" value="<!--{$formhash}-->" />
+                    <input type="hidden" value="<!--{$url_prefix}-->activity/<!--{if $eid neq ''}-->edit_activity<!--{else}-->add_activity<!--{/if}-->" id="jobaction"/>
+                    <div class="alert alert-error hide">
+                        <button class="close" data-dismiss="alert"></button>
+                        您输入的信息有错误，请仔细检查一下表单
+                    </div>
+                    <div class="alert alert-success hide">
+                        <button class="close" data-dismiss="alert"></button>
+                        表单验证成功
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">参与者</label>
+                        <div class="controls">
+                           <input name="is_customer" type="checkbox" value="1"<!--{if $activity.requirements.user == 'register'}-->checked="true"<!--{/if}-->>注册用户
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">参与次数<span class="required">*</span></label>
+                        <div class="controls clearfix">
+                            <ul class="degree">
+                                <li><input name="join_count_check[]" id="day_max_count" type="checkbox"<!--{if $activity.join_number_day != 0}--> checked="true"<!--{/if}--> value="1">每人每天最多参与次数：
+                                    <input class="span6 m-wrap" name="day_max_count" type="text" value="<!--{$activity.join_number_day}-->"<!--{if $activity.join_number_day == 0}--> disabled="false"<!--{/if}--> onKeyUp="validateInt(this);" onBlur="validateInt(this);" style="width:140px"></li>
+                                <li><input name="join_count_check[]" id="total_count" type="checkbox"<!--{if $activity.join_number_total != 0}--> checked="true"<!--{/if}--> value="2">每人总共参与次数：
+                                    <input class="span6 m-wrap" name="total_count" type="text" value="<!--{$activity.join_number_total}-->"<!--{if $activity.join_number_total == 0}--> disabled="false"<!--{/if}--> onKeyUp="validateInt(this);" onBlur="validateInt(this);" style="width:140px"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">是否绑定电子券<span class="required">*</span></label>
+                        <div class="controls">
+                            <ul class="select">
+                                <li><input name="bound" type="radio" value="1" onclick="set_ticket(1)"<!--{if $activity.requirement != ''}--> checked="true"<!--{/if}-->>是 </li>
+                                <li><input name="bound" type="radio" value="0" onclick="set_ticket(0)"<!--{if empty($activity.requirement)}--> checked="true"<!--{/if}-->>否</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="pcontrol-grou clearfix" id="ticket_div"<!--{if $activity.requirement == ''}--> style="display: none;"<!--{/if}-->>
+                        <label class="control-label">电子券</label>
+                        <div class="controls">
+                            <div class="e-coupon clearfix">
+                                <select name="ticket_info" id="ticket_info" class="name">
+                                    <!--{foreach from = $ticket_info item=ti}-->
+                                    <option value="<!--{$ti.id_eticket}-->" did="<!--{$ti.quantity}-->"><!--{$ti.name}--></option>
+                                    <!--{/foreach}-->
+                                </select>
+                                <a class="increase" href="javascript:void(0);" onclick="add_ticket(1)">增加</a>
+                            </div>
+                            <!--选择电子券后的显示-->
+                            <div class="show clearfix"<!--{if $activity.requirements == ''}--> style="display:none;"<!--{/if}-->>
+                                <ul>
+                                    <li class="headline clearfix"><span class="name">名称</span><span>总数</span><span>正确率</span><span>耗时(s)</span><span>最多获得次数</span><span>操作</span></li>
+                                    <!--{if $activity.requirements != ''}-->
+                                    <!--{foreach from = $activity.ticket item=at key=k2}-->
+                                    <li class="clearfix"><input type="hidden" name="correct_rate[]" value="<!--{$activity.requirements.eticket.$k2.accuracy}-->"/>
+                                        <input type="hidden" name="consume_time[]" value="<!--{$activity.requirements.eticket.$k2.consuming}-->"/>
+                                        <input type="hidden" name="max_count[]" value="<!--{$activity.requirements.eticket.$k2.getMaxNumber}-->"/>
+                                        <input type="hidden" name="id_ticket[]" value="<!--{$activity.requirements.eticket.$k2.eticketId}-->"/>
+                                        <span class="name"><!--{$at.name}--></span>
+                                        <span><!--{$at.quantity}--></span>
+                                        <span><!--{$activity.requirements.eticket.$k2.accuracy}-->%</span>
+                                        <span><!--{$activity.requirements.eticket.$k2.consuming}-->s</span>
+                                        <span><!--{$activity.requirements.eticket.$k2.getMaxNumber}--></span>
+                                        <span><a href="javascript:void(0);" onclick="$(this).parent().parent().remove();">删除</a></span></li>
+                                    <!--{/foreach}-->
+                                    <!--{/if}-->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">完成时间<span class="required">*</span></label>
+                        <div class="controls">
+                            <input class="span6 m-wrap timea" value="<!--{$activity.complete_time}-->" name="end_time" type="text" onKeyUp="validateInt(this);" onBlur="validateInt(this);"><b class="hint">秒</b>
+                        </div>
+                    </div>
+                    <div class="control-group clearfix">
+                        <label class="control-label">获奖提示语</label>
+                        <div class="controls">
+                            <textarea class="span6 m-wrap" name="success_tip" cols="" rows=""><!--{$activity.success_reply}--></textarea>
+                        </div>
+                    </div>
+                    <div class="control-group clearfix">
+                        <label class="control-label">未获奖提示语</label>
+                        <div class="controls">
+                            <textarea class="span6 m-wrap" name="failed_tip" cols="" rows=""><!--{$activity.failure_reply}--></textarea>
+                        </div>
+                    </div>
+                </form>
+                    <div class="form-actions">
+                        <button type="submit" class="btn purple" id="activity_two_submit">保存</button>
+                        <!--{if $eid neq ''}-->
+                        <a class="btn" href="<!--{$url_prefix}-->activity/edit_activity/3/<!--{$eid}-->">跳过</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+                <!--创建一战到底结束-->
+            </div>
+        </div>
+        <!-- END VALIDATION STATES-->
+    </div>
+</div>
+    <!-- END PAGE CONTENT-->
+    <!--点击电子券弹出框开始-->
+        <div class="capacity" style="display: none;">
+            <input type="hidden" name="id_ticket_set" id="id_ticket_set" value=""/>
+            <p id="ticket_title">电子券：某某电子券</p>
+            <p class="red">获得条件</p>
+            <div class="condition">
+                <ul>
+                    <li><span>正确率：</span><input class="span6 m-wrap" name="set_correct_rate" maxlength="3" type="text" onKeyUp="validateInt(this);" onBlur="validateInt(this);"><b>%(1-100)</b></li>
+                    <li><span>耗时：</span><input class="span6 m-wrap" name="set_consume_time" type="text" onKeyUp="validateInt(this);" onBlur="validateInt(this);"><b>S</b></li>
+                    <li><span>最多获得次数：</span><input class="span6 m-wrap" name="set_max_count" type="text" onKeyUp="validateInt(this);" onBlur="validateInt(this);"><b>次</b></li>
+                </ul>
+            </div>
+            <div class="form-actions">
+                <button class="btn green" onclick="capacity_ok()">确定</button><button class="btn" onclick="capacity_no()">取消</button>
+            </div>
+        </div>
+        <div id="pop_up" style="display: none;"></div>
+    <!--点击电子券弹出框结束-->
+    </div>
+    <!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+	<script>
+
+		jQuery(document).ready(function() {
+		   App.init();
+		   FormValidation.answerTwoInit();
+		});
+
+        $('#day_max_count').click(function (){
+            if($(this).attr('checked') ==  'checked'){
+                $('input[name="day_max_count"]').removeAttr("disabled");
+            }else{
+                $('input[name="day_max_count"]').attr("disabled",true);
+            }
+        });
+
+        $('#total_count').click(function (){
+            if($(this).attr('checked') == 'checked'){
+                $('input[name="total_count"]').removeAttr("disabled");
+            }else{
+                $('input[name="total_count"]').attr("disabled",true);
+            }
+        });
+        //提交第二步活动设置（一站到底）
+        $("#activity_two_submit").click(function(){
+            //判断参与次数
+            if($('input[name="join_count_check[]"]:checked').val() == null){
+                alert("请勾选参与次数的任一项并填写参与次数！");
+                return false;
+            }
+            var is_false = 1;
+            $('input[name="join_count_check[]"]:checked').each(function(){
+                var is_check = $(this).val();
+                if(is_check==1){
+                    var day_max_count = $('input[name="day_max_count"]').val();
+                    if(day_max_count == ''){
+                        alert("每人每天最多参与次数");
+                        is_false = 0;
+                        return false;
+                    }
+                }else if(is_check==2){
+                    var total_count = $('input[name="total_count"]').val();
+                    if(total_count == ''){
+                        alert("每人总共参与次数");
+                        is_false = 0;
+                        return false;
+                    }
+                }
+            });
+            if(is_false == 0){
+                return false;
+            }
+
+            if($('input[name="join_count_check[]"]:checked').length >= 2){
+                if(parseInt($('input[name="day_max_count"]').val()) > parseInt($('input[name="total_count"]').val())){
+                    alert("总共参与次数必须大于等于每天参与次数!");
+                    return false;
+                }
+            }
+
+            //判断是否绑定电子券
+            var bound = $('input[name="bound"]:checked').val();
+            if(bound == 1){
+                var id_ticket = $('input[name="id_ticket[]"]').val();
+                if(id_ticket == null){
+                    alert("请完成电子券绑定信息！");
+                    return false;
+                }
+            }
+            //判断完成时间
+            var end_time = $('input[name="end_time"]').val();
+            if(end_time == ''){
+                alert("请输入完成时间！");
+                return false;
+            }
+
+            //验证通过提交表单
+            $("#answer_two").submit();
+        });
+
+        //设置确定
+        function capacity_ok(){
+            var correct_rate = $('input[name="set_correct_rate"]').val();
+            var consume_time = $('input[name="set_consume_time"]').val();
+            var max_count = $('input[name="set_max_count"]').val();
+            correct_rate = correct_rate.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            consume_time = consume_time.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            max_count = max_count.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+
+            var total_count = $("#ticket_info").find("option:selected").attr('did');
+
+            if(correct_rate == '' || correct_rate == 0 || (parseInt(correct_rate) > 100 || 1>parseInt(correct_rate))){
+                alert('请确保正确率输入的数字在备注范围内!');
+                return;
+            }
+            if(consume_time == '' || consume_time == 0){
+                alert('请输入耗时!');
+                return;
+            }
+            if(max_count == ''){
+                alert('请输入最多获得次数!');
+                return;
+            }else if(parseInt(total_count) < parseInt(max_count)){
+                alert('请输入获取次数小于电子券总数!');
+                return;
+            }
+
+            var html_info = '<li class="clearfix"><input type="hidden" name="correct_rate[]" value="'+correct_rate+'"/>' +
+                    '<input type="hidden" name="consume_time[]" value="'+consume_time+'"/>' +
+                    '<input type="hidden" name="max_count[]" value="'+max_count+'"/>' +
+                    '<input type="hidden" name="id_ticket[]" value="'+$('#id_ticket_set').val()+'"/>' +
+                    '<span class="name">' + $("#ticket_info").find("option:selected").text()+
+                    '</span><span>'+$("#ticket_info").find("option:selected").attr('did')+'</span><span>'+
+                    correct_rate+'%</span><span>'+consume_time+'</span><span>'+max_count+
+                    '</span><span><a href="javascript:void(0);" onclick="$(this).parent().parent().remove();">删除</a></span></li>';
+
+            if($('.show').css('display') == 'none'){
+                $('.show').show();
+            }
+            $('.show').children('ul').html($('.show').children('ul').html() + html_info);
+            $('.capacity').hide();
+            $('#pop_up').hide();
+
+            $('input[name="set_correct_rate"]').val('');
+            $('input[name="set_consume_time"]').val('');
+            $('input[name="set_max_count"]').val('');
+        }
+
+        //设置取消
+        function capacity_no(){
+            $('.capacity').hide();
+            $('#pop_up').hide();
+        }
+
+        //是否绑定电子券处理
+        function set_ticket(num){
+            if(num == 1){
+                $('#ticket_div').show();
+
+//                $('.capacity').show();
+//                $('#pop_up').show();
+            }else{
+                $('.capacity').hide();
+                $('#pop_up').hide();
+                $('#ticket_div').hide();
+            }
+        }
+
+        //添加电子券绑定
+        function add_ticket(num){
+            if(num == 1){//显示绑定电子券的设置层
+                var id_ticket = $('#ticket_info').val();
+                var ticket_info = $("#ticket_info").find("option:selected").text();
+
+                $.post('<!--{$url_prefix}-->activity/verify_ticket', {
+                    'id_ticket':id_ticket
+                }, function(data){
+                    if(data == '1'){
+                        alert('此电子券已被其他活动绑定过了!');
+                        return false;
+                    }else{
+                        //判断是否绑定事件
+                        var is_go = 0;
+                        $('input[name="id_ticket[]"]').each(function(){
+                            var val = $(this).val();
+                            if(val==id_ticket){
+                                alert('不能绑定相同电子券哦!');
+                                is_go = 1;
+                                return false;
+                            }
+                        });
+                        if(is_go == 1){
+                            return false;
+                        }
+
+                        $('#id_ticket_set').val(id_ticket);
+                        $('#ticket_title').html('电子券:'+ticket_info);
+
+                        $('.capacity').show();
+                        $('#pop_up').show();
+                    }
+                }, 'text');
+
+            }else if(num == 2){//设置电子券绑定信息
+                var html = '';
+                $('.show').children('ul').html($('.show').children('ul').html()+html);
+            }else if(num == 3){//取消设置
+                $('.capacity').hide();
+                $('#pop_up').hide();
+            }
+        }
+
+	</script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

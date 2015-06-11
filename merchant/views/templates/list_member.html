@@ -1,0 +1,282 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+<!-- 左边开始 -->
+<div class="page-sidebar nav-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!--{include file="menu.html"}-->
+    <!-- END SIDEBAR MENU -->
+</div>
+<!-- 左边结束 -->
+
+<!-- BEGIN PAGE -->
+<div class="page-content">
+    <!-- 右边开始-->
+    <div class="container-fluid" >
+        <!--右边标题导航开始-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <!--{include file="nav.html"}-->
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+
+            <!--右边标题导航结束-->
+            <!--右边中介内容开始-->
+            <div class="content" >
+                <input type="hidden" name="id_activity" id="id_activity" value="<!--{$id_activity}-->"/>
+                <p class="fl">
+                    <input id="seek" name="seek" value="输入后请按回车进行搜索" title="输入后请按回车进行搜索" type="text" onkeypress="if(event.keyCode==13){search_member(this)}" onkeyup="backSearchOrRefresh(this)" onblur="search_member(this)">
+                </p>
+
+                <!--中间内容开始-->
+                <div class="content discuss_list clearfix">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tbody>
+                        <tr class="title">
+                            <td class="name">成员</td>
+							<td>验证码数量</td>
+                            <td>手机号码</td>
+                            <td>回复</td>
+                            <td class="operate"></td><!--操作-->
+                        </tr>
+                        <!--{foreach from = $member_list item = ml key = k}-->
+                        <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                            <td class="name">
+                                <div class="pic fl">
+                                    <input class="id_open" name="id_open[]" type="hidden" value="<!--{$ml.id_open}-->" />
+                                    <input name="check_member[]" type="checkbox" value="<!--{$ml.id_user}-->" attr="<!--{$ml.cellphone}-->" />
+                                    <a><img src="<!--{if $ml.head_image_url}--><!--{$ml.head_image_url}--><!--{else}--><!--{$url_prefix}-->media/image/ico_user.png<!--{/if}-->" />
+                                    <!--{if $ml.role == 2 && $ml.identity != 'visitor'}--> <span></span><!--{/if}--></a>
+                                </div>
+                                <div class="fl details">
+                                    <a><!--{urldecode($ml.nick_name)}--><!--{if $ml.ticket_verify_count > 0}--><em>已验证<!--{$ml.ticket_verify_count}--></em><!--{/if}--></a>
+                                    <span><!--{substr($ml.update_time,0,10)}--> 加入</span>
+                                </div>
+                            </td>
+							<td><!--{$ml.ticket_code_count}--></td>
+                            <td><!--{if $ml.cellphone}--><!--{$ml.cellphone}--><!--{else}--><!--{$ml.hipigo_phone}--><!--{/if}--></td>
+                            <td><!--{$ml.review_count}--></td>
+                            <td class="operate">
+                                <div style="display: none;">
+                                    <!--{if $ml.identity != 'visitor'}-->
+                                        <!--{if $ml.role == 2}-->
+                                        <a href="javascript:void(0)" onClick="update_role(this,<!--{$ml.id_join}-->,1)">取消管理员</a>
+                                        <!--{else}-->
+                                        <a href="javascript:void(0)" onClick="update_role(this,<!--{$ml.id_join}-->,2)">设置管理员</a>
+                                        <!--{/if}-->
+                                    <!--{/if}-->
+                                    <a href="javascript:void(0)" onClick="del_member(<!--{$offset}-->,'<!--{$ml.id_user}-->','<!--{$ml.cellphone}-->')">删除</a>
+                                    <!--{if $ml.lock == 1}-->
+                                    <a href="javascript:void(0)" onClick="del_lock(this,'<!--{$ml.cellphone}-->')">解除锁定</a>
+                                    <!--{/if}-->
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{/foreach}-->
+                        </tbody>
+                    </table>
+                    <div class="handle_paging clearfix">
+                        <div class="fl">
+                            <span class="all"><input name="check_all" id="check_all" type="checkbox" value="" />全选</span>
+                            <a class="btn green" href="javascript:void(0)" onClick="del_community_all()">批量删除</a>
+                        </div>
+
+                        <!--{if $page_html}-->
+                        <div class="pagination fr">
+                            <ul>
+                                <!--{$page_html}-->
+                            </ul>
+                        </div>
+                        <!--{/if}-->
+                    </div>
+                </div>
+                <!--中间内容结束-->
+            </div>
+            <!--右边中介内容结束-->
+        </div>
+        <!-- 右边结束-->
+    </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL SCRIPTS -->
+
+<script>
+    jQuery(document).ready(function() {
+        App.init();
+        UITree.init();
+    });
+
+    //搜索提示效果
+    $("#seek").click(function(){
+        if($(this).val() == $(this).attr('title')){
+            $(this).val('');
+        }
+    }).blur(function(){
+        if($(this).val() == ''){
+            $(this).val($(this).attr('title'));
+        }
+    });
+
+    //解除锁定
+    function del_lock(obj,cellphone){
+        $.post('<!--{$url_prefix}-->community/del_lock', {
+            'id_activity' : $('#id_activity').val(),
+            'cellphone' : cellphone
+        }, function(data){
+            if(data.status == 1){
+                $(obj).remove();
+            }
+            alert(data.msg);
+        }, 'json');
+    }
+
+    //搜索关键字
+    function search_member(obj){
+        var search_keys = $(obj).val();
+        var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        if(search_key == ''){
+//                alert('请输入你要搜索的文字内容！');
+            return;
+        }else{
+            $.post('<!--{$url_prefix}-->community/list_member', {
+                'id_activity' : $('#id_activity').val(),
+                'search_keys' : search_keys,
+                'offset':1,
+                'page_type':1
+            }, function(data){
+                $('.discuss_list').html(data);
+            }, 'text');
+        }
+    }
+
+    //搜索返回刷新
+    function backSearchOrRefresh(obj){
+        var searchinput = $(obj).val();
+        if(searchinput == ''){
+            member_list_page(1);
+        }
+    }
+
+
+    //鼠标在列表滑动出现操作按钮
+    $('.discuss_list').children('table').children('tbody').children('tr').mouseover(function(){
+        $(this).children('.operate').children('div').show();
+    }).mouseout(function(){
+        $(this).children('.operate').children('div').hide();
+    });
+
+    $("#check_all").click(function () {//全选
+        if($(this).attr('checked') != 'checked'){
+            $("input[name ^= 'check_member']").attr("checked",false);
+        }else{
+            $("input[name ^= 'check_member']").attr("checked",true);
+        }
+    });
+
+    $('input[name="check_member[]"]').click(function(){
+        if($(this).attr('checked') != 'checked'){
+            $("#check_all").attr("checked",false);
+        }else{
+            if($("input[name='check_member[]']:checked").length == $("input[name='check_member[]']").length){
+                $("#check_all").attr("checked",true);
+            }
+        }
+    });
+
+    //删除社区活动成员信息
+    function del_member(offset,id_user,cellphone){
+        if(confirm("你确定要删除该成员信息吗？"))
+        {
+            $.post('<!--{$url_prefix}-->community/del_member', {
+                'id_activity':$('#id_activity').val(),
+                'id_user':id_user,
+                'cellphone': cellphone,
+                'offset':offset,
+                'page_type':'one'
+            }, function(data){
+                if(data.status == '0'){
+                    alert(data.msg);
+                }else
+                    $('.discuss_list').html(data.data);
+            }, 'json');
+        }
+    }
+
+
+    //批量删除
+    function del_community_all(){
+        if($("input[name='check_member[]']:checked").length == 0){
+            alert('你还没有选中需要删除的！');
+            return false;
+        }
+        var id_user = [];
+        var cellphone = [];
+        $("input[name='check_member[]']:checked").each(function(i){
+            id_user[i] = $(this).val();
+            cellphone[i] = $(this).attr('attr');//$(this).parent().children('.id_open').val();
+        });
+        if(confirm("你确定要删除这些活动成员吗？"))
+        {
+            $.post('<!--{$url_prefix}-->community/del_member', {
+                'id_activity' : $('#id_activity').val(),
+                'id_user':id_user,
+                'cellphone':cellphone,
+                'page_type':'more'
+            }, function(data){
+            if(data.status == '0'){
+                alert(data.msg);
+            }else
+                $('.discuss_list').html(data.data);
+            }, 'json');
+        }
+    }
+
+
+    //取消 设置管理员
+    function update_role(obj,id_join,num){
+        $.post('<!--{$url_prefix}-->community/update_role', {
+            'id_join':id_join,
+            'role': num
+        }, function(data){
+            var html = '';
+            if(num == 2){
+                $(obj).html('取消管理员');
+                $(obj).attr('onClick','update_role(this,'+id_join+',1)');
+                $(obj).parent().parent().children('.name').children('.pic').children('a').append("<span></span>");
+            }else{
+                $(obj).html('设置管理员');
+                $(obj).attr('onClick','update_role(this,'+id_join+',2)');
+                $(obj).parent().parent().children('.name').children('.pic').children('a').children('span').remove();
+            }
+        }, 'text');
+    }
+
+    //互动活动列表分页
+    function member_list_page(offset){
+        $.post('<!--{$url_prefix}-->community/list_member', {
+            'id_activity' : $('#id_activity').val(),
+            'offset':offset,
+            'page_type':1
+        }, function(data){
+            $('.discuss_list').html(data);
+        }, 'text');
+    }
+
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

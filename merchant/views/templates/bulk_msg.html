@@ -1,0 +1,1091 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+                <form action="<!--{$url_prefix}-->system/wx_bulk_msg" method="post" id="wx_form">
+				<input type="hidden" name="kill_name_msg" id="kill_name_msg" value="" />
+				<input type="hidden" name="kill_description_msg" id="kill_description_msg" value="" />
+				<input type="hidden" name="bulk_list_user" id="bulk_list_user" value="0" />
+				<input type="hidden" name="bulk_list_group" id="bulk_list_group" value="0" />
+				<input type="hidden" name="bulk_type" id="bulk_type" value="0" />
+				<div class="write_row">
+						<div class="import clearfix" style="float:left">
+							<span class="title">选择对象：</span>
+							<select name="type" id="classfy">
+									<option selected="true" value="1">全部用户</option>
+									<option value="2">指定用户</option>
+									<option value="3">按分组</option>
+							  </select>
+						</div>
+						<div class="import clearfix" id="group_clearfix" style="float:left;margin-left:20px;display:none;">
+							<span class="title">选择分组：</span>
+							<select name="group_type" id="group_id">
+							  </select>
+						</div>
+                </div>
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN VALIDATION STATES-->
+                            <div class="tabbable tabbable-custom attention">
+                                <ul class="nav nav-tabs">
+                                    <input type="hidden" name="select_btype" id="select_btype" value="<!--{if strlen($att_type) == 0}-->info<!--{else}--><!--{$att_type}--><!--{/if}-->" />
+                                    <input type="hidden" name="type" id="type" value="<!--{if $reply_type === 'text'}-->1<!--{elseif $reply_type === 'image-text'}-->2<!--{elseif $reply_type === 'image'}-->3<!--{elseif $reply_type === 'audio'}-->4<!--{elseif $reply_type === 'video'}-->5<!--{/if}-->"/>
+                                    <input type="hidden" name="reply_type" id="reply_type" value="<!--{if $reply_type === 'text'}-->1<!--{elseif $reply_type === 'image-text'}-->2<!--{elseif $reply_type === 'image'}-->3<!--{elseif $reply_type === 'audio'}-->4<!--{elseif $reply_type === 'video'}-->5<!--{/if}-->"/>
+                                    <li style="display:none"><a data-toggle="tab" href="#tab_1_2">图片</a></li>
+                                    <li <!--{if empty($reply_type) || $reply_type == 'text'}-->class="active"<!--{/if}--> attr="1"><a data-toggle="tab" href="">文本</a></li>
+                                    <li <!--{if $reply_type == 'image-text'}-->class="active"<!--{/if}--> attr="2"><a data-toggle="tab" href="">图文</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab_1_1" class="tab-pane active" <!--{if !empty($reply_type) && $reply_type != 'text'}-->style="display:none"<!--{/if}-->>
+                                         <textarea class="span6 m-wrap" name="content" maxlength="500" id="content" cols="" rows="" style="visibility: hidden;">
+                                         <!--{if $wx_text.reply && $reply_type eq 'text'}--><!--{$wx_text.reply}--><!--{/if}-->
+                                         </textarea>
+                                         <div class="text" style="width:80%; text-align:right; height: 50%"><span>还可以输入
+                                             <em id="s_word" style="color:#f00; font-style:normal; font-size:16px; font-weight:bold">500</em>
+                                             个字</span></div>
+                                         <input type="hidden" name="content_length" id="content_length" value="0" />
+                                         <input type="hidden" name="formhash" value="<!--{$formhash}-->" />
+                                         <input type="hidden" name="msgid" value="<!--{$wx_text.id_msg}-->" />
+                                         <input type="hidden" name="msgtype" value="<!--{$wx_text.keyword}-->" />
+                                         <input type="hidden" name="fun_type" value="<!--{$type}-->" />
+                                    </div>
+                                    <!--图文-->
+                                    <div class="controls add_img " id="img_text" <!--{if $reply_type neq 'image-text'}-->style="display:none"<!--{/if}-->>
+                                        <p><button type="button" class="btn green select_btn">选择</button><!--<button type="button" class="btn green kill_btn" style="margin-left:20px;">秒杀推送</button>--></p>
+                                    </div>
+                                    <!--图片 音频 视频-->
+                                    <div id="attachment"  class="controls add_img reply" <!--{if empty($reply_type) || $reply_type eq 'text'|| $reply_type eq 'image-text'}-->style="display:none"<!--{/if}-->>
+                                        <div id="img_war"<!--{if $reply_type eq 'image'}-->style="display:none"<!--{/if}-->>图片: 128K，支持JPG格式。<span class="required">*</span></div>
+                                        <div id="voice_war"<!--{if $reply_type eq 'audio'}-->style="display:none"<!--{/if}-->>语音：256K，播放长度不超过60s，支持AMR格式。<span class="required">*</span></div>
+                                        <div id="video_war"<!--{if $reply_type eq 'video'}-->style="display:none"<!--{/if}-->>视频：1MB，支持MP4格式。<span class="required">*</span></div>
+                                        <div id="swfupload-control" style="line-height: 30px">
+                                            <input type="button" id="button" />
+                                            <input type="hidden" id="fileNum" name="fileNum" value="<!--{$attachment_count}-->">
+                                            <p id="queuestatus"></p>
+                                            <ol id="log"></ol>
+                                        </div>
+                                        <!--{if $wx_attachment}-->
+                                        <!--{foreach from = $wx_attachment item = a}-->
+                                        <div id="attach_url" attr="<!--{$reply_type}-->" class="fileupload-new thumbnail">
+                                            <!--{if $reply_type == 'image'}-->
+                                            <img src="<!--{$a.url|get_img_url:'keyword_reply'}-->"/>
+                                            <!--{elseif $reply_type == 'audio'}-->
+                                            <img src="<!--{$url_prefix}-->media/image/audio.png"/>
+                                            <!--{elseif $reply_type == 'video'}-->
+                                            <img src="<!--{$url_prefix}-->media/image/video.png"/>
+                                            <!--{/if}-->
+                                            <a onClick="closeImg(this,'','image_src','fileNum',0)"></a>
+                                        </div>
+                                        <!--{/foreach}-->
+                                        <!--{/if}-->
+                                        <div id="video_div"<!--{if $reply_type eq 'video'}-->style="display:none;"<!--{/if}-->>
+                                            <div class="content" style="width:800px;"><textarea class="m-wrap"  name="video_content" id="video_content"><!--{if $wx_text.reply && $reply_type eq 'video'}--><!--{$wx_text.reply}--><!--{else}-->请输入视频说明<!--{/if}--></textarea>
+                                                <span class="required">*</span></div>
+                                            <span style="float: right;width: 60%;color:#4B8DF8">最多可输入200个字。</span>
+                                        </div>
+                                        <input type="hidden" id="image_src" name="image_src" value=" "/>
+                                    </div>
+
+                                    <div id="img-text-show" class="controls add_img reply" <!--{if $reply_type neq 'image-text'}-->style="display:none"<!--{/if}-->>
+                                        <table class="goods_table" width="100%">
+                                            <tr style="background:#4B8DF8; color:#fff">
+                                                <td class="headline">标题</td>
+                                                <td>操作</td>
+                                            </tr>
+                                            <tbody id="cnt_selected">
+                                            <!--{if $reply_type eq 'image-text'}-->
+                                            <!--{foreach from=$wx_text.cnt item=wt}-->
+                                            <tr id="new_tr<!--{$wt.id}-->">
+                                                <td class="headline"><!--{$wt.title}-->
+                                                    <input type="hidden" name="cnt_selected[]" value="<!--{$wt.id}-->" />
+                                                </td>
+                                                <td><a class="delete" onclick="remove_html(this)" href="javascript:void(0)" >删除</a></td>  <!--href="/system/wx_attach_delete/$wx.id_msg/<$wt.id_attachment}-->
+                                            </tr>
+                                            <!--{/foreach}-->
+                                            <!--{/if}-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <div id="tab_1_2" class="tab-pane">
+                                        <!--<button class="btn green" type="submit">上传图片</button>-->
+                                        <img src="<!--{$url_prefix}-->media/image/8.jpg"><button class="btn green" type="submit">重新上传图片</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                            <div class="form-actions" style="width: 78%">
+                                <!-- <button type="reset" class="btn">取消</button> -->
+                                <button type="button" class="btn green" id="wx_submit" style="float:left">确定</button>
+								<div style="float:left;color:red;height:34px;line-height:34px;margin-left:10px;">用户每月只能接收4条群发消息，多于4条的群发将对该用户发送失败。</div>
+                            </div>
+						<!-- END VALIDATION STATES-->
+				    </div>
+			    </div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+<style>
+
+
+
+.theme-popover-mask {
+	z-index: 9998;
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:#000;
+	opacity:0.4;
+	filter:alpha(opacity=40);
+	display:none
+}
+.theme-popover {
+	z-index:9999;
+	position:fixed;
+	top:50%;
+	left:50%;
+	width:660px;
+	height:360px;
+	margin:-180px 0 0 -330px;
+	border-radius:5px;
+	border:solid 2px #666;
+	background-color:#fff;
+	display:none;
+	box-shadow: 0 0 10px #666;
+}
+.theme-poptit {
+	border-bottom:1px solid #ddd;
+	padding:12px;
+	position: relative;
+}
+.theme-popbod {
+	padding:0px 15px;
+	color:#444;
+}
+
+
+.theme-popbom {
+	padding:15px;
+	background-color:#f6f6f6;
+	border-top:1px solid #ddd;
+	border-radius:0 0 5px 5px;
+	color:#666
+}
+.theme-popbom a {
+	margin-left:8px
+}
+.theme-poptit .closes {
+	float:right;
+	color:#999;
+	padding:5px;
+	margin:-2px -5px -5px;
+	font:bold 14px/14px simsun;
+	text-shadow:0 1px 0 #ddd
+}
+.theme-poptit .closes:hover {
+	color:#444;
+}
+.btn.theme-reg {
+	position: absolute;
+	top: 8px;
+	left: 43%;
+	display: none
+}
+.inp-gray, .feed-mail-inp {
+	border:1px solid #ccc;
+	background-color:#fdfdfd;
+	width:220px;
+	height:16px;
+	padding:4px;
+	color:#444;
+	margin-right:6px
+}
+.dform {
+
+	text-align: center;
+}
+.dform .ipt_error {
+	background-color:#FFFFCC;
+	border-color:#FFCC66
+}
+.dform-tip {
+	display:none;
+	background-color:#080;
+	color:#fff;
+	line-height:42px;
+	margin-top:10px;
+display:;
+	font-size: 14px;
+}
+.dform-tip-errer {
+	background-color: #CF301A;
+}
+.dform-tip a {
+	display: inline-block;
+	padding: 0 20px;
+	margin-left:10px;
+	background-color: #FFE924;
+	color: #CF301A;
+}
+.dform-login {
+	padding:0;
+	height: 270px;
+	overflow: hidden;
+}
+.dform-login iframe {
+	height: 470px;
+
+}
+.theme-signin {
+
+	text-align:left;
+	font-size: 14px;
+}
+
+.theme-signin .btn {
+	margin-bottom: 10px;
+}
+.theme-signin p {
+	font-size: 12px;
+	color: #999;
+}
+.theme-desc, .theme-version {
+	padding-top: 0
+}
+</style>
+
+<div class="theme-popover" id="bulk_msg" style="display: none;">
+     <div class="theme-poptit">
+          <a href="javascript:;" title="关闭" class="closes">×</a>
+          <h3 style="width:200px;line-height: 20px;">选择用户</h3>
+     </div>
+     <div class="theme-popbod dform"  style="height:220px;OVERFLOW-Y: auto; OVERFLOW-X:hidden;">
+           <form class="theme-signin" name="loginform" action="" method="post">
+				<ul id="bulk_user_list_ul" style="height:220px;">
+				</ul>
+           </form>
+     </div>
+     <button type="button" class="btn green fr" id="list_submit" style="margin: 20px;">确定</button>
+</div>
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-all.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/swfupload/swfupload.js"></script>
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/jquery.swfupload.js"></script>
+	<!-- END PAGE LEVEL STYLES -->    
+
+	<script>
+
+
+    //删除列表信息
+    function remove_html(obj) {
+        $(obj).parent().parent().remove();
+    }
+
+
+    jQuery(document).ready(function() {
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.init();
+		   $("#bulk_type").val(1);
+
+		  $('#classfy').change(function(){ 
+
+				var classfyid = $(this).children('option:selected').val();
+
+				if(classfyid==1){
+					$("#group_clearfix").hide();
+				}
+				
+				if(classfyid==2){
+
+					var offid = 1000;
+					var userlist = "";
+
+					$.post('/biz/system/get_followers_list', {offset: offid},function (result) {
+
+							$.each(result.list_user, function(i, value) {
+								userlist +='<li style="width:290px;float:left"><label><input type=checkbox name=user_name_check  value="'+value.id_open+'" style="margin-top: -2px;"/><b>'+value.nick_name+'</b></label></li>';
+							});						
+	
+							$("#bulk_user_list_ul").html(userlist);
+							$("#bulk_msg").show();
+
+						}, 'json');
+					
+					$("#group_clearfix").hide();
+				}
+
+				if(classfyid==3){
+
+					$.post('/biz/system/get_user_group', {offset: offid},function (result) {
+
+						$.each(result.groups, function(i, value) {														
+							$("#group_id").append('<option value="'+value.id+'">'+value.name+'('+value.count+')</option>');
+						});						
+
+						$("#group_clearfix").show();
+
+						var openid = '';					
+
+						$('#group_id').change(function(){ 
+							openid = $(this).children('option:selected').val();
+							$("#bulk_list_group").val(openid);
+						})
+
+					}, 'json');
+
+				}
+
+				$("#bulk_type").val(classfyid);
+
+		  }) 
+
+
+			$("#list_submit").click(function(){
+				  
+				  var openid = '';
+				  var length = $('input[name="user_name_check"]:checked').length;
+
+				  $('input[name="user_name_check"]:checked').each(function(i, value){ 
+					    if(length==i+1){
+							openid += '"'+$(this).val()+'"';
+						}else{
+							openid += '"'+$(this).val()+'"'+',';
+						}
+
+				  });			 
+
+				 $("#bulk_list_user").val(openid);
+				 $("#bulk_msg").hide();					  
+				  
+			});
+
+
+			$(".closes").click(function(){
+				$("#bulk_msg").hide();							
+			});
+
+
+            $(".select_btn").click(function(){
+                $("#prompt").show();
+                $("#pop_up").show();
+            });
+
+            $(".kill_btn").click(function(){
+				
+				get_select_content_kill(1);
+	
+                $("#kill").show();
+                $("#pop_up").show();
+            });
+
+            $(".kill_se").click(function(){
+				get_select_content_kill(1);
+				$("#seek").val('');
+            });
+
+            $("#act_kill").click(function(){
+				$("#act_nml").show();
+				$("#act_kill").hide();
+            });
+			
+            $("#act_nml").click(function(){
+				$("#act_nml").hide();
+				$("#act_kill").show();
+            });
+
+			
+			
+
+            //点击确定按钮，数据发送到后端，请求相关数据
+            $(".determine").click(function(){
+                $("#prompt").hide();
+                $("#pop_up").hide();
+            });
+
+            $("#close").click(function(){
+                $("#prompt").hide();
+                $("#pop_up").hide();
+            });
+
+            $("#close_kill").click(function(){
+                $("#kill").hide();
+                $("#pop_up").hide();
+            });
+
+            get_select_content(1);
+
+            $("input[name=reply_type]").click(function(){
+                contrl_msgtype();
+            });
+
+            $("#btype").change(function(){
+                if(confirm("选择分类，之前的选择将清空")){
+                    $("#cnt_selected").html('');
+                    $("#select_btype").val($("#btype").val());
+                    get_select_content(1);
+                }
+            });
+
+            $("#list_contents").find("input[name='selected_id[]']").live('click',function(){
+                if($(this).attr('checked')){
+                    //编辑数据时已选择的值
+                    var selected_length = $('input[name="cnt_selected[]"]').length;
+
+                    if(selected_length>9){
+                        alert('您一共只能选择10条数据');
+                        //$(this).attr('checked',false);
+                        return false;
+                    }else{
+                        //把弹层的数据复制过来
+                        var ntr = $(this).parent('td').siblings('td');
+                        var nhtml = '<tr id="new_tr'+$(this).val()+'"><td class="headline">'+ntr.html()+'<input type="hidden" name="cnt_selected[]" value="'+$(this).val()+'" /></td><td><a class="delete" onclick="remove_html(this)" href="#'+$(this).val()+'">删除</a></td></tr>';
+                        $("#cnt_selected").append(nhtml);
+
+                    }
+                }else{
+                    //把添加的tr删除掉
+                    $("#new_tr"+$(this).val()).remove();
+
+                }
+            });
+
+            $("#list_contents_kill").find("input[name='selected_id[]']").live('click',function(){
+
+				var selected_length = $('input[name="cnt_selected[]"]').length;
+
+                if($(this).attr('checked')){
+                    //编辑数据时已选择的值
+
+                    if(selected_length>9){
+                        alert('您一共只能选择10条数据');
+                        //$(this).attr('checked',false);
+                        return false;
+                    }else{
+                        //把弹层的数据复制过来
+                        var ntr = $(this).parent('td').siblings('td');
+                        var nhtml = '<tr id="new_tr'+$(this).val()+'"><td class="headline">'+ntr.html()+'<input type="hidden" name="cnt_selected[]" value="'+$(this).val()+'" /></td><td><a class="delete" onclick="remove_html(this)" href="#'+$(this).val()+'">删除</a></td></tr>';
+                        $("#cnt_selected").append(nhtml);
+
+                    }
+
+					selected_length = selected_length+1;
+                }else{
+                    //把添加的tr删除掉
+                    $("#new_tr"+$(this).val()).remove();
+					selected_length = selected_length-1;
+
+                }
+
+                $("#kill_count").text(selected_length);
+				
+            });
+
+            $('.nav-tabs').children('li').click(function(){
+                var value = $(this).attr('attr');
+                contrl_msgtype(value);
+            });
+
+		   $("#face_btn").click(function(){
+			   var fbsh = $("#face_box").css('display');
+			   if(fbsh == 'block'){
+				   $("#face_box").hide();
+			   }else{
+				   $("#face_box").show();
+			   }
+		   });
+
+            $('#video_content').click(function(){
+                var video_content = $(this).val();
+                if(video_content == '请输入视频说明'){
+                    $(this).text('');
+                }
+            }).blur(function (){
+                if($(this).val() == ''){
+                    $(this).text('请输入视频说明');
+                }
+            });
+
+		   function editor(name){
+				var editor;
+				KindEditor.ready(function(K) {
+					editor = K.create('textarea[name="'+name+'"]', {
+						resizeType : 1,
+						allowPreviewEmoticons : false,
+						allowImageUpload : false,
+						afterBlur:function(){
+//							alert(this.count('text'));
+							K('#content_length').val(this.count('text'));
+							if(this.count('text')<=500){
+								this.sync();
+							}else{
+								K('#s_word').html(0);
+								//alert('您输入的字符长度超过500个字符的限制，请修改');
+								return false;
+							}
+						},
+						items : [''],
+						afterChange : function() {
+                            if(this.count('text') > 500) {
+//								alert('您输入的字符长度超过500个字符的限制，请修改');
+                                //超过字数限制自动截取
+//                                var strValue = editor.text();
+//                                strValue = strValue.substring(0,500);
+//                                editor.text(strValue);
+                            }
+                            var lngth = 500-this.count('text');
+							K('#content_length').val(this.count('text'));
+							if(lngth >= 0){
+								K('#s_word').html(lngth);
+							}else{
+								K('#s_word').html(0);
+								return false;
+							}
+						},
+						filterMode :true
+//						htmlTags:{
+//							img : ['src', 'width', 'height', 'border', 'alt', 'title', 'align', 'style', '/']
+//						}
+					});
+				});
+			}
+		   
+		   editor('content');
+
+            $("#wx_submit").click(function(){
+                var dval = $("input[name=reply_type]").val();
+                var type = $("input[name=type]").val();
+                if(dval == '1'){
+//                    if(!$.trim($("#content").val())){
+//                        alert("请输入内容");
+//                        return false;
+//                    }else
+                    if(!$.trim($("#content").val())){
+                        if(confirm("如果设置为空，默认回复将取消"))
+                        {
+                            if($("#content_length").val() > 500){
+                                alert("您输入的字符长度超过500个字符的限制，请修改");
+                                return false;
+                            }else{
+                                //验证通过提交表单
+                                $("#wx_form").submit();
+                            }
+                        }
+                    }else{
+                        if($("#content_length").val() > 500){
+                            alert("您输入的字符长度超过500个字符的限制，请修改");
+                            return false;
+                        }else{
+                            //验证通过提交表单
+                            $("#wx_form").submit();
+                        }
+                    }
+                }else if(dval == '3' || dval == '4' || dval == '5'){
+//                    alert($('#fileNum').val());
+                    if(parseInt($('#fileNum').val()) < 1){
+                        if(confirm("如果设置为空，默认回复将取消"))
+                        {
+                            //验证通过提交表单
+                            $("#wx_form").submit();
+                        }
+
+
+//                        var attach_url = $('#attach_url').attr('attr');
+//                        if(attach_url == null){
+//                            alert("请上传回复附件");
+//                            return false;
+//                        }else if(type == '3' && dval == '3' && attach_url == 'image'){
+//                            //验证通过提交表单
+//                            $("#wx_form1").submit();
+//                        }
+//                        else if(type == '4' && dval == '4' && attach_url == 'audio'){
+//                            //验证通过提交表单
+//                            $("#wx_form1").submit();
+//                        }
+//                        else if(type == '5' && dval == '5' && attach_url == 'video'){
+//                            if($('#video_content').val() == '' || $('#video_content').val() == '请输入视频说明'){
+//                                alert("请填写视频说明");
+//                                return false;
+//                            }
+//                            //验证通过提交表单
+//                            $("#wx_form1").submit();
+//                        }else{
+//                            if(type != dval && attach_url){
+//                                if(dval == '3' || dval == '4'){
+//                                    alert("请上传回复附件");
+//                                    return false;
+//                                }else if(dval == '5'){
+//                                    if($('#video_content').val() == '' || $('#video_content').val() == '请输入视频说明'){
+//                                        alert("请填写视频说明");
+//                                        return false;
+//                                    }
+//                                }
+//                            }
+//                        }
+                    }else{
+                        if(dval == '5'){
+                            if($('#video_content').val() == '' || $('#video_content').val() == '请输入视频说明'){
+                                alert("请填写视频说明");
+                                return false;
+                            }else{
+                                //验证通过提交表单
+                                $("#wx_form").submit();
+                            }
+                        }else{
+                            //验证通过提交表单
+                            $("#wx_form").submit();
+                        }
+                    }
+                }else if(dval == '2'){
+//                    if($("input[name='cnt_selected[]']").length <= 0){
+//                        alert("请选择图文回复内容！");
+//                        return false;
+//                    }else{
+                        //验证通过提交表单
+
+						$('#kill_name_msg').val($('#kill_name').val());
+						$('#kill_description_msg').val($('#kill_description').val());
+                        $("#wx_form").submit();
+//                    }
+                }
+            });
+		});
+
+        contrl_msgtype($("input[name=reply_type]").val());
+        function contrl_msgtype(dval){
+            if(dval == ''){
+                $('#tab_1_1').show();
+                $('#attachment').hide();
+                $('#img_text').hide();
+                $('#img-text-show').hide();
+                $('#attach_url').hide();
+                $("input[name=reply_type]").val(1);
+                return false;
+            }
+            if(dval == 1){
+                $('#tab_1_1').show();
+                $('#img_text').hide();
+                $('#img-text-show').hide();
+                $('#attachment').hide();
+                $('#attach_url').hide();
+            }else if(dval == 2){
+                $('#tab_1_1').hide();
+                $('#img_text').show();
+                $('#img-text-show').show();
+                $('#attachment').hide();
+                $('#attach_url').hide();
+            }else{
+                $('#tab_1_1').hide();
+                $('#img_text').hide();
+                $('#img-text-show').hide();
+                $('#attachment').show();
+                if(dval == 3){
+                    if($('#attach_url').attr('attr') == 'image'){
+                        $('#attach_url').show();
+                    }else{
+                        $('#attach_url').hide();
+                    }
+                    $('#img_war').show();
+                    $('#voice_war').hide();
+                    $('#video_war').hide();
+                    $('#video_div').hide();
+                }else if(dval == 4){
+                    if($('#attach_url').attr('attr') == 'audio'){
+                        $('#attach_url').show();
+                    }else{
+                        $('#attach_url').hide();
+                    }
+                    $('#img_war').hide();
+                    $('#voice_war').show();
+                    $('#video_war').hide();
+                    $('#video_div').hide();
+                }else if(dval == 5){
+                    if($('#attach_url').attr('attr') == 'video'){
+                        $('#attach_url').show();
+                    }else{
+                        $('#attach_url').hide();
+                    }
+                    $('#img_war').hide();
+                    $('#voice_war').hide();
+                    $('#video_war').show();
+                    $('#video_div').show();
+                }
+            }
+            if($('#tab_1_1').children('.ke-container').width() == 0){
+                $('#tab_1_1').children('.ke-container').width('1031px');
+            }
+
+            setTimeout(function (){
+                var swfup = $.swfupload.getInstance('#swfupload-control');
+                //设置上传的文件类型
+                if(dval == 3){
+                    swfup.setFileTypes('*.jpg','image files');
+                }else if(dval == 4){
+                    swfup.setFileTypes('*.amr','audio files');
+                }else if(dval == 5){
+                    swfup.setFileTypes('*.mp4','video files');
+                }
+            },200);
+            $('#fileNum').val(0);
+            $('#image_src').val(' ');
+            $('#log').html('');
+            $("input[name=reply_type]").val(dval);
+        }
+
+
+
+        /*
+         * zxx 上传附件按钮初始及处理
+         * */
+        var isUploadfile = 0;
+        $(function (){
+            $('#fileNum').val(<!--{$attachment_count|default:0}-->);
+
+            var len=0;
+            var types='';
+            var type_description = '';
+            if('<!--{$reply_type }-->' == 'image'){
+                types = '*.jpg';
+                type_description = "image files";
+            }else if('<!--{$reply_type }-->' == 'audio'){
+                types = '*.amr';
+                type_description = "audio files";
+            }else if('<!--{$reply_type }-->' == 'video'){
+                types = '*.mp4';
+                type_description = "video files";
+            }
+            $('#swfupload-control').swfupload({
+                upload_url: '<!--{$url_prefix}-->files/upload_all_file/keyword_reply',//<!--{$sessionid}-->"upload-file.php",
+                file_post_name: 'uploadfile',
+                file_size_limit : '2048',
+                file_types : types,
+                file_types_description : type_description,
+                file_upload_limit : 0,
+                flash_url : "<!--{$url_prefix}-->media/js/swfupload/swfupload.swf",
+                button_image_url : '<!--{$url_prefix}-->media/js/swfupload/wdp_buttons_upload_114x29.png',
+                button_width : 114,
+                button_height : 29,
+                button_placeholder : $('#button')[0],
+                button_action:SWFUpload.BUTTON_ACTION.SELECT_FILE,
+                debug: false
+            }).bind('fileQueued', function(event, file){
+                if(parseInt($('#fileNum').val()) >= 1){
+                    alert("文件只能传送1个!");
+                    var swfu = $.swfupload.getInstance('#swfupload-control');
+                    swfu.cancelUpload(file.id);
+                    len = 1;
+                    return false;
+                }
+                $('#fileNum').val(1);
+
+                isUploadfile = 1;
+                var listitem='<li id="'+file.id+'" ><b class="js-component-icon nui-ico fl"></b>'+
+                        '<em>'+file.name+'</em> '+
+                        '<span class="file_cancel" style="display:none">删除</span>'+
+                        '<span class="cancel" >删除</span>'+
+                        '<div class="progressbar" style="display:none;"><div class="progress" ></div></div><span class="progressvalue" ></span>'+
+                        '<p class="status" >等待中..</p>'+
+                        '</li>';
+
+                $('#log').append(listitem);
+                $('li#'+file.id+' .cancel').bind('click', function(){
+                    var swfu = $.swfupload.getInstance('#swfupload-control');
+                    swfu.cancelUpload(file.id);
+
+                    $('li#'+file.id).slideUp('fast');
+
+                    $('#submitForm').addClass('green');
+                    $('#submitForm').attr('onClick','');
+                    $('#form_synopsis_edit').attr('action',$("#jobaction").val());
+                    isUploadfile = 0;
+                });
+
+                if($('#submitForm').attr('class') == 'btn green'){
+                    $('#submitForm').removeClass('green');
+                    $('#submitForm').attr('onClick','return false;');
+                    $('#form_synopsis_edit').attr('action','');
+                }
+                // start the upload since it's queued
+                $(this).swfupload('startUpload');
+            })
+            .bind('fileQueueError', function(event, file, errorCode, message){
+                isUploadfile = 0;
+                if(file){
+                    alert(file.name+' 的文件已超限，详细请见备注！');//大小('+Math.round(file.size/1024)+'KB)
+                }else
+                    alert('超过队列数了！');
+            })
+            .bind('uploadStart', function(event, file){
+                $('#log li#'+file.id).find('div.progressbar').css('display','block');
+                $('#log li#'+file.id).find('p.status').text('');
+                $('#log li#'+file.id).find('span.progressvalue').text('0%');
+//                $('#log li#'+file.id).find('span.cancel').hide();
+            })
+            .bind('uploadProgress', function(event, file, bytesLoaded){
+                //Show Progress
+                var percentage=Math.round((bytesLoaded/file.size)*100);
+                percentage = percentage>100?100:percentage;
+                $('#log li#'+file.id).find('div.progress').css('width', percentage +'%');
+                $('#log li#'+file.id).find('span.progressvalue').text(percentage+'%');
+                if(percentage >= 100){
+                    $('#log li#'+file.id).find('div.progressbar').css('display','none');
+                    $('#log li#'+file.id).find('span.progressvalue').text('');
+                    $('#log li#'+file.id).addClass('success').find('p.status').html('('+Math.round(file.size/1024)+' KB)<i>请稍等..</i>');//+pathtofile
+//                    $('#log li#'+file.id).find('span.cancel').show();
+
+                    if($('#log li#'+file.id).find('span.cancel').css('display') != 'none'){
+                        $('#log li#'+file.id).find('span.cancel').hide();
+                        $('#log li#'+file.id).find('span.file_cancel').show();
+                        $('li#'+file.id+' .file_cancel').unbind('click');
+                        $('li#'+file.id+' .file_cancel').bind('click', function(){
+                            var swfu = $.swfupload.getInstance('#swfupload-control');
+                            swfu.cancelUpload(file.id);
+                            closeImg(this,file.name,'image_src','fileNum');
+                        });
+                    }
+                    if(isUploadfile == 0){
+                        $('#submitForm').addClass('green');
+                        $('#submitForm').attr('onClick','');
+                        $('#form_synopsis_edit').attr('action',$("#jobaction").val());
+                    }
+                    isUploadfile = 0;
+                }
+            })
+            .bind('uploadError', function(event, file, message){
+                $('#log li#'+file.id).find('div.progressbar').css('display','none');
+                $('#log li#'+file.id).find('span.progressvalue').text('');
+                $('#log li#'+file.id).addClass('success').find('p.status').html('<i>上传失败</i>');//+pathtofile
+//                $('#log li#'+file.id).find('span.cancel').show();
+
+//                if($('#log li#'+file.id).find('span.cancel').css('display') != 'none'){
+                $('#log li#'+file.id).find('span.cancel').hide();
+                $('#log li#'+file.id).find('span.file_cancel').show();
+                $('li#'+file.id+' .file_cancel').unbind('click');
+                $('li#'+file.id+' .file_cancel').bind('click', function(){
+                    var swfu = $.swfupload.getInstance('#swfupload-control');
+                    swfu.cancelUpload(file.id);
+                    closeImg(this,file.name,'image_src','fileNum',1);
+                });
+//                }
+                if(len != 1){
+                    $('#fileNum').val(0);
+                }else{
+                    len = 0;
+                }
+                isUploadfile = 0;
+            })
+            .bind('uploadSuccess', function(event, file, serverDatas){
+                var serverData = $.parseJSON(serverDatas);
+                if(serverData.error == 1){
+                    html_notice('操作失败',serverData.message,serverData);
+                    $('#log li#'+file.id).find('div.progressbar').css('display','none');
+                    $('#log li#'+file.id).find('span.progressvalue').text('');
+                    $('#log li#'+file.id).addClass('success').find('p.status').html('<i>上传失败</i>');//+pathtofile
+//                $('#log li#'+file.id).find('span.cancel').show();
+
+//                        if($('#log li#'+file.id).find('span.cancel').css('display') != 'none'){
+                    $('#log li#'+file.id).find('span.cancel').hide();
+                    $('#log li#'+file.id).find('span.file_cancel').show();
+                    $('li#'+file.id+' .file_cancel').unbind('click');
+                    $('li#'+file.id+' .file_cancel').bind('click', function(){
+                        var swfu = $.swfupload.getInstance('#swfupload-control');
+                        swfu.cancelUpload(file.id);
+                        closeImg(this,file.name,'image_src','fileNum',1);
+                    });
+//                        }
+                    if(len != 1){
+                        $('#fileNum').val(0);
+                    }else{
+                        len = 0;
+                    }
+                    isUploadfile = 0;
+                }else{
+                    if(parseInt($('#fileNum').val()) <= 1){
+                        $('#image_src').val(serverData.message);
+                    }
+                    var item=$('#log li#'+file.id);
+                    item.find('div.progressbar').css('display','none');
+                    item.find('span.progressvalue').text('');
+                    item.addClass('success').find('p.status').html('('+Math.round(file.size/1024)+' KB)<i>上传完成</i>');//+pathtofile
+                    if(item.find('span.file_cancel').css('display') == 'none'){
+                        item.find('span.cancel').hide();
+                        item.find('span.file_cancel').show();
+                        $('li#'+file.id+' .file_cancel').unbind('click');
+                        $('li#'+file.id+' .file_cancel').bind('click', function(){
+                            var swfu = $.swfupload.getInstance('#swfupload-control');
+                            swfu.cancelUpload(file.id);
+                            closeImg(this,file.name,'image_src','fileNum',0);
+                        });
+                    }
+
+                    //图片上传成功去除错误提示
+                    $(this).children('.help-inline').remove();
+                    $(this).parent().parent().removeClass('error');
+
+                    if(isUploadfile == 0){
+                        $('#submitForm').addClass('green');
+                        $('#submitForm').attr('onClick','');
+                        $('#form_synopsis_edit').attr('action',$("#jobaction").val());
+                    }
+                    isUploadfile = 0;
+                }
+            })
+            .bind('uploadComplete', function(event, file){
+                $(this).swfupload('startUpload');
+            });
+        });
+
+        //删除上传的附件图片
+        function closeImg(obj,src,image_src,num,type){
+            $(obj).parent().remove();
+            if(type != 1){
+                $('#'+num).val(0);
+            }
+            if(src){
+                var img_srcs = $('#'+image_src).val();
+
+                var imgsrcArray = img_srcs.split(",");
+                for(var i=0;i<imgsrcArray.length;i++){
+                    if(imgsrcArray[i] == src){
+                        imgsrcArray.splice(i,1);
+                        $('#'+image_src).val(imgsrcArray);
+                    }
+                }
+            }
+        }
+
+        function get_select_content(page){
+//			$("#select_btype").val($("#btype").val());
+            if(!page){
+                //当前分页
+                var cpage = parseInt($("#box_cpage").val())+1;
+            }else{
+                var cpage = page;
+            }
+            //关键词
+            var seek = $("#seek").val();
+            //分类
+            var btype = $("#btype").val();
+            if($('#eid').val() == ''){
+                $('#select_btype').val(btype);
+            }
+            //alert('cpage='+cpage+'   seek='+seek+'   btype='+btype);
+            $.post('<!--{$url_prefix}-->system/wx_imgreply/'+cpage+'/'+Math.random(), {'seek':seek,'btype':$('#select_btype').val()}, function(
+            data, textStatus) {
+                if (data.status == 1) {
+                    var shtml = '';
+                    $(data.data).each(function(){
+                        shtml += '<tr><td class="number"><input type="checkbox" name="selected_id[]" value="'+this.id+'" />&nbsp;</td><td>'+this.title+'</td></tr>';
+                    });
+
+                    $("#list_contents").html(shtml);
+                    $('input[name="cnt_selected[]"]').each(function(){
+                        $("#list_contents").find('input[name="selected_id[]"][value="'+$(this).val()+'"]').attr('checked','checked');
+                    });
+                    if(data.count > 0){
+                        $("#list_count").html(data.cpage+'/'+data.count);
+                    }
+                    if(data.page){
+                        $("#box_cpage").val(data.cpage);
+                        $("#fenye").html(data.page);
+                    }else{
+                        $("#fenye").html('');
+                    }
+                } else {
+                    //post_error(data.msg);
+                }
+            }, "json");
+        }
+
+       function get_select_content_kill(page){
+//			$("#select_btype").val($("#btype").val());
+            if(!page){
+                //当前分页
+                var cpage = parseInt($("#box_cpage_kill").val())+1;
+            }else{
+                var cpage = page;
+            }
+            //关键词
+            var seek = $("#seek_kill").val();
+            //分类
+            var btype = $("#btype").val();
+            if($('#eid').val() == ''){
+                $('#select_btype').val(btype);
+            }
+            //alert('cpage='+cpage+'   seek='+seek+'   btype='+btype);
+            $.post('<!--{$url_prefix}-->system/wx_imgreply_kill/'+cpage+'/'+Math.random(), {'seek':seek,'btype':$('#select_btype').val()}, function(
+            data, textStatus) {
+                if (data.status == 1) {
+                    var shtml = '';
+                    $(data.data).each(function(){
+                        shtml += '<tr><td class="number"><input type="checkbox" name="selected_id[]" value="'+this.id+'" />&nbsp;</td><td>'+this.title+'</td></tr>';
+                    });
+
+                    $("#list_contents_kill").html(shtml);
+                    $('input[name="cnt_selected[]"]').each(function(){
+                        $("#list_contents_kill").find('input[name="selected_id[]"][value="'+$(this).val()+'"]').attr('checked','checked');
+                    });
+                    if(data.count > 0){
+                        $("#list_count_kill").html(data.cpage+'/'+data.count);
+                    }
+                    if(data.page){
+                        $("#box_cpage_kill").val(data.cpage);
+                        $("#fenye_kill").html(data.page);
+                    }else{
+                        $("#fenye_kill").html('');
+                    }
+                } else {
+                    //post_error(data.msg);
+                }
+            }, "json");
+        }
+
+    </script>
+	<!-- END JAVASCRIPTS -->
+
+    <!--{include file="img_text_reply.html"}-->
+    <div id="pop_up" style="display:none"></div>
+</body>
+<!-- END BODY -->
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>积分商城详情</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/cikonss.css">
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" /><!-- 加入后变为响应式布局，去掉变为固定宽度布局 -->
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/mallcontent.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<!--[if lt IE 9]>
+  <script src="<!--{$url_prefix}-->js/html5.js"></script>
+<![endif]-->
+<body>
+<div class="main">
+<div class="container clearfix">
+<div class="mallpic">
+<img src="<!--{$commodity.path}-->"/>
+    <!--{if $last}--><p class="graphleft" onclick="javascript:window.location.href='<!--{$url}-->/home/mallcontent/<!--{$last}-->'"><i class="icon-angle-right">&lt;</i></p><!--{/if}-->
+    <!--{if $next}--><p class="graphright" onclick="javascript:window.location.href='<!--{$url}-->/home/mallcontent/<!--{$next}-->'"><i class="icon-angle-left">&gt;</i></p><!--{/if}-->
+</div>
+<div class="mallxx clearfix">
+<h4 style="word-wrap : break-word;word-break:break-all;"><!--{$commodity.name}--></h4>
+<div style="word-wrap : break-word;word-break:break-all;">积分：<em><!--{if $commodity.integral}--><!--{$commodity.integral}--><!--{else}-->0<!--{/if}--></em>
+&nbsp;&nbsp;&nbsp;&nbsp;数量：<em>
+    <!--{if $commodity.quantity > 0}-->充足<!--{else}-->缺货<!--{/if}-->
+    </em><i><div style="word-wrap : break-word;word-break:break-all; width: 100%;padding: 10px 0;"><!--{$commodity.descript}--></div></i></div>
+<p class="right">
+    <a href="#review" id="replys">
+        <span class="icon icon-small"><span class="icon-comment-text"></span></span>
+        <b id="review_btn">评论</b>
+    </a>
+</p>
+</div>
+    <!--{if $review}-->
+<div class="comment" id="comment">
+<span class="selected"></span>
+<ul>
+    <!--手机:$li.phone-->
+    <!--{foreach from=$review item=li}-->
+<li>
+<p><em class="left"><b><!--{urldecode($li.name)}--></b>说:</em><i class="right"><!--{substr($li.created,5,11)}--></i></p>
+<p><!--{$li.content}--></p>
+</li>
+    <!--{/foreach}-->
+</ul>
+</div>
+    <!--{/if}-->
+<!--弹出文本输入框-->
+    <input type="hidden" value="commodity" id="review_type">
+    <input type="hidden" value="<!--{$commodity.id_shop}-->" id="review_shop">
+    <input type="hidden" value="<!--{$commodity.id_business}-->" id="review_business">
+    <input type="hidden" value="<!--{$commodity.id_commodity}-->" id="review_id">
+
+<input type="hidden" value="<!--{$id_open}-->" id="id_open"/>
+<input type="hidden" name="can_review" id="can_review" value="<!--{$can_review}-->"/>
+<input type="hidden" name="nick_name" id="nick_name" value="<!--{$nick_name}-->"/>
+    <!--{include file="review.html"}-->
+
+</div>
+<footer>powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+</div>
+<script type="text/javascript">
+//    function show_review(){
+//        if($('#review').css('display') == 'none'){
+//            $('#review').show();
+//        }else{
+//            $('#review').hide();
+//        }
+//    }
+</script>
+
+</body>
+</html>

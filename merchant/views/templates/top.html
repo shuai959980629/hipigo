@@ -1,0 +1,43 @@
+<div class="header navbar navbar-inverse navbar-fixed-top">
+
+	<!-- BEGIN TOP NAVIGATION BAR -->
+
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a class="brand" href="<!--{$url_prefix}-->">
+			<!--{if !empty($data.user.logo)}-->
+			<img src="<!--{$data.user.logo|get_img_url:logo:0:logo}-->" alt="logo" />
+			<!--{else}-->
+			<img src="<!--{$url_prefix}-->media/image/logo.png" alt="logo" />
+			<!--{/if}-->
+			
+			</a>
+			<!--{if $data.user.biz_mod eq 1}-->
+			<ul class="nav pull-right">
+				<!-- BEGIN USER LOGIN DROPDOWN -->
+				
+				<li class="dropdown user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="username"><!--{$data.user.shop_name}--></span>
+                        <i class="icon-angle-down"></i>
+                    </a>
+					<!--{if $shop_list neq ''}-->
+					<ul class="dropdown-menu">
+						<!--{foreach from=$shop_list item=st}-->
+							<!--{if $st.id_shop neq $data.user.id_shop}-->
+							<li><a href="<!--{$url_prefix}--><!--{$caction}-->/change_shop/<!--{$st.id_shop}-->"><!--{$st.name}--></a></li>
+							<!--{/if}-->
+						<!--{/foreach}-->
+					</ul>
+					<!--{/if}-->
+					</li>
+
+				<!-- END USER LOGIN DROPDOWN -->
+			</ul>
+			<!--{/if}-->
+			<!-- END TOP NAVIGATION MENU -->
+		</div>
+	</div>
+	<!-- END TOP NAVIGATION BAR -->
+
+</div>

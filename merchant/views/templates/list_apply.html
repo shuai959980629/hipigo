@@ -1,0 +1,113 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- 左边开始 -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- 左边结束 -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- 右边开始-->
+			<div class="container-fluid" >
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+                   
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--商品列表开始-->
+                            <div class="catalogue">
+                            <table width="100%">
+                                <tbody>
+                                    <tr class="big_title">
+                                        <td class="title">订单ID</td>
+                                        <td class="title">金额</td>
+                                        <td>状态</td>
+                                    </tr>
+                                <!--{if $finance_list}-->
+                                    <!--{foreach from = $finance_list item = fl key = k}-->
+                                    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                                        <td class="id_title"><!--{$fl.id_source_type}--></td>
+                                        <td class="title"><!--{$fl.amount}--></td>
+                                        <td><!--{if $fl.state == 1}-->有效<!--{else}-->无效<!--{/if}--></td>
+                                    </tr>
+                                    <!--{/foreach}-->
+                                <!--{else}-->
+                                <tr>
+                                    <td colspan="8">
+                                        还没有结算信息！
+                                    </td>
+                                </tr>
+                                <!--{/if}-->
+                                </tbody>
+                            </table>
+                        <!--分页 start-->
+                            <!--{if $page_html}-->
+                            <div class="pagination">
+                                <ul>
+                                    <!--{$page_html}-->
+                                </ul>
+                            </div>
+                            <!--{/if}-->
+                        <!--分页 ene-->
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+				    </div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+		jQuery(document).ready(function() {
+		   App.init();
+		   UITree.init();
+		});
+
+        //物品列表分页
+        function commodity_list_page(offset){
+            var search_key = $('#seek').val();
+            $.post('<!--{$url_prefix}-->item/list_item', {
+                'id_class': $('#commodity_type').val(),
+                'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                'offset':offset
+            }, function(data){
+                $('.catalogue').html(data);
+            }, 'text');
+        }
+
+	</script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

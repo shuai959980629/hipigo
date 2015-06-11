@@ -1,0 +1,79 @@
+/* ------------------------------------------
+  DEMO PAGE'S STYLES
+--------------------------------------------- */
+
+body, div,
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre, dl, dt, dd, ol, ul, li, hr,
+fieldset, form, label, legend, th, td,
+article, aside, figure, footer, header, hgroup, menu, nav, section,
+summary, hgroup ,b,em,i{
+  margin: 0; padding: 0;border: 0; font-weight: 100; font-style: normal;
+}
+body,html {
+	margin: 0;padding: 0;height:100%;
+}
+body {
+  background: url(../img/bg.png) no-repeat #f4f4f4;color: #333;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;text-size-adjust: 100%;
+  font: normal 100%/1.4 Microsoft Yahei,verdana;
+}
+input,textarea,button{
+	-webkit-transition:border linear .2s,box-shadow linear .2s;-moz-transition: border linear .2s,box-shadow linear .2s;
+	-o-transition: border linear .2s,box-shadow linear .2s;transition: border linear .2s,box-shadow linear .2s;font: normal 100%/1.4 Microsoft Yahei,verdana; outline: none;
+}
+h3{
+	font-size: 18px;
+}
+::selection{
+	background:#b9bdaf; color:#fff;
+}
+a{
+	color: #fff; text-decoration: none;
+}
+a:active,a:hover{
+	outline: 0;text-decoration: underline;
+}
+.main {
+	position: relative;min-height:100%;_height:100%;
+}
+.content{
+	padding-bottom: 30px;
+}
+.clearfix {
+  *zoom: 1;
+}
+
+.clearfix:before,.clearfix:after {
+  display: table;line-height: 0;content: "";
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+nav{
+	background: rgba(255,255,255,0.15);height: 68px;
+}
+.container{
+	width: 1000px; margin: 0 auto;
+}
+.left{float: left;}
+.right{float: right;}
+.logo{
+	width: 163px; height: 68px;
+}
+.navbar{
+	font-size: 18px;line-height: 3.8;
+}
+.navbar a{
+	background: url(../img/dotted.png) right center no-repeat;padding: 0 30px;
+}
+.navbar a:last-child{
+	background: none;
+}
+footer{
+	background: #222;width: 100%; color: #999; line-height: 2; text-align: center; font-size: 14px; padding: 15px 0;
+}
+.marbot100{
+	margin-bottom: 135px;
+}

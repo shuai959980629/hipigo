@@ -1,0 +1,83 @@
+/* ------------------------------------------
+  DEMO PAGE'S STYLES
+--------------------------------------------- */
+body{
+	background: #ebebeb;
+}
+.no-gift{
+	width: 75%; margin: 0 auto; padding: 10% 0 3%; text-align: center;
+}
+.no-gift>p{
+	font-size: large; color: #666; text-align: center; margin-top: 10%;
+}
+
+
+/*gifts*/
+.welcome{
+	width: 95%; margin: 0 auto;font-size: large; line-height: 2;
+}
+.welcome em{
+	font-style:normal;color:#05a370;font-size: larger;
+}
+.gifts-ul{
+	width: 95%; margin: 0 auto; padding: 0; color: #fff;
+}
+.gifts-ul li{
+	background: #e7bd57; width: 87%; border-radius: 6px; position: relative; padding: 10px 20px; margin-top: 15px; list-style: none;
+}
+.gifts-ul li .before{
+	background: #ebebeb; width: 16px; height: 16px; border-radius: 20px; position:absolute;content: ""; left: -0.8%; top: 30%;
+}
+.gifts-ul li .after{
+	background: #ebebeb; width: 16px; height: 16px; border-radius: 20px; position:absolute;content: ""; right: -0.8%; top: 30%;
+}
+
+.gifts-ul li .gift-pic,.gifts-ul li .title{
+	display: block; float: left;
+}
+.gifts-ul li .gift-pic,.gifts-ul li .gift-pic img{
+	width: 50px;height: 50px; border-radius:30px;-moz-border-radius:30px;-webkit-border-radius:30px;-o-border-radius:30px;
+}
+.gifts-ul li .gift-pic{
+	padding-right: 10px;
+}
+.gifts-ul>li>.cdkey{
+	font-size: medium; padding: 20px 0; margin: 0;
+}
+.gifts-ul>li>.cdkey>em{
+	font-size: 1.5em;
+}
+.gifts-ul>li>.issue-date>.will{
+	color: #189e31;
+}
+.gifts-ul>li>.issue-date>.abate{
+	color: #000;
+}
+.gifts-ul>li>.issue-date>.used{
+	color: #f00;
+}
+/*V1.2*/
+.gifts-ul li{
+	position: relative; cursor: pointer;
+}
+.gifts-ul li h1{
+	width: 100%;font-size: large; font-weight: 300; margin: 0;border-bottom: 1px dashed #c79316; padding-bottom: 6px; overflow: hidden;height: 50px; line-height: 50px;
+}
+.gifts-ul li .title{
+	line-height: 1.5;
+}
+.date{
+	font-size: small; line-height: 2;
+}
+.gifts-ul>li>.issue-date{
+	font-size: medium; margin: 0;
+}
+.site em{
+	font-size: large;
+}
+.status a{
+	color: #189e31;
+}
+.spread{
+	background: url(../img/spread.png) 0 0 no-repeat;width: 30px;height: 30px; position: absolute; right:0; top:0;
+}

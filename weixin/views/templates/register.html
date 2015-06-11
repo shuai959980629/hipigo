@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>嗨皮Go-注册-社区会员</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/login.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/hipigouser.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<div class="main">
+    <div class="container">
+        <!--login-->
+        <a href="javascript:history.go(-1);" class="return left"><i class="iconfont icon iconfont_10">&#983354</i></a>
+    	<input id="user" placeholder="请输入账号" class="login_input"/>
+        <input id="pwd"  type="password"   placeholder="请输入你的密码" class="login_input"/>
+        <input id="chPWD" type="password"  placeholder="请再一次输入密码" class="login_input"/>
+        <p class="xt-code clearfix">
+        	<input id="v_code" placeholder="请输入验证码" class="left"/>
+            <span class="left"><em>
+                <img id="imgcode" onclick="RefreshImage()" title="点击更换验证码" style="cursor: pointer;" src="/wapi/<!--{$bid}-->/<!--{$sid}-->/user/v_code"/>
+            </em><a href="javascript:RefreshImage();">换一张</a></span>
+        </p>
+        <button class="refer " id="register">注册</button>
+        <button id="regING" class="refer01" style="display:none;"><em class="loadings"></em>注册中</button>
+    </div>
+    <!--footer-->
+    <footer><!--powered by a href="http://www.it008.com" target="_blank">赏金猎人</a--></footer>
+</div>
+<!--弹窗S-->
+<div class="modalv_opu hidden" onclick="hidePop()" id="pop">
+<i class="icon-remove"></i><span id="tip"></span>
+</div>
+<!--弹窗E-->
+<script>
+var auth = {"user":false,"pwd":false,"PWD":false,"code":false};
+$(document).ready(function(){
+    $("#user").blur(function(){
+        var user = $(this).val();
+        if(user.length==0){
+            $(this).attr('class','error');
+            $("#register").attr('class','refer');
+            auth.user = false;
+        }else if(rule.phonereg.test(user)){
+            showPop("该帐号已被注册！");
+            $(this).attr('class','error');
+            $("#register").attr('class','refer');
+            auth.user = false;
+        }else if(!rule.userreg.test(user)){
+            showPop("请输入正确的账号！");
+            $(this).attr('class','error');
+            $("#register").attr('class','refer');
+            auth.user = false;
+   
+        }else{
+            $(this).attr('class','login_input');
+            $("#register").attr('class','refer01');
+            auth.user = true;
+            //$(".login_input").removeAttr('readonly');
+        }
+   })
+    
+    $("#user").focus(function(){
+        $(this).attr('class','login_input');
+        $("#register").attr('class','refer');
+        //$(".login_input").removeAttr('readonly');
+    })
+    
+    $("#pwd").blur(function(){
+        var pwd = $(this).val();
+        if(pwd.length==0){
+            $(this).attr('class','error');
+            $("#register").attr('class','refer');
+            auth.pwd =  false;
+        }else if(!rule.pwdreg.test(pwd)||pwd.length>18 || pwd.length<6){
+            showPop("请输入6-18位数字加字母！");
+            $("#register").attr('class','refer');
+            $(this).attr('class','error');
+            auth.pwd =  false;
+        }else{
+            $(this).attr('class','login_input');
+            $("#register").attr('class','refer01');
+            auth.pwd =  true;
+            //$(".login_input").removeAttr('readonly');
+        }
+    })
+    
+    $("#pwd").focus(function(){
+        $(this).attr('class','login_input');
+        $("#register").attr('class','refer');
+        //$(".login_input").removeAttr('readonly');
+    })
+    
+    
+    
+    $("#chPWD").blur(function(){
+        var chPWD = $(this).val();
+        var pwd = $("#pwd").val();
+        if(chPWD.length==0){
+            $(this).attr('class','error');
+            $("#register").attr('class','refer');
+            auth.PWD =  false;
+        }else if(pwd!=chPWD)
+        {
+            showPop("两次密码不匹配！");
+            $(this).attr('class','error');
+            $("#register").attr('class','refer');
+            auth.PWD =  false;
+        }else{
+            $(this).attr('class','login_input');
+            $("#register").attr('class','refer01');
+            auth.PWD =  true;
+            //$(".login_input").removeAttr('readonly');
+        }
+    })
+    
+    $("#chPWD").focus(function(){
+        $(this).attr('class','login_input');
+        $("#register").attr('class','refer');
+        //$(".login_input").removeAttr('readonly');
+    })
+    
+    $("#v_code").blur(function(){
+        var code = $(this).val();
+        if(code.length==0){
+            $(this).css("border-bottom","2px solid #f00");
+            $("#register").attr('class','refer');
+            auth.code = false;
+        }else{
+            $(this).css("border-bottom","2px solid #e2e2e2");
+            $("#register").attr('class','refer01');
+            auth.code = true;
+            //$(this).removeAttr('readonly');
+        }
+    })
+    
+    
+    $("#v_code").focus(function(){
+        $("#register").attr('class','refer');
+        $(this).css("border-bottom","2px solid #50c328");
+        //$(this).removeAttr('readonly');
+    })
+    
+    
+    //注册
+    $("#register").click(function(){
+        var user = $("#user").val();
+        var pwd = $("#pwd").val();
+        var code = $("#v_code").val();
+        var chPWD = $("#chPWD").val();
+        /*
+        if(user.length==0){
+            $("#user").attr('class','error');
+            return false;
+        }
+        if(pwd.length==0){
+            $("#pwd").attr('class','error');
+            return false;
+        }
+        if(chPWD.length==0){
+            $("#chPWD").attr('class','error');
+            return false;
+        }
+        if(code.length==0){
+            $(this).css("border-bottom","2px solid #f00");
+            return false;
+        }
+        */
+        if(auth.user == false||auth.pwd == false||auth.PWD == false||auth.code == false){
+            $("#register").attr('class','refer');
+            if(!auth.user){
+                showPop("请输入正确的帐号！");
+                $("#user").attr('class','error');
+                return false;
+            }
+            if(!auth.pwd){
+                showPop("请输入6-18位数字加字母密码！");
+                $("#pwd").attr('class','error');
+                return false;
+            }
+            if(!auth.PWD){
+                if(chPWD.length==0){
+                    showPop("请输入6-18位数字加字母密码！");
+                }else{
+                    showPop("两次密码不匹配！");
+                }
+                $("#chPWD").attr('class','error');
+                return false;
+            }
+            if(!auth.code){
+                showPop("请输入验证码！");
+                $("#v_code").css("border-bottom","2px solid #f00");
+                return false;
+            }
+            return false;
+        }
+        $("#register").attr('class','refer01');
+        $("#register").hide();
+        $("#regING").show();
+        $.ajax({    
+            url:'/wapi/<!--{$bid}-->/<!--{$sid}-->/user/register',
+            data:'user='+user+'&pwd='+pwd+'&chPWD='+chPWD+"&code="+code+"&t=reg",
+            async: true,
+            dataType: 'json',
+            type:'post',
+            success:function(data){
+                if(data.status){
+                    window.location.href="/wapi/<!--{$bid}-->/<!--{$sid}-->/community/home"
+                }else{
+                    $("#register").show();
+                    $("#regING").hide();
+                    $("#register").attr('class','refer');
+                    showPop(data.msg);
+                }
+           }
+        })
+        
+        
+        
+    })
+    
+    
+})
+/*更新验证码*/
+function RefreshImage()
+{
+  document.getElementById("imgcode").src ='/wapi/<!--{$bid}-->/<!--{$sid}-->/user/v_code?'+Math.random(1);
+}
+
+
+</script>
+
+
+
+</body>
+</html>

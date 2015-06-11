@@ -1,0 +1,23 @@
+<div class="title">详情<a id="close" onclick="closeTips();">关闭</a></div>
+<input type="hidden" name="id_activity" id="id_activity" value="" />
+<input type="hidden" name="delete_id_spread" id="delete_id_spread" value=""/>
+<div class="content" style="padding-top: 15px;">
+<div style="width:100%;height:30px;margin-bottom:10px;">
+<b class="fl" style="color: #000;">资源名称：</b>
+<span class="label-detail-pop"><!--{$resource.resource_title}--></span>
+</div><div class="label-detail-num clearfix">
+<b class="fl"  style="color: #000; margin-right: 80px;">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量：
+<em><!--{if $resource.num >= 0}--><!--{$resource.num}--><!--{else}-->不限制<!--{/if}--></em></b>
+<b class="fl"  style="color: #000;">价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：
+<em>
+<!--{if $resource.price == '0.00'}-->免费
+<!--{else}-->￥<!--{$resource.price}-->
+<!--{/if}-->
+</em></b></div><div>
+<b class="fl"  style="color: #000; margin-top:5px;">使用说明：</b>
+<div class="use-direction fl"><!--{$resource.desc}-->
+    <!--&lt;!&ndash;{foreach from = $resource_att item=ra}&ndash;&gt;-->
+    <!--<img src="&lt;!&ndash;{$ra.image_url|get_img_url:resource}&ndash;&gt;">-->
+    <!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+</div>
+</div></div>

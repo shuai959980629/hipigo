@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>会员卡</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" /><!-- 加入后变为响应式布局，去掉变为固定宽度布局 -->
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/member.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<style>
+.membox{
+    display:none;
+}
+</style>
+<body>
+<div class="main">
+<div class="container clearfix">
+
+<!-- 代码 开始 -->
+<!--{if $openid}-->
+    <!-- 代码 开始 -->
+    <p class="vip"><img src="<!--{$url_prefix}-->img/<!--{$img_url}-->"/></p>
+    <p class="replay-vip">
+    <input class="inreplay-vip" value="领取您的会员卡" type="button" id="inreplay-vip" />
+    </p>
+<!--{else}-->
+    <div class="showvip">
+        <img src="<!--{$url_prefix}-->img/<!--{$img_url}-->"/>
+        <!--{if $bid != 1009}-->
+        <p class="xinxi">姓名：<em><!--{$card.real_name}--></em><br>
+        手机号码：<em><!--{$card.cell_phone}--></em><br>
+        性别：<em><!--{if $card.sex eq 1}-->男<!--{else}-->女<!--{/if}--></em><br>
+        生日：<em><!--{$card.birthday_month}-->-<!--{$card.birthday_day}--></em>
+        <!--{else}-->
+        <p class="xinxi" style="margin-top: 120px;"> 姓名：<em><!--{$card.real_name}--></em><br>
+        <!--{/if}-->
+        </p>
+        <p class="membernum">NO.<!--{$card.number|sprint_member_card}--></p>
+    </div>
+    <!--会员卡信息S-->
+<!--{/if}-->
+<ul class="round" style="display:block">
+<li id="memtq"><a href="#" class="power-colose">会员卡特权</a>
+	<div class="vdiv" style="display:none">
+        <!--{if $bid == 1000 }-->
+        <div class="replay-vipwz" style="margin:0 auto; padding:15px 0; color:#362013">
+            <h4>会员权益：</h4>
+            <p>1.在ATT各店计时包间执行9折。</p>
+            <p>2.超市会员价。</p>
+            <p>3.微信会员卡只用于打折不参与积分。</p>
+            <p>4.吸引力ATTKTV拥有最终解释权。</p>
+            <p style="color:#f00">备注：</p>
+            <p>1.注册微信会员，请务必填写真实信息，以便享受各类优惠。</p>
+            <p>2.更多优惠敬请关注吸引力ATTKTV官方微信。</p>
+        </div>
+        <!--{elseif $bid == 1012}-->
+        <p>1.注册会员，立即免费获赠精美拼盘一个。</p>
+        <p>2.每人只能获赠一次</p>
+        <!--{elseif $bid == 1009}-->
+        <p>特享时段：2014年10月15日~11月14日。</p>
+        <p>专属内容：</p>
+        <p>特享时段内，每周一至周四：零餐消费（酒水除外，）8折；周五至周日，餐饮消费（酒水除外）9折；每桌餐饮消费赠送价值28元莲子银耳羹一份；每天茶水5折。</p>
+        <p>*每桌消费仅可使用一位特权，不存在叠加效果</p>
+        <p>*零餐消费（不包含宴会、烧烤）</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;本次特权所有解释权归秀丽东方所有。</p>
+        <!--{elseif $bid == 1381}-->
+        <div class="replay-vipwz" style="margin:0 auto; padding:15px 0; color:#362013">
+            <h4>世徳国际会员享有以下优惠以及服务:</h4>
+            <p>1.享受3年或6万公里（以先到者为准）的免费质量担保（详见《保修服务手册》）</p>
+            <p>2.享受我公司维修保养费用（材料费和工时费）整单8折优惠。</p>
+            <p>3.钣金油漆，装饰和改装9折优惠。</p>
+            <p>4.我公司提供成都市区绕城高速内24小时免费道路救援和上门接送车服务。</p>
+            <p>5.四川省内交通事故，免费派专业人员到现场协助处理和保险理赔。</p>
+            <p>6.机场接机服务，机场到成都市区3环以内。</p>
+            <p>7.免费享受相关车型的最新资讯和新功能培训介绍。</p>
+            <p>8.会员享受世徳国际名车免费洗车美容服务（凭公司赠送工时卷）。</p>
+        </div>
+        <!--{/if}-->
+	</div>
+</li>
+</ul>
+<ul class="round" style="display:block">
+<li><a href="<!--{$map}-->" class="place">地址：<!--{$shop.address}--></a></li>
+<li><a href="tel:<!--{$shop.contact.1}-->" class="phone">电话：<!--{$shop.contact.1}--></a></li>
+</ul>
+<!--会员卡信息E-->
+
+</div>
+    <!--弹窗S-->
+<div class="modal membox">
+    <div class="modal-header"><span class="title left">领卡信息</span><span class="right"><a href="#" class="closepop"></a></span></div>
+    <div class="yuia-msgwindow-body">
+        <form name="form1" method="post" action="<!--{$url}-->/home/member_card" id="member_card">
+            <!--{if $receive_mode == 2}-->
+            <input type="text" value="输入您的电话号码" name="tell" id="tell">
+            <!--{else}-->
+        <input type="text" value="输入您的姓名" name="username" id="username" />
+        <p style="clear:both;display:block;height:30px">
+        <label>
+        <input type="radio" name="gender" value="2" class="shuru">女</label>
+        <label>
+        <input type="radio" name="gender" value="1" class="shuru" checked="checked">男</label></p>
+        <select name="month" id="month" style="outline: none;" onchange="chooseDate(false);">
+            <option value="0">出生月</option>
+            <option value="1">1月</option>
+            <option value="2">2月</option>
+            <option value="3">3月</option>
+            <option value="4">4月</option>
+            <option value="5">5月</option>
+            <option value="6">6月</option>
+            <option value="7">7月</option>
+            <option value="8">8月</option>
+            <option value="9">9月</option>
+            <option value="10">10月</option>
+            <option value="11">11月</option>
+            <option value="12">12月</option>
+            </select>
+        <select name="days" id="days" style="margin-right:0;outline: none;" onchange="chooseDate(false);">
+            <option value="0">出生日</option>
+            </select>
+            <input type="text" value="输入您的电话号码" name="tell" id="tell">
+            <!--{/if}-->
+        <div class="sure" id="submit_info">确定</div>
+        <input type="hidden" name="openid" value="<!--{$openid}-->" />
+        <input type="hidden" name="receive_mode" value="<!--{$receive_mode}-->" />
+        </form>
+    </div>
+
+    </div>
+    <div class="webgame_msgWindow_mask membox">
+    </div>
+    <!--弹窗E-->
+
+<footer>powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+</div>
+<!-- 代码 结束 -->
+<script>
+$("#memtq").click(function(){
+	if($(this).find('div').css('display') == 'block'){
+		$(this).find('div').hide();
+		$(this).find('a').removeClass('power-open').addClass('power-close');
+	}else{
+		$(this).find('div').show();
+		$(this).find('a').removeClass('power-close').addClass('power-open');
+	}
+});
+
+$(document).ready(function(){
+
+    $("#inreplay-vip").click(function(){
+        $(".membox").show();
+    });
+
+    $(".closepop").click(function(){
+        $(".membox").hide();
+    });
+
+    $('input[type=text]').focus(function(){
+        $(this).val('');
+    });
+
+    $("#username").blur(function(){
+        if(!$(this).val()){
+            $(this).val('输入您的姓名');
+        }
+    });
+
+    $("#tell").blur(function(){
+        if(!$(this).val()){
+            $(this).val('输入您的手机号码');
+        }
+    });
+
+    $("#month").change(function(){
+        var mth = $(this).val();
+        if(mth > 0){
+            $("#days").empty();
+            var optn = '';
+            if(mth == 2){
+                optn = create_opentis(29);
+            }else if(mth == 1 || mth == 3 || mth == 5 || mth == 7 || mth == 8 || mth == 10 || mth == 12){
+                optn = create_opentis(31);
+            }else{
+                optn = create_opentis(30);
+            }
+            if(mth){
+                $("#days").append(optn);
+            }
+        }else{
+            $("#days").empty();
+            $("#days").append('<option value="0">出生日</option>');
+        }
+    });
+
+    function create_opentis(length){
+        var optn = '';
+        for(var i=1 ;i <= length; i++){
+            optn += '<option value="'+i+'">'+i+'日</option>';
+        }
+        return optn;
+    }
+
+    $("#submit_info").click(function(){
+        if('<!--{$receive_mode}-->' == '1'){
+            if($("#username").val() == '输入您的姓名' || $("#username").val().length <  2 || $("#username").val().length > 6){
+                alert('请输入正确的姓名，长度为2到6个字符');
+                $("#username").focus();
+                return false;
+            }
+            if($("#month").val() == 0){
+                alert('请选择出生月份');
+                return false;
+            }
+            if($("#days").val() == 0){
+                alert('请选择出生日期');
+                return false;
+            }
+        }
+        var preg = /^1[3|5|8|4]\d{9}$/;
+        if($("#tell").val() == '输入您的手机号码' || !preg.test($("#tell").val())){
+            alert('请输入正确的手机号码');
+            $("#tell").focus();
+            return false;
+        }
+        post_ajax('member_card');
+    });
+
+
+    var flag = 0;
+    function post_ajax(from) {
+        if(flag == 0){
+            flag = 1;
+            $.post($("#" + from).attr('action'), $("#" + from).serialize(), function(data) {
+                if(data.status == 1){
+                    alert('会员卡领取成功. \n'+data.msg1+'\n'+data.msg);
+                    window.location.href = '<!--{$url}-->/home/member_show/'+data.data;
+                }else if(data.status == 0 && data.data && '<!--{$receive_mode}-->' == '1'){
+                    alert(data.msg);
+                    window.location.href = '<!--{$url}-->/home/member_show/'+data.data;
+                }else if(data.status == 0){
+                    alert(data.msg);
+                    flag = 0;
+                }else{
+                    alert(data.msg);
+                    flag = 0;
+                }
+            }, "json");
+        }else{
+            alert('资料已提交，请勿反复提交');
+        }
+    }
+
+});
+
+</script>
+</body>
+</html>

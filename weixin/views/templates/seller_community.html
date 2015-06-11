@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>活动,社区,商户自己的社区平台</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="css/font-awesome.css" />
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/index.css" />
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/swipe.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<div class="main">
+<!--banner-->
+<div class="container">
+<!--top商家部分-->
+<div class="top_seller clearfix">
+<p class="seller_message left">
+<span><b><img src="img/attktv.png"/></b><a href="#" class="hidden">关注</a></span>
+<span class="hidden"><em>关注3260</em><em>活动150</em><em>排名2</em><em><i>↑</i>5</em></span>
+</p>
+<p class="other_message right"><a href="#"><span class="left">精<br>彩</span><i class="icon-angle-right icon-large left"></i></a></p>
+</div>
+<!--幻灯片管理-->
+<div id="banner_box" class="box_swipe01">
+<ul>
+<li><a onclick="return false;"><img src="img/banner01.jpg" alt=""></a></li>
+<li><a onclick="return false;"><img src="img/banner02.jpg" alt=""></a></li>
+<li><a onclick="return false;"><img src="img/banner03.jpg" alt=""></a></li>
+<li><a onclick="return false;"><img src="img/banner04.jpg" alt=""></a></li>
+<li><a onclick="return false;"><img src="img/banner05.jpg" alt=""></a></li>
+</ul>
+<ol>
+<li class="on"></li>
+<li class=""></li>
+<li class=""></li>
+<li class=""></li>
+<li class=""></li>
+</ol>
+</div>
+<script>
+$(function(){
+new Swipe(document.getElementById('banner_box'), {
+speed:500,
+auto:3000,
+callback: function(){
+var lis = $(this.element).next("ol").children();
+lis.removeClass("on").eq(this.index).addClass("on");
+}
+});
+});
+</script>
+<!--活动列表-->
+<div class="seller_activity_list">
+<ul>
+<li class="white clearfix">
+<span class="activity_pic left"><img src="img/120x120.jpg"/></span>
+<span class="activity_mes left">
+<h3><a href="#">2014年陈奕迅LIFE演唱会，在成都展示</a></h3>
+<p><b class="cash left"><em>209</em>元</b><b class="operate right"><a href="#"><i class="icon-comment-alt"></i>100</a><a href="#"><i class="iconfont icon iconfont_10">&#983716 </i>50</a></b></p>
+</span>
+</li>
+<li class="clearfix">
+<span class="activity_pic left"><img src="img/120x120.jpg"/></span>
+<span class="activity_mes left">
+<h3><a href="#">2014年陈奕迅LIFE演唱会，在成都展示</a></h3>
+<p><b class="cash left"><em>209</em>元</b><b class="operate right"><a href="#"><i class="icon-comment-alt"></i>100</a><a href="#"><i class="iconfont icon iconfont_10">&#983716 </i>50</a></b></p>
+</span>
+</li>
+<li class="white clearfix">
+<span class="activity_pic left"><img src="img/120x120.jpg"/></span>
+<span class="activity_mes left">
+<h3><a href="#">2014年陈奕迅LIFE演唱会，在成都展示</a></h3>
+<p><b class="cash left"><em>209</em>元</b><b class="operate right"><a href="#"><i class="icon-comment-alt"></i>100</a><a href="#"><i class="iconfont icon iconfont_10">&#983716 </i>50</a></b></p>
+</span>
+</li>
+<li class="clearfix">
+<span class="activity_pic left"><img src="img/120x120.jpg"/></span>
+<span class="activity_mes left">
+<h3><a href="#">2014年陈奕迅LIFE演唱会，在成都展示</a></h3>
+<p><b class="cash left"><em>209</em>元</b><b class="operate right"><a href="#"><i class="icon-comment-alt"></i>100</a><a href="#"><i class="iconfont icon iconfont_10">&#983716 </i>50</a></b></p>
+</span>
+</li>
+</ul>
+</div>
+<!--footer-->
+</div>
+</div>
+</body>
+</html>

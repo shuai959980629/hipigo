@@ -1,0 +1,258 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+<!-- 左边开始 -->
+<div class="page-sidebar nav-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!--{include file="menu.html"}-->
+    <!-- END SIDEBAR MENU -->
+</div>
+<!-- 左边结束 -->
+
+<!-- BEGIN PAGE -->
+<div class="page-content">
+    <!-- 右边开始-->
+    <div class="container-fluid" >
+        <!--右边标题导航开始-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <!--{include file="nav.html"}-->
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+
+            <!--右边标题导航结束-->
+<!--右边中介内容开始-->
+<div class="content" >
+<p class="fl"></p>
+<div class="portlet box grey">
+
+<!--标题-->
+<div class="portlet-title">
+<div class="caption"><i class="icon-reorder"></i>我的资源</div>
+</div>
+
+<!--表格内容-->
+<div class="search_resources">
+<input id="search" type="text" placeholder="输入后请按回车搜索" value="<!--{if $key}--><!--{$key}--><!--{/if}-->" />
+<!--{if $key}-->
+<span id="close" class="search-choice-close"></span>
+<!--{/if}-->
+
+<a class="hot-keyword" href="?search=KTV">KTV</a>
+<a class="hot-keyword" href="?search=吃喝">吃喝</a>
+<a class="hot-keyword" href="?search=唱歌">唱歌</a>
+<a class="hot-keyword" href="?search=超市">超市</a>
+<a class="hot-keyword" href="?search=洗浴">洗浴</a>
+
+</div>
+
+<!--中间内容开始-->
+<table cellpadding="0" cellspacing="0" class="resources-table">
+<tbody>
+<tr style="background: none repeat scroll 1px 1px #EAE9E9;">
+<td class="all"></td>
+<td>名称</td>
+<td>数量</td>
+<td>价格</td>
+<td>地址</td>
+<td>截止时间</td>
+<td>来源</td>
+<td>操作</td>
+</tr>
+<!--{foreach from = $resources item = value key = k}-->
+<tr <!--{if $k % 2 != 0}-->class="gray"<!--{/if}--> >
+<td><input type="checkbox" name="sel[]" value="<!--{$value.id_resource}-->" <!--{if $value.deleted == 0}-->disabled="false"<!--{/if}-->/></td>
+<td><a href="javascript: void(0);" class="resources-link"><!--{$value.resource_title}--></a></td>
+<td><!--{if $value.num >= 0}--><!--{$value.num}--><!--{else}-->不限制<!--{/if}--></td>
+<td><!--{if $value.price == '0.00'}-->免费<!--{else}-->￥<!--{$value.price}--><!--{/if}--></td>
+<td><!--{$value.addr}--></td>
+<td><!--{if $value.deadline}-->
+<!--{date('Y-m-d', substr($value.deadline, 0, 10))}-->
+<!--{else}-->长期有效<!--{/if}--></td>
+<td>
+<!--{if $value.source == 1 }-->
+活动
+<!--{elseif $value.source == 2 }-->
+电子券
+<!--{else}-->
+创建
+<!--{/if}--></td>
+<td>
+    <a class="label-detail" href="<!--{$url_prefix}-->resources/publish/<!--{$value.id_resource}-->" >编辑</a>
+<a class="label-detail" rel="<!--{$value.id_resource}-->" >详情</a>
+<a rel="<!--{$value.id_resource}-->" 
+<!--{if $value.deleted == 1}--> class="close-font"
+onclick="del(<!--{$value.id_resource}-->)"
+<!--{else}--> class="closed"<!--{/if}--> >关闭</a>
+</td>
+</tr>
+
+<!--{/foreach}-->
+</tbody>
+</table>
+
+<!--底部条数信息-->
+<div class="portlet-body fuelux">  
+<div class="content event_list clearfix">
+<div class="handle_paging clearfix">
+<div class="fl">
+<span class="all"><input type="checkbox" name="check_all" id="check_all" value="" onclick="chkSel();" />全选</span>
+<a class="btn green" href="javascript:void(0)" onclick="del('all')">批量关闭</a>
+</div>
+
+<!--{if $page_html}-->
+<div class="pagination fr">
+<ul>
+<!--{$page_html}-->
+</ul>
+</div>
+<!--{/if}-->
+</div>
+</div>
+<!--中间内容结束-->
+</div>
+</div>
+</div>
+
+<!--右边中介内容结束-->
+</div>
+<!-- 右边结束-->
+</div>
+<!-- END PAGE -->
+</div>
+
+<!--资源库详情弹窗-->
+<div id="prompt" style="width:800px;top:20%;display: none;"></div>
+<div id="pop_up" style="display: none;"></div>
+
+<!-- END CONTAINER -->
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL SCRIPTS -->
+
+<script>
+$(function () {
+    App.init();
+    UITree.init();
+
+    $("#check_all").click(function () {//全选
+        if($(this).attr('checked') != 'checked'){
+            $("input[name ^= 'sel']").attr("checked",false);
+        }else{
+            $("input[name ^= 'sel']").attr("checked",true);
+
+            $("input[name='sel[]']").each(function(i){
+                if($(this).attr('disabled') == 'disabled'){
+                    $(this).attr("checked",false);
+                }
+            });
+        }
+    });
+
+  $("#search").keypress(function(e) {
+    if(e.which == 13) { //执行搜索
+      $(this).blur();
+    }
+  }).blur(function () {
+    if($(this).val()) {
+      if(getUrlParam('search') !== $(this).val())
+        window.location.href = '?search=' + $(this).val();
+    }
+  });
+  
+  $('#close').click(function () {
+    window.location.href = '?';
+  });
+  
+  $('.label-detail').click(function () {
+    $.post('<!--{$url_prefix}-->resources/resource_info', {
+      'id': $(this).attr('rel'),
+    }, function(result) {
+      if(result !== 0 || result !== false) {
+        $('#prompt').html(result).show();
+        $("#pop_up").show();
+      }
+    });
+  });
+});
+
+var chkSel = function () {
+  if($("input[name='sel[]']").attr("checked")) {
+    $("input[name='sel[]']").removeAttr("checked");
+    $('.all').find(':checkbox').removeAttr("checked");
+  }
+  else {
+    $("input[name='sel[]']").attr("checked", true);
+    $('.all').find(':checkbox').attr("checked", true);
+  }
+}
+
+var del = function (param) {
+  if(param === 'all') { //多选
+    var sel = [];
+    $('input[name="sel[]"]:checked').each(function() {
+      sel.push($(this).val());
+    });
+    
+    if(sel != '')
+      postDel(sel);
+  }
+  else //单选
+    postDel(param);
+}
+
+var postDel = function (param) {
+  $.post('<!--{$url_prefix}-->resources/disable', {
+      'value': param
+    }, function (result) {
+      if(result == 1)
+        alert('关闭成功');
+    window.location.reload();
+    }, 'json');
+}
+
+var closeTips = function () {
+  $("#prompt").hide();
+  $("#pop_up").hide();
+}
+
+var resource_by_page = function(offset) {
+  if(getUrlParam('search') )
+    if( ! getUrlParam('offset'))
+      window.location.href = window.location.href + '&offset=' + offset;
+    else 
+      window.location.href = replaceParamVal('offset', offset);
+  else
+    window.location.href = '?offset=' + offset;
+}
+
+//获取URL参数
+var getUrlParam = function(name) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) 
+    return unescape(r[2]); 
+  return null;
+}
+
+//更换参数值
+var replaceParamVal = function (paramName, replaceWith) {
+  var oUrl = this.location.href.toString();
+  var re   = eval('/(' + paramName + '=)([^&]*)/gi');
+  var nUrl = oUrl.replace(re,paramName + '=' + replaceWith);
+  return nUrl;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!--{include file="header.html"}-->
+<section id="wallet_section" class="active">
+<!---->
+<article id="wallet_container" class="active" data-scroll="true" >
+<!---->
+<div class="personal_center">
+<p class="wallet">
+<span class="total_asset"><em><!--{$money}--></em>元 (总资产)</span>
+<a href="javascript:history.go(-1);" class="go_back" data-target="back"><i class="iconfont icon iconfont_10">&#983698;</i></a>
+</p>
+<p class="avail relative">可提金额：<em class="red"><i id="money_balance"><!--{$money_balance}--></i>元</em>
+<button id="butedit" class="but edit">提现</button>
+<a class="right" id="hint_i" href="#"><i class="iconfont icon iconfont_13">&#58915;</i></a>
+<!--点击右边帮助弹出的提示-->
+<span class="hint" style="display:none">只有被验证的订单才可列为收入被提现</span>
+</p>
+
+<ul class="personal_homepage_activity clearfix">
+
+<!--{foreach from=$result item=st  key=key}-->
+<li>
+<!--{if $time_day != $st.time_day}-->
+<span class="left time">
+<b><!--{$st.time_day}--></b><!--{$st.time_month}-->月</span>
+<!--{/if}-->
+<span class="user_activity_mes right">
+<h4>
+<!--{if $st.outlay}-->
+我：提现<!--{$st.outlay}-->元
+<!--{else}-->
+<a href="<!--{$url}-->/user_activity/index?userid=<!--{$st.user.id_user}-->">
+<!--{urldecode($st.user.nick_name)|default:$st.user.account_name}--></a>
+&nbsp;&nbsp;&nbsp;&nbsp;购买&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/wapi/<!--{$st.community.id_business}-->/0/community/detail?aid=<!--{$st.communityid_activity}-->"><!--{$st.community.name}--></a>
+&nbsp;&nbsp;&nbsp;&nbsp;收入<!--{$st.money}-->
+
+<!--{/if}-->
+</h4>
+</span>
+</li>
+<!--{$time_day = $st.time_day}-->
+<!--{/foreach}-->
+
+</ul>
+
+<!--{if $resultcount > 9}-->
+<a class="more left" id="morelook" href="#"><b>查看更多</b></a>
+<!--{/if}-->
+
+</div>
+</article>
+</section>
+
+<!--{include file="footer.html"}-->

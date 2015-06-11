@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>嗨皮Go-<!--{$title}--></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/community-detail.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reply_list.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/iscroll.js"></script>
+<script src="<!--{$url_prefix}-->js/reply.js"></script>
+
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+userid='<!--{$userid}-->';
+aid='<!--{$aid}-->';
+oid=1;
+sk_id='<!--{$sk.id_review}-->';
+base_url = '<!--{$url}-->';
+identity='<!--{$identity}-->';
+var surplus = '<!--{$data.surplus}-->';
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+#tip   {position:absolute;color:#333;display:none;}
+#tip .t_box   {position:relative;}
+</style>
+<script type='text/javascript'>
+$(document).ready(function() {
+
+//底部赞
+$('#goods1').live('click',function(){
+		
+	$('#goods1').empty();
+	var total = $('#goods1').attr('data-good');
+	total = parseInt(total)+parseInt(1);
+	$('#goods1').attr('data-good',total);
+	$('#goods1').append('<i class="iconfont icon iconfont_638">&#58884</i>已赞'+total);
+	$('#goods1').attr("id","good_yes");
+	$.ajax({    
+            url:base_url+'/community/good',
+            data:'userid='+userid+'&aid='+aid,
+            async: true,
+            dataType: 'json',
+            type:'get',
+            success:function(data){
+           }
+        })	
+});
+
+
+	
+//取消赞
+$('#good_yes').live('click',function(){
+	
+	var total = $('#good_yes').attr('data-good');
+    if(total>0){
+        total = total-1;
+    }else{
+        total = 0;
+    }
+	$('#good_yes').attr('data-good',total);
+	$('#good_yes').attr("id","goods1");
+	$('.payment').html('<i class="icon-thumbs-up"></i>赞'+total);
+	$.ajax({    
+            url:base_url+'/community/good_del',
+            data:'userid='+userid+'&aid='+aid,
+            async: true,
+            dataType: 'json',
+            type:'get',
+            success:function(data){
+           }
+        })	
+});	
+
+//参加活动
+$('#att_activity').live('click',function(){
+    if(surplus == 0){//当活动total（活动数量）为0时surplus为-1
+        $('#modalv2').empty();
+        $('#modalv2').append('<dl><dd>活动人数已满！</dd></dl>');
+        $('#modalv2').fadeIn();
+        setTimeout(function(){
+            $('#modalv2').fadeOut();
+        },3000);
+        return false;
+    }
+if(userid != undefined && userid !='' && identity !='visitor'){
+  $('.import_phone').remove();
+  $('.caozuo_btn').empty();	
+  $('.caozuo_btn').append('<button id="att_activity1" class="make_sure left">确定</button><button id="come_back" class="make_sure right">取消</button>');
+}else{
+att_activity();
+}
+$('#modalv1').fadeIn();
+$('#show_back_top').addClass('webgame_msgWindow_mask');
+})
+
+//取消
+$('#come_back').live('click',function(){
+$('#modalv1').fadeOut();
+$('#show_back_top').removeClass('webgame_msgWindow_mask');
+})
+
+$('#att_activity1').live('click',function(){
+	 var phone = $('#phone').val();
+	 var ac_num = $('#ac_num').val();
+	 $('#modalv1').fadeOut();
+     	
+     	$.ajax({    
+            url:base_url+'/community/att_activity',
+            data:'userid='+userid+'&aid='+aid+'&phone='+phone+'&ac_num='+ac_num,
+            async: true,
+            dataType: 'json',
+            type:'get',
+            beforeSend:function(){
+            	$('#modalv2').fadeIn();
+            },
+            complete:function(){
+            	$('#modalv2').fadeOut();
+            	$('#show_back_top').removeClass('webgame_msgWindow_mask');
+            },
+            success:function(data){
+             $('#modalv1').fadeOut();
+             if(data.status == 1)
+             {
+             $('#modalv2').empty();
+             $('#modalv2').append('<dl><dd>参加成功</dd></dl>');
+             $('#modalv2').fadeIn();
+             setTimeout(function(){
+             $('#modalv2').fadeOut();	
+             },2000);	
+             //刷新当前页码状态
+             $('#att_activity').remove();
+             $('#header').append('<a href="javascript:;"  class="join right">已参加</a>');
+             $('.footerbtn').html('已参加');
+             $('.footerbtn').attr('id','att_s');
+             $('#att_activity').removeClass('att_activity');
+             var num = $('#join_count').attr('data-join_count');
+             total = parseInt(num)+parseInt(1);
+             $('#join_count').html(total+'人');
+             }else if(data.status==0){
+             window.location.href=data.url;
+             }else if(data.status==4){
+             $('#modalv2').empty();
+             $('#modalv2').append('<dl><dd>请登录</dd></dl>');
+             $('#modalv2').fadeIn();
+             setTimeout(function(){
+             $('#modalv2').fadeOut();
+             window.location.href=base_url+'/user/login';	
+             },2000);
+             }else if(data.status==3){
+             $('#modalv2').empty();
+             $('#modalv2').append('<dl><dd>您已参加过此活动</dd></dl>');
+             $('#modalv2').fadeIn();
+             setTimeout(function(){
+             $('#modalv2').fadeOut();	
+             },2000);
+             }else{
+             //服务器错误
+             $('#modalv2').empty();
+             $('#modalv2').append('<dl><dd>暂时不能参加</dd></dl>');
+             $('#modalv2').fadeIn();
+             setTimeout(function(){
+             $('#modalv2').fadeOut();	
+             },2000);
+             }
+           
+           }
+       })
+      	
+});
+
+//当回复框获得到焦点
+$("#textarea_in").focus(function(){
+//隐藏赞和评论	
+$('#footer_style').hide();	
+//隐藏赞和评论	
+$('.goodt').hide();
+$('.footerbtn').hide();
+
+//隐藏表情和图片
+$('#show_pic_smile').hide(200);
+
+});
+//回复框失去焦点
+$("#textarea_in").blur(function(){
+	//隐藏赞和评论	
+$('#footer_style').show();	
+$('.goodt').show();
+$('.footerbtn').show();	
+});
+
+    
+//显示或隐藏表情
+$('#icon_smile').live('click',function(){
+ $("#show_pic_smile").slideToggle();
+});
+//选择表情 
+$('.smile_ck').live('click',function(){
+     	var value = $('#textarea_in').val();
+       	var name = $(this).attr('data-smile-name');
+       	$('#textarea_in').val(value+name);
+});
+     
+    
+//提交回复
+$('#send_spking').live('click',function(){
+	   var value = $('#textarea_in').val();
+	   var sp_rp = $('#send_spking').attr('data-sp_rp');
+	   var user_name = $('#send_spking').attr('data-user_name');
+	   
+	   	  if(value !=''){
+	   	  var value = $('#textarea_in').val();
+	   //回复
+	    	$('#style_show_data').hide(200);
+            $('#show_pic_smile').hide(200);
+            $('#textarea_in').val('');
+            var num = $('#review_count_bm').attr('data-review_count');
+            var total = parseInt(num)+parseInt(1);
+            $('#review_count_bm').html(total);
+            setTimeout(function(){
+	        refresh();
+	        },500);
+            $.ajax({    
+            url:base_url+'/community/spking',
+            data:'userid='+userid+'&aid='+aid+'&content='+value+'&sp_rp='+sk_id+'&user_name='+user_name,
+            async: true,
+            dataType: 'json',
+            type:'get',
+            success:function(data){
+            //清除回复用户名	
+            $('#send_spking').attr('data-user_name','');
+            $('#style_show_data').attr('data-style_show',0);
+            $("#textarea_in").blur();
+            }
+         })
+       
+     }else{
+     	prompt('内容不能为空');
+     }
+    	     	
+});
+     
+//回复回复
+$('#reply_two').live('click',function(){
+$('#show_pic').hide();
+$('#send_spking').show();	
+var id_review = $(this).attr('data-id_review');
+//回复ID
+var spking_id = $('#send_spking').attr('data-sp_rp');
+$('#send_spking').attr('data-sp_rp',id_review); 
+var name = $(this).attr('data-name');
+var state = $('#style_show_data').attr('data-style_show');
+$('#update_pic').hide();
+//$('#textarea_in').val('回复 '+name+':');
+$('#textarea_in').attr('placeholder','回复 '+name+'：');
+
+//添加回复者名字
+$('#send_spking').attr('data-user_name',name);
+var state = $('#style_show_data').attr('data-style_show');
+if(state==0 || id_review !=spking_id)
+{
+$('#style_show_data').show(200);
+$("#textarea_in").focus();
+$('#style_show_data').attr('data-style_show',1);
+}else{
+$('#style_show_data').hide(200);
+$("#textarea_in").blur();
+$('#show_pic_smile').hide(200);
+$('#style_show_data').attr('data-style_show',0);
+}
+})
+
+//回复评论
+$('#reply_one').live('click',function(){
+$('#show_pic').hide();
+$('#send_spking').show();
+var id_review = $(this).attr('data-id_review');
+var spking_id = $('#send_spking').attr('data-sp_rp');
+$('#send_spking').attr('data-sp_rp',id_review); 
+var state = $('#style_show_data').attr('data-style_show');
+$('#update_pic').hide();
+$('#textarea_in').val('');
+if(state==0 || id_review !=spking_id)
+{
+$('#style_show_data').show(200);
+$("#textarea_in").focus();
+$('#style_show_data').attr('data-style_show',1);
+	
+}else{
+$('#style_show_data').hide(200);
+$("#textarea_in").blur();
+$('#show_pic_smile').hide(200);
+$('#style_show_data').attr('data-style_show',0);		
+}
+	
+})
+ 
+//图片放大(评论)
+$('.tip').live('click',function(){
+	 //全局取消	
+     $('#show_host').addClass('show_back_mian');
+     $('#show_back_top').addClass('webgame_msgWindow_mask');
+     //图片等待
+     img_delay();
+     var url_img=this.src.replace('-small','');
+	 //图片高宽
+	 compress(url_img);
+ })   
+
+//关闭放大效果    
+$('#show_host').live('click',function(){
+	  //当大图片还未加载完成时，点击关闭
+	  if($('#tip').attr('data-big_imgs')==1){
+	   $('#show_host').attr('data-big_status',1);
+	  }else{
+	   $('#show_host').attr('data-big_status',0);
+	  }
+	  
+	  $('#tip').hide(200);
+   	  setTimeout(function (){
+	  $('#tip').remove();
+	  $('#show_host').removeClass('show_back_mian');
+	  $('#show_back_top').removeClass('webgame_msgWindow_mask');
+	  }, 200);	
+   	 
+})
+   
+
+   
+//等比列压缩图片
+function compress(url_img){
+//图片高宽
+	 var imges = new Image();  
+          imges.src = url_img;  // 远程图片路径
+          imges.onload = function(){
+         var w = imges.width;
+         var h = imges.height;
+         var window_w=(document.body.clientWidth);
+         var window_h =(document.body.clientHeight);
+    //移除等待图片加载状态   
+    $('#tip').remove();      
+    //窗口高宽  
+    if(w<window_w && h<window_h){
+     	var width_l  = (window_w-w)/2;
+        var height_r = (window_h-h)/2;
+     }else if(w>window_w && h<window_h){
+     	var b = w/window_w;
+     	var m_h= h/b;
+     	var width_l = 0;
+     	var height_r = (window_h-m_h)/2;
+     }else if(w<window_w && h>window_h){
+     	var b = h/window_h;
+     	var m_w = w/b;
+     	var width_l  = (window_w-m_w)/2;
+     	var height_r = 0;
+     }else{
+     	var b_h = h/window_h;
+     	var b_w = w/window_w;
+     	if(b_h>b_w){
+     	var m_w = w/b_h;
+     	var width_l = (window_w-m_w)/2;	
+     	var height_r = 0;	
+     }else{
+     	var m_h = h/b_w;
+     	var height_r = (window_h-m_h)/2;
+     	var width_l = 0;	
+     	}
+     }
+   
+//显示大图片
+    var $tip=$('<div id="tip" data-big_imgs=1><div class="t_box"><img id="zhe_img" class="simg"  src="'+url_img+'"/></div></div>');
+    if($('#show_host').attr('data-big_status')==1){
+     $('.show_big_style').prepend($tip);
+     $('#tip').show(200);
+     
+       
+  if(h>window_h && w>window_w){
+	 if((w/window_w) > (h/window_h)){
+	 var divcss = {
+      'width':window_w,
+      };
+      $("#zhe_img").css(divcss);	
+	 }else{
+	  var divcss = {
+      'height':window_h,
+      };
+      $("#zhe_img").css(divcss);	
+	 }
+   }
+	 
+	 if(h<window_h && w>window_w){
+	 var divcss = {
+      'width':window_w,
+      };
+      $("#zhe_img").css(divcss);		
+	 }
+	 if(h>window_h && w<window_w){
+	 var divcss = {
+      'height':window_h,
+      };
+      $("#zhe_img").css(divcss);		
+	 }
+     var divcss = {
+      'text-align': 'center',
+      'z-index': 3,
+      'top': height_r,
+      'position': 'fixed',
+      'left': width_l
+      };
+      $(".show_big_style").css(divcss);
+     }else{
+      $('#show_host').attr('data-big_status',1);	
+     }
+  }
+}    
+
+//提示信息
+function prompt(msg){
+$('#prompt').append('<div class="modalv1" id="modalv3">'+
+    '<dl>'+
+    	'<dd>'+msg+'</dd>'+
+    '</dl>'+
+'</div>');
+setTimeout(function(){
+   $('#modalv3').fadeOut();
+   $('#modalv3').remove();	   
+  },2000);
+}
+});
+</script>
+</head>
+<body>
+<div id="show_back_body"></div>		
+<div class="container">
+<!--operate-->
+<div class="operate container" id="header">
+
+<a class="return left" href="<!--{$url}-->/community/detail?suserid=<!--{$userid}-->&aid=<!--{$aid}-->"><i class="iconfont icon iconfont_10">&#983354</i></a>
+<span class="partake-num left"><a href="<!--{$url}-->/community/user_att_list?oid=<!--{$oid}-->&aid=<!--{$aid}-->">已有<em id="join_count" data-join_count=<!--{$join_num}-->><!--{$join_num}-->人</em>参加</a></span>
+<!--&lt;!&ndash;{if $is_att_add ==0 && $free ==1}&ndash;&gt;-->
+<!--<a href="javascript:;"  id="att_activity" class="join right">参加</a>-->
+<!--&lt;!&ndash;{/if}&ndash;&gt;-->
+<!--&lt;!&ndash;{if $is_att_add ==1}&ndash;&gt;-->
+<!--<a href="javascript:;"  class="join right">已参加</a>-->
+<!--&lt;!&ndash;{/if}&ndash;&gt;-->
+<!--&lt;!&ndash;{if $free ==0}&ndash;&gt;-->
+<!--<a href="javascript:;"  class="join right">已关闭</a>-->
+<!--&lt;!&ndash;{/if}&ndash;&gt;-->
+
+    <!--{if $data.end_date > time()}-->
+    <!--{if $userid != $data.id_business}-->
+    <a href="javascript: void(0);" id="att_activity" class="join right">
+        <!--{if $data.join_price <= 0}-->参加
+        <!--{else}-->付款<!--{/if}-->
+    </a>
+    <!--{/if}-->
+    <!--{else}-->
+    <!--活动已结束 不允许参加-->
+    <a href="javascript: void(0);" class="join right">已结束</a>
+    <!--{/if}-->
+
+
+</div>
+<!--评论-->
+<!--滚动开始部分-->
+<div id="wrapper" class="container">
+<div id="scroller">
+<div id="pullDown" class="idle">
+<span class="pullDownIcon"></span>
+<span class="pullDownLabel">下拉刷新...</span>
+</div>
+
+<div class="comm-detail-say toppad10 clearfix">
+<div class="say-pic left"><img src="<!--{$sk.head_image_url}-->"/></div>
+<div class="say-person left">
+<span class="say-person-name">
+<em class="left"><!--{$sk.name}--></em><a href="javascript:;" id="reply_one"  data-id_review="<!--{$sk.id_review}-->" data-name="<!--{$sk.name}-->" class="right"><i  class="icon-comments-alt"></i></a>
+<span class="time"><!--{$sk.created}--></span>
+<span class="say-person-con"><!--{$sk.content}--></span>
+<div class="reply">
+<ul id="thelist">
+</ul>
+<div id="next_more" style="height:40px;"></div>
+</div>
+</span>
+</div>
+</div>
+<!--滚动结束-->
+<div id="pullUp" class="idle">
+<span class="pullUpIcon"></span>
+<span class="pullUpLabel">显示更多...</span>
+</div>
+
+</div>
+</div>
+<!--底部按钮-->
+<div class="container" id="footer">
+<div id="footer_style">	
+<!--{if $data.type ==0}-->		
+<!--{$good1}-->
+<button id="reply_one" class="goodt" data-id_review="<!--{$sk.id_review}-->" data-name="<!--{$sk.name}-->" <!--{if $userid == $data.id_business}-->style="width: 66.666667%; float: right;"<!--{/if}-->>
+<i class="icon-comment-alt"></i>回复<span id="review_count_bm" data-review_count=<!--{$reply_num}-->><!--{$reply_num}--></span>
+</button>
+
+
+<!--<button class="footerbtn" id="att_activity">-->
+<!--&lt;!&ndash;{if $data.join_price ==0}&ndash;&gt;-->
+<!--参加-->
+<!--&lt;!&ndash;{/if}&ndash;&gt;-->
+<!--&lt;!&ndash;{if $data.join_price !=0}&ndash;&gt;-->
+<!--<i class="iconfont_12">&#58898</i>付款&lt;!&ndash;{$data.join_price}&ndash;&gt;-->
+<!--&lt;!&ndash;{/if}&ndash;&gt;-->
+<!--</button>-->
+
+
+    <!--{if $userid != $data.id_business}-->
+    <button class="footerbtn" id="att_activity">
+        <!--{if $data.join_price <= 0}-->参加
+        <!--{else}-->
+        <i class="iconfont_12">&#58898;</i>付款<!--{$data.join_price}-->
+        <!--{/if}-->
+    </button>
+    <!--{/if}-->
+
+<!--{/if}-->
+
+
+<!--{if $data.type ==1}-->		
+<!--{$good1}-->
+<button class="goodt"  id="style_show" style="width: 66.666667%; float: right;"><i class="icon-comment-alt" id="review_count_bm" data-review_count=<!--{$data.review_count}-->></i>评论<i id="review_counts"><!--{$data.review_count}--></i></button>
+<!--{/if}-->
+
+</div>
+<!--S-->
+<script>
+
+//参加活动
+//输入改变
+function att_activity(){
+if(/^1[3|5|8|6|7|4]\d{9}$/.test(jQuery(".import_phone").val()) && $("#vk_checked").attr("checked")=='checked'){
+	
+	$('.caozuo_btn').empty();	
+    $('.caozuo_btn').append('<button id="att_activity1" class="make_sure left">确定</button><button id="come_back" class="make_sure right">取消</button>');
+  
+}else{
+$('.caozuo_btn').empty();	
+$('.caozuo_btn').append('<button class="cancel left">确定</button><button id="come_back" class="make_sure right">取消</button>');	
+}
+} 
+	
+//是否接受协议
+$('.protocol').live('click',function(){
+if(/^1[3|5|8|6|7|4]\d{9}$/.test(jQuery(".import_phone").val()) && $("#vk_checked").attr("checked")=='checked'){
+	
+	$('.caozuo_btn').empty();	
+    $('.caozuo_btn').append('<button id="att_activity1" class="make_sure left">确定</button><button id="come_back" class="make_sure right">取消</button>');
+  
+}else{
+$('.caozuo_btn').empty();	
+$('.caozuo_btn').append('<button class="cancel left">确定</button><button id="come_back" class="make_sure right">取消</button>');	
+}	
+});
+
+//参加数量+1
+$('#add_ac').live('click',function(){
+var ac_num = $('#ac_num').val();
+if(ac_num < surplus){
+var new_ac_num = parseInt(ac_num)+parseInt(1);
+$('#ac_num').val(new_ac_num);
+//参与价格+
+var add_price = $('#add_price').attr('data-add_price');
+
+var price_total = addValue(join_price,add_price,1);
+$('#add_price').attr('data-add_price',price_total);
+$('#add_price').html(price_total);
+
+}
+})
+//参加数量-1
+$('#sub_ac').live('click',function(){
+var ac_num = $('#ac_num').val();
+if(ac_num >1){
+var new_ac_num = parseInt(ac_num) - parseInt(1);
+$('#ac_num').val(new_ac_num);
+//参与价格-
+var add_price = $('#add_price').attr('data-add_price');
+var price_total = addValue(add_price,join_price,0);
+$('#add_price').attr('data-add_price',price_total);
+$('#add_price').html(price_total);
+	
+}
+})
+//浮点数加减
+function addValue(value1,value2,type){  
+    if(value1=="")value1="0";  
+    if(value2=="")value2="0";  
+    var temp1=0;  
+    var temp2=0;  
+    if(value1.indexOf(".")!=-1)  
+     temp1=value1.length - value1.indexOf(".")-1;  
+    if(value2.indexOf(".")!=-1)  
+     temp2=value2.length - value2.indexOf(".")-1;   
+     var temp=0;  
+    if(type==1){
+       if(temp1>temp2)  
+       temp = (parseFloat(value1)+parseFloat(value2)).toFixed(temp1);  
+       else 
+       temp = (parseFloat(value1)+parseFloat(value2)).toFixed(temp2);   
+       return temp;	
+    }else{
+      if(temp1>temp2)  
+       temp = (parseFloat(value1)-parseFloat(value2)).toFixed(temp1);  
+       else 
+       temp = (parseFloat(value1)-parseFloat(value2)).toFixed(temp2);   
+       return temp;
+    	
+    }
+      
+    
+}
+</script>
+<!--评论弹出输入框-->
+<div id="style_show_data" class="discuss-textarea clearfix" data-style_show=0 style="display:none;">
+	<div class="textarea left">
+		<a href="#" class="smile" id="icon_smile"  data-state=0><i class="iconfont icon iconfont_640">&#58896</i></a>
+		<textarea maxlength="140" rows="1" id="textarea_in" placeholder="回复内容" style="color:#999" class="reply-textarea"></textarea></div>
+	<button id="send_spking" data-user_name  data-sp_rp=0  data-s_status class="enter">发送</button>
+</div>
+<!--其他选择表情图片-->
+<div class="face-pic" id="show_pic_smile" style="display:none;">
+
+<!--这是表情排列S-->
+<ul class="expression clearfix" id="show_smile">
+<!--{foreach from=$row item=st  key=key}-->		
+<li><a href="javascript:;" class="smile_ck" data-smile-name=<!--{$key}-->><img src="<!--{$st}-->"/></a></li>
+<!--{/foreach}-->
+</ul>
+<!--这是表情排列E-->
+</div>
+<!--E-->
+</div>
+</div>
+<!--footer-->
+<div id="show_host" data-big_status=1><div class="show_big_style"></div></div>
+<div id="show_back_top"></div>	
+<!--弹窗S-->
+<div class="modalv1" id="modalv1" style="display:none;">
+    <dl>
+        <dt><span class="left">价格</span><span class="right"><em>
+        	<!--{if $data.join_price !=0}-->	
+        	<i id="add_price" data-add_price='<!--{$data.join_price}-->'><!--{$data.join_price}--></i>元
+        	<!--{/if}-->
+        	<!--{if $data.join_price ==0}-->
+        	免费
+        	<!--{/if}-->
+        	</em></span></dt>
+        <!--{if $data.join_price !=0}-->	
+		<dd class="choose-number">
+			<span class="left">数量</span><span class="amount right">
+				<!--{if $data.surplus >0}-->
+				<a href="javascript:;" id="add_ac">+</a>
+				<input id="ac_num" type="text" readonly value="1"/>
+				<a href="javascript:;" id="sub_ac">-</a>
+				<!--{/if}-->
+				<!--{if $data.surplus <=0}-->
+				<a href="javascript:;" id="add_ac"><font color="color: #333;">+</font></a>
+				<input id="ac_num" type="text" readonly value="0"/>
+				<a href="javascript:;" id="sub_ac"><font color="color: #333;">-</font></a>
+				<!--{/if}-->
+				
+		</span>
+		</dd>
+		<!--{/if}-->
+        <dd><input id="phone" placeholder="请输入您的手机号码" oninput="att_activity()" onpropertychange="att_activity()" class="import_phone"/></dd>
+        <dd class="protocol"><input id="vk_checked" type="checkbox"  checked="checked"  class="left">你已阅读并同意<a href="<!--{$url}-->/community/user_agreement?suserid=<!--{$suserid}-->&aid=<!--{$aid}-->">嗨皮GO用户使用协议</a></dd>
+        <dd class="caozuo_btn"><button class="make_sure left">确定</button><button id="come_back" class="cancel right">取消</button></dd>
+    </dl>
+
+</div>
+<div class="modalv1" id="modalv2" style="display:none;">
+    <dl>
+    	<dd><img src="<!--{$url_prefix}-->img/loading.gif"></dd>
+    	<br>
+        <dd>请稍等</dd>
+    </dl>
+</div>
+<div id="prompt"></div>
+</body>
+</html>

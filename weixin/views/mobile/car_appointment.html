@@ -1,0 +1,142 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>预约保养登记</title>
+    <link href="http://static.v5kf.com/css/js_message.css" rel="stylesheet" type="text/css" />
+    <link href="http://static.v5kf.com/css/vdata/form.min.css?v=1018" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://static.v5kf.com/js/jsMessage.js"></script>
+    <script type="text/javascript" src="/wapi/js/jquery.js"></script>
+    <style type="text/css">
+    body, #logo {
+        background-image: none;background-color: #fff;
+    }
+    #bottom_info {
+        position: relative;top: -3.8em;margin: 0 0.5em;padding: .8em 0;text-align: center;background-color: #18c178;
+        color: #ffffff;border: medium hidden;border-radius: 0.1em;box-sizing: border-box;display: none;
+    }
+    #bottom_info a {
+        width: 100%;text-decoration: none;outline: none;
+    }
+    #bottom_jump {
+        position: relative;top: -3em;margin: 0 0.5em;padding: .8em 0;text-align: center;background-color: #62A9E3;color: #ffffff;
+        border: medium hidden;border-radius: 0.1em;box-sizing: border-box;display: none;
+    }
+    input{outline: none;}
+    input[type="button"] {
+        color: white;
+        background-color: rgb(255, 108, 0);
+        border: medium hidden;
+        border-radius: 0.15em;
+        box-sizing: border-box;
+        font-weight: bold;
+        padding: 0.8em 0;
+        width: 100%;
+    }
+    </style>
+</head>
+<body>
+    <div id="subjects">
+        <form id="main_form" style="padding-bottom: 4em;"><!-- action="/" method="get" accept-charset="utf-8" onsubmit="return is_submit();"http://apps.collwe.com/upload/c_956/20140324/13956266591935.x_filename-->
+            <div class="form_ctrl page_head" id="35" title="微信保养预约" style="color: white; background-color: gray;"><h2>微信保养预约</h2></div>
+            <div class="form_ctrl page_separator" id="43" title=""></div>
+            <div class="form_ctrl page_pic" id="46" title="">
+            <img src="<!--{$ad.image_url|get_img_url:'banner'}-->">
+            </div>
+            <div class="form_ctrl input_text" id="41" title="请输入您的姓名">
+                <label class="ctrl_title">请输入您的姓名</label>
+                <input type="text" name="name" id="name" value="" placeholder="请输入文字内容">
+            </div>
+            <div class="form_ctrl input_text" id="45" title="请输入您的联系方式">
+                <label class="ctrl_title">请输入您的联系方式</label>
+                <input type="text" name="phone" id="phone" value="" placeholder="请输入文字内容">
+            </div>
+            <div class="form_ctrl input_text" id="42" title="车牌号码">
+                <label class="ctrl_title">车牌号码</label>
+                <input type="text" name="car_number" id="car_number" value="" placeholder="请输入文字内容">
+            </div>
+            <div class="form_ctrl input_text" id="47" title="到店保养预约时间">
+                <label class="ctrl_title">到店保养预约时间</label>
+                <input type="text" name="car_time" id="car_time" value="" placeholder="如：明天上午10点（日期、时间）">
+            </div>
+            <div class="form_ctrl input_text" id="53" title="行驶里程（公里数）">
+                <label class="ctrl_title">行驶里程（公里数）</label>
+                <input type="text" name="car_mileage" id="car_mileage" value="" placeholder="请输入您车辆目前的车辆行驶里程">
+            </div>
+            <div class="form_ctrl input_text" id="54" title="补充说明">
+                <label class="ctrl_title">补充说明</label>
+                <input type="text" name="description" id="description" value="" placeholder="如您有其他检查项目或者要求请填写">
+            </div>
+            <div class="form_ctrl page_text" id="49" title="">
+                <!--{$ad.description}-->
+            </div>
+            <div class="form_ctrl form_submit" id="37" title="点击按钮提交数据">
+                <label class="ctrl_title">点击按钮提交数据</label>
+                <input type="button" name="submit" value="提交" onclick="is_submit()">
+            </div>
+        </form>
+        <div id="logo">
+            <div style="margin-bottom: 5px;"></div>由 xrenwu 提供技术支持
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var base_url='<!--{$url}-->';
+    //判断是否可以提交该表单
+    function is_submit(){
+        var name = $('#name').val();
+        if(rep(name) == ''){
+            alert('还没输入用户名哦！');
+            return false;
+        }
+        var phone = $('#phone').val();
+        if(rep(phone) == ''){
+            alert('还没输入联系方式哦！');
+            return false;
+        }
+        var car_number = $('#car_number').val();
+        if(rep(car_number) == ''){
+            alert('还没输入车牌号哦！');
+            return false;
+        }
+        var car_time = $('#car_time').val();
+        if(rep(car_time) == ''){
+            alert('还没选择预约保养时间哦！');
+            return false;
+        }
+        var car_mileage = $('#car_mileage').val();
+        if(rep(car_mileage) == ''){
+            alert('还没输入行驶里程哦！');
+            return false;
+        }
+
+        $.post(base_url + '/car/car_appointment',
+        {
+            name: name,
+            phone: phone,
+            car_number: car_number,
+            car_time: car_time,
+            car_mileage: car_mileage,
+            description: $('#description').val()
+        },
+        function (result) {
+            alert(result.msg);
+
+            $('#name').val('');
+            $('#phone').val('');
+            $('#car_number').val('');
+            $('#car_time').val('');
+            $('#car_mileage').val('');
+            $('#description').val('');
+        }, 'json');
+//        return true;
+    }
+
+    function rep(replace_html){
+        return replace_html.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+    }
+</script>
+</html>

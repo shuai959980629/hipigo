@@ -1,0 +1,144 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- 左边开始 -->
+		<div class="page-sidebar nav-collapse collapse">
+            <!-- BEGIN SIDEBAR MENU -->
+            <!--{include file="menu.html"}-->
+            <!-- END SIDEBAR MENU -->
+		</div>
+		<!-- 左边结束 -->
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- 右边开始-->
+			<div class="container-fluid e_coupon_list" >
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+                        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                        <!--{include file="nav.html"}-->
+                        <!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--活动列表开始-->
+                            <div class="activity">
+                            <table width="100%">
+                                <tbody>
+                                    <tr class="big_title">
+                                        <td class="title">名称</td>
+                                        <td>类型</td>
+                                        <td>总数量</td>
+                                        <td>剩余数量</td>
+                                        <td>赠出数量</td>
+                                        <td>使用数量</td>
+                                        <td>有效期至</td>
+                                        <td style="text-align: center;" class="operate">操作</td>
+                                    </tr>
+                                    <!--{if $ticket_list}-->
+                                        <!--{foreach from = $ticket_list item = tl}-->
+                                        <tr>
+                                            <td class="title"><a title="点击查看电子卷信息" href="<!--{$url_prefix}-->ticket/item_ticket/<!--{$tl.id_eticket}-->"><!--{$tl.name|truncate_utf8:30}--></a></td>
+                                            <td><!--{if $tl.type == 'realtime'}-->实时创建<!--{else}-->预先创建<!--{/if}--></td>
+                                            <td><!--{$tl.quantity}--></td>
+                                            <td><!--{$tl.over}--></td>
+                                            <td><!--{$tl.get_quantity}--></td>
+                                            <td><!--{$tl.use_quantity}--></td>
+                                            <td><!--{if $tl.valid_end != '0000-00-00 00:00:00'}--><!--{substr($tl.valid_end,0,10)}--><!--{/if}--></td>
+                                            <td class="operate">
+                                                <a class="compile" href="<!--{$url_prefix}-->ticket/add_ticket/<!--{$tl.id_eticket}-->">编辑</a>
+                                                <a class="compile" style="width:100px;" href="<!--{$url_prefix}-->ticket/item_ticket/<!--{$tl.id_eticket}-->">查看详情</a>
+                                                <!--{if $tl.is_expired == 0}-->
+                                                <a class="delete" href="javascript:void(0);" onclick="delete_ticket(<!--{$tl.id_eticket}-->,<!--{$offset}-->)">删除</a>
+                                                <!--{/if}-->
+                                                <!--{if $tl.type == 'beforehand'}-->
+                                                <a class="add" href="javascript:void(0);" onclick="add_ticket(<!--{$tl.id_eticket}-->,<!--{$offset}-->)">增加数量</a>
+                                                <!--{/if}-->
+                                            </td>
+                                        </tr>
+                                    <!--{/foreach}-->
+                                <!--{else}-->
+                                    <tr>
+                                        <td colspan="8">
+                                            还没有电子券信息！
+                                        </td>
+                                    </tr>
+                                <!--{/if}-->
+                                </tbody>
+                                </table>
+                                <!--分页 start-->
+                                <!--{if $page_html}-->
+                                <div class="pagination">
+                                    <ul>
+                                        <!--{$page_html}-->
+                                    </ul>
+                                </div>
+                                <!--{/if}-->
+                                <!--分页 end-->
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+                    </div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+
+	<script>
+		jQuery(document).ready(function() {
+		   App.init();
+		   UITree.init();
+		});
+
+
+        //列表分页
+        function ticket_list_page(offset){
+            $.post('<!--{$url_prefix}-->ticket/list_ticket', {
+                'ispage': 1,
+                'offset':offset
+            }, function(data){
+                $('.activity').html(data);
+            }, 'text');
+        }
+
+        //删除列表信息
+        function delete_ticket(id_ticket,offset){
+            if(confirm("你确定要删除该电子券信息吗？"))
+            {
+                $.post('<!--{$url_prefix}-->ticket/delete_ticket', {
+                    'id_ticket': id_ticket,
+                    'ispage': 1,
+                    'offset':offset
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('.activity').html(data.data);
+                }, 'json');
+            }
+        }
+
+    </script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

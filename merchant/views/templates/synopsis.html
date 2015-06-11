@@ -1,0 +1,223 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<style type="text/css">
+    .portlet-body img{
+        width:auto;
+        height:auto;
+    }
+</style>
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+
+						<!-- BEGIN VALIDATION STATES-->
+						<div class="portlet box green">
+							<div class="portlet-title">
+								<div class="caption"><i class="icon-reorder"></i>企业介绍</div>
+							</div>
+
+							<div class="portlet-body form">
+								<!--歌曲添加开始-->
+                                <div class="goods_add">
+								<form action="<!--{$url_prefix}--><!--{$url_action}-->" id="form_synopsis_edit" class="form-horizontal" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" value="<!--{$url_prefix}--><!--{$url_action}-->" id="jobaction"/>
+                                    <input type="hidden" name="formhash" value="<!--{$formhash}-->" />
+									<div class="alert alert-error hide">
+										<button class="close" data-dismiss="alert"></button>
+										请确保输入的内容符合提交条件，再点击提交！
+									</div>
+
+									<div class="alert alert-success hide">
+										<button class="close" data-dismiss="alert"></button>
+                                        你的信息已成功完成验证！
+									</div>
+
+                                    <input type="hidden" value="<!--{$businessInfo.id_business}-->" name="id_business"/>
+                                    <div class="control-group">
+                                        <label class="control-label">企业名称<span class="required">*</span></label>
+                                        <div class="controls">
+                                            <input name="title" type="text" value="<!--{$businessInfo.name}-->" class="span6 m-wrap"/><b style=" line-height: 30px; font-weight: normal">（请输入长度在2到25个字符）</b>
+                                        </div>
+                                    </div>
+									<div class="control-group">
+										<label class="control-label">企业简介</label>
+										<div class="controls">
+											<textarea class="span6 m-wrap fl" name="attachment" id="attachment" cols="" rows="" style="visibility:hidden;float:left"><!--{$businessInfo.introduction}--></textarea>
+                                            <b class="fl" style=" line-height: 30px; font-weight: normal;">（请输入长度在10到50000个字符,图片最小: 320px X 200px;图片最大: 800px X 500px）</b>
+										</div>
+									</div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">图片</label>
+                                        <div class="controls">
+                                            <div id="show_synopsis" class="show_synopsis_pic">
+                                                <!--{foreach from=$businessInfo.image_url item = bi key=k}-->
+                                                <div class="fileupload-new thumbnail">
+                                                    <img src="<!--{$bi|get_img_url:'attachment'}-->" alt="" style="width:136px;height:85px">
+                                                    <a onClick="del(this,<!--{$businessInfo.id_attachment.$k}-->)"></a>
+                                                </div>
+                                                <!--{/foreach}-->
+                                            </div>
+                                            <input type="button" id="uploadAdBtn" value="上传" class="btn blue post_activity_upload"/>
+                                            <p style="display: block; float: left; width: 100%">图片格式：jpg,png,gif,推荐尺寸320px X 200px(最小: 320px X 200px;最大: 800px X 500px);</p>
+
+                                            <input type="hidden" id="picNum" name="picNum" value="<!--{$image_url_count}-->">
+                                            <input type="hidden" id="image_src" name="image_src" value=" "/>
+                                            <input type="hidden" id="image_name" name="image_name" value=" "/>
+                                            <input type="hidden" id="image_id" name="image_id" value=""/>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+										<label class="control-label">联系电话</label>
+										<div class="controls">
+											<input name="phone" type="text" value="<!--{$businessInfo.contact_number}-->" class="span6 m-wrap"/>
+										</div>
+									</div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">会员卡领取方式</label>
+                                        <div class="controls">
+                                            <input name="receive_mode" type="radio" value="1" <!--{if $businessInfo.receive_mode == 1 || empty($businessInfo.receive_mode)}-->checked="checked"<!--{/if}-->/>注册领取
+                                            <input name="receive_mode" type="radio" value="2"<!--{if $businessInfo.receive_mode == 2}-->checked="checked"<!--{/if}-->/>绑定领取
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">企业logo<span class="required">*</span></label>
+                                        <div class="controls">
+                                            <div style="display: block; float: left">
+                                                <input type="button" id="uploadLogoBtn" value="上传" class="btn blue post_activity_upload" style="top:80%;"/>
+                                                <div id="show_synopsis_logo">
+                                                    <!--{if $logo_count > 0}-->
+                                                    <div class="fileupload-new thumbnail synopsis_logo_pic">
+                                                        <img src="<!--{$businessInfo.logo|get_img_url:'logo'}-->" alt="">
+                                                        <a onClick="delete_synopsis_logo(this)" style="right: -20px;"></a>
+                                                    </div>
+                                                    <!--{/if}-->
+                                                </div>
+                                            <input type="hidden" id="fileNum" name="fileNum" value="<!--{$logo_count}-->">
+                                            <input type="hidden" id="logo_src" name="logo_src" value=" "/>
+                                            <input type="hidden" id="logo_name" name="logo_name" value=" "/>
+                                        </div>
+                                        <p style="display: block; float: left; width: 100%">图片格式：jpg,png,gif,图片高度=80px;</p>
+                                    </div>
+                                    </div>
+									<div class="form-actions">
+										<button type="submit" id="submitForm" class="btn green">确定</button>
+									</div>
+								</form>
+                                </div>
+                                <!--歌曲添加结束-->
+							</div>
+						</div>
+						<!-- END VALIDATION STATES-->
+				    </div>
+			    </div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL STYLES   -->
+
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/ajaxupload.js"></script>
+    <script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-min.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/editor.js"></script>
+
+	<script>
+		jQuery(document).ready(function() {
+            $('#picNum').val(<!--{$image_url_count}-->);
+            $('#image_src').val(' ');
+            $('#image_name').val(' ');
+            $('#image_id').val('');
+
+            $('#fileNum').val(<!--{$logo_count}-->);
+            $('#logo_src').val(' ');
+            $('#logo_name').val(' ');
+
+		   App.init();
+		   FormValidation.synopsisInit();
+
+            var url = '<!--{$url_prefix}-->';
+            //上传海报图片
+            uplodImage('uploadAdBtn', 'image_src', 'show_synopsis',url);
+            //上传logo图片
+            uplodImage('uploadLogoBtn', 'logo_src', 'show_synopsis_logo',url);
+            //编辑器初始化
+		   editor('attachment','attachment_editor',url);
+		});
+
+        function del(obj,num){
+            if(parseInt($('#picNum').val()) > 1){
+                $('#picNum').val(parseInt($('#picNum').val())-1);
+                $(obj).parent().remove();
+                if($('#image_id').val() != ""){
+                    $('#image_id').val($('#image_id').val() + "," +num);
+                } else{
+                    $('#image_id').val(num);
+                }
+            }else{
+                alert('还剩最后一张企业图片，不能删除');
+            }
+        }
+
+        function delete_synopsis_logo(obj){
+            $('#fileNum').val(0);
+            $('#logo_src').val('');
+            $(obj).parent().remove();
+        }
+
+        //删除上传的企业附件图片
+        function delete_img(obj,src,image_src){
+            if(parseInt($('#picNum').val()) <= 1){
+                alert('还剩最后一张企业图片，不能删除');
+                return false;
+            }
+            $(obj).parent().remove();
+            $('#picNum').val($('#picNum').val() - 1);
+            var img_srcs = $('#'+image_src).val();
+            var imgsrcArray = img_srcs.split(",");
+            for(var i=0;i<imgsrcArray.length;i++){
+                if(imgsrcArray[i] == src){
+                    imgsrcArray.splice(i,1);
+                    $('#'+image_src).val(imgsrcArray);
+                }
+            }
+        }
+    </script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

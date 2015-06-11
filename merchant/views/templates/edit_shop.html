@@ -1,0 +1,362 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<style type="text/css">
+    .portlet-body img{
+        width:auto;
+        height:auto;
+    }
+</style>
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN VALIDATION STATES-->
+						<div class="portlet box green">
+							<div class="portlet-title">
+								<div class="caption"><i class="icon-reorder"></i>门店简介</div>
+							</div>
+
+							<div class="portlet-body form">
+								<!--歌曲添加开始-->
+                                <div class="goods_add">
+								<form action="<!--{$url_prefix}--><!--{$url_action}-->" id="form_shop_edit" class="form-horizontal" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="formhash" value="<!--{$formhash}-->" />
+                                    <input type="hidden" value="<!--{$url_prefix}--><!--{$url_action}-->" id="jobaction"/>
+									<div class="alert alert-error hide">
+										<button class="close" data-dismiss="alert"></button>
+										请确保输入的内容符合提交条件，再点击提交！
+									</div>
+
+									<div class="alert alert-success hide">
+										<button class="close" data-dismiss="alert"></button>
+										你的信息已成功完成验证！
+									</div>
+
+                                    <input type="hidden" value="<!--{$shopInfo.id_shop}-->" name="id_shop"/>
+                                    <div class="control-group">
+                                        <label class="control-label">门店名<span class="required">*</span></label>
+                                        <div class="controls">
+                                            <input name="title" type="text" value="<!--{$shopInfo.name}-->" class="span6 m-wrap"/><b style=" line-height: 30px; font-weight: normal">（请输入长度在2到25个字符）</b>
+                                        </div>
+                                    </div>
+
+									<div class="control-group">
+										<label class="control-label">内容<span class="required">*</span></label>
+										<div class="controls">
+											<textarea class="span6 m-wrap" name="content" id="content" cols="" rows=""  style="visibility:hidden"><!--{$shopInfo.introduction}--></textarea>
+                                            <b class="fl" style=" line-height: 30px; font-weight: normal;">（请输入长度在10到50000个字符,最小: 320px X 200px;最大: 800px X 500px）</b>
+										</div>
+									</div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">图片<span class="required">*</span></label>
+                                        <div class="controls">
+                                            <div id="show_shop" class="show_synopsis_pic">
+                                                <!--{if $shopInfo.image_url}-->
+                                                <div class="fileupload-new thumbnail">
+                                                    <img src="<!--{$shopInfo.image_url|get_img_url:'shop'}-->" alt="" style="width:136px;height:85px">
+                                                    <a onClick="delete_img(this)"></a>
+                                                </div>
+                                                <!--{/if}-->
+                                            </div>
+                                            <input type="button" id="uploadShopBtn" value="上传" class="btn blue post_activity_upload"/>
+                                            <p style="display: block; float: left; width: 100%">图片格式：jpg,png,gif,推荐尺寸320px X 200px(最小: 320px X 200px;最大: 800px X 500px)</p>
+
+                                            <input type="hidden" id="picNum" name="picNum" value="<!--{$shopInfo.img_count}-->">
+                                            <input type="hidden" id="image_src" name="image_src" value=" "/>
+                                            <input type="hidden" id="image_name" name="image_name" value=" "/>
+                                        </div>
+                                    </div>
+
+                                    <div class="phone">
+                                        <div class="control-group">
+                                            <label class="control-label">联系电话<span class="required">*</span></label>
+                                            <input type="hidden" name="contact_count" id="contact_count" value="<!--{$shopInfo.contact_count}-->"/>
+                                        </div>
+
+                                        <!--{if $shopInfo.contact}-->
+                                        <!--{foreach from = $shopInfo.contact item = con key=k}-->
+                                        <div class="control-group">
+                                            <label class="control-label describe"><!--{$con.0}--></label>
+                                            <div class="controls">
+                                                <span class="fl"><!--{$con.1}--></span>
+                                                <a class="close fl" onClick="delete_contact(this,<!--{$k}-->)"></a>
+                                            </div>
+                                        </div>
+                                        <!--{/foreach}-->
+                                        <!--{/if}-->
+                                        <div id="show_add_phone"></div>
+                                        <input type="hidden" value="" name="delcontact" id="delcontact"/>
+                                        <input type="hidden" value="" name="phone_name" id="phone_name"/>
+                                        <input type="hidden" value="" name="phone" id="phone"/>
+                                        <div class="control-group">
+                                            <div style="display: inline-block; width: 100%">
+                                                <label class="control-label describe">联系人</label>
+                                                <div class="controls">
+                                                    <input name="phone_name_text" id="phone_name_text" type="text" class="span6 m-wrap" style="float: left; width: 150px"/>
+                                                    <b style="float: left; font-weight: normal; margin:0  20px 0 60px">电话</b> <input style="width: 150px" name="phone_text" id="phone_text" type="text" class="span6 m-wrap"  onkeyup="validatePhone(this);" onBlur="validatePhone(this);"/>
+                                                    <a style="display: inline-block; margin:0 0 0 30px" href="javascript:void(0)" onClick="add_contact()">添加</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">门店位置</label>
+                                        <div class="controls">
+                                            <input name="address" type="text" value="<!--{$shopInfo.address}-->" class="span6 m-wrap"/>
+                                            <input name="address_ok" type="button" value="确认" onClick="to_map()" class="btn  green"/>
+                                            <input name="latitude" type="hidden" value="<!--{$shopInfo.latitude}-->" class="span6 m-wrap" title="纬度"/>
+                                            <input name="longitude" type="hidden" value="<!--{$shopInfo.longitude}-->" class="span6 m-wrap" title="经度"/>
+                                        </div>
+                                        <div id="shop_map" class="controls" style="width:755px;height:200px;margin-top: 10px; margin-bottom: 10px;"></div>
+                                        <label class="control-label">百度导航地址</label>
+                                        <div class="controls">
+                                            <input name="baidu_location" type="text" value="<!--{$shopInfo.baidu_location}-->" class="span6 m-wrap"/>
+                                        </div>
+                                    </div>
+
+									<div class="form-actions">
+										<button type="submit" class="btn green" id="submitForm">确定</button>
+									</div>
+								</form>
+                                </div>
+                                <!--歌曲添加结束-->
+							</div>
+						</div>
+						<!-- END VALIDATION STATES-->
+				    </div>
+			    </div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL STYLES -->
+
+    <script type="text/javascript" src="<!--{$url_prefix}-->media/js/ajaxupload.js"></script>
+    <script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-min.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+	<script src="<!--{$url_prefix}-->media/kindeditor/editor.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+
+	<script>
+		jQuery(document).ready(function() {
+            $('#contact_count').val(<!--{$contact_count}-->);
+            $('#delcontact').val('');
+            $('#phone_name').val('');
+            $('#phone').val('');
+
+            $('#picNum').val(<!--{$shopInfo.img_count}-->);
+            $('#image_src').val(' ');
+            $('#image_name').val(' ');
+
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.shopInit();
+            var url = '<!--{$url_prefix}-->';
+            //上传海报图片
+            uplodImage('uploadShopBtn', 'image_src', 'show_shop',url);
+            //编辑器绑定
+		    editor('content','shop_editor',url);
+            //门店地址绑定显示
+            if('<!--{$shopInfo.address}-->' != ''){
+                to_map();
+            }
+		});
+
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+
+        //删除已存在的联系方式html
+        function delete_contact(obj,con){
+            if(parseInt($('#contact_count').val()) > 1){
+                $(obj).parent().parent().remove();
+//                if($('#delcontact').val() != ""){
+                    $('#delcontact').val($('#delcontact').val() + "," +con);
+//                } else{
+//                    $('#delcontact').val(con);
+//                }
+                $('#contact_count').val(parseInt($('#contact_count').val()) -1);
+            }else{
+                alert('删除失败，至少保证有1个联系方式！');
+            }
+        }
+
+        //添加联系方式
+        function add_contact(){
+            if(parseInt($('#contact_count').val()) < 5){
+                var phone_name = $('#phone_name_text').val().replace(/(\r)*\n/g,"").replace(/\s/g,"");
+                var phone = $('#phone_text').val().replace(/(\r)*\n/g,"").replace(/\s/g,"");
+                if(phone_name != '' && phone != ''){
+                    var add_html = '<div class="control-group">\
+                            <label class="control-label describe">'+phone_name+'</label>\
+                            <div class="controls">\
+                            <span class="fl">'+phone+'</span>\
+                            <a class="close fl" onclick="delete_contact_html(this,\''+phone+'\')"></a>\
+                            </div></div>';
+                    if($('#phone_name').val() != ""){
+                        $('#phone_name').val($('#phone_name').val() + "," +phone_name);
+                        $('#phone').val($('#phone').val() + "," +phone);
+                    } else{
+                        $('#phone_name').val(phone_name);
+                        $('#phone').val(phone);
+                    }
+
+                    $('#contact_count').val(parseInt($('#contact_count').val()) +1);
+                    $('#show_add_phone').append(add_html);
+
+                    $('#phone_name_text').val('');
+                    $('#phone_text').val('');
+                }else{
+                    alert('请输入正确格式的联系方式！');
+                }
+            }else{
+                alert('最多可添加5个联系方式！');
+            }
+        }
+
+        //上传页面上增加的联系方式
+        function delete_contact_html(obj,src){
+            if(parseInt($('#contact_count').val()) > 1){
+                if(confirm("你确定要删除此新增的联系方式吗？"))
+                {
+                    $(obj).parent().parent().remove();
+                    $('#contact_count').val(parseInt($('#contact_count').val())-1);
+                    var phone_name = $('#phone_name').val();
+                    var phone = $('#phone').val();
+
+                    var phone_nameArray = phone_name.split(",");
+                    var phoneArray = phone.split(",");
+                    for(var i=0;i<phoneArray.length;i++){
+                        if(phoneArray[i] == src){
+                            phone_nameArray.splice(i,1);
+                            $('#phone_name').val(phone_nameArray);
+                            phoneArray.splice(i,1);
+                            $('#phone').val(phoneArray);
+                        }
+                    }
+                }
+            }else{
+                alert('删除失败，至少保证有1个联系方式！');
+            }
+        }
+
+        //删除商店图片
+        function delete_img(obj){
+            $("input[name='shopimg']").val('');
+            $(obj).parent().remove();
+            $('#picNum').val(parseInt($('#picNum').val()) - 1);
+            $('#image_src').val('');
+        }
+
+        //把地址标到地图上
+        function to_map(){
+            map.clearOverlays(); //清楚地图上所有覆盖物
+            var gc = new BMap.Geocoder();
+
+            var val = $('input[name="address"]').val();
+            if(val != ''){
+                gc.getPoint(val, function(point){
+                    if (point) {
+                        map.centerAndZoom(point, 16);
+                        var marker2 = new BMap.Marker(point);  // 创建标注
+                        map.addOverlay(marker2);              // 将标注添加到地图中
+                    }
+                    gc.getLocation(point, function(rs) {
+                        if(rs == '' || rs == null)
+                            alert('地址不完整！');
+                        var addComp = rs.addressComponents;
+                        //记录详细地址
+                        var address = addComp.province + addComp.city  + addComp.district  + addComp.street + addComp.streetNumber;
+                        marker2.openInfoWindow(new BMap.InfoWindow(address, {width : 180, height: 50}));
+                        $("input[name='longitude']").val(point.lng);
+                        $("input[name='latitude']").val(point.lat);
+                    });
+                });
+            }
+        }
+
+        //创建地图函数：
+        function createMap(){
+            var map = new BMap.Map("shop_map");//在百度地图容器中创建一个地图
+            var point = new BMap.Point(104.067923,30.679943);//定义一个中心点坐标
+            map.centerAndZoom(point,14);//设定地图的中心点和坐标并将地图显示在地图容器中
+            window.map = map;//将map变量存储在全局
+            //$("input[name='address']").val("四川省成都市");
+        }
+
+        //地图事件设置函数：
+        function setMapEvent(){
+            map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+            map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+            map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+            map.enableKeyboard();//启用键盘上下左右键移动地图
+        }
+        //拖拽地图后获取中心点经纬度及反地址解析
+        map.addEventListener("dragend", function showInfo(e){
+            var gc = new BMap.Geocoder();
+            var pt = e.point;
+            gc.getLocation(pt, function(rs){
+                var addComp = rs.addressComponents;
+                var address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                $("input[name='address']").val(address);
+                $("input[name='longitude']").val(pt.lng);
+                $("input[name='latitude']").val(pt.lat);
+            });
+        });
+
+        //点击添加坐标
+        map.addEventListener("click", function showInfo(e){
+            map.clearOverlays(); //清楚地图上所有覆盖物
+            var marker1 = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat));  // 创建标注
+            map.addOverlay(marker1);              // 将标注添加到地图中
+            //marker1.enableDragging();			  //设置覆盖物托动
+            //返回地址
+            var pt = e.point;
+            var gc = new BMap.Geocoder();
+            gc.getLocation(pt, function(rs){
+                var addComp = rs.addressComponents;
+                var address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+                marker1.openInfoWindow(new BMap.InfoWindow(address, {width : 180, height: 50}));
+                $("input[name='address']").val(address);
+                $("input[name='longitude']").val(pt.lng);
+                $("input[name='latitude']").val(pt.lat);
+            });
+        });
+
+    </script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

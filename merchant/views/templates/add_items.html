@@ -1,0 +1,257 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<style type="text/css">
+    .portlet-body img{
+        width:auto;
+        height:auto;
+    }
+</style>
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN VALIDATION STATES-->
+						<div class="portlet box purple">
+							<div class="portlet-title">
+								<div class="caption"><i class="icon-reorder"></i><!--{$current.last}--></div>
+							</div>
+							<div class="portlet-body form">
+								<!--歌曲添加开始-->
+                                <div class="goods_add">
+								<form action="<!--{$url_prefix}--><!--{$url_action}-->" id="form_item_add" class="form-horizontal" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="formhash" value="<!--{$formhash}-->" />
+                                    <input type="hidden" name="id_commodity" value="<!--{$commodity_info.id_commodity}-->"/>
+                                    <input type="hidden" value="<!--{$url_prefix}--><!--{$url_action}-->" id="jobaction"/>
+									<div class="alert alert-error hide">
+										<button class="close" data-dismiss="alert"></button>
+                                        请确保输入的内容符合提交条件，再点击提交！
+									</div>
+
+									<div class="alert alert-success hide">
+										<button class="close" data-dismiss="alert"></button>
+                                        你的信息已成功完成验证！
+									</div>
+                                    <div class="control-group">
+										<label class="control-label">类别</label>
+										<div class="controls">
+                                            <!--{foreach from = $commodity_class item = cc key=k}-->
+                                                <label class="radio">
+                                                    <!--{if $commodity_info.id_class}-->
+                                                    <input type="radio" name="membership" value="<!--{$cc.id_class}-->"<!--{if $commodity_info.id_class == $cc.id_class}--> checked="checked"<!--{/if}-->/><!--{$cc.name}-->
+                                                    <!--{else}-->
+                                                    <input type="radio" name="membership" value="<!--{$cc.id_class}-->"<!--{if $k == 0}--> checked="checked"<!--{/if}-->/><!--{$cc.name}-->
+                                                    <!--{/if}-->
+                                                </label>
+                                            <!--{/foreach}-->
+											<div id="form_2_membership_error"></div>
+										</div>
+                                    </div>
+                                    <div class="control-group">
+										<label class="control-label">物品名称<span class="required">*</span></label>
+										<div class="controls">
+											<input name="title" type="text" value="<!--{$commodity_info.name}-->" class="span6 m-wrap"/>
+                                            <b style=" line-height: 30px; font-weight: normal">（请输入长度在2到25个字符）</b>
+										</div>
+                                    </div>
+									<div class="control-group">
+										<label class="control-label">内容<span class="required">*</span></label>
+										<div class="controls">
+											<textarea class="span6 m-wrap" id="content" name="content" cols="" rows="" style="visibility:hidden"><!--{$commodity_info.descript}--></textarea>
+                                            <b class="fl" style=" line-height: 30px; font-weight: normal;">（请输入长度在10到1000个字符,图片最大不超过630x350,最小不低于360x200,单张图片上传文件大小不超过1M）</b>
+										</div>
+									</div>
+                                    <div class="control-group">
+                                        <label class="control-label">图片</label>
+                                        <div class="controls">
+                                            <div id="show_item" class="show_synopsis_pic">
+                                                <!--{if $commodity_info.image_url}-->
+                                                <div class="fileupload-new thumbnail">
+                                                    <img src="<!--{$commodity_info.image_url|get_img_url:'commodity'}-->" alt="" style="width:136px;height:85px">
+                                                    <a onClick="delete_img(this)"></a>
+                                                </div>
+                                                <!--{/if}-->
+                                            </div>
+                                            <input type="button" id="uploadItemBtn" value="上传" class="btn blue post_activity_upload"/>
+                                            <p style="display: block; float: left; width: 100%">图片格式：jpg,png,gif,推荐尺寸360px X 200px (最小尺寸：360px X 200px;最大尺寸： 630px X 350px);</p>
+                                            <input type="hidden" id="picNum" name="picNum" value="<!--{if empty($commodity_info.image_url)}-->0<!--{else}-->1<!--{/if}-->">
+                                            <input type="hidden" id="image_src" name="image_src" value=" "/>
+                                            <input type="hidden" id="image_name" name="image_name" value=" "/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">价格</label>
+                                        <div class="controls">
+                                            <input style="width: 150px" name="price" type="text" value="<!--{$commodity_info.price|default:0}-->" class="span6 m-wrap" onKeyUp="validatePices(this);" onBlur="validatePices(this);"/>
+                                            <b style=" font-weight: normal; margin:0  20px 0 60px">权重</b>
+                                            <input  style="width: 150px" name="weight" type="text" value="<!--{$commodity_info.weight|default:0}-->" class="span6 m-wrap" maxlength="5" onKeyUp="validateInt(this);" onBlur="validateInt(this);"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">物品状态</label>
+                                        <div class="controls">
+                                            <label class="radio">
+                                                <input  type="radio" name="state" onclick="$('#show_mall').show()" value="1"<!--{if count($commodity_info.state) == 0}--> checked<!--{else}--><!--{if $commodity_info.state == '1'}--> checked<!--{/if}--><!--{/if}-->/>
+                                                有效
+                                            </label>
+                                            <label class="radio">
+                                                <input type="radio" name="state" onclick="$('#show_mall').hide()" value="0"<!--{if $commodity_info.state === '0'}--> checked<!--{/if}-->/>
+                                                无效
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="show_mall"<!--{if $commodity_info.state === '0'}--> style="display:none;"<!--{/if}-->>
+                                        <div class="control-group">
+                                            <label class="control-label">加入商城</label>
+                                            <div class="controls">
+                                                <label class="radio">
+                                                    <input type="checkbox" name="mall_sort" <!--{if count($mall_info) > 0}-->value="0" checked<!--{else}-->value="1"<!--{/if}--> />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <!--start mall settings-->
+                                        <div id="mall_info"<!--{if count($mall_info) <= 0}--> style="display: none;"<!--{/if}-->>
+                                            <input type="hidden" value="<!--{$mall_info.id_mall}-->" name="id_mall"/>
+                                            <div class="control-group">
+                                                <label class="control-label">数量</label>
+                                                <div class="controls">
+                                                    <input style="width: 150px" name="mall_quantity" type="text" value="<!--{$mall_info.quantity|default:0}-->" class="span6 m-wrap" maxlength="5" onKeyUp="validateInt(this);" onBlur="validateInt(this);"/>
+                                                    <b style=" font-weight: normal; margin:0 20px 0 60px">积分</b>
+                                                    <input style=" width: 150px" name="mall_integral" type="text" value="<!--{$mall_info.integral|default:0}-->" class="span6 m-wrap" maxlength="5" onKeyUp="validateInt(this);" onBlur="validateInt(this);"/>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label">商城状态</label>
+                                                <div class="controls">
+                                                    <label class="radio">
+                                                        <input type="radio" name="mall_state" value="up"<!--{if $mall_info.state}--><!--{if $mall_info.state == 'up'}--> checked<!--{/if}--><!--{else}--> checked<!--{/if}-->/>
+                                                        上架
+                                                    </label>
+                                                    <label class="radio">
+                                                        <input type="radio" name="mall_state" value="down"<!--{if $mall_info.state == 'down'}--> checked<!--{/if}-->/>
+                                                        下架
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label">商城推荐</label>
+                                                <div class="controls">
+                                                    <label class="radio">
+                                                        <input type="radio" name="mall_recommend" value="1"<!--{if count($mall_info) > 0}--><!--{if $mall_info.recommend == '1'}--> checked<!--{/if}--><!--{else}--> checked<!--{/if}-->/>
+                                                        推荐
+                                                    </label>
+                                                    <label class="radio">
+                                                        <input type="radio" name="mall_recommend" value="0"<!--{if $mall_info.recommend === '0'}--> checked<!--{/if}-->/>
+                                                        不推荐
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end mall settings-->
+                                    </div>
+									<div class="form-actions">
+										<button type="submit" class="btn purple" id="submitForm" >确定</button>
+                                        <!--{if $type == 'add'}-->
+										    <button type="reset" class="btn" onClick="back_img()">取消</button>
+                                        <!--{else}-->
+                                            <button type="button" class="btn" onClick="javascript:window.location.href='<!--{$list_url}-->'">取消</button>
+                                        <!--{/if}-->
+									</div>
+								</form>
+                            </div>
+                            <!--歌曲添加结束-->
+                        </div>
+                    </div>
+                    <!-- END VALIDATION STATES-->
+                </div>
+            </div>
+            <!-- END PAGE CONTENT-->
+        </div>
+        <!-- END PAGE CONTAINER-->
+    </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL STYLES -->
+<script type="text/javascript" src="<!--{$url_prefix}-->media/js/ajaxupload.js"></script>
+<script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-min.js"></script>
+<script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+<script src="<!--{$url_prefix}-->media/kindeditor/editor.js"></script>
+<script>
+    jQuery(document).ready(function() {
+        $('#picNum').val(<!--{if empty($commodity_info.image_url)}-->0<!--{else}-->1<!--{/if}-->);
+        $('#image_src').val(' ');
+        $('#image_name').val(' ');
+
+       // initiate layout and plugins
+       App.init();
+       FormValidation.itemInit();
+        var url = '<!--{$url_prefix}-->';
+        //上传海报图片
+        uplodImage('uploadItemBtn', 'image_src', 'show_item',url);
+        //初始化编辑器
+       editor('content','commodity_editor',url);
+    });
+    //是否加入商城
+    function mall_sort_html(num){
+        if(num){
+            $('#mall_info').css('display','none');
+        }else{
+            $('#mall_info').css('display','block');
+        }
+    }
+    $('input[name=mall_sort]').click(function(){
+        if($(this).attr('checked')){
+            $('#mall_info').css('display','block');
+            $(this).val(0);
+        }else{
+            $('#mall_info').css('display','none');
+            $(this).val(1);
+        }
+    });
+    //取消图片
+    function back_img(){
+        $('#show_item').html('');
+        $('#picNum').val(0);
+        $('#image_src').val('');
+        $('#image_name').val('');
+        $('.help-inline').remove();
+    }
+    //删除上传的附件图片
+    function delete_img(obj){
+        $(obj).parent().remove();
+        $('#picNum').val(0);
+        $('#image_src').val('');
+    }
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

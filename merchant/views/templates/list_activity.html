@@ -1,0 +1,205 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+
+		<!-- 左边开始 -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- 左边结束 -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- 右边开始-->
+			<div class="container-fluid" >
+
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <p class="fl"><input id="seek" name="seek" type="text" value="输入后请按回车进行搜索" title="输入后请按回车进行搜索" onKeyPress="if(event.keyCode==13){search_activity(this)}" onKeyUp="backSearchOrRefresh(this)" onBlur="search_activity(this)"></p>
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--活动列表开始-->
+                            <div class="activity">
+                                <table width="100%">
+                                    <tbody>
+                                        <tr class="big_title">
+                                            <td class="title">名称</td>
+                                            <td>活动类型</td>
+                                            <td>参与总人数</td>
+                                            <td>参与总次数</td>
+                                            <td>获奖人次</td>
+                                            <td>状态</td>
+                                            <td>权重</td>
+                                            <td>发布时间</td>
+                                            <td class="operate">操作</td>
+                                        </tr>
+                                        <!--{if $alist}-->
+                                            <!--{foreach from=$alist item=at name=alt}-->
+                                            <!--{if $smarty.foreach.alt.index % 2 == 0}-->
+                                            <tr>
+                                            <!--{else}-->
+                                            <tr  class="bg">
+                                            <!--{/if}-->
+                                                <td class="title"><!--{$at.name|truncate_utf8:25}--></td>
+                                                <td><!--{if $at.type == 'answer'}-->一战到底<!--{elseif $at.type == 'egg'}-->砸金蛋<!--{elseif $at.type == 'event'}-->事件活动<!--{/if}--></td>
+                                                <td><!--{$at.join_person}--></td>
+                                                <td><!--{$at.join_count}--></td>
+                                                <td><!--{$at.award_count}--></td>
+                                                <td>
+                                                    <!--{if $at.state eq 1}-->
+                                                    有效
+                                                    <!--{else}-->
+                                                    无效
+                                                    <!--{/if}-->
+                                                </td>
+                                                <td><!--{$at.weight}--></td>
+                                                <td><!--{substr($at.created,0,10)}--></td>
+                                                <td class="operate">
+                                                    <a class="compile" href="<!--{$url_prefix}-->activity/edit_activity/1/<!--{$at.id_activity}-->">编辑</a>
+                                                    <a class="delete" onClick="delete_activity(<!--{$at.id_activity}-->,<!--{$offset}-->)">删除</a>
+                                                    <!--{if $at.type == 'answer'}-->
+                                                    <a class="compile" href="<!--{$url_prefix}-->activity/answer_rank/<!--{$at.id_activity}-->">查看排行</a>
+                                                    <!--{/if}-->
+                                                </td>
+                                            </tr>
+                                            <!--{/foreach}-->
+                                        <!--{else}-->
+                                        <tr>
+                                            <td colspan="8">
+                                                还没有活动信息！
+                                            </td>
+                                        </tr>
+                                        <!--{/if}-->
+                                    </tbody>
+                                </table>
+                                <!--{if $page_html}-->
+                                <div class="pagination">
+                                    <ul>
+                                        <!--{$page_html}-->
+                                    </ul>
+                                </div>
+                                <!--{/if}-->
+                            </div>
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+					</div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束--> 
+
+		</div>
+		<!-- END PAGE -->    
+
+	</div>
+
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+
+	<!--{include file="footer.html"}-->   
+
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+		jQuery(document).ready(function() {
+		   // initiate layout and plugins
+		   App.init();
+		   UITree.init();
+
+		});
+
+		//活动搜索提示效果
+        $("#seek").click(function(){
+            if($(this).val() == $(this).attr('title')){
+                $(this).val('');
+            }
+        }).blur(function(){
+            if($(this).val() == ''){
+                $(this).val($(this).attr('title'));
+            }
+        });
+
+        //删除活动列表信息
+        function delete_activity(id_activity,offset){
+            if(confirm("你确定要删除该活动信息吗？"))
+            {
+                var search_key = $('#seek').val();
+                $.post('<!--{$url_prefix}-->activity/del_activity', {
+                    'id_activity': id_activity,
+                    'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                    'offset':offset,
+                    'ispage': 2
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('.activity').html(data.data);
+                }, 'json');
+            }
+        }
+
+        //歌曲列表分页
+        function activity_list_page(offset){
+            var search_key = $('#seek').val();
+            $.post('<!--{$url_prefix}-->activity/list_activity', {
+                'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                'ispage': 1,
+                'offset':offset
+            }, function(data){
+                $('.activity').html(data);
+            }, 'text');
+        }
+
+        //搜索关键字
+        function search_activity(obj){
+            var search_keys = $(obj).val();
+            var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(search_key == ''){
+//                alert('请输入你要搜索的文字内容！');
+                return;
+            }else{
+                activity_list_page(1);
+            }
+        }
+        //搜索返回刷新
+        function backSearchOrRefresh(obj){
+            var searchinput = $(obj).val();
+            if(searchinput == ''){
+                activity_list_page(1);
+            }
+        }
+
+
+	</script>
+
+	<!-- END JAVASCRIPTS -->
+
+</body>
+
+<!-- END BODY -->
+
+</html>

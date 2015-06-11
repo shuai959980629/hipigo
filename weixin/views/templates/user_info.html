@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>嗨皮Go-个人资料|<!--{urldecode($user_info.nick_name)}--></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/personal.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+<script type="text/javascript">
+    base_url = '<!--{$url}-->';
+    url_prefix='<!--{$url_prefix}-->';
+    //判断账号名称是否符合要求
+    function reg_account(account_name){
+        var reg = /^[a-zA-Z0-9]{5,12}$/;///^(?=.*\d.*)(?=.*[a-zA-Z].*).{5,12}$/;///^[\da-zA-Z]{5,12}$/;
+        var is_account = reg.test(account_name);
+        return is_account;
+    }
+
+    //展示修改账号输入框
+    function click_account(obj){
+        $(obj).html('<input class="nickname right" type="text" id="account_name" value="" maxlength="12"/>');
+        $(obj).attr('onClick','');
+        if($('#save_btn').attr('onClick') == ''){
+            $('#save_btn').attr('onClick','submit_info()');
+            $('#save_btn').removeClass('nojoin');
+            $('#save_btn').addClass('join');
+        }
+        $('#is_edit').val(1);
+
+        var nick_name = $.trim($('#name_div').text());
+        if(nick_name == ''){
+            var nick_name = $('#nick_name').val();
+        }
+        var html_name ='<input type="hidden" id="nick_name" name="nick_name" value="'+nick_name+'"/>';
+        $('#name_div').html(html_name+nick_name);
+        $('#name_div').attr('onClick','click_nickname(this)');
+
+        var sex = $('input[name="sex"]:checked').val();
+        if(!sex){
+            var sex = $('input[name="sex"]').val();
+        }
+
+        var year = $('#year').val();
+        var month = $('#month').val();
+        var day = $('#day').val();
+        var html_birthday = '<input type="hidden" name="year" id="year" value="'+year+'"/>'+
+                '<input type="hidden" name="month" id="month" value="'+month+'"/>'+
+                '<input type="hidden" name="day" id="day" value="'+day+'"/>';
+        if(year != '00' && month != '00'){
+            $('#birthday_div').html(html_birthday+month+'-'+day);
+        }else{
+            $('#birthday_div').html(html_birthday);
+        }
+        $('#birthday_div').attr('onClick','click_birthday(this)');
+
+        var html_sex ='<input type="hidden" name="sex" id="sex" value="'+sex+'"/>';
+        var sex_val = sex==1?'男':'女';
+        $('#sex_div').html(html_sex+sex_val);
+        $('#sex_div').attr('onClick','click_sex(this)');
+    }
+
+    function click_nickname(obj){
+        if($('#account_name').length > 0){
+            var account_name = $('#account_name').val();
+            if(account_name == ''){
+                var html_account ='<em class="binding">设置账号</em>';
+                $('#account_div').html(html_account);
+                $('#account_div').attr('onClick','click_account(this)');
+            }else if(reg_account(account_name)){
+                var html_account ='<input type="hidden" id="account" name="account" value="'+account_name+'"/>';
+                $('#account_div').html(html_account+account_name);
+                $('#account_div').attr('onClick','click_account(this)');
+            }else{
+                alert('请输入账号为5-12位的字母+数字！');
+                return false;
+            }
+        }
+        var nick_name = $.trim($(obj).text());
+        $(obj).html('<input class="nickname right" id="nick_name" value="'+nick_name+'" maxlength="8"/>');//placeholder="'+nick_name+'"
+        $(obj).attr('onClick','');
+        if($('#save_btn').attr('onClick') == ''){
+            $('#save_btn').attr('onClick','submit_info()');
+            $('#save_btn').removeClass('nojoin');
+            $('#save_btn').addClass('join');
+        }
+        $('#is_edit').val(1);
+
+
+        var sex = $('input[name="sex"]:checked').val();
+        if(!sex){
+            var sex = $('input[name="sex"]').val();
+        }
+
+        var year = $('#year').val();
+        var month = $('#month').val();
+        var day = $('#day').val();
+        var html_birthday = '<input type="hidden" name="year" id="year" value="'+year+'"/>'+
+                '<input type="hidden" name="month" id="month" value="'+month+'"/>'+
+                '<input type="hidden" name="day" id="day" value="'+day+'"/>';
+        if(year != '00' && month != '00'){
+            $('#birthday_div').html(html_birthday+month+'-'+day);
+        }else{
+            $('#birthday_div').html(html_birthday);
+        }
+        $('#birthday_div').attr('onClick','click_birthday(this)');
+
+        var html_sex ='<input type="hidden" name="sex" id="sex" value="'+sex+'"/>';
+        var sex_val = sex==1?'男':'女';
+        $('#sex_div').html(html_sex+sex_val);
+        $('#sex_div').attr('onClick','click_sex(this)');
+    }
+
+    function click_sex(obj){
+        if($('#account_name').length > 0){
+            var account_name = $('#account_name').val();
+
+            if(account_name == ''){
+                var html_account ='<em class="binding">设置账号</em>';
+                $('#account_div').html(html_account);
+                $('#account_div').attr('onClick','click_account(this)');
+            }else if(reg_account(account_name)){
+                var html_account ='<input type="hidden" id="account" name="account" value="'+account_name+'"/>';
+                $('#account_div').html(html_account+account_name);
+                $('#account_div').attr('onClick','click_account(this)');
+            }else{
+                alert('请输入账号为5-12位的字母+数字！');
+                return false;
+            }
+        }
+
+        var sex = $('#sex_id').val();
+        var html = '<form name="form1" method="post" action="" class="right"><p><label><input type="radio" name="sex" value="1" id="RadioGroup1_0"';
+        if(sex == 1){
+            html += ' checked="checked"';
+        }
+        html += '>男</label><label><input type="radio" name="sex" value="2" id="RadioGroup1_1"';
+        if(sex == 2){
+            html += ' checked="checked"';
+        }
+        html += '>女</label><br></p></form>';
+        $(obj).html(html);
+        $(obj).attr('onClick','');
+        if($('#save_btn').attr('onClick') == ''){
+            $('#save_btn').attr('onClick','submit_info()');
+            $('#save_btn').removeClass('nojoin');
+            $('#save_btn').addClass('join');
+        }
+        $('#is_edit').val(1);
+
+        var nick_name = $.trim($('#name_div').text());
+        if(nick_name == ''){
+            var nick_name = $('#nick_name').val();
+        }
+        var html_name ='<input type="hidden" id="nick_name" name="nick_name" value="'+nick_name+'"/>';
+        $('#name_div').html(html_name+nick_name);
+        $('#name_div').attr('onClick','click_nickname(this)');
+
+        var year = $('#year').val();
+        var month = $('#month').val();
+        var day = $('#day').val();
+        var html_birthday = '<input type="hidden" name="year" id="year" value="'+year+'"/>'+
+                '<input type="hidden" name="month" id="month" value="'+month+'"/>'+
+                '<input type="hidden" name="day" id="day" value="'+day+'"/>';
+        if(year != '00' && month != '00'){
+            $('#birthday_div').html(html_birthday+month+'-'+day);
+        }else{
+            $('#birthday_div').html(html_birthday);
+        }
+        $('#birthday_div').attr('onClick','click_birthday(this)');
+    }
+    function click_birthday(obj){
+        if($('#account_name').length > 0){
+            var account_name = $('#account_name').val();
+
+            if(account_name == ''){
+                var html_account ='<em class="binding">设置账号</em>';
+                $('#account_div').html(html_account);
+                $('#account_div').attr('onClick','click_account(this)');
+            }else if(reg_account(account_name)){
+                var html_account ='<input type="hidden" id="account" name="account" value="'+account_name+'"/>';
+                $('#account_div').html(html_account+account_name);
+                $('#account_div').attr('onClick','click_account(this)');
+            }else{
+                alert('请输入账号为5-12位的字母+数字！');
+                return false;
+            }
+        }
+        var year = $('#year').val();
+        var month = $('#month').val();
+        var day = $('#day').val();
+        var html = '<select name="year" id="year" class="year"></select>'+
+            '<select name="month" id="month" onchange="chooseDate(false);">\
+            </select>'+
+            '<select name="day" id="day" onchange="chooseDate(false);">\
+            <option value="1">出生日</option>\
+            </select>';
+
+        $(obj).children('#birthday_div').html(html);
+        $(obj).attr('onClick','');
+        create_year(1970,2014,year);
+        create_month(month);
+        create_day(month,day);
+        $("#month").change(function(){
+            var mth = $(this).val();
+            if(mth > 0){
+                $("#day").empty();
+                var optn = '';
+                if(mth == 2){
+                    optn = create_opentis(29,day);
+                }else if(mth == 1 || mth == 3 || mth == 5 || mth == 7 || mth == 8 || mth == 10 || mth == 12){
+                    optn = create_opentis(31,day);
+                }else{
+                    optn = create_opentis(30,day);
+                }
+                if(mth){
+                    $("#day").append(optn);
+                }
+            }else{
+                $("#day").empty();
+                $("#day").append('<option value="1">出生日</option>');
+            }
+        });
+        if($('#save_btn').attr('onClick') == ''){
+            $('#save_btn').attr('onClick','submit_info()');
+            $('#save_btn').removeClass('nojoin');
+            $('#save_btn').addClass('join');
+        }
+        $('#is_edit').val(1);
+
+
+        var nick_name = $.trim($('#name_div').text());
+        if(nick_name == ''){
+            var nick_name = $('#nick_name').val();
+        }
+        var html_name ='<input type="hidden" id="nick_name" name="nick_name" value="'+nick_name+'"/>';
+        $('#name_div').html(html_name+nick_name);
+        $('#name_div').attr('onClick','click_nickname(this)');
+
+        var sex = $('input[name="sex"]:checked').val();
+        if(!sex){
+            var sex = $('input[name="sex"]').val();
+        }
+        var html_sex ='<input type="hidden" name="sex" id="sex" value="'+sex+'"/>';
+        var sex_val = sex==1?'男':'女';
+        $('#sex_div').html(html_sex+sex_val);
+        $('#sex_div').attr('onClick','click_sex(this)');
+    }
+
+    function submit_info(){
+        if($('#account_name').length > 0){
+            var account_name = $('#account_name').val();
+
+            if(account_name == ''){
+                var html_account ='<em class="binding">设置账号</em>';
+                $('#account_div').html(html_account);
+                $('#account_div').attr('onClick','click_account(this)');
+            }else if(reg_account(account_name)){
+                var html_account ='<input type="hidden" id="account" name="account" value="'+account_name+'"/>';
+                $('#account_div').html(html_account+account_name);
+                $('#account_div').attr('onClick','click_account(this)');
+            }else{
+                alert('请输入账号为5-12位的字母+数字！');
+                return false;
+            }
+        }
+
+        var nick_names = $('#nick_name').val();
+        var sex = $('input[name="sex"]:checked').val();
+        if(!sex){
+            var sex = $('input[name="sex"]').val();
+        }
+        var account_name = $('#account').val();
+//            var account_name = account_names.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        var year = $('#year').val();
+        var month = $('#month').val();
+        var day = $('#day').val();
+        var birthday = year+'-'+month+'-'+day +' 00:00:00';
+        var nick_name = nick_names.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        if(nick_name == ''){
+            alert('请填写昵称！');
+            return;
+        }
+
+        $.post('/wapi/90/0/user_activity/user_info', {
+            'userid':$('#userid').val(),
+            'account_name':account_name,
+            'nick_name': nick_name,
+            'sex':sex,
+            'birthday':birthday
+        }, function(data){
+            alert(data.msg);
+            $('#is_edit').val(0);
+
+            if($('#save_btn').attr('onClick') != ''){
+                $('#save_btn').attr('onClick','');
+
+                $('#save_btn').removeClass('join');
+                $('#save_btn').addClass('nojoin');
+            }
+
+            var html_name ='<input type="hidden" id="nick_name" name="nick_name" value="'+nick_names+'"/>';
+            $('#name_div').html(html_name+nick_names);
+            $('#name_div').attr('onClick','click_nickname(this)');
+
+            var html_sex ='<input type="hidden" name="sex" id="sex" value="'+sex+'"/>';
+            var sex_val = sex==1?'男':'女';
+            $('#sex_div').html(html_sex+sex_val);
+            $('#sex_div').attr('onClick','click_sex(this)');
+
+            var html_birthday = '<input type="hidden" name="year" id="year" value="'+year+'"/>'+
+                '<input type="hidden" name="month" id="month" value="'+month+'"/>'+
+                '<input type="hidden" name="day" id="day" value="'+day+'"/>';
+            if(year != '00' && month != '00'){
+                $('#birthday_div').html(html_birthday+month+'-'+day);
+            }else{
+                $('#birthday_div').html(html_birthday);
+            }
+            $('#birthday_div').attr('onClick','click_birthday(this)');
+
+            if(account_name.length > 0){
+                $('#account_div').attr('onClick','');
+            }
+
+        }, 'json');
+    }
+
+    function create_day(month,day){
+        var optn = '';
+        if(month == 2){
+            optn = create_opentis(29,day);
+        }else if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
+            optn = create_opentis(31,day);
+        }else{
+            optn = create_opentis(30,day);
+        }
+        if(month){
+            $("#day").append(optn);
+        }else{
+            $("#day").empty();
+            $("#day").append('<option value="1">出生日</option>');
+        }
+    }
+
+    function create_opentis(length,day){
+        var optn = '';
+        for(var i=1 ;i <= length; i++){
+            optn += '<option value="'+i+'"';
+            if(i== day){
+                optn += ' selected="selected"';
+            }
+            optn += '>'+i+'日</option>';
+        }
+        return optn;
+    }
+
+    function create_year(num1,num2,year){
+        var optn = '';
+        for(var i=num1 ;i <= num2; i++){
+            optn += '<option value="'+i+'"';
+            if(i== year){
+                optn += ' selected="selected"';
+            }
+            optn += '>'+i+'年</option>';
+        }
+        $("#year").append(optn);
+//            return optn;
+    }
+
+    function create_month(month){
+        var optn = '';
+        for(var i=1 ;i <= 12; i++){
+            optn += '<option value="'+i+'"';
+            if(i== month){
+                optn += ' selected="selected"';
+            }
+            optn += '>'+i+'月</option>';
+        }
+        $("#month").append(optn);
+//            return optn;
+    }
+
+    function go_back(){
+        var is_edit = $('#is_edit').val();
+        if(is_edit == 1){
+            if(confirm("资料已修改尚未保存，请问是否继续？"))
+            {
+                history.go(-1);
+            }
+        }else{
+            history.go(-1);
+        }
+    }
+
+    $(function(){
+        $('#click_pic').on('click', function(e) {
+//                e.preventDefault();
+            $('#userfile').click();
+        })
+    });
+</script>
+</head>
+<body>
+<div class="main">
+<div class="container">
+<!--top操作按钮-->
+    <div class="operate container">
+        <span class="return left" onclick="go_back();"><a href="javascript:void(0)"><i class="iconfont icon iconfont_10">&#983354</i></a></span>
+        <a id="save_btn" class="nojoin right" onclick="">保存</a>
+    </div>
+<!--会员信息-->
+    <dl class="personal">
+
+        <input type="hidden" value="<!--{$userid}-->" name="userid" id="userid"/>
+        <input type="hidden" value="0" name="is_edit" id="is_edit"/>
+        <dd class="head relative"><span class="name left">头像</span>
+
+            <iframe id="upload" style="display:none;" name="upload"> </iframe>
+            <script>
+
+                function show_img(data)
+                {
+                    if (data.status) {
+                        var url=data.url.replace('.jpg', '-small.jpg');
+                        var file_name=data.file_name.replace('.jpg', '-small.jpg');
+                        $('#pic').attr('src',url);
+                        $('#image_url').val(data.file_name);
+
+                    $.ajax({
+                        url:base_url+'/user_activity/save_img',
+                        data:'userid=<!--{$userid}-->&image_url='+data.file_name,
+                        async: false,
+                        dataType: 'json',
+                        type:'get',
+                        success:function(data){
+                            alert(data.msg);
+                            //刷新当前页面
+
+                        }
+                    });
+                    }
+                }
+
+            </script>
+            <form action="<!--{$url}-->/tpicture/upload"  method="post" id="image_upload" enctype="multipart/form-data" target="upload">
+                <span class="concrete_name right" id="click_pic">
+                    <input type="hidden" value="" name="image_url" id="image_url"/>
+                    <img id="pic" src="<!--{if $user_info.head_image_url}--><!--{$user_info.head_image_url}--><!--{else}--><!--{$url_prefix}-->img/default-header.png<!--{/if}-->" class="headimg"/>
+
+                    <input type="hidden" value="head" name="path" id="path"/>
+                </span>
+                <input type="file" name="userfile" id="userfile" style="opacity: 0;position: absolute;z-index: 10;" onchange="$(this.form).submit();"/>
+            </form>
+        <input type="file" name="userfile" onchange="$(this.form).submit();" class="change_file"></dd>
+        <!--<dd><span class="name left">我的收入</span><span class="concrete_name right"><em class="cash"><!--{$user_info.amount}--></em>元</span></dd>-->
+        <dd><span class="name left">账号</span>
+		
+			<!--{if $user_info.account_name}-->
+            <span class="concrete_name right"><input type="hidden" id="account" name="account" value="<!--{$user_info.account_name}-->"/>
+			<!--{$user_info.account_name}-->
+			</span>
+            <!--{else}-->
+			<span class="concrete_name right" id="account_div" onclick="click_account(this)"><em class="binding">设置账号</em></span>
+			<!--{/if}-->
+			</dd>
+
+        <dd><span class="name left">昵称</span>
+            <span class="concrete_name right" onclick="click_nickname(this)" style="height: 50px;" id="name_div"><input type="hidden" id="nick_name" name="nick_name" value="<!--{urldecode($user_info.nick_name)}-->"/>
+                <!--{urldecode($user_info.nick_name)}--></span>
+        </dd>
+        <dd class="logout"><span class="name left">性别</span>
+            <input type="hidden" value="<!--{$user_info.sex}-->" name="sex_id" id="sex_id"/>
+            <span class="concrete_name right" onclick="click_sex(this)" style="height: 50px;" id="sex_div"><input type="hidden" name="sex" id="sex" value="<!--{$user_info.sex}-->"/><!--{if $user_info.sex == 1}-->男<!--{else}-->女<!--{/if}-->
+        </span></dd>
+        <dd onclick="click_birthday(this)"><span class="name left">生日</span><span class="concrete_name right" style="height: 50px;" id="birthday_div">
+            <input type="hidden" name="year" id="year" value="<!--{substr($user_info.birthday,0,4)}-->"/>
+            <input type="hidden" name="month" id="month" value="<!--{substr($user_info.birthday,5,2)}-->"/>
+            <input type="hidden" name="day" id="day" value="<!--{substr($user_info.birthday,8,2)}-->"/>
+            <!--{if $user_info.birthday}-->      <!--{if substr($user_info.birthday,5,5) != '00-00'}--><!--{substr($user_info.birthday,5,5)}--><!--{/if}--><!--{else}-->       <!--{/if}-->
+        </span></dd>
+        <dd><span class="name left">手机号码</span>
+            <!--{if $user_info.cellphone}-->
+            <span class="concrete_name right" data-link="<!--{$edit_phone_url}-->" onclick="link(this)">
+            <!--{$user_info.cellphone}--><i class="icon-pencil"></i>
+            <!--{else}--><span class="concrete_name right" data-link="<!--{$bind_phone_url}-->" onclick="link(this)"><em class="binding">绑定手机</em></span><!--{/if}-->
+        </span></dd>
+        <dd><span class="name left">修改密码</span><span class="concrete_name right" data-link="<!--{$change_pwd_url}-->" onclick="link(this)"><i class="icon-pencil"></i></span></dd>
+        <dd class="logout" data-link="<!--{$url_prefix}--><!--{$bid}-->/<!--{$sid}-->/user_activity/exit_login" onclick="link(this)"><span class="name left">退出登录</span><span class="concrete_name"></span></dd>
+    </dl>
+</div>
+<!--footer-->
+<footer class="hidden">powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+<script>
+function link(_obj){
+    var is_edit = $('#is_edit').val();
+    var link = $(_obj).attr('data-link');
+    if(is_edit == 1){
+        if(confirm("资料已修改尚未保存，请问是否继续？"))
+        {
+            window.location.href=link;
+        }
+    }else{
+       window.location.href=link;
+    }
+}
+
+
+</script>
+</div>
+</body>
+</html>

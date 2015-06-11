@@ -1,0 +1,362 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- 左边开始 -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- 左边结束 -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- 右边开始-->
+			<div class="container-fluid" >
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+                   
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                <p class="fl"><input id="seek" name="seek" value="输入后请按回车进行搜索" title="输入后请按回车进行搜索" type="text" onKeyPress="if(event.keyCode==13){search_quick_reply(this)}" onKeyUp="backSearchOrRefresh(this)" onBlur="search_quick_reply(this)"></p>
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--商品列表开始-->
+                            <div class="catalogue user_msg">
+                            <table width="100%">
+                                <tbody>
+                                    <tr class="big_title" style="line-height: 35px">
+                                        <td class="id_title" style="width: 19%">姓名</td>
+                                        <td class="title">内容</td>
+                                        <td>时间</td>
+                                        <td class="id_title">操作</td>
+                                    </tr>
+
+                                    <script src="<!--{$url_prefix}-->media/js/jquery-1.10.1.min.js"></script>
+                                    <!--{if $quick_reply}-->
+                                    <!--{foreach from = $quick_reply item = qr key = k}-->
+                                    <tr style="line-height: 35px"<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                                        <td class="id_title" style="width: 19%">
+                                            <div class="fl" style="padding-right: 5px"><a href="<!--{$url_prefix}-->system/wx_reply_list/<!--{$qr.id_customer_msg}-->/<!--{$qr.id_open}-->"><!--{urldecode($qr.nick_name)}--></a></div>
+                                            <a href="javascript:void(0)" id="remarks<!--{$qr.id_customer_msg}-->" onClick="edit_name(1,<!--{$qr.id_customer_msg}-->)" attr="<!--{$qr.name_remarks|default:'备注'}-->">
+                                                <span>(<!--{$qr.name_remarks|default:'备注'}-->)<b class="remark"></b></span></a>
+
+                                            <input type="hidden" id="id_open<!--{$qr.id_customer_msg}-->" value="<!--{$qr.id_open}-->"/>
+                                            <input type="hidden" id="id_customer_msg[]" name="id_customer_msg[]" value="<!--{$qr.id_customer_msg}-->"/>
+                                            <div id="edit_name_div<!--{$qr.id_customer_msg}-->" style="display: none; line-height:30px;">
+                                                <input class="span6 m-wrap" type="text" id="name_remarks<!--{$qr.id_customer_msg}-->" maxlength="4"/>
+                                                <input class="btn blue" type="button" value="确定" onClick="submit_name(<!--{$qr.id_customer_msg}-->,<!--{$offset}-->);"/>
+                                                <input class="btn" type="button" value="取消" onClick="edit_name(2,<!--{$qr.id_customer_msg}-->);"/>
+                                            </div>
+                                        </td>
+                                        <td class="title">
+                                            <div class="describe">
+                                            	<!--{if $qr.msg_type eq 'text'}--><!--base64_decode|-->
+                                            		<!--{$qr.msg_content|replace_emoticons:$qr.msg_content}-->
+                                            	<!--{elseif $qr.msg_type eq 'image'}-->
+                                            		<a href="/biz/system/show_media?name=<!--{$qr.msg_content}-->&type=<!--{$qr.msg_type}-->" class="open-newwd">
+                                                        <img src="/biz/media/image/ico_pic.png" style="width:22px;height: 16px"></a>
+                                            	<!--{elseif $qr.msg_type eq 'audio'}-->
+                                            		<!--<a href="/biz/system/show_media?name=&lt;!&ndash;{$qr.msg_content}&ndash;&gt;&type=&lt;!&ndash;{$qr.msg_type}&ndash;&gt;" class="open-newwd">-->
+                                                    <a href="/biz/system/download?song=<!--{$qr.msg_content}-->" class="open-newwd">
+                                                        <img src="/biz/media/image/ico_voice.png" style="width:14px;height: 19px"></a>
+                                            	<!--{elseif $qr.msg_type eq 'video'}-->
+                                            		<a href="/biz/system/show_media?name=<!--{$qr.msg_content}-->&type=<!--{$qr.msg_type}-->" class="open-newwd">
+                                                        <img src="/biz/media/image/ico_video.png" style="width:22px;height: 16px"></a>
+                                            	<!--{/if}-->
+                                            </div>
+                                        </td>
+                                        <td><!--{substr($qr.created,0,10)}--></td>
+                                        <td  class="id_title">
+                                            <!--{if $qr.time == '1'}-->
+                                            <a class="hot" href="javascript:void(0)" onClick="show_html(<!--{$qr.id_customer_msg}-->,'<!--{$qr.id_open}-->')">快速回复</a>
+                                            <!--{else}-->
+                                            <a class="ed" href="javascript:void(0)">已经过期</a>
+                                            <!--{/if}-->
+                                            <a class="delete" onClick="delete_quick_reply(<!--{$qr.id_customer_msg}-->,<!--{$offset}-->)">删除</a>
+                                            <span id="send<!--{$qr.id_customer_msg}-->"><!--{if $qr.is_send > 0}-->已回复<!--{/if}--></span>
+                                        </td>
+                                    </tr>
+                                    <tr style="display: none"><td colspan="4">
+                                        <div id="edit_div<!--{$qr.id_customer_msg}-->"></div>
+                                    </td></tr>
+                                    <!--{/foreach}-->
+                                    <!--{else}-->
+                                    <tr>
+                                        <td colspan="8">
+                                            还没有用户消息！
+                                        </td>
+                                    </tr>
+                                    <!--{/if}-->
+                                </tbody>
+                            </table>
+                            <!--分页 start-->
+                                <!--{if $page_html}-->
+                                <div class="pagination">
+                                    <ul>
+                                        <!--{$page_html}-->
+                                    </ul>
+                                </div>
+                                <!--{/if}-->
+                            <!--分页 ene-->
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+				    </div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+		jQuery(document).ready(function() {
+		   App.init();
+		   UITree.init();
+		});
+
+        //搜索提示效果
+        $("#seek").click(function(){
+            if($(this).val() == $(this).attr('title')){
+                $(this).val('');
+            }
+        }).blur(function(){
+            if($(this).val() == ''){
+                $(this).val($(this).attr('title'));
+            }
+        });
+        //修改备注名
+        function edit_name(num,id_msg){
+            //隐藏已经打开的修改备注名框
+            $('input[name="id_customer_msg[]"]').each(function(a){
+                var id_customer_msg = $(this).val();
+                var num_dis = $('#edit_name_div'+id_customer_msg);
+                if(num_dis.css('display') != 'none'){
+                    num_dis.slideUp('fast');
+                    setTimeout(function(){
+                        $('#remarks'+id_customer_msg).show();
+                    },300);
+                }
+            });
+            //打开需要修改备注名的框
+            var div_html = $('#edit_name_div'+id_msg);
+            if(num == 1){
+                if(div_html.css('display') == 'none'){
+                    div_html.show();
+                    $('#remarks'+id_msg).hide();
+                    if($('#remarks'+id_msg).attr('attr') == '备注'){
+                        $('#name_remarks'+id_msg).val('');
+                    }else{
+                        $('#name_remarks'+id_msg).val($('#remarks'+id_msg).attr('attr'));
+                    }
+                }else{
+                    div_html.hide();
+                }
+            }else{
+                div_html.hide();
+                $('#remarks'+id_msg).show();
+                $('#name_remarks'+id_msg).val('');
+            }
+        }
+
+        //提交编辑的微信昵称
+        function submit_name(id_msg,offset){
+            var nick_name = $('#name_remarks'+id_msg).val();
+            nick_name = nick_name.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(nick_name == ''){
+                alert('请输入你要修改的昵称！');
+                return;
+            }else{
+                var search_key = $('#seek').val();
+                $.post('<!--{$url_prefix}-->customer/edit_name', {
+                    'nick_name': nick_name,
+                    'id_open': $('#id_open'+id_msg).val(),
+                    'page_type':'customer_msg',
+                    'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                    'offset':offset
+                }, function(data){
+//                    $('#remarks'+id_msg).html('('+nick_name+')');
+//                    $('#edit_name_div'+id_msg).hide();
+//                    $('#name_remarks'+id_msg).val('');
+//                    $('#remarks'+id_msg).show();
+                    $('.catalogue').html(data);
+                }, 'text');
+            }
+        }
+
+
+        //列表分页
+        function quick_reply_page(offset){
+            var search_key = $('#seek').val();
+            $.post('<!--{$url_prefix}-->system/wx_customer_msg', {
+                'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                'offset':offset,
+                'ispage':1
+            }, function(data){
+                $('.catalogue').html(data);
+            }, 'text');
+        }
+
+        //删除列表信息
+        function delete_quick_reply(id_msg,offset){
+            if(confirm("你确定要删除该快速回复吗？"))
+            {
+                var search_key = $('#seek').val();
+                $.post('<!--{$url_prefix}-->system/delete_quick_reply', {
+                    'id_msg': id_msg,
+                    'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                    'offset':offset
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('.catalogue').html(data.data);
+                }, 'json');
+            }
+        }
+
+        //展示（隐藏）添加快速回复html
+        function show_html(id_msg,id_open){
+            $.post('<!--{$url_prefix}-->system/are_expired', {
+                'id_msg': id_msg,
+                'id_open': id_open
+            }, function(data){
+                if(data.status == '0'){
+                    alert('该信息已过期！');
+                    window.location.href = "<!--{$url_prefix}-->system/wx_customer_msg";
+                }else{
+                    //关闭之前打开的快速回复栏
+                    var num_dis = $('#edit_div'+$('#id_msg').val());
+                    if(num_dis.css('display') != 'none'){
+                        num_dis.parent().parent().slideUp('fast');
+                        num_dis.children().remove();
+                    }
+
+                    //执行打开快速回复栏
+                    var div_html = $('#edit_div'+id_msg);
+                    var div_parent = div_html.parent().parent();
+                    if(div_parent.css('display') == 'none'){
+                        div_parent.slideDown('fast');
+                        var html = '<div style="padding-left: 23%; padding-top: 20px; padding-bottom: 50px;">' +
+                                '<p>快速回复：</p>' +
+                                '<div class="a_reply" style="width:470px; height:201px; border: #ddd 1px solid; padding: 0 !important; margin-bottom: 10px; ">' +
+                                '   <textarea style="width:450px; height: 150px; padding: 10px; border: none;box-shadow:none; margin-bottom: 0 !important" id="msg_content" name="msg_content" maxlength="140" onkeyup="setnum(this, 140)" ></textarea>' +
+                                '   <div style="background: #ddd; border-top: #999 1px solid"><span class="fr" style="color: #666; font-size: 12px; padding-right:10px ">还可以输入<b style="color: #f00" class="setnumber">140</b>个字</span><a href="#"></a> </div>' +
+                                '</div>' +
+                                '<input class="btn green" type="button" value="发送" onclick="quick_reply('+id_msg+',\''+id_open+'\')"/><a onclick="remove_html('+id_msg+')">收起</a>' +
+                                '<input type="hidden" name="id_msg" id="id_msg" value="'+id_msg+'"/></div>';
+                        div_html.html(html);
+                    }else{
+                        div_parent.slideUp('fast');
+                        div_html.children().remove();
+                    }
+                }
+            }, 'json');
+        }
+
+        function setnum(obj)
+        {
+            var numberStr = arguments[1] ? arguments[1] : 140;
+            if (numberStr - $(obj).val().length <= 0) {
+                $(obj).val($(obj).val().substring(0,numberStr));
+            }
+            $('.setnumber').html(numberStr - $(obj).val().length);
+        }
+
+        //发送快速回复
+        function quick_reply(id_msg,id_open){
+            var msg_content = $('#msg_content').val();
+            msg_content = msg_content.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(msg_content == ''){
+                alert('请输入你要添加的快速回复信息！');
+                return;
+            }else{
+                $.post('<!--{$url_prefix}-->system/quick_reply', {
+                    'id_msg': id_msg,
+                    'id_open': id_open,
+                    'msg_content':msg_content
+                }, function(data){
+                    if(data.status == 0){
+                        alert(data.msg);//获取微信$access_token出错
+                    }else{
+                        $('#edit_div'+id_msg).parent().parent().slideUp('fast');
+                        $('#edit_div'+id_msg).children().remove();
+                        $('#send'+id_msg).text('已回复');
+                        alert('快速回复发送成功！');
+                    }
+                }, 'json');
+            }
+        }
+
+        //收起快速回复框
+        function remove_html(id_msg){
+            $('#edit_div'+id_msg).parent().parent().slideUp('fast');
+            $('#edit_div'+id_msg).children().remove();
+        }
+
+        //搜索关键字
+        function search_quick_reply(obj){
+            var search_keys = $(obj).val();
+            var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(search_key == ''){
+//                alert('请输入你要搜索的文字内容！');
+                return;
+            }else{
+                $.post('<!--{$url_prefix}-->system/wx_customer_msg', {
+                    'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                    'offset':1,
+                    'ispage':1
+                }, function(data){
+                    $('.catalogue').html(data);
+                }, 'text');
+            }
+        }
+        //搜索返回刷新
+        function backSearchOrRefresh(obj){
+            var searchinput = $(obj).val();
+            if(searchinput == ''){
+                quick_reply_page(1);
+            }
+        }
+        
+        
+        $(".open-newwd").click(function(){
+        	
+        	var url = $(this).attr('href');
+        	var lef = ($(document).width() - 400)/2;
+        	window.open(url,'newwindow','height=500,width=500,top=100,left='+lef+',toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no, status=no')
+        	return false;
+        	
+        });
+        
+	</script>
+	<!-- END JAVASCRIPTS -->
+
+</body>
+
+<!-- END BODY -->
+
+</html>

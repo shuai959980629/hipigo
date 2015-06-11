@@ -1,0 +1,194 @@
+.container{
+	padding: 0;
+}
+.operate{
+	height: 40px; overflow: hidden; padding-bottom: 6px;
+}
+.operate>.return{
+	background: #f24a4a; height: 100%; line-height: 1.5; padding: 0 2%; display:block;
+}
+.operate>.return>a{
+	color: #fff; 
+}
+.operate>.return:hover{
+	background: #ea2b2b;
+}
+.operate>.return>a>.iconfont_10{
+	font-size: 26px;
+}
+.operate>.partake-num,.operate>.partake-num>a{
+	color: #999; text-align: center; line-height: 2;
+}
+.operate>.partake-num>a>em{
+	color: #f24949; font-size: x-large;
+}
+.operate>.join{
+	background: #4cc9b7; color: #fff; font-size: 22px; height: 100%; line-height: 1.8; padding: 0 3%;
+}
+.operate>.join:hover{
+	background: #01a58c;
+}
+.comm-detail>.comm-detail-pic{
+	width: 120px;height: 120px;
+}
+.comm-detail>.comm-detail-rg{
+	padding-left: 2%;
+}
+.comm-detail>.comm-detail-rg>h1{
+	font-size: 26px; padding:0;word-break: break-all;
+}
+.comm-detail-rg>.coinandland{
+	padding-top: 6.5%;
+}
+.comm-detail-rg>.coinandland>.money{
+	color: #999;
+}
+.comm-detail-rg>.coinandland>.money>em{
+	color: #4cc9b6; font-size: x-large;
+}
+.comm-detail-rg>.coinandland>.land{
+	color: #333; line-height:2.1;
+}
+.comm-detail-rg>.coinandland>.land>a{
+	padding-left: 15px; cursor: pointer;
+}
+.icon-thumbs-up,.icon-comment-alt,.share{
+	color: #666;
+}
+.comm-detail-rg>.coinandland a:hover .icon-thumbs-up,.comm-detail-rg>.coinandland a:hover .icon-comment-alt,.comm-detail-rg>.coinandland a:hover.share{
+	color: #01a58c;
+}
+.comm-detail-con{
+	background: #fff; padding: 2% 2% 0; margin: 10px 0; font-size: medium; color: #333;
+}
+.comm-detail-con .open{
+	width: 100%; display: inline-block; padding-top: 10px; text-align: right;
+}
+.comm-detail-con .open a{
+	color: #f24949;
+}
+.comm-detail-con .open a:hover{
+	color: #01a58c;
+}
+.comm-detail-con .open .icon-angle-down{
+	color: #666;
+}
+.comm-detail-say{
+	padding: 2%;
+}
+.comm-detail-say>ul>li{
+	border-top: 1px solid #ddd; padding: 10px 0;width: 100%; float: left;
+}
+.comm-detail-say>ul>li:first-child{
+	border-top: none; 
+}
+.comm-detail-say .say-pic{
+	width:30px; height: 30px;
+}
+.comm-detail-say .say-pic img{
+	border-radius: 2px;
+}
+.comm-detail-say .say-person{
+	padding-left: 6px;margin-top: -5px;
+}
+.comm-detail-say .say-person-name{
+	width: 90%;
+}
+.comm-detail-say .say-person-name em,.comm-detail-say .say-person-name .reply em{
+	color:#f24949;line-height: 1;
+}
+.comm-detail-say .say-person-name .icon-comments-alt{
+	color: #666;
+}
+.comm-detail-say .say-person-name a:hover .icon-comments-alt{
+	color: #01a58c;
+}
+.comm-detail-say .say-person-name .time{
+	color: #999; font-size:small;display: inline-block; width: 100%;
+}
+.comm-detail-say .say-person-name .say-person-con,.comm-detail-say .say-person-name .reply{
+	display: inline-block; width: 100%; padding-top: 6px;
+}
+.comm-detail-say .say-person-name .say-person-con{
+	padding-bottom: 6px;
+}
+.comm-detail-say .say-person-name .say-person-con img{
+	max-height: 160px; max-width: 160px; min-width: 100px; min-height: 100px;
+}
+.comm-detail-say .say-person-name .reply{
+	border-top: 1px solid #ddd;
+}
+.comm-detail-say .say-person-name .reply i{
+	color: #999; font-size: small; padding-left: 10px;
+}
+.comm-detail-say .say-person-name .reply b{
+	display: inline-block; width: 100%; padding: 2px 0;
+}
+.bottom-thumbs-up{
+	background: #fbfbfc; border-top: 2px solid #ccc; padding: 2%;
+}
+.bottom-thumbs-up button{
+	width: 40%; text-align: center; background: #efefef; border: 1px solid #ddd; border-radius: 2px; line-height: 2; margin-left: 6%; font-size: large; color: #333;
+}
+.bottom-thumbs-up button:hover,.bottom-thumbs-up button:active{
+	background: #e9e9e9;
+}
+.bottom-thumbs-up button .icon-thumbs-up{
+	color: #4CC9B6;
+}
+.bottom-thumbs-up button .icon-comment-alt{
+	color: #F24949;
+}
+/*评论弹出输入框*/
+.discuss-textarea{
+	background: #f4f4f4; border-top: 1px solid #b6b6b6;border-bottom: 1px solid #b6b6b6; padding: 2%;
+}
+.discuss-textarea>.other{
+	background: url(../img/other.png) center top no-repeat; background-size:contain;line-height: 2;font-size:larger;
+}
+.discuss-textarea>.textarea{
+	padding-left: 10px;
+}
+.discuss-textarea>.textarea>textarea{
+	width: 95%;background: none;border: none;border-bottom: 2px solid #ccc; resize: none;box-shadow: none; border-radius: none;min-height: 14px;_height: 14px;max-height: 35px; overflow: auto;
+	margin: 0; padding: 6px 0 0 6px; line-height: 1; position: relative;
+}
+.discuss-textarea>.textarea>textarea:focus{
+	border-bottom: 2px solid #50c328;
+}
+.discuss-textarea>.enter{
+	background: #f3f3f3; border: 1px solid #c0c0c0; box-shadow: inset 0 0 1px #e6e6e6; border-radius: 3px; line-height: 2.2; padding: 0 6px;
+}
+.discuss-textarea>.enter:hover{
+	background: #e9e9e9; 
+}
+.share-open{
+	width: 96%;text-align: center; font-size: large; color: #999; padding: 6px 2%;
+}
+.face-pic{
+	width: 96%; height: 42%; background: #f4f4f4; padding: 2%;
+}
+.face-pic li{
+	width:22%; padding-left: 12px; text-align: center; padding-top: 10px;
+}
+.face-pic li:nth-child(4n+1){
+	padding-left: 0;
+}
+.face-pic li .icon-pic{
+	display: block; background: #ddd; width: 100%;font-size:xx-large; line-height: 2; border-radius: 2px;
+}
+.face-pic li .icon-pic .iconfont_10{
+	font-size:xx-large; margin: 0;
+}
+.face-pic li .icon-pic:hover{
+	background: #cecece; cursor: pointer;
+}
+.face-pic li .icon-pic a{
+	color: #7c7c7c;
+}
+.face-pic li .icon-describe{
+	color: #7c7c7c; font-size: small;
+}
+.face-pic .expression li{
+	width: 10%; padding: 10px 2% 0; text-align: center; overflow: hidden; float: left;
+}

@@ -1,0 +1,149 @@
+.container{
+	padding: 0;
+}
+.personal{
+	padding: 0 2%;overflow: hidden;
+}
+.personal dd{
+	border-bottom: 1px solid #ddd; height: 50px;line-height: 50px; cursor: pointer;
+}
+.personal dd:active{
+	background: #ebebeb;
+}
+.personal dd.head{
+	height: 80px; padding: 5px 0;line-height: 80px;
+}
+.personal dd.logout{
+	border-top: 2px solid #ddd; margin-top: 25px;
+}
+.name{
+	width: 30%; color: #000;font-size: 1.1rem;
+}
+.concrete_name{
+	width: 70%; color: #999;font-size: medium; text-align: right;display: block;
+}
+.concrete_name .headimg{
+	width: 80px; height: 80px;
+}
+.concrete_name .cash{
+	font-size: x-large;color: #4cc9b6;
+}
+.icon-pencil{
+	color: #4cc9b6; margin-left: 10px;
+}
+.binding{color: #4cc9b6;}
+.personal dd:nth-last-child(6){
+	border-bottom: none;
+}
+.personal dd:nth-last-child(2){
+	border-bottom: none;
+}
+.concrete_name .nickname{
+	width: 90%;background: none;border: none;border-bottom: 2px solid #ccc; border-radius: 4px;height: 30px;margin: 0 auto; padding:10px 2% 0; display: block;color: #999;outline: none;font-size: medium;
+
+}
+.concrete_name .nickname:focus{
+	border-bottom: 2px solid #50c328;
+}
+.concrete_name form{
+	width: 50%; 
+}
+.concrete_name form label{
+	width: 50%; float: left; padding-top: 15px;font-size: medium;
+}
+.concrete_name form label input{
+	margin: 0;
+}
+.concrete_name select{
+	width: 29%;
+}
+.concrete_name .year{
+	width:40%;
+}
+/*个人主页*/
+.user_background{
+	width:100%;position:relative;
+}
+.user_background img.background{
+	width:100%; height:180px; overflow:hidden;
+} 	
+.user_background img.user_iocon{
+	width:80px; height:80px; position:absolute; left:2%; bottom:-15px;
+}
+.personal_homepage{
+	width: 98%;padding: 10px 1%;margin-top: 10px;
+}
+.user_activity_pic{
+	width: 80px; height: 80px;overflow: hidden;
+}	
+.personal_homepage ul li{
+	padding: 6px 0;width: 100%;display: block;float: left;
+}
+.personal_homepage .time{
+	padding-right:10px; font-size:0.9rem; margin-top: -7px;
+}
+.personal_homepage .time b{
+	font-size:x-large; padding-right: 2px;}
+	
+.personal_homepage .user_activity_mes{
+	background: #e5e5e5;padding: 6px;word-wrap: break-word;
+}
+.personal_homepage h3{
+	overflow:hidden;
+}
+.code{
+	padding-top: 6px;
+}
+.user_code{
+	margin-right: 8px;
+}	
+/*搜索*/
+
+.searchli{
+	padding: 0 2%;
+}
+.searchli ul li{
+	width: 100%;display: block; padding-top: 10px;float: left;
+}
+.searchli_pic{
+	width: 80px; height: 80px;
+}
+.searchli h3{
+	padding-left: 5px;float: left;
+}
+.searchli h3 em{
+	color: #4cc9b7;
+}
+
+/** v 2.0**/
+.apply_master{
+	position:absolute; right:5px; bottom:-15px;
+}
+.apply_master button:hover{
+  background: #ea2b2b;
+}
+.apply_master button {
+  background: #f24a4a;color: #fff; border: none; height: 34px; line-height: 34px; padding: 0 10px;
+  border-radius: 2px;font-size: 1rem; margin:2px;
+}
+.personal .noborder{
+	border: none;
+}
+.reply-doyen input{
+  width: 65%;border: none; text-align: right;background: none;font-size: 1rem;border-radius: 4px;height: 30px; padding:10px 0 0 2%;
+}
+.reply-doyen input:focus{
+  outline: none; border-bottom: 2px solid #50c328;
+}
+.paper-upload{
+  background: #555; cursor: pointer; color: #fff;padding: 2px 8px;
+}
+.paper-upload:hover,.paper-upload:active{
+  background: #222;color: #fff;
+}
+.showFile{
+  width: 70%;float: right;text-align: right;margin-top: -70px;
+}
+.showFile img{
+  max-width: 96%;
+}

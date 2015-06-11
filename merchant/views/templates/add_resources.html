@@ -1,0 +1,482 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+
+<!-- BEGIN SIDEBAR -->
+<div class="page-sidebar nav-collapse collapse">
+<!-- BEGIN SIDEBAR MENU -->
+<!--{include file="menu.html"}-->
+<!-- END SIDEBAR MENU -->
+</div>
+<!-- END SIDEBAR -->
+
+<!-- BEGIN PAGE -->
+<div class="page-content">
+
+<!-- BEGIN PAGE CONTAINER-->
+<div class="container-fluid">
+
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+<div class="span12">
+<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+<!--{include file="nav.html"}-->
+<!-- END PAGE TITLE & BREADCRUMB-->
+</div>
+</div>
+<!-- END PAGE HEADER-->
+
+<!-- BEGIN PAGE CONTENT-->
+<div class="row-fluid">
+<div class="span12">
+
+<!-- BEGIN VALIDATION STATES-->
+<div class="portlet box purple">
+<div class="portlet-title">
+<div class="caption"><i class="icon-reorder"></i><!--{if $type == 'add'}--><!--{$current.last}--><!--{else}-->编辑资源<!--{/if}--></div>
+</div>
+
+<div class="portlet-body form">
+<div class="goods_add">
+
+<!--<form action="&lt;!&ndash;{$url_prefix}&ndash;&gt;&lt;!&ndash;{$url_action}&ndash;&gt;" -->
+<!--id="form_resource_add" class="form-horizontal" method="post" enctype="multipart/form-data"-->
+ <!--onKeyPress="if(event.keyCode == 13) { return false; }" >-->
+<input type="hidden" name="id_resource" id="id_resource" value="<!--{$id_resource}-->" />
+
+<div class="alert alert-error hide">
+<button class="close" data-dismiss="alert"></button>
+请确保输入的内容符合提交条件，再点击提交！
+</div>
+
+<!--
+<div class="alert alert-success hide">
+<button class="close" data-dismiss="alert"></button>
+你的信息已成功完成验证！
+</div>
+-->
+
+<!--中间内容开始-->
+<div class="add_activity clearfix">
+<div class="clearfix">
+<div class="fl write nopadding">
+
+<div class="write_row">
+<div class="import clearfix">
+<input name="title" id="title" type="text" value="<!--{$resource_info.resource_title}-->" maxlength="64"/>
+<span class="title resources_title">资源名称<em>*</em>：</span>
+</div>
+<p class="resource_explain">必填，名称不能为空且长度不能过64字</p>
+</div>
+
+<div class="write_row">
+<div class="import clearfix">
+<input class="cost" name="price" id="price" maxlength="6" type="text" value="<!--{if $resource_info.price != '0.00' || $resource_info.price != '0'}--><!--{$resource_info.price}--><!--{/if}-->" placeholder="<!--{if $resource_info.price == '0.00' || $resource_info.price == '0'}-->免费<!--{/if}-->" onKeyUp="validatePices(this);" onBlur="validatePices(this);"/>
+<span class="title resources_title">价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</span>
+</div>
+<p class="resource_explain">为空则免费，直接按照支付的金额支付,
+<em style="color:#e02222;font-style:normal">最大可设置五位数</em></p>
+</div>
+
+<div class="write_row">
+<div class="import clearfix">
+<input class="cost" name="total" id="total" type="text" value="<!--{if $resource_info.num != -1}--><!--{$resource_info.num}--><!--{/if}-->" placeholder="<!--{if $resource_info.num == -1}-->不限制<!--{/if}-->" maxlength="5" onKeyUp="validateInt(this);" onBlur="validateInt(this);" />
+<span class="title resources_title">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量：</span>
+</div>
+<p class="resource_explain">为空则不限制</p>
+</div>
+
+<!--截止时间-->
+<div class="write_row paddingbt">
+<div class="import clearfix">
+<div class="input-append date date-picker">
+<input class="m-wrap m-ctrl-medium date-picker Wdate" name="date" id="date"
+    readonly="readonly" size="5" type="text" value="<!--{if $resource_info.deadline}--><!--{date('Y-m-d', substr($resource_info.deadline, 0, 10))}--><!--{/if}-->"
+    onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',errDealMode:1,readOnly:true})" />
+<span class="add-on" onclick="$('#date').focus();"><i class="icon-calendar"></i></span>
+</div>
+<span class="title resources_title">截止时间&nbsp;：</span>
+</div>
+</div>
+
+<!--地址-->
+<div class="write_row paddingbt">
+<div class="import clearfix">
+
+<div class="input-append date date-picker">
+<input name="latitude" type="hidden" value="<!--{$resource_info.lat}-->" class="span6 m-wrap" title="纬度"/>
+<input name="longitude" type="hidden" value="<!--{$resource_info.lon}-->" class="span6 m-wrap" title="经度"/>
+<input class="m-wrap m-ctrl-medium date-picker fl" size="16" type="text" value="<!--{$resource_info.addr}-->" style="border: 1px solid #ccc !important;" name="address" id="address" />
+    <input name="address_ok" type="button" value="使用地图" onClick="$('#prompt').show();$('#pop_up').show();" class="uses-map fl" style="width:80px;border:none;"/>
+</div>
+<span class="title resources_title">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：</span>
+</div>
+
+</div>
+
+    <!--资源说明-->
+<div class="write_row">
+<div class="import clearfix">
+<span class="title resources_title">资源说明&nbsp;：</span>
+
+<div class="old_style_wrapper fl">
+<div class="edui-btn-toolbar">
+    <input type="hidden" id="image_src" name="image_src" value=""/>
+    <input type="hidden" id="picNum" name="picNum" value="0">
+    <a onclick="$('#pop_div').show();$('#pop_up').show();" class="uploadpic"><!--{if $resource_att}--><em></em><!--{/if}--></a>
+    <span class="face" id="icon_smile"></span>
+    
+    <!--这是表情排列S-->
+    <ul class="expression clearfix" id="show_smile" style="display:none;">
+        <!--{foreach from=$row item=st  key=key}-->
+        <li><a href="javascript:;" class="smile_ck" data-smile-name=<!--{$key}-->><img src="<!--{$st}-->"/></a></li>
+        <!--{/foreach}-->
+		<div class="edui-popup-caret"></div>
+    </ul>
+    <!--这是表情排列E-->
+</div>
+<div class="edui-body-container" id="content" contenteditable="true" style="word-wrap:break-word"><!--{$resource_info.desc}--></div>
+</div>
+<p class="resource_explain">请输入长度在10到60000个汉字</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<!--中间内容结束-->
+    <div class="form-actions">
+        <button type="submit" class="btn purple" id="submitForm" onclick="submit_info()">发布</button>
+    </div>
+<!--</form>-->
+
+</div>
+
+</div>
+</div>
+<!-- END VALIDATION STATES-->
+</div>
+</div>
+<!-- END PAGE CONTENT-->
+</div>
+<!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+
+<script src="<!--{$url_prefix}-->media/js/jquery.js"></script>
+
+<div id="prompt" style="width:800px;top:20%;height:330px;display: none;">
+<div class="title">地图<a id="close" onclick="closeTips();">关闭</a></div>
+<input type="hidden" name="id_activity" id="id_activity" value="" />
+<input type="hidden" name="delete_id_spread" id="delete_id_spread" value=""/>
+<div class="content" style="padding: 0">
+    <div id="shop_map" class="controls" style="width:99%;height:200px;margin: 4px auto;"></div>
+    <input name="address_ok" type="button" value="确定" onClick="closeTips()" class="uses-map fr" style="width:80px;height: 40px"/>
+</div>
+</div>
+<div id="pop_div" style="width:800px;top:20%;display: none;">
+    <div class="title">图片<a onclick="close_div()">关闭</a></div>
+    <input type="hidden" name="delete_id_res" id="delete_id_res" value=""/>
+    <div class="content" style="padding: 0">
+        <div id="show_img" class="controls" style="width:99%;max-height:500px;margin: 4px auto;">
+            <ul class="clearfix" id="update_pics">
+                <!--{foreach from = $resource_att item=ra}-->
+                <li class="left">
+                    <span class="add-pic"><img src="<!--{$ra.image_url|get_img_url:'resource'}-->" />
+                    <span href="javascript:;" style="cursor:pointer;" class="select2-search-choice-close" onclick="remove_img(0,this)" did="<!--{$ra.id_attachment}-->" data-img_name ="<!--{$ra.image_url}-->"></span></span>
+                </li>
+                <!--{/foreach}-->
+                <li class="left" id="update_pic">
+<span class="add-pic add relative">
+<iframe id="upload" style="display:none;" name="upload"></iframe>
+<script>
+
+    function startUpload()
+    {
+        $('#img_new_show').remove();
+        $('#update_pics').prepend('<li id="img_new_show" class="left"><span class="add-pic"><span href="javascript:void(0);" style="cursor:pointer;" id="closepop" class="select2-search-choice-close"></span><img src="<!--{$url_prefix}-->media/image/select2-spinner.gif" style="width:16px;height:16px;"/></em></span></li>');
+    }
+
+    function finishupload(data)
+    {
+        var img_num = $(".select2-search-choice-close");
+        var yes_len = img_num.length;
+        if(yes_len !=0){
+            $('#img_new_show').remove();
+            if (data.status > 0) {
+                var img_types =data.url.split('.');
+                var img_sm = img_types[0]+'-small.'+img_types[1];
+                $('#update_pics').prepend('<li class="left"><span class="add-pic">'+
+                        '<input type="hidden" value="'+data.file_name+'" name="img_name[]"/><input type="hidden" value="'+img_sm+'" name="imgs[]"/><img src="'+img_sm+'" />' +
+                        '<span href="javascript:;" style="cursor:pointer;" class="select2-search-choice-close" onclick="remove_img(1,this)" data-img_name="'+data.file_name+'"></span></span>'+
+                        '</li>');
+
+                $('#content').append('<img src="'+img_sm+'" filename="'+data.file_name+'"/>');
+            }
+            if($('.uploadpic').html() == ''){
+                $('.uploadpic').html('<em></em>');
+            }
+        }
+        $('#image_upload').find(':file').replaceWith('<input type="file" name="userfile" onchange="$(this.form).submit();" />');
+    }
+    //删除图片
+    function remove_img(num,obj){
+        if(num == 1){//当前上传的
+            $(obj).parents("li").remove();
+        }else if(num == 0){//读取数据库的图片信息
+            $(obj).parents("li").remove();
+            var id_att = $(obj).attr('did');
+            if($('#delete_id_res').val() == ''){
+                $('#delete_id_res').val(id_att);
+            }else{
+                $('#delete_id_res').val(id_att+','+$('#delete_id_res').val());
+            }
+        }
+
+        $('#content').children("img").each(function(i){
+            if($(obj).attr('data-img_name') == $(this).attr('filename')){
+                $(this).remove();
+            }
+        });
+
+        if($('#update_pics').children('li').length <= 1){
+            if($('.uploadpic').html() != ''){
+                $('.uploadpic').html('');
+            }
+        }
+    }
+
+    //取消正在上传的图片
+    $('#select2-search-choice-close').live('click',function(){
+        $('#img_new_show').remove();
+    });
+</script>
+<form action="/wapi/90/0/tpicture/upload?path=resource"  method="post" onsubmit="startUpload()" id="image_upload" enctype="multipart/form-data" target="upload">
+    <input type="file" name="userfile" onchange="$(this.form).submit();" />
+    <!--style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;opacity: 0;filter: alpha(opacity=0);cursor: pointer;"-->
+    <input type="submit" value="浏览" style="display:none;"/>
+</form>
+    <!--style="font-size: 3.5rem;font-style: normal;-webkit-font-smoothing: antialiased;-webkit-text-stroke-width: 0.2px;font-family: iconfont_14;"-->
+    
+</span>
+                </li>
+            </ul>
+        </div>    
+    </div>
+    <input name="img_ok" type="button" value="确定" onClick="close_div()" class="uses-map fr" style="width:80px;height: 40px"/>
+</div>
+<div id="pop_up" style="display: none;"></div>
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL STYLES -->
+<script type="text/javascript" src="<!--{$url_prefix}-->media/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="<!--{$url_prefix}-->media/js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="<!--{$url_prefix}-->media/js/jquery.swfupload.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+<script>
+
+    //关闭弹框
+    function close_div(){
+        if($('#update_pics').children('li').length > 1){
+        alert('弹框关闭后，图片仍存在的！');
+        }
+        $('#pop_div').hide();$('#pop_up').hide();
+    }
+$(document).click(function(e){
+    if($(e.target)[0].id =="show_smile" || $(e.target)[0].id =="icon_smile")
+        return;
+    $("#show_smile").hide();
+});
+
+var closeTips = function () {
+    $("#prompt").hide();
+    $("#pop_up").hide();
+}
+$(function() {
+    //显示表情，隐藏图片
+    $('#icon_smile').live('click',function(){
+        if($('#show_smile').css('display') == 'none'){
+            $('#show_smile').show();
+        }else{
+            $('#show_smile').hide();
+        }
+    });
+
+    //选择表情
+    $('.smile_ck').live('click',function(){
+        var value = $('#content').html();
+        var name = $(this).attr('data-smile-name');
+        $('#content').html(value+name);
+    });
+
+    App.init();
+    to_map();
+});
+
+
+    function submit_info() {
+        var content = $('#content').html();
+        if(content){
+            if(content.length < 10 || content.length > 60000){
+                alert('请输入的资源说明长度在10到60000个汉字！');
+                return false;
+            }
+        }
+        var image_name = [];
+        $("input[name='img_name[]']").each(function(i){
+            image_name[i] = $(this).val();
+        });
+        var image_src = [];
+        $("input[name='imgs[]']").each(function(i){
+            image_src[i] = $(this).val();
+        });
+        $.post('/biz/resources/publish', {
+            'id_resource': $('#id_resource').val(),
+            'title': $('#title').val(),
+            'price': $('#price').val(),
+            'total': $('#total').val(),
+            'date': $('#date').val(),
+            'address': $('#address').val(),
+            'lat':$('input[name="latitude"]').val(),
+            'lon':$('input[name="longitude"]').val(),
+            'content': content,
+            'image_src':image_src,
+            'image_name':image_name,
+            'delete_id_res':$('#delete_id_res').val()
+        },function(data) {
+            html_notice('操作成功',data.msg,data.data);
+        }, "json");
+    }
+
+
+function SelectDate(param) {
+  var flag = arguments[1] ? arguments[1] : false;
+  var hourNmae = arguments[2] ? arguments[2] : '';
+  var YYMMDD = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})/;
+  if( ! YYMMDD.test($(param).val()))$(param).val('');
+  return WdatePicker({
+    dateFmt: 'yyyy-MM-dd HH:mm:ss',
+    minDate: '%y-%M-%d',
+    errDealMode: 1,
+    readOnly: true,
+    onpicked: function() {
+      
+    }
+  });
+}
+
+    createMap();//创建地图
+    setMapEvent();//设置地图事件
+
+    //把地址标到地图上
+    function to_map(){
+        map.clearOverlays(); //清楚地图上所有覆盖物
+        var gc = new BMap.Geocoder();
+
+        var val = $('input[name="address"]').val();
+        if(val != ''){
+            gc.getPoint(val, function(point){
+                if (point) {
+                    map.centerAndZoom(point, 16);
+                    var marker2 = new BMap.Marker(point);  // 创建标注
+                    map.addOverlay(marker2);              // 将标注添加到地图中
+                }
+                gc.getLocation(point, function(rs) {
+                    if(rs == '' || rs == null)
+                        alert('地址不完整！');
+                    var addComp = rs.addressComponents;
+                    //记录详细地址
+                    var address = addComp.province + addComp.city  + addComp.district  + addComp.street + addComp.streetNumber;
+                    marker2.openInfoWindow(new BMap.InfoWindow(address, {width : 180, height: 50}));
+                    $("input[name='longitude']").val(point.lng);
+                    $("input[name='latitude']").val(point.lat);
+                });
+            });
+        }
+    }
+
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("shop_map");//在百度地图容器中创建一个地图
+        var point = new BMap.Point(104.067923,30.679943);//定义一个中心点坐标
+        map.centerAndZoom(point,14);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局
+        //$("input[name='address']").val("四川省成都市");
+    }
+
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+    //拖拽地图后获取中心点经纬度及反地址解析
+    map.addEventListener("dragend", function showInfo(e){
+        var gc = new BMap.Geocoder();
+        var pt = e.point;
+        gc.getLocation(pt, function(rs){
+            var addComp = rs.addressComponents;
+            var address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+            $("input[name='address']").val(address);
+            $("input[name='longitude']").val(pt.lng);
+            $("input[name='latitude']").val(pt.lat);
+        });
+    });
+
+    //点击添加坐标
+    map.addEventListener("click", function showInfo(e){
+        map.clearOverlays(); //清楚地图上所有覆盖物
+        var marker1 = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat));  // 创建标注
+        map.addOverlay(marker1);              // 将标注添加到地图中
+        //marker1.enableDragging();			  //设置覆盖物托动
+        //返回地址
+        var pt = e.point;
+        var gc = new BMap.Geocoder();
+        gc.getLocation(pt, function(rs){
+            var addComp = rs.addressComponents;
+            var address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+            marker1.openInfoWindow(new BMap.InfoWindow(address, {width : 180, height: 50}));
+            $("input[name='address']").val(address);
+            $("input[name='longitude']").val(pt.lng);
+            $("input[name='latitude']").val(pt.lat);
+        });
+    });
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

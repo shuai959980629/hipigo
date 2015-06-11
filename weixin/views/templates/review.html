@@ -1,0 +1,83 @@
+<div class="pop" name="review" id="review" style="display: none;">
+    <div class="pop_textarea"><textarea id="review_content"></textarea><input type="button" value="发送" id="submit" onclick="send_review()"></div>
+</div>
+<script>
+    //点击任意点 关闭发送栏
+    $(document).click(function(e){
+        if($(e.target)[0].id =="review_btn"){
+            if($('#review').css('display') == 'none'){
+                if($('#can_review').val() == 0){
+                    alert('你没有关注此商家不能评论哦！');
+                    return;
+                }else{
+                    $('#review').show();
+                    var info = navigator.userAgent.toLowerCase();
+                    if(info.indexOf('android') > 0){
+                    }else{
+                        $('#review_content').focus();
+                    }
+                }
+            }else{
+                $('#review').hide();
+            }
+        }else{//$(e.target)[0].id =="review_name" || $(e.target)[0].id =="review_phone" ||
+            if($(e.target)[0].id =="review_content" || $(e.target)[0].id =="submit"){
+                return false;
+            }else{
+                $('#review').hide();
+            }
+        }
+    });
+
+
+    function send_review()
+    {
+//        var phone = $('#review_phone').val();
+//        var review_name = $('#review_name').val();
+//        if( !review_name ){
+//            alert('请填写你的姓名');return false;
+//        }else if(review_name.length < 2 || review_name.length > 6){
+//            alert('请填写的姓名字数在2~6之间！');return false;
+//        }
+
+//        if( !/^1[3|4|5|8]{1}[0-9]{9}$/.test(phone) ){
+//            alert('请填写正确的手机号');return false;
+//        }
+        //去掉地址的空格和回车的判断
+        var review_content = $('#review_content').val().replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        if(review_content == ''){
+            alert('请输入评论内容！');
+            return false;
+        }
+        $.post('<!--{$url}-->/home/review', {
+            'type': $('#review_type').val(),
+            'shop': $('#review_shop').val(),
+            'business': $('#review_business').val(),
+            'id': $('#review_id').val(),
+//            'phone': phone,
+            'id_open': $('#id_open').val(),
+            'nick_name': $('#nick_name').val(),
+            'content': $('#review_content').val()
+        }, function(data){
+            data = $.parseJSON(data);
+            if(data.result){
+                var Obj = document.getElementById('comment');
+                if( !Obj ){
+                    $('<div id="comment" class="comment"><span class="selected"></span><ul></ul></div>').appendTo('.container');
+                }
+//                var p = phone.substr(0,3) + '****' + phone.substr(7,4);
+                var time = data.time;//手机:'+p+'
+                $('<li><p><em class="left"><b>'+data.nick_name+'</b>说:</em></p>'+
+                        '<p>'+$('#review_content').val()+'</p><p><i class="right">'+time.substr(5, 16)+'</i></p></li>').appendTo('.comment ul');
+                $('#review').hide();$('#review_content').val('');
+//                $('#review_phone').val('');$('#review_name').val('');
+                if(data.message2 != ''){
+                    alert(data.message+'\n'+data.message1+'\n'+data.message2);
+                }
+            }else{
+                alert(data.message);
+            }
+        });
+    }
+</script>
+    

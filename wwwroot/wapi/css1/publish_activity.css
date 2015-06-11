@@ -1,0 +1,200 @@
+.container{
+	padding: 0;
+}
+.creat_activity{
+  padding-top: 40px;
+}
+.creat_activity .creat_title,.creat_activity dt,.title01{
+	width: 96%;font-size: 0.95rem; color: #666; padding: 10px 2% 5px;
+}
+.creat_activity .creat_title em{
+	color: #f00;
+}
+.creat_activity .must_details{
+	width: 96%;border-bottom: solid 1px #ddd; padding: 0 2% 10px;font-size: 1rem;
+}
+.creat_activity .must_details input,.creat_activity .must_details textarea{
+	width: 100%; background: none;border: none;font-size: 1rem; color: #000; font-family: Microsoft Yahei,verdana;resize: none; margin: 0; padding:0;
+}
+.creat_activity dd:nth-child(6){
+	border-bottom: none; 
+}
+.creat_activity .logout{
+	border-top: 2px solid #ddd;margin-top: 15px;
+}
+.creat_activity .logout dd{
+	width: 96%;display: inline-block; padding: 0 2%;
+}
+.creat_activity .logout dd a{
+	font-size: 1rem; line-height: 20px; padding-left: 5px;word-break: break-all;display: block;overflow: hidden;height: 20px;
+}
+.creat_activity .logout input{
+	background:#f9f9f9;border:solid 1px #ccc; outline: none;height: 30px;line-height: 2;padding: 0;
+  box-shadow: none;border-radius: 0;margin:0;
+}
+.creat_activity .logout .search-btn{
+	background: #f9f9f9;border: solid 1px #ccc;height: 30px; border-left: none;-webkit-transition: all .3s;transition: all .3s;
+  line-height: 1.7;padding: 0 8px; color:#999;margin: 0;float: left;
+}
+.creat_activity .logout .green{
+	background: #4cc9b6; color: #fff;
+}
+.creat_activity .logout ol{
+	height:6px;text-align:right;width: 99%;
+}
+.creat_activity .logout ol>li{
+	width:6px;height:6px;background:#999;border-radius: 10px;float: right; margin-left: 3px;
+}
+.creat_activity .logout ol>li.on{
+	background:#4cc9b6;
+}
+.logout button{
+  border: none;color: #fff;margin-top: 5px;padding: 0 5px;
+}
+.logout .info{
+  background: #555;
+}
+.logout .info:hover,.logout .info:active{
+  background: #222;
+}
+.logout .buy{
+  background: #4cc9b6; margin-left: 5px;
+}
+.logout .buy:hover,.logout.buy:active{
+  background: #01a58c; 
+}
+
+.buy_resource{
+	background: #555; color: #fff; border: none;border-radius: 2px; padding: 2px 8px;
+}
+.buy_resource:hover,.buy_resource:active{
+	background: #222;
+}
+.onlyread-title,.onlyread-num{
+  display: block;height: 32px; overflow: hidden;
+}
+.onlyread-title{
+  width: 55%;
+}
+.onlyread-title input{
+  float: left;
+}
+.onlyread-num{
+  width: 43%;height: 24px;padding-top: 4px; 
+}
+.logout dd .onlyread-num a{
+  padding: 0 5px;display: block;width: 12px;height: 22px;border: solid 1px #ccc;color: #333;margin: 0 3px 0;float: right;line-height: 1.2;
+}
+.logout dd .onlyread-num input{
+  height: 22px;padding: 0;line-height: 1.2; width: 30%;text-align: center;
+}
+/*****/
+.creat_price{
+	font-size: 1rem;
+}
+.creat_price input{
+	background: none; border: none; text-align: right;font-size: 1rem;
+}
+.creat_price i{
+	font-size: x-large;color: #4cc9b6;
+}
+.creat_price_title{
+	width: 96%;border-bottom: solid 1px #ddd; padding: 15px 2%; font-size: 0.95rem;
+}
+.creat_date{
+	display: inline; float: left;width: 45%;
+}
+.creat_activity .must_details .date-picker{
+	background:#F9F9F9; border: 1px solid #e5e5e5;height: 28px; margin:0;padding: 0 5px;box-shadow: none;border-radius: 0;
+}
+.must_details .add-on{
+	display: inline-block;width: auto; height: 24px;min-width: 16px;padding: 3px 5px;font-size: 14px;font-weight: normal;line-height: 24px;text-align: center;text-shadow: 0 1px 0 #ffffff;
+	background-color: #e5e5e5;
+}
+.add-on{
+	cursor: pointer;
+}
+.partake_term{
+	display: inline-block; padding-right: 15px;word-wrap: break-word;white-space: nowrap;
+}
+.creat_activity .must_details .partake_term input{
+	float: left; width: 12px; height: 12px; margin: 6px 2px 0 0;
+}
+.creat_activity .must_details>p{
+	padding-top: 8px; /** Jamai */ display: none;
+}
+.creat_activity .must_details>p>input{
+	background: #f9f9f9; width: 40%;border: 1px solid #e5e5e5;height: 28px; padding: 0 5px;box-shadow: none;border-radius: 0;
+}
+.creat_activity .must_details>p>a{
+	color: #f24949; margin-left: 10px;
+}
+.creat_activity .must_details>p>a:hover{
+	color: #db1010;
+}
+/** Jamai */
+#second {
+  display:none;
+}
+.modalv1 .title{
+  height: 40px; line-height: 40px;text-align: left; font-size: 1.2rem;border-bottom: 1px solid #666
+}
+.content{
+  font-size: 0.95rem; text-align: left;padding: 20px 0;
+}
+.content b{
+  font-weight: 700; padding-right: 5px;
+}
+.content b em{
+  font-style: normal;color: #4cc9b6;font-weight: 300;
+}
+.label-detail-pop,.use-direction{
+  width: 70%;word-wrap: break-word;
+}
+.label-detail-num {
+  padding-bottom: 10px;
+}
+.label-detail-num a{
+  padding: 0 5px;display: block;width: 12px;height: 22px;border: solid 1px #999;color: #fff;margin: 0 3px 0;float: right;line-height: 1.2;
+}
+.label-detail-num input{
+  background: none;height: 22px;padding: 0;line-height: 1.2; width: 30%;text-align: center;float: right;
+  border: solid 1px #999;color: #fff;border-radius: 0;
+}
+.buynum input{
+  width: 40%;
+}
+.verify_ticket_search{
+  border-bottom: solid 1px #ddd;padding-bottom: 8px;
+}
+.verify_ticket_search input{
+  padding: 0 2% 0 0;height: 30px;margin-left: 2%;
+}
+.verify_ticket_search button{
+  color: #fff; border: none; border-radius: 1px; padding: 5px 8px;margin: 2px 0 0 10px;
+}
+.searchbtn{
+	background: #8ebeb7;
+}
+.searchbtn_activation{
+	background: #4cc9b7;
+}
+.verify_ticket_detail{
+  margin: 0 2% 0;
+}
+.verify_ticket_detail ul{
+  margin: 0 auto; padding:8px 0;
+}
+.verify_ticket_detail ul:nth-child(2n){
+  background: #ededed;
+}
+.verify_ticket_detail li{
+  float: left;width: 100%;line-height: 2;font-size: 0.95rem;text-align: left;color: #666;
+  height: 28px;overflow: hidden;
+}
+.gray01{
+  background: #ddd;
+}
+.verify_ticket_detail b{
+  font-weight: 700;color: #333;padding-right: 6px;
+}

@@ -1,0 +1,129 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+
+<!-- 左边开始 -->
+<div class="page-sidebar nav-collapse collapse">
+<!-- BEGIN SIDEBAR MENU -->
+<!--{include file="menu.html"}-->
+<!-- END SIDEBAR MENU -->
+</div>
+<!-- 左边结束 -->
+
+<!-- BEGIN PAGE -->
+<div class="page-content">
+<!-- 右边开始-->
+<div class="container-fluid" >
+
+<!--右边标题导航开始-->
+<div class="row-fluid">
+<div class="span12">
+<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+<!--{include file="nav.html"}-->
+<!-- END PAGE TITLE & BREADCRUMB-->
+</div>
+</div>
+<!--右边标题导航结束-->
+<!--中间内容开始-->
+<div class="add_activity clearfix">
+<div class="clearfix">
+<div class="fl write nopadding">
+
+<div class="write_row">
+<div>
+<span class="title resources_title">收入情况：</span>
+<span>
+总收入：<em class="red01"><!--{if $count}-->￥<!--{$count}--><!--{else}-->无<!--{/if}--></em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+可结算：<em class="red01"><!--{if $finance}-->￥<!--{$finance}--><!--{else}-->无<!--{/if}--></em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+不可结算：<em class="red01"><!--{if $unFinance}-->￥<!--{$unFinance}--><!--{else}-->无<!--{/if}--></em>
+</span>
+</div>
+<p class="cue">
+<em class="red01">温馨小提示：</em><br />
+&nbsp;&nbsp;&nbsp;&nbsp;1.只有被验证过的消费码(原电子码或报名码)，才可结算 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;2.提示申请结算后3-7个工作日到帐
+</p>
+</div>
+</div>
+</div>
+</div>
+<!--中间内容结束-->
+<div class="settlement_btn">
+手续费：<em class="red01">￥<!--{$poundage}--></em>
+扣除手续费后应结算：<em class="red01">￥<!--{$practical}--></em><br/>
+<button class="btn green" id="finance" >申请结算</button>
+</div>
+
+</div>
+<!-- 右边结束-->
+</div>
+<!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL SCRIPTS -->
+
+<script>
+  jQuery(document).ready(function() {
+    App.init();
+    UITree.init();
+  });
+
+  /*
+   * 申请结算
+   */
+  $('#finance').click(function () {
+      if('<!--{$finance}-->' != ''){
+          $.post('<!--{$url_prefix}-->finance/settlement', {
+            'finance': '<!--{$finance}-->',
+            'poundage':'<!--{$poundage}-->'
+          }, function(data){
+              alert(data.msg);
+              if(data.status == 1){
+                  window.location.href = '<!--{$url_prefix}-->finance/list_apply';
+              }
+          }, 'json');
+      }else{
+          alert('没有可申请结算的。');
+      }
+  });
+  
+</script>
+<!-- END JAVASCRIPTS -->
+
+</body>
+<!-- END BODY -->
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

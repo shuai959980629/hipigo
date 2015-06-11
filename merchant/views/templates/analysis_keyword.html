@@ -1,0 +1,163 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+
+	<div class="page-container row-fluid">
+
+		<!-- BEGIN SIDEBAR -->
+
+		<div class="page-sidebar nav-collapse collapse">
+
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+
+		</div>		
+
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->  
+
+		<div class="page-content">
+
+			<!-- BEGIN PAGE CONTAINER-->
+
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE HEADER-->   
+
+			    <div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+
+
+					</div>
+
+				</div>
+
+				<!-- END PAGE HEADER-->
+
+				<!-- BEGIN PAGE CONTENT-->
+
+				<div class="row-fluid">
+
+					<div class="span12">
+
+						<!-- BEGIN VALIDATION STATES-->
+
+						<div class="portlet box blue">
+
+							<div class="portlet-title">
+
+								<div class="caption"><i class="icon-reorder"></i><!--{$current.last}--></div>
+
+							</div>
+
+							<div class="portlet-body form">
+
+								<div class="row-fluid">
+
+									<div class="span6">
+
+										<!--BEGIN TABS-->
+
+										<div class="tabbable tabbable-custom" style="margin:20px 0 20px 10px;width:880px;">
+
+											<ul class="nav nav-tabs">
+
+												<li<!--{if $active eq 1}--> class="active"<!--{/if}-->><a href="<!--{$url_prefix}-->analysis/keyword">昨日</a></li>
+
+												<li<!--{if $active eq 2}--> class="active"<!--{/if}-->><a href="<!--{$url_prefix}-->analysis/keyword/2">上周</a></li>
+
+												<li<!--{if $active eq 3}--> class="active"<!--{/if}-->><a href="<!--{$url_prefix}-->analysis/keyword/3">上月</a></li>
+
+											</ul>
+											<style>
+												.tab_jtd{
+													width:145px;height:100px;border:1px solid #cdcdcd;padding:20px;text-align:center
+												}
+												.tab_jtd .tr_tit{font-size:18px;font-weight:blod;height:40px}
+												.tab_jtd .tr_cnt{font-size:32px;color:blue}
+											</style>
+											<div class="tab-content" style="float:left">
+
+												<table>
+													<tr>
+														<td class="tab_jtd">
+															<p class="tr_tit">关键词被搜索次数</p>
+															<p class="tr_cnt"><!--{$sub}--></p>
+														</td>
+													</tr>
+												</table>
+												
+											</div>
+
+										</div>
+
+										<!--END TABS-->
+
+									</div>
+
+
+								</div>
+
+								
+							</div>
+
+						</div>
+
+						<!-- END VALIDATION STATES-->
+						
+				    </div>
+
+			    </div>
+
+				<!-- END PAGE CONTENT-->         
+
+			</div>
+
+			<!-- END PAGE CONTAINER-->
+
+		</div>
+
+		<!-- END PAGE -->  
+
+	</div>
+
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+
+	<!-- END PAGE LEVEL STYLES -->    
+
+	<script>
+		jQuery(document).ready(function() {
+
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.modify_passwd();
+		});
+
+	</script>
+
+	<!-- END JAVASCRIPTS -->   
+
+</body>
+
+<!-- END BODY -->
+
+</html>

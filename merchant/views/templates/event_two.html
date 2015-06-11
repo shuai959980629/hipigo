@@ -1,0 +1,506 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+<!-- BEGIN SIDEBAR -->
+<div class="page-sidebar nav-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!--{include file="menu.html"}-->
+    <!-- END SIDEBAR MENU -->
+</div>
+<!-- END SIDEBAR -->
+<!-- BEGIN PAGE -->
+<div class="page-content">
+<!-- BEGIN PAGE CONTAINER-->
+<div class="container-fluid">
+<!-- BEGIN PAGE HEADER-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <!--{include file="nav.html"}-->
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN PAGE CONTENT-->
+<div class="row-fluid">
+    <div class="span12">
+        <!-- BEGIN VALIDATION STATES-->
+        <div class="portlet box purple">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-reorder"></i>第二步设置活动规则</div>
+            </div>
+            <div class="portlet-body form yizhan egg">
+                <!--创建一战到底开始-->
+                <div class="goods_add">
+                <form action="<!--{$url_prefix}-->activity/<!--{if $eid neq ''}-->edit_activity<!--{else}-->add_activity<!--{/if}-->" id="event_two" class="form-horizontal" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="eid" value="<!--{$eid}-->" />
+                    <input type="hidden" name="a_id" value="<!--{$a_id}-->"/>
+                    <input type="hidden" name="activity_type" value="<!--{$activity_type}-->"/>
+                    <input type="hidden" name="page" value="2" />
+                    <input type="hidden" name="formhash" value="<!--{$formhash}-->" />
+                    <input type="hidden" value="<!--{$url_prefix}-->activity/<!--{if $eid neq ''}-->edit_activity<!--{else}-->add_activity<!--{/if}-->" id="jobaction"/>
+                    <input type="hidden" name="select_btype" id="select_btype" value="activity" />
+                    <div class="alert alert-error hide">
+                        <button class="close" data-dismiss="alert"></button>
+                        您输入的信息有错误，请仔细检查一下表单
+                    </div>
+                    <div class="alert alert-success hide">
+                        <button class="close" data-dismiss="alert"></button>
+                        表单验证成功
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">参与者</label>
+                        <div class="controls">
+                           <input name="is_customer" type="checkbox" value="1"<!--{if $activity.requirements.user == 'register'}-->checked="true"<!--{/if}-->>注册用户
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">是否绑定电子券<span class="required">*</span></label>
+                        <div class="controls">
+                            <ul class="select">
+                                <li><input name="bound" type="radio" value="1" onclick="set_ticket(1)"<!--{if $activity.requirement != ''}--> checked="true"<!--{/if}-->>是 </li>
+                                <li><input name="bound" type="radio" value="0" onclick="set_ticket(0)"<!--{if empty($activity.requirement)}--> checked="true"<!--{/if}-->>否</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="pcontrol-grou clearfix" id="ticket_div"<!--{if $activity.requirement == ''}--> style="display: none;"<!--{/if}-->>
+                        <label class="control-label">电子券</label>
+                        <div class="controls">
+                            <div class="e-coupon clearfix">
+                                <select name="ticket_info" id="ticket_info" class="name">
+                                    <!--{foreach from = $ticket_info item=ti}-->
+                                    <option value="<!--{$ti.id_eticket}-->" did="<!--{$ti.quantity}-->"><!--{$ti.name}--></option>
+                                    <!--{/foreach}-->
+                                </select>
+                                <a class="increase" href="javascript:void(0);" onClick="add_ticket(1)">增加</a>
+                            </div>
+                            <!--选择电子券后的显示-->
+                            <div class="show clearfix" id="ticket_show"<!--{if $activity.requirements == ''}--> style="display:none;"<!--{/if}-->>
+                                <ul>
+                                    <li class="headline clearfix"><span class="name">名称</span><span>总数</span><span>最多获得次数</span><span>操作</span></li>
+                                    <!--{if $activity.requirements != ''}-->
+                                    <!--{foreach from = $activity.ticket item=at key=k2}-->
+                                    <li>
+                                        <input type="hidden" name="max_count[]" value="<!--{$activity.requirements.eticket.$k2.getMaxNumber}-->"/>
+                                        <input type="hidden" name="id_ticket[]" value="<!--{$activity.requirements.eticket.$k2.eticketId}-->"/>
+                                        <input type="hidden" name="quantity[]" value="<!--{$at.quantity}-->"/>
+                                        <span class="name"><!--{$at.name}--></span>
+                                        <span><!--{$at.quantity}--></span>
+                                        <span><!--{$activity.requirements.eticket.$k2.getMaxNumber}--></span>
+                                        <span><a href="javascript:void(0);" onClick="delete_ticket(this,<!--{$activity.requirements.eticket.$k2.eticketId}-->,<!--{$a_id}-->)">删除</a></span>
+                                    </li>
+                                    <!--{/foreach}-->
+                                    <!--{/if}-->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <!--目前支持的事件有：关注、注册、评论；-->
+                    <div class="control-group clearfix" id="event_div">
+                        <label class="control-label">事件<span class="required">*</span></label>
+                        <div class="controls">
+                            <div class="e-coupon clearfix">
+                                <select name="event_info" id="event_info" class="name">
+                                    <option value="subscribe">关注</option>
+                                    <option value="register">注册</option>
+                                    <option value="review">评论</option>
+                                </select>
+                                <a class="increase" href="javascript:void(0);" onClick="event_change()">增加</a>
+                            </div>
+                            <!--选择事件后的显示-->
+                            <div class="incident" id="event_show"<!--{if $activity.requirements == ''}--> style="display:none;"<!--{/if}-->>
+                                <ul>
+                                    <!--{if $activity.requirements != ''}-->
+                                    <!--{foreach from = $activity.requirements.event item=are key=k2}-->
+                                    <li>
+                                        <input type="hidden" name="event[]" value="<!--{$are.action}-->"/>
+                                        <a href="javascript:void(0);" onclick="remove_event(this,'<!--{$are.action}-->')">删除</a>
+                                        <!--{if $are.action == 'register'}-->注册<!--{elseif $are.action == 'subscribe'}-->关注<!--{elseif $are.action == 'review'}-->评论<!--{/if}-->
+                                        <!--{if $are.action == 'review'}-->
+                                        <div class="review">
+                                            <ul>
+                                                <li class="clearfix">
+                                                    <span>评论对像：</span>
+                                                    <select name="review_object" id="review_object" onchange="select_review_type()">
+                                                        <option value="">请选择评论对象</option>
+                                                        <!--{foreach from = $sop item= sp key=key}-->
+                                                        <option value="<!--{$key}-->" <!--{if $are.reviewObject == $key}-->selected<!--{/if}-->><!--{$sp}--></option>
+                                                        <!--{/foreach}-->
+                                                    </select>
+                                                </li>
+                                                <li class="clearfix"><span>对象名字：</span>
+                                                    <input type="hidden" name="id_obj" value="<!--{$are.obejctId}-->" />
+                                                    <input class="span6 m-wrap" name="obj_name" value="<!--{$are.event_name}-->" type="text" readonly>
+                                                <a class="increase" style="color: #ffffff" onclick="show_div()">选择</a>
+                                                </li>
+                                                <li class="clearfix"><span>评论次数<span class="required">*</span>：</span><input class="span6 m-wrap" name="review_count" value="<!--{$are.count}-->" onKeyUp="validateInt(this);" onBlur="validateInt(this);" type="text"></li>
+                                            </ul>
+                                        </div>
+                                        <!--{/if}-->
+                                    </li>
+                                    <!--{/foreach}-->
+                                    <!--{/if}-->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                    <div class="form-actions">
+                        <button type="submit" class="btn purple" id="event_two_submit">保存</button>
+                        <!--{if $eid neq ''}-->
+                        <a class="btn" href="<!--{$url_prefix}-->activity/list_activity">跳过</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+                <!--创建一战到底结束-->
+            </div>
+        </div>
+        <!-- END VALIDATION STATES-->
+    </div>
+</div>
+    <!-- END PAGE CONTENT-->
+    <!--点击电子券弹出框开始-->
+        <div class="capacity" style="display: none;">
+            <input type="hidden" name="id_ticket_set" id="id_ticket_set" value=""/>
+            <p id="ticket_title">电子券：某某电子券</p>
+            <p class="red">获得条件</p>
+            <div class="condition">
+                <ul>
+                    <li><span>最多获得次数：</span><input class="span6 m-wrap" name="set_max_count" type="text" onKeyUp="validateInt(this);" onBlur="validateInt(this);"><b>次</b></li>
+                </ul>
+            </div>
+            <div class="form-actions">
+                <button class="btn green" onClick="capacity_ok()">确定</button><button class="btn" onClick="capacity_no()">取消</button>
+            </div>
+        </div>
+        <!--<div id="pop_up" style="display: none;"></div>-->
+    <!--点击电子券弹出框结束-->
+    </div>
+    <!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+	<script>
+		jQuery(document).ready(function() {
+		   App.init();
+		   FormValidation.eventTwoInit();
+
+            //点击确定按钮，数据发送到后端，请求相关数据
+            $(".determine").click(function(){
+                $("#prompt").hide();
+                $("#pop_up").hide();
+            });
+
+            $("#close").click(function(){
+                $("#prompt").hide();
+                $("#pop_up").hide();
+            });
+
+            $("#btype").change(function(){
+                if(confirm("选择分类，之前的选择将清空")){
+                    $("input[name='obj_name']").val('');
+                    $("input[name='id_obj']").val('');
+                    $("#select_btype").val($("#btype").val());
+                    $("#review_object").val($("#btype").val());
+                    get_select_content(1);
+                }
+            });
+
+            $("#list_contents").find("input[name='selected_id']").live('click',function(){
+                $('input[name="id_obj"]').val($(this).val());
+                $('input[name="obj_name"]').val($(this).attr('did'));
+            });
+		});
+
+        function select_review_type(){
+            if(confirm("选择分类，之前的选择将清空")){
+                $("input[name='obj_name']").val('');
+                $("input[name='id_obj']").val('');
+                $("#select_btype").val($("#review_object").val());
+                $("#btype").val($("#review_object").val());
+                get_select_content(1);
+            }
+        }
+
+        $(function(){
+            $('#select_btype').val($('#review_object').val()?$('#review_object').val():'activity');
+            $("#btype").val($("#review_object").val());
+
+            get_select_content(1);
+        });
+//        $("#select_name").click(function(){
+        function show_div(){
+            $("#prompt").show();
+            $("#pop_up").show();
+        }
+
+        //删除事件
+        function remove_event(obj,$type){
+            $(obj).parent().remove();
+            if($type == 'review'){
+                $('#select_btype').val('activity');
+                $("#btype").val('activity');
+                get_select_content(1);
+            }
+        }
+
+
+        //搜索活动或物品关键字
+        function search_key(obj){
+            if($(obj).val()){
+                get_select_content(1);
+            }
+        }
+
+        //搜索返回刷新
+        function backSearchOrRefresh(obj){
+            var searchinput = $(obj).val();
+            if(searchinput == ''){
+                get_select_content(1);
+            }
+        }
+
+        function get_select_content(page){
+//			$("#select_btype").val($("#btype").val());
+            if(!page){
+                //当前分页
+                var cpage = parseInt($("#box_cpage").val())+1;
+            }else{
+                var cpage = page;
+            }
+            //关键词
+            var seek = $("#seek").val();
+            //分类
+            var btype = $("#btype").val();
+            if($('#eid').val() == ''){
+                $('#select_btype').val(btype);
+            }
+            //alert('cpage='+cpage+'   seek='+seek+'   btype='+btype);
+            $.post('<!--{$url_prefix}-->system/wx_imgreply/'+cpage+'/2', {'seek':seek,'btype':$('#select_btype').val()}, function(
+            data, textStatus) {
+                if (data.status == 1) {
+                    var shtml = '';
+                    $(data.data).each(function(){
+                        shtml += '<tr><td class="number"><input type="radio" name="selected_id" did="'+this.title+'" value="'+this.id+'" />&nbsp;</td><td>'+this.title+'</td></tr>';
+                    });
+
+                    $("#list_contents").html(shtml);
+                    $("#list_contents").find('input[name="selected_id"][value="'+$('input[name="id_obj"]').val()+'"]').attr('checked','checked');
+
+                    if(data.count > 0){
+                        $("#list_count").html(data.cpage+'/'+data.count);
+                    }
+                    if(data.page){
+                        $("#box_cpage").val(data.cpage);
+                        $("#fenye").html(data.page);
+                    }else{
+                        $("#fenye").html('');
+                    }
+
+                    $('#show_tip').remove();
+                } else {
+                    //post_error(data.msg);
+                }
+            }, "json");
+        }
+
+        //事件的选择
+        function event_change(){
+            var event_val = $('#event_info').val();
+
+            //判断绑定事件
+            var is_go = 0;
+            $('input[name="event[]"]').each(function(){
+                var val = $(this).val();
+                if(val==event_val){
+                    alert('事件绑定里已加入过了!');
+                    is_go = 1;
+                    return false;
+                }
+            });
+            if(is_go == 1){
+                return false;
+            }
+            var html_rs = '<li><input type="hidden" name="event[]" value="'+event_val+'"/><a href="javascript:void(0);" onclick="$(this).parent().remove();">删除</a>';
+            if(event_val == 'register' ){
+                html_rs += '注册</li>';
+            } else if(event_val == 'subscribe'){
+                html_rs += '关注</li>';
+            }else if(event_val == 'review'){
+                html_rs += '评论<div class="review"><ul><li class="clearfix"><span>评论对像：</span>' +
+                        '<select name="review_object" id="review_object" onchange="select_review_type()">' +
+                        '<option value="">请选择评论对象</option>' +
+                        <!--{foreach from = $sop item= sp key=key}-->
+                        '<option value="<!--{$key}-->" <!--{if $key == "activity"}-->selected<!--{/if}-->><!--{$sp}--></option>' +
+                        <!--{/foreach}-->
+                        '</select></li>' +
+                            '<li class="clearfix"><span>对象名称：</span>' +
+                            '<input type="hidden" name="id_obj" value="" /><input class="span6 m-wrap" name="obj_name" value="" type="text" readonly>' +
+                                    '<a class="increase" style="color: #ffffff" onclick="show_div()">选择</a></li>'+
+                            '<li class="clearfix"><span>评论次数<span class="required">*</span>：</span><input class="span6 m-wrap" name="review_count" value="" onKeyUp="validateInt(this);" onBlur="validateInt(this);" type="text"></li>'+
+                    '</ul></div>';
+                $('#btype').val('activity');
+            }
+
+            if($('#event_show').css('display') == 'none'){
+                $('#event_show').show();
+            }
+            $('#event_show').children('ul').html($('#event_show').children('ul').html()+html_rs);
+        }
+
+        //提交第二步活动设置（一站到底）
+        $("#event_two_submit").click(function(){
+            //判断是否绑定电子券
+            var bound = $('input[name="bound"]:checked').val();
+            if(bound == 1){
+                var id_ticket = $('input[name="id_ticket[]"]').val();
+                if(id_ticket == null){
+                    alert("请完成电子券绑定信息！");
+                    return false;
+                }
+            }
+
+            if($('input[name="event[]"]').val() == null){
+                alert("请绑定事件！");
+                return false;
+            }
+
+            var is_review = 0;
+            //判断是否绑定事件
+            $('input[name="event[]"]').each(function(){
+                var val = $(this).val();
+                if(val=='review'){
+                    is_review = 1;
+                }
+            });
+
+            if(is_review == 1){
+                var review_count = $('input[name="review_count"]').val();
+                if(review_count != null && review_count == ''){
+                    alert("请输入评论次数！");
+                    return false;
+                }
+            }
+
+            //验证通过提交表单
+            $("#event_two").submit();
+        });
+
+        //设置确定
+        function capacity_ok(){
+            var max_count = $('input[name="set_max_count"]').val();
+            max_count = max_count.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            var total_count = $("#ticket_info").find("option:selected").attr('did');
+            if(max_count == ''){
+                alert('请输入最多获得次数!');
+                return;
+            }else if(parseInt(total_count) < parseInt(max_count)){
+                alert('请输入获取次数小于电子券总数!');
+                return;
+            }
+
+            var html_info = '<li class="clearfix">' +
+                    '<input type="hidden" name="max_count[]" value="'+max_count+'"/>' +
+                    '<input type="hidden" name="id_ticket[]" value="'+$('#id_ticket_set').val()+'"/>' +
+                    '<input type="hidden" name="quantity[]" value="'+$("#ticket_info").find("option:selected").attr('did')+'"/>' +
+                    '<span class="name">' + $("#ticket_info").find("option:selected").text()+
+                    '</span><span>'+$("#ticket_info").find("option:selected").attr('did')+'</span>'+
+                    '<span>'+max_count+'</span><span><a href="javascript:void(0);" onclick="$(this).parent().parent().remove();">删除</a></span></li>';
+
+            if($('#ticket_show').css('display') == 'none'){
+                $('#ticket_show').show();
+            }
+            $('#ticket_show').children('ul').html($('#ticket_show').children('ul').html() + html_info);
+            $('.capacity').hide();
+            $('#pop_up').hide();
+
+            $('input[name="set_max_count"]').val('');
+        }
+
+        //设置取消
+        function capacity_no(){
+            $('.capacity').hide();
+            $('#pop_up').hide();
+        }
+
+        //是否绑定电子券处理
+        function set_ticket(num){
+            if(num == 1){
+                $('#ticket_div').show();
+
+//                $('.capacity').show();
+//                $('#pop_up').show();
+            }else{
+                $('.capacity').hide();
+                $('#pop_up').hide();
+                $('#ticket_div').hide();
+            }
+        }
+
+        //添加电子券绑定
+        function add_ticket(num){
+            if(num == 1){//显示绑定电子券的设置层
+                var id_ticket = $('#ticket_info').val();
+                var ticket_info = $("#ticket_info").find("option:selected").text();
+
+                $.post('<!--{$url_prefix}-->activity/verify_ticket', {
+                    'id_ticket':id_ticket
+                }, function(data){
+                    if(data == '1'){
+                        alert('此电子券已被其他活动绑定过了!');
+                        return false;
+                    }else{
+                        //判断是否绑定事件
+                        var is_go = 0;
+                        $('input[name="id_ticket[]"]').each(function(){
+                            var val = $(this).val();
+                            if(val==id_ticket){
+                                alert('不能绑定相同电子券哦！!');
+                                is_go = 1;
+                                return false;
+                            }
+                        });
+                        if(is_go == 1){
+                            return false;
+                        }
+                        $('#id_ticket_set').val(id_ticket);
+                        $('#ticket_title').html('电子券:'+ticket_info);
+
+                        $('.capacity').show();
+                        $('#pop_up').show();
+                    }
+                }, 'text');
+
+            }else if(num == 2){//设置电子券绑定信息
+                var html = '';
+                $('.show').children('ul').html($('.show').children('ul').html()+html);
+            }else if(num == 3){//取消设置
+                $('.capacity').hide();
+                $('#pop_up').hide();
+            }
+        }
+
+
+    function delete_ticket(obj,id_ticket,id_activity){
+        $(obj).parent().parent().remove();
+    }
+
+</script>
+	<!-- END JAVASCRIPTS -->
+<!--{include file="img_text_reply.html"}-->
+
+<div id="pop_up" style="display:none"></div>
+</body>
+<!-- END BODY -->
+</html>

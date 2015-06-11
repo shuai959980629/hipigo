@@ -1,0 +1,52 @@
+<!--{include file="header.html"}-->
+<script>
+  var offset = 1;
+  $(function () {
+    var loca_url = base_url + '/community/lists';
+    //refresh_page('', 1,loca_url,'wonderful_list');
+    refresh('wonderful_list', loca_url, 'wonderful_list', '', 0);
+  });
+
+$(function () {
+  $('#filter_activity').live('click', function () {
+    $.post(
+      '<!--{$url}-->/community/filtercondition',
+      {width: $(window).height()},
+      function (result) {
+        if(result.code == 1) {
+          
+          var html = '<li><a href="javascript: void(0);" data-filter="all" class="haveback1">全部</a></li>';
+          $.each(result.success, function (key, val) {
+            html += '<li><a href="javascript: void(0);" data-filter="' + 
+                  val.id_type_merchant + '" class="haveback1">' + val.name + '</a></li>';
+          });
+          $('.pull_down ul').html(html).parent().show();
+        }
+      }, 'json');
+  });
+  
+  $('.haveback1').live('click', function () {
+    var url = base_url + '/community/lists';
+    refresh('wonderful_list', url, 'wonderful_list', '', 0, $(this).attr('data-filter'));
+    $(this).parent().parent().parent().hide();
+  });
+  
+});
+  
+</script>
+<section id="cool_life_section" class="active">
+
+<!--{include file="nav.tpl"}-->
+
+<article id="cool_life_list" data-scroll="true" class="active">
+<div>
+<ul class="wonderful_list"></ul>
+</div>
+</article>
+
+<div class="pull_down" style="display: none;">
+<ul></ul>
+</div>
+
+</section>
+<!--{include file="footer.html"}-->

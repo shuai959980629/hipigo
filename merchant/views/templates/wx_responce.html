@@ -1,0 +1,287 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+				<!-- BEGIN PAGE HEADER-->
+			    <div class="row-fluid">
+					<div class="span12">
+						<!--{include file="nav.html"}-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row-fluid">
+					<div class="span12">
+                        <!--关键词回复-->
+                        <div class="tabbable tabbable-custom attention">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="<!--{$url_prefix}-->system/wx_reply">列表</a></li>
+                                <li><a href="<!--{$url_prefix}-->system/wx_imgreply">添加</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab_1_3" class="tab-pane active">
+                                <p class="fl"><input id="seek" type="text" onBlur="search_replay(this)" onKeyUp="backSearchOrRefresh(this)" onKeyPress="if(event.keyCode==13){search_replay(this)}" name="seek" value="搜索关键字" style="color:#555" ></p>
+                                <p class="fr">
+                                <select name="reply_type" id="reply_type" onChange="responce_list_page(1)">
+                                    <option value="all">全部</option>
+                                    <option value="text">文本</option>
+                                    <option value="image-text">图文</option>
+                                    <option value="image">图片</option>
+                                    <option value="audio">音频</option>
+                                    <option value="video">视频</option>
+                                </select>
+                                </p>
+                                    <div class="portlet box blue">
+                                    <div class="portlet-body fuelux ">
+                                       <!--列表开始-->
+                                        <div class="activity">
+                                            <table width="100%">
+                                                <tbody class="fy_data">
+                                                <tr class="big_title">
+                                                    <td class="choose"></td>
+                                                    <td class="title">关键词</td>
+                                                    <td class="activity_content">回复内容</td>
+                                                    <td>方式</td>
+                                                    <td>操作</td>
+                                                </tr>
+                                                <!--{if !empty($wxlist)}-->
+                                                <!--{foreach from=$wxlist item=wx}-->
+                                                <tr>
+                                                    <td class="choose"><input name="subBox[]" type="checkbox" value="<!--{$wx.id_msg}-->"></td>
+                                                    <td class="title"><!--{$wx.keyword|truncate_utf8:20}--></td>
+                                                    <td class="activity_content">
+                                                        <!--{if $wx.reply_type eq 'text' }-->
+                                                            <div class="describe"><!--{$wx.reply|truncate_utf8:20}--></div>
+                                                        <!--{elseif $wx.reply_type eq 'image-text'}-->
+                                                            <div class="describe">(<!--{count($wx.cnt)}-->)<!--{$wx.cnt[0]['title']|truncate_utf8:20}--></div>
+                                                        <!--{elseif $wx.reply_type eq 'image'}-->
+                                                        <div class="describe">
+                                                            <img src="/biz/media/image/ico_pic.png" style="width:22px;height: 16px">
+                                                        </div>
+                                                        <!--{elseif $wx.reply_type eq 'audio'}-->
+                                                        <div class="describe">
+                                                            <img src="/biz/media/image/ico_voice.png" style="width:14px;height: 19px">
+                                                        </div>
+                                                        <!--{elseif $wx.reply_type eq 'video'}-->
+                                                        <div class="describe">
+                                                            <!--{$wx.reply|truncate_utf8:20}-->
+                                                            <img src="/biz/media/image/ico_video.png" style="width:22px;height: 16px">
+                                                        </div>
+                                                        <!--{/if}-->
+                                                    </td>
+                                                    <td>
+                                                        <!--{if $wx.reply_type eq 'text'}-->文本
+                                                        <!--{elseif $wx.reply_type eq 'image-text'}-->图文
+                                                        <!--{elseif $wx.reply_type eq 'image'}-->图片
+                                                        <!--{elseif $wx.reply_type eq 'audio'}-->音频
+                                                        <!--{elseif $wx.reply_type eq 'video'}-->视频
+                                                        <!--{/if}-->
+                                                    </td>
+                                                    <td>
+                                                        <a class="compile" href="<!--{$url_prefix}-->system/wx_imgreply/<!--{$wx.id_msg}-->">编辑</a>
+                                                        <a class="delete" href="javascript:void(0);" onClick="delete_reply(<!--{$wx.id_msg}-->,<!--{$offset}-->,1)">删除</a>
+                                                    </td>
+                                                </tr>
+                                                <!--{/foreach}-->
+                                                <!--{else}-->
+                                                <tr>
+                                                    <td style="padding-left: 5px" colspan="5">没有数据</td>
+                                                </tr>
+                                                <!--{/if}-->
+                                                </tbody>
+                                            </table>
+                                            <div>
+                                            <div class="delete fl" style="margin-top:25px;">
+                                                <input id="checkAll" type="checkbox" value=""><span id="span_checkAll">全选</span>
+                                                <a href="javascript:void(0);" onClick="delete_reply('checked',1,2)">删除</a>
+                                            </div>
+                                            <!--{if $page_html}-->
+                                            <div class="pagination fr">
+                                                <ul>
+                                                    <!--{$page_html}-->
+                                                </ul>
+                                            </div>
+                                            <!--{/if}-->
+                                            </div>
+                                        </div>
+                                        <!--列表结束-->
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+						</div>
+						</div>
+						<!-- END VALIDATION STATES-->
+                    </div>
+			    </div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL STYLES -->
+	<script>
+
+		jQuery(document).ready(function() {
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.init();
+		});
+
+		$("#seek").focus(function(){
+			if($(this).val() == '搜索关键字'){
+				$(this).val('');
+			}
+		});
+		
+        //回复内容分页
+		function responce_list_page(offset){
+            var search_key = $('#seek').val();
+            if(search_key == '搜索关键字'){
+                search_key = '';
+            }
+            $.post('<!--{$url_prefix}-->system/wx_reply', {
+                'reply_type': $('#reply_type').val(),
+                'search_key':search_key,
+                'offset':offset,
+                'ispage':1
+            }, function(data){
+                $('.activity').html(data);
+            }, 'text');
+        }
+
+        //搜索关键字
+        function search_replay(obj){
+            var search_keys = $(obj).val();
+            var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(search_key == '' || search_key == '搜索关键字'){
+//                alert('请输入你要搜索的文字内容！');
+				$("#seek").val('搜索关键字');
+                return;
+            }else{
+                $.post('<!--{$url_prefix}-->system/wx_reply', {
+                    'reply_type': $('#reply_type').val(),
+                    'search_key':search_key,
+                    'offset':1,
+                    'ispage':1
+                }, function(data){
+                    $('.activity').html(data);
+                }, 'text');
+            }
+        }
+        //搜索返回刷新
+        function backSearchOrRefresh(obj){
+            var searchinput = $(obj).val();
+            if(searchinput == ''){
+                responce_list_page(1);
+            }
+        }
+
+        //删除回复信息  1.单个删除  2.多个删除
+        function delete_reply(id_msg,offset,$type){
+            if($type==1){
+                delete_reply_info(id_msg,offset);
+            }else{
+                var id_msgs = Array();
+                $("input[name='subBox[]']:checked").each(function (i) {
+                    id_msgs[i] = $(this).val();
+                });
+                if(id_msgs.length <= 0){
+                    alert('请选择要删除的信息！');
+                    return;
+                }else{
+                    delete_reply_info(id_msg,offset);
+                }
+            }
+        }
+
+        //删除回复信息
+        function delete_reply_info(id_msg,offset){
+            if(confirm("你确定要删除该回复信息吗？"))
+            {
+                var search_keys = $('#seek').val();
+                var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+                if(search_key == '搜索关键字'){
+                    search_key = '';
+                }
+                if(id_msg == 'checked'){
+                    var id_msgs = Array();
+                    $("input[name='subBox[]']:checked").each(function (i) {
+                        id_msgs[i] = $(this).val();
+                    });
+                    $.post('<!--{$url_prefix}-->system/wx_delete_reply', {
+                    'reply_type': $('#reply_type').val(),
+                            'search_key':search_key,
+                            'id_msg': id_msgs,
+                            'offset':offset,
+                            'delete_type':'checked'
+                    }, function(data){
+                        if(data.status == '0'){
+                            alert('没权限执行此操作!');
+                        }else
+                            $('.activity').html(data.data);
+                    }, 'json');
+                }else{
+                        $.post('<!--{$url_prefix}-->system/wx_delete_reply', {
+                        'reply_type': $('#reply_type').val(),
+                                'search_key':search_key,
+                                'id_msg': id_msg,
+                                'offset':offset,
+                                'delete_type':''
+                    }, function(data){
+                        if(data.status == '0'){
+                            alert('没权限执行此操作!');
+                        }else
+                            $('.activity').html(data.data);
+                    }, 'json');
+                }
+            }
+        }
+
+        //全选和全不选
+        $(function() {
+            $("#checkAll").click(function() {
+                $('input[name="subBox[]"]').attr("checked",this.checked);
+            });
+            var $subBox = $("input[name='subBox[]']");
+            $subBox.click(function(){
+                $("#checkAll").attr("checked",$subBox.length == $("input[name='subBox[]']:checked").length ? true : false);
+            });
+
+            $("#span_checkAll").click(function() {
+                $('#checkAll').attr('checked',$('#checkAll').attr("checked") == 'checked' ? false : true);
+                $('input[name="subBox[]"]').attr("checked",$('#checkAll').attr("checked") == 'checked' ? true : false);
+            });
+        });
+
+	</script>
+	<!-- END JAVASCRIPTS -->   
+
+</body>
+<!-- END BODY -->
+</html>

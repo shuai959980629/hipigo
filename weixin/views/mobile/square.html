@@ -1,0 +1,86 @@
+<!--{include file="header.html"}-->
+<script type="text/javascript">
+
+$(function () {
+ J.Scroll("#square_container");
+ refresh('list', base_url + '/community/home_list', 'square_list');
+});
+
+</script>
+<section id="index_section" class="active">
+
+<!--{include file="nav.tpl"}-->
+
+<article id="square_container" data-scroll="true" class="active">
+<div class="square_list_container">
+
+<div class="enter_search">
+<a href="<!--{$url}-->/search/index"><button class="search"><i class="icon search nofloat"></i>搜索</button></a>
+</div>
+
+<ul class="quick_ingress clearfix" data-name="广场其他快捷入口">
+
+<li class="relative">
+<a href="<!--{$url}-->/community/coollife">
+<em class="wonderful"><i class="iconfont icon iconfont_17 ">&#58923;</i></em>
+<span>精彩生活<!--{if $read.life}--><em class="reddot"></em><!--{/if}--></span></a>
+</li>
+
+<li class="relative">
+<a href="<!--{$url}-->/resource/index">
+<em class="resource"><i class="iconfont icon iconfont_17 ">&#58925;</i></em>
+<span>资源库<!--{if $read.resource}--><!--{/if}--><em class="new_icon"></em></span></a>
+</li>
+
+<!--{if $isRole == 1}-->
+<li class="relative">
+<a href="<!--{$url}-->/community/publish">
+<em class="master"><i class="iconfont icon iconfont_18 ">&#58932;</i></em>
+发布活动</a><em class="new_icon"></em>
+</li>
+<!--{elseif $isRole}--><!-- == 2 -->
+<a href="javascript: void(0);"><li class="relative">
+<em class="master"><i class="iconfont icon iconfont_17 ">&#58924;</i></em>
+申请达人<span class="applying">申请进行时</span>
+</a>
+</li>
+<!--{else}-->
+<li class="relative">
+<a href="<!--{$url}-->/user_activity/expert">
+<em class="master"><i class="iconfont icon iconfont_17 ">&#58924;</i></em>
+申请达人</a><em class="new_icon"></em>
+</li>
+<!--{/if}-->
+
+<li class="relative">
+<a href="<!--{$url}-->/home/hotbusiness">
+<em class="hot_tenant"><i class="iconfont icon iconfont_17 ">&#58922;</i></em>
+<span>热门商户<!--{if $read.business}--><em class="reddot"></em><!--{/if}--></span></a>
+</li>
+
+<!--
+<li class="relative">
+<a href="<!--{$url}-->/user_activity/recommend_leader">
+<em class="hipster"><i class="iconfont icon iconfont_17 ">&#58931;</i></em>
+<span>推荐达人<!--{if $read.expert}--><em class="reddot"></em><!--{/if}--></span></a>
+</li>
+-->
+
+<li class="relative">
+<a href="<!--{$url}-->/community/kill">
+<em class="hipster"><i class="iconfont icon iconfont_21 ">&#58936;</i></em>
+<span>抢购广场<em class="new_icon"></em></span></a>
+</li>
+
+</ul>
+
+<h4 style="background-color: #fff;">猜你喜欢</h4>
+
+<ul class="list" data-name="热点"></ul>
+
+</div>
+
+</article>
+</section>
+
+<!--{include file="footer.html"}-->	

@@ -1,0 +1,93 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	background: #fff;font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif}
+	
+/*.outDiv{
+    display: inline;
+    float: left;
+    text-align: center;
+    width: 100%;
+}
+.outDiv .blockLeft {
+    height: auto;
+    margin: 1em auto;
+	overflow:hidden; width:91%
+}
+@media (min-width: 320px) and (max-width: 768px){
+	.outDiv .blockLeft img{
+		width:360px; height:200px; overflow:hidden; 
+}
+  .blockLeft .pictitle{
+	  width:360px; overflow:hidden;}
+}
+
+@media (min-width: 769px){
+	.outDiv .blockLeft img{
+		width:630px; height:350px; overflow:hidden; 
+}
+.blockLeft .pictitle{
+	  width:630px; overflow:hidden; }
+}
+.outDiv .pictitle{
+	margin:0 auto;}
+	
+.subject {
+    color: #666666;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1.3em;
+    padding: 0.8em 0 0;
+    text-align: center;
+}
+/*@media (min-width: 481px) and (max-width: 768px){
+	.outDiv .blockLeft img{
+		width:450px; height:250px; overflow:hidden; 
+}
+.blockLeft .pictitle{
+	  width:450px; overflow:hidden; }
+}*/
+
+#package{
+    display: inline;
+    text-align: center;
+    width: 90%; margin:0 auto;}
+	
+#package .block_package {
+    height: auto;
+    margin: 1em auto;
+	overflow:hidden; width:630px;
+}
+
+#package .block_package .subjecta{
+	margin:0 auto;
+    background-color: #F2EAD3;
+    border-radius: 0 0 10px 10px;
+    border-top: 1px solid #EBEBEB;
+    padding:1em 0;
+}
+
+@media (min-width: 320px) and (max-width: 480px){
+	#package .block_package {
+		overflow:hidden; width:297px
+	}
+	
+}
+
+
+@media (min-width: 481px) and (max-width: 768px) {
+	#package .block_package {
+		overflow:hidden; width:540px
+	}
+}
+
+
+
+@media (min-width: 769px){
+	#package .block_package img{
+		 height:350px; overflow:hidden; 
+}
+  
+}
+

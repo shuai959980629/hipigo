@@ -1,0 +1,796 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- 左边开始 -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- 左边结束 -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- 右边开始-->
+			<div class="container-fluid" >
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+                   
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--商品列表开始-->
+                            <div class="catalogue user_msg">
+                            <table width="100%">
+                                <tbody>
+                                    <tr class="big_title" style="line-height: 35px">
+                                        <td class="id_title" style="width: 19%">回复信息</td>
+                                    </tr>
+                                    <tr class="reply">
+                                        <td>
+                                            <div style="width: 80%;height: 40px;">
+                                                <label>
+                                                <input type="radio" name="r_m" value="text" checked/>
+                                                文字
+                                                </label>
+                                                <label>
+                                                <input type="radio" name="r_m" value="image-text"/>
+                                                图文
+                                                </label>
+                                                <label>
+                                                <input type="radio" name="r_m" value="image"/>
+                                                图片
+                                                </label>
+                                                <label>
+                                                <input type="radio" name="r_m" value="audio"/>
+                                                音频
+                                                </label>
+                                                <label>
+                                                <input type="radio" name="r_m" value="video"/>
+                                                视频
+                                                </label>
+                                            </div>
+                                            <input type="hidden" name="id_customer_msg"  id="id_customer_msg" value="<!--{$id_customer_msg}-->" />
+                                            <input type="hidden" name="id_bn_sub"  id="id_bn_sub" value="<!--{$id_bn_sub}-->" />
+                                            <input type="hidden" name="content_length"  id="content_length" value="" />
+                                            <input type="hidden" name="select_btype" id="select_btype" value="activity" />
+
+                                            <div id="text">
+                                                <textarea class="span6 m-wrap" id="text_content" name="text_content" style="width:50%"></textarea>
+                                                <br/><div class="text wb" style="width:50%; text-align:right">
+                                                    <span>还可以输入<em id="s_word" style="color:#f00; font-style:normal; font-size:16px; font-weight:bold">140</em>个字
+                                                    </span>
+                                                <input class="btn blue" type="button" value="发送" onclick="submit_text('text')"/>
+                                                </div>
+                                            </div>
+                                            <div class="controls add_img reply" style="display:none" id="image_text">
+                                            <table class="goods_table" width="90%">
+                                                <tr style="background:#4B8DF8; color:#fff">
+                                                    <td class="headline" style="color:#fff">标题</td>
+                                                    <td style="color:#fff">操作</td>
+                                                </tr>
+                                                <tbody id="cnt_selected">
+                                                </tbody>
+                                            </table>
+                                            <input style="margin:10px 10px 0 0" class="btn green fl" id="select" type="button" value="选择"/>
+                                            <input style="margin-top:10px" class="btn blue fl" type="button" id="send" value="发送" onclick="submit_text('image-text')"/>
+                                            </div>
+                                            <!--{include file="img_text_reply.html"}-->
+                                            <div id="attachment" style="display: none; width: 80%">
+                                                <div id="img_war">图片: 128K，支持JPG格式。</div>
+                                                <div id="voice_war">语音：256K，播放长度不超过60s，支持AMR格式。</div>
+                                                <div id="video_div">
+                                                <div class="content"><span class="fl">视频说明：</span>
+                                                    <textarea class="m-wrap" id="video_content">请输入视频说明</textarea>
+                                                </div>
+                                                    <span style="float: right;width: 52%;color:#4B8DF8">最多可输入200个字。</span>
+                                                </div>
+                                                <div id="swfupload-control" style="line-height: 30px">
+                                                    <input type="button" id="button" />
+                                                    <span id="video_war">视频：1MB，支持MP4格式。</span>
+                                                    <input type="hidden" id="fileNum" name="fileNum" value="0">
+                                                    <p id="queuestatus" ></p>
+                                                    <ol id="log"></ol>
+                                                </div>
+                                                <input type="hidden" id="type" name="type" value="image">
+                                                <input type="hidden" id="image_src" name="image_src" value=" "/>
+                                                <input  class="btn blue" type="button" value="发送" onclick="submit_attachment()"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr style=" border: none;">
+                                        <td>
+                                            <div style="font-size: 21px;color: #3A87EE;height: 30px; padding: 15px 0 0 20px">全部聊天记录</div>
+                                        </td>
+                                    </tr>
+                                    <tr style="width: 80%"><td>
+                                        <script src="<!--{$url_prefix}-->media/js/jquery-1.10.1.min.js"></script>
+                                        <div id="list_reply">
+                                        <table class="reply_list">
+                                        <!--{foreach from = $reply item = qr key = k}-->
+                                        <tr style="line-height: 35px;"<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                                            <td class="id_title" style="width: 19%"><!--{urldecode($qr.nick_name)}--></td>
+                                            <td class="title">
+                                                <div class="describe">
+                                                    <!--{$qr.reply_content}-->
+                                                    <!--{if $qr.reply_type == 'image'}-->
+                                                    <img src="/biz/media/image/ico_pic.png" style="width:22px;height: 16px">
+                                                    <!--{/if}-->
+                                                    <!--{if $qr.reply_type == 'audio'}-->
+                                                    <img src="/biz/media/image/ico_voice.png" style="width:14px;height: 19px">
+                                                    <!--{/if}-->
+                                                    <!--{if $qr.reply_type == 'video'}-->
+                                                    <img src="/biz/media/image/ico_video.png" style="width:22px;height: 16px">
+                                                    <!--{/if}-->
+                                                    <!--{if $qr.reply_type == 'image-text'}-->
+                                                    <img src="/biz/media/image/ico_image_text.png" style="width:22px;height: 16px">
+                                                    <!--{/if}-->
+                                                </div>
+                                            </td>
+                                            <td><!--{substr($qr.created,0,10)}--></td>
+                                        </tr>
+                                        <!--{/foreach}-->
+                                        </table>
+                                            <!--分页 start-->
+                                            <!--{if $page_html}-->
+                                            <div class="pagination">
+                                                <ul>
+                                                    <!--{$page_html}-->
+                                                </ul>
+                                            </div>
+                                            <!--{/if}-->
+                                            <!--分页 ene-->
+                                        </div>
+                                    </td></tr>
+                                </tbody>
+                            </table>
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+				    </div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+        <div id="pop_up" style="display:none"></div>
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+        <script src="<!--{$url_prefix}-->media/kindeditor/kindeditor-all.js"></script>
+        <script src="<!--{$url_prefix}-->media/kindeditor/lang/zh_CN.js"></script>
+        <script type="text/javascript" src="<!--{$url_prefix}-->media/js/swfupload/swfupload.js"></script>
+        <script type="text/javascript" src="<!--{$url_prefix}-->media/js/jquery.swfupload.js"></script>
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+		jQuery(document).ready(function() {
+		   App.init();
+		   UITree.init();
+		});
+
+        /*
+         * zxx 上传附件按钮初始及处理
+         * */
+        var isUploadfile = 0;
+        $(function (){
+
+            $('#video_content').click(function(){
+                var video_content = $(this).val();
+                if(video_content == '请输入视频说明'){
+                    $(this).text('');
+                }
+            }).blur(function (){
+                if($(this).val() == ''){
+                    $(this).text('请输入视频说明');
+                }
+            });
+
+
+//            $('#fileNum').val(0);
+//            $("input[name=r_m]:eq(0)").attr('checked','checked');
+
+            var len=0;
+            $('#swfupload-control').swfupload({
+                upload_url: '<!--{$url_prefix}-->files/upload_all_file/reply',//<!--{$sessionid}-->"upload-file.php",
+                file_post_name: 'uploadfile',
+                file_size_limit : '2048',
+                file_types : '*.jpg;*.amr;*.mp4;',
+                file_types_description : "image files",
+                file_upload_limit : 0,
+                flash_url : "<!--{$url_prefix}-->media/js/swfupload/swfupload.swf",
+                button_image_url : '<!--{$url_prefix}-->media/js/swfupload/wdp_buttons_upload_114x29.png',
+                button_width : 114,
+                button_height : 29,
+                button_placeholder : $('#button')[0],
+                button_action:SWFUpload.BUTTON_ACTION.SELECT_FILE,
+                debug: false
+            }).bind('fileQueued', function(event, file){
+                if(parseInt($('#fileNum').val()) >= 1){
+                    alert("文件只能传送1个!");
+                    var swfu = $.swfupload.getInstance('#swfupload-control');
+                    swfu.cancelUpload(file.id);
+                    len = 1;
+                    return false;
+                }
+                $('#fileNum').val(parseInt($('#fileNum').val())+1);
+
+                    isUploadfile = 1;
+                var listitem='<li id="'+file.id+'" ><b class="js-component-icon nui-ico fl"></b>'+
+                        '<em>'+file.name+'</em> '+
+                        '<span class="file_cancel" style="display:none">删除</span>'+
+                        '<span class="cancel" >删除</span>'+
+                        '<div class="progressbar" style="display:none;"><div class="progress" ></div></div><span class="progressvalue" ></span>'+
+                        '<p class="status" >等待中..</p>'+
+                        '</li>';
+
+                $('#log').append(listitem);
+                $('li#'+file.id+' .cancel').bind('click', function(){
+                    var swfu = $.swfupload.getInstance('#swfupload-control');
+                    swfu.cancelUpload(file.id);
+
+                    $('li#'+file.id).slideUp('fast');
+
+                    $('#submitForm').addClass('green');
+                    $('#submitForm').attr('onClick','');
+                    $('#form_synopsis_edit').attr('action',$("#jobaction").val());
+                    isUploadfile = 0;
+                });
+
+                if($('#submitForm').attr('class') == 'btn green'){
+                    $('#submitForm').removeClass('green');
+                    $('#submitForm').attr('onClick','return false;');
+                    $('#form_synopsis_edit').attr('action','');
+                }
+                // start the upload since it's queued
+                $(this).swfupload('startUpload');
+            })
+            .bind('fileQueueError', function(event, file, errorCode, message){
+                    isUploadfile = 0;
+                if(file){
+                    alert(file.name+' 的文件已超限，详细请见备注！');//大小('+Math.round(file.size/1024)+'KB)
+                }else
+                    alert('超过队列数了！');
+            })
+            .bind('uploadStart', function(event, file){
+                $('#log li#'+file.id).find('div.progressbar').css('display','block');
+                $('#log li#'+file.id).find('p.status').text('');
+                $('#log li#'+file.id).find('span.progressvalue').text('0%');
+//                $('#log li#'+file.id).find('span.cancel').hide();
+            })
+            .bind('uploadProgress', function(event, file, bytesLoaded){
+                //Show Progress
+                var percentage=Math.round((bytesLoaded/file.size)*100);
+                percentage = percentage>100?100:percentage;
+                $('#log li#'+file.id).find('div.progress').css('width', percentage +'%');
+                $('#log li#'+file.id).find('span.progressvalue').text(percentage+'%');
+                if(percentage >= 100){
+                    $('#log li#'+file.id).find('div.progressbar').css('display','none');
+                    $('#log li#'+file.id).find('span.progressvalue').text('');
+                    $('#log li#'+file.id).addClass('success').find('p.status').html('('+Math.round(file.size/1024)+' KB)<i>请稍等...</i>');//+pathtofile
+//                    $('#log li#'+file.id).find('span.cancel').show();
+
+                    if($('#log li#'+file.id).find('span.cancel').css('display') != 'none'){
+                        $('#log li#'+file.id).find('span.cancel').hide();
+                        $('#log li#'+file.id).find('span.file_cancel').show();
+                        $('li#'+file.id+' .file_cancel').unbind('click');
+                        $('li#'+file.id+' .file_cancel').bind('click', function(){
+                            var swfu = $.swfupload.getInstance('#swfupload-control');
+                            swfu.cancelUpload(file.id);
+                            closeImg(this,file.name,'image_src','fileNum');
+                        });
+                    }
+                    if(isUploadfile == 0){
+                        $('#submitForm').addClass('green');
+                        $('#submitForm').attr('onClick','');
+                        $('#form_synopsis_edit').attr('action',$("#jobaction").val());
+                    }
+                        isUploadfile = 0;
+                }
+            })
+            .bind('uploadError', function(event, file, message){
+                $('#log li#'+file.id).find('div.progressbar').css('display','none');
+                $('#log li#'+file.id).find('span.progressvalue').text('');
+                $('#log li#'+file.id).addClass('success').find('p.status').html('<i>上传失败</i>');//+pathtofile
+//                $('#log li#'+file.id).find('span.cancel').show();
+
+//                if($('#log li#'+file.id).find('span.cancel').css('display') != 'none'){
+                $('#log li#'+file.id).find('span.cancel').hide();
+                $('#log li#'+file.id).find('span.file_cancel').show();
+                $('li#'+file.id+' .file_cancel').unbind('click');
+                $('li#'+file.id+' .file_cancel').bind('click', function(){
+                    var swfu = $.swfupload.getInstance('#swfupload-control');
+                    swfu.cancelUpload(file.id);
+                    closeImg(this,file.name,'image_src','fileNum',1);
+                });
+//                }
+                if(len != 1){
+                    $('#fileNum').val(parseInt($('#fileNum').val())-1);
+                }else{
+                    len = 0;
+                }
+                    isUploadfile = 0;
+            })
+            .bind('uploadSuccess', function(event, file, serverDatas){
+                var serverData = $.parseJSON(serverDatas);
+                if(serverData.error == 1){
+                    html_notice('操作失败',serverData.message,serverData);
+                    $('#log li#'+file.id).find('div.progressbar').css('display','none');
+                    $('#log li#'+file.id).find('span.progressvalue').text('');
+                    $('#log li#'+file.id).addClass('success').find('p.status').html('<i>上传失败</i>');//+pathtofile
+//                $('#log li#'+file.id).find('span.cancel').show();
+
+//                        if($('#log li#'+file.id).find('span.cancel').css('display') != 'none'){
+                    $('#log li#'+file.id).find('span.cancel').hide();
+                    $('#log li#'+file.id).find('span.file_cancel').show();
+                    $('li#'+file.id+' .file_cancel').unbind('click');
+                    $('li#'+file.id+' .file_cancel').bind('click', function(){
+                        var swfu = $.swfupload.getInstance('#swfupload-control');
+                        swfu.cancelUpload(file.id);
+                        closeImg(this,file.name,'image_src','fileNum',1);
+                    });
+//                        }
+                    if(len != 1){
+                        $('#fileNum').val(parseInt($('#fileNum').val())-1);
+                    }else{
+                        len = 0;
+                    }
+                    isUploadfile = 0;
+                }else{
+                    if(parseInt($('#fileNum').val()) <= 1){
+                        $('#image_src').val(serverData.message);
+                    }
+
+                    var item=$('#log li#'+file.id);
+                    item.find('div.progressbar').css('display','none');
+                    item.find('span.progressvalue').text('');
+                    item.addClass('success').find('p.status').html('('+Math.round(file.size/1024)+' KB)<i>上传完成</i>');//+pathtofile
+//                item.find('span.cancel').show();
+                    if(item.find('span.file_cancel').css('display') == 'none'){
+                        item.find('span.cancel').hide();
+                        item.find('span.file_cancel').show();
+                        $('li#'+file.id+' .file_cancel').unbind('click');
+                        $('li#'+file.id+' .file_cancel').bind('click', function(){
+                            var swfu = $.swfupload.getInstance('#swfupload-control');
+                            swfu.cancelUpload(file.id);
+                            closeImg(this,file.name,'image_src','fileNum',0);
+                        });
+                    }
+                    //图片上传成功去除错误提示
+                    $(this).children('.help-inline').remove();
+                    $(this).parent().parent().removeClass('error');
+
+                    if(isUploadfile == 0){
+                        $('#submitForm').addClass('green');
+                        $('#submitForm').attr('onClick','');
+                        $('#form_synopsis_edit').attr('action',$("#jobaction").val());
+                    }
+                    isUploadfile = 0;
+                }
+            })
+            .bind('uploadComplete', function(event, file){
+                $(this).swfupload('startUpload');
+            });
+
+
+
+        $("input[name=r_m]").click(function(){
+            var type = $(this).val();
+            if(type == 'text'){
+                $('#text').show();
+                $('#image_text').hide();
+                $('#prompt').hide();
+                $('#attachment').hide();
+                $('#img_war').hide();
+                $('#voice_war').hide();
+                $('#video_war').hide();
+                $('#video_div').hide();
+            }else if(type == 'image-text'){
+                $('#text').hide();
+                $('#image_text').show();
+//                $("#prompt").show();
+//                get_select_content(1);
+                $('#attachment').hide();
+                $('#img_war').hide();
+                $('#voice_war').hide();
+                $('#video_war').hide();
+                $('#video_div').hide();
+                editor_image('image_text_content');
+            }else if(type == 'audio' || type == 'video' || type == 'image'){
+                if($('#attachment').css('display') == 'none'){
+                    $('#text').hide();
+                    $('#image_text').hide();
+                    $('#prompt').hide();
+                    $('#attachment').show();
+                }
+                if(type=="audio"){
+                    $('#img_war').hide();
+                    $('#video_war').hide();
+                    $('#video_div').hide();
+                }else if(type=="video"){
+                    $('#img_war').hide();
+                    $('#voice_war').hide();
+                }else if(type=="image"){
+                    $('#voice_war').hide();
+                    $('#video_war').hide();
+                    $('#video_div').hide();
+                }
+                $('#type').val(type);
+                $('#log').html('');
+                $('#image_src').val('');
+                $('#fileNum').val(0);
+                setTimeout(function (){
+                    var swfup = $.swfupload.getInstance('#swfupload-control');
+                    //设置上传的文件类型
+//                    alert(type);
+                    if(type == 'image'){
+                        swfup.setFileTypes('*.jpg','image files');
+                        $('#img_war').show();
+                        setTimeout(function (){
+                            var swfup = $.swfupload.getInstance('#swfupload-control');
+                            swfup.setFileTypes('*.jpg','image files');
+                        },100);
+                    }else if(type == 'audio'){
+                        swfup.setFileTypes('*.amr','audio files');
+                        $('#voice_war').show();
+                        setTimeout(function (){
+                            var swfup = $.swfupload.getInstance('#swfupload-control');
+                            swfup.setFileTypes('*.amr','audio files');
+                        },100);
+                    }else if(type == 'video'){
+                        swfup.setFileTypes('*.mp4','video files');
+                        $('#video_war').show();
+                        $('#video_div').show();
+                        setTimeout(function (){
+                            var swfup = $.swfupload.getInstance('#swfupload-control');
+                            swfup.setFileTypes('*.mp4','video files');
+                        },100);
+                    }
+                },200);
+            }
+        });
+
+
+        });
+
+        //删除上传的附件图片
+        function closeImg(obj,src,image_src,num,type){
+            if(parseInt($('#fileNum').val()) > 1){
+            }else if(parseInt($('#fileNum').val()) == 1 && type==1){
+            }
+            $(obj).parent().remove();
+            if(type != 1){
+                $('#'+num).val($('#'+num).val() - 1);
+            }
+            var img_srcs = $('#'+image_src).val();
+
+            var imgsrcArray = img_srcs.split(",");
+            for(var i=0;i<imgsrcArray.length;i++){
+                if(imgsrcArray[i] == src){
+                    imgsrcArray.splice(i,1);
+                    $('#'+image_src).val(imgsrcArray);
+                }
+            }
+        }
+        /*
+         * zxx 文字编辑器初始
+         * */
+        editor('text_content');
+        function editor(name){
+            var editor;
+            KindEditor.ready(function(K) {
+                editor = K.create('textarea[name="'+name+'"]', {
+                    resizeType : 1,
+                    allowPreviewEmoticons : false,
+                    allowImageUpload : false,
+                    afterBlur:function(){
+                        K('#content_length').val(this.count('text'));
+                        if(this.count('text')<=140){
+                            this.sync();
+                        }else{
+                            K('#s_word').html(0);
+                            alert('您输入的字符长度超过140个字符的限制，请修改');
+                            return false;
+                        }
+                    },
+                    items : ['emoticons','|','link','unlink'],
+                    afterChange : function() {
+                        var lngth = 140-this.count('text');
+                        K('#content_length').val(this.count('text'));
+                        if(lngth >= 0){
+                            K('#s_word').html(lngth);
+                        }else{
+                            K('#s_word').html(0);
+                            return false;
+                        }
+                    },
+                    filterMode :true
+                });
+            });
+        }
+        /*
+         * zxx 图文编辑器初始
+         * */
+        function editor_image(name){
+            var editors;
+            KindEditor.ready(function(K) {
+                editors = K.create('textarea[name="'+name+'"]', {
+                    resizeType : 1,
+                    allowPreviewEmoticons : false,
+                    allowImageUpload : false,
+                    afterBlur:function(){
+                        K('#content_length').val(this.count('text'));
+                        if(this.count('text')<=140){
+                            this.sync();
+                        }else{
+                            K('#i_word').html(0);
+                            alert('您输入的字符长度超过140个字符的限制，请修改');
+                            return false;
+                        }
+                    },
+                    items : ['image'],
+                    afterChange : function() {
+                        var lngth = 140-this.count('text');
+                        K('#content_length').val(this.count('text'));
+                        if(lngth >= 0){
+                            K('#i_word').html(lngth);
+                        }else{
+                            K('#i_word').html(0);
+                            return false;
+                        }
+                    },
+                    filterMode :true
+                });
+            });
+        }
+
+        /*
+         * zxx 提交回复（文字。图文）
+         * */
+        function submit_text(type){
+            var datas;
+            if(type == 'text'){
+                var contents = $('#text_content').val();
+                var content = contents.replace(/(\r)*\n/g,"").replace(/\s/g,"").replace(/&nbsp;/g,"").replace(/<br \/>/g,"").replace(/<br\/>/g,"").replace(/<p>/g,"").replace(/<\/p>/g,"");
+                if(content == ""){
+                    alert('请输入回复信息！');
+                    return;
+                }
+                datas = {
+                    'id_customer_msg':  $('#id_customer_msg').val(),
+                    'type': type,
+                    'content':contents
+                };
+            }else if(type == 'image-text'){
+                content = '';
+                var id_object_array = {};
+                var count = 0;
+                $('input[name="cnt_selected[]"]').each(function(i){
+                    id_object_array[i]= $(this).val();
+                    count++;
+                });
+                if(count > 0){
+                    datas = {
+                        'id_customer_msg':  $('#id_customer_msg').val(),
+                        'type': type,
+                        'content':content,
+                        'select_btype':$('#select_btype').val(),
+                        'cnt_select':id_object_array
+                    };
+                }else{
+                    alert('没有可提交的图文信息！');
+                    return;
+                }
+            }
+
+            $.post('<!--{$url_prefix}-->system/save_reply',datas ,
+            function(data){
+                alert('回复成功');
+                $("input[name=r_m]:eq(0)").attr('checked','checked');
+                $('#text_content').val('');
+                $('#image_text_content').val('');
+                window.location.reload();
+            }, 'text');
+        }
+
+        /*
+         * zxx 提交附件（图。音。视频）
+         * */
+        function submit_attachment(){
+            var type = $('#type').val();
+            if(parseInt($('#fileNum').val()) < 1){
+                alert("请上传回复附件");
+                return;
+            }
+            if(type == 'video'){
+                var content = $('#video_content').val();
+                var contents = content.replace(/(\r)*\n/g,"").replace(/\s/g,"").replace(/&nbsp;/g,"").replace(/<br \/>/g,"").replace(/<br\/>/g,"").replace(/<p>/g,"").replace(/<\/p>/g,"");
+                if(contents == '' || content == '请输入视频说明'){
+                    alert("请填写视频说明");
+                    return;
+                }else if(content.length> 200){
+                    alert('视频说明最多200个字！');
+                    return;
+                }
+                $.post('<!--{$url_prefix}-->system/save_reply', {
+                        'id_customer_msg':  $('#id_customer_msg').val(),
+                        'type': type,
+                        'file_name':$('#image_src').val(),
+                        'video_content':content
+                }, function(data){
+                    alert('回复成功');
+                    $("input[name=r_m]:eq(0)").attr('checked','checked');
+                    $('#video_content').val('');
+                    $('#text_content').val('');
+                    $('#image_text_content').val('');
+                    window.location.reload();
+                }, 'text');
+            }else{
+                $.post('<!--{$url_prefix}-->system/save_reply', {
+                        'id_customer_msg':  $('#id_customer_msg').val(),
+                        'type': type,
+                        'file_name':$('#image_src').val()
+                }, function(data){
+                    alert('回复成功');
+                    $("input[name=r_m]:eq(0)").attr('checked','checked');
+                    $('#text_content').val('');
+                    $('#image_text_content').val('');
+                    window.location.reload();
+                }, 'text');
+            }
+        }
+
+        /*
+         * zxx 分页列表
+         * */
+        function reply_page(offset){
+            $.post('<!--{$url_prefix}-->system/wx_reply_list', {
+            'id_customer_msg': $('#id_customer_msg').val(),
+                    'id_bn_sub':$('#id_bn_sub').val(),
+                    'offset':offset,
+                    'ispage':1
+        }, function(data){
+            $('#list_reply').html(data);
+        }, 'text');
+        }
+
+        //搜索活动或物品关键字
+        function search_key(obj){
+            if($(obj).val()){
+                get_select_content(1);
+            }
+        }
+
+        //搜索返回刷新
+        function backSearchOrRefresh(obj){
+            var searchinput = $(obj).val();
+            if(searchinput == ''){
+                get_select_content(1);
+            }
+        }
+
+        $('#select').click(function (){
+            $("#prompt").show();
+            get_select_content(1);
+        });
+
+        //删除列表信息
+        function remove_html(obj) {
+            $(obj).parent().parent().remove();
+        }
+
+        $("#btype").change(function(){
+            if(confirm("选择分类，之前的选择将清空")){
+                $("#cnt_selected").html('');
+                $("#select_btype").val($("#btype").val());
+                get_select_content(1);
+            }
+        });
+        //点击确定按钮，数据发送到后端，请求相关数据
+        $(".determine").click(function(){
+            $("#prompt").hide();
+            $("#pop_up").hide();
+        });
+
+        $("#close").click(function(){
+            $("#prompt").hide();
+            $("#pop_up").hide();
+        });
+
+        function get_select_content(page){
+            $("#pop_up").show();
+            if(!page){
+                //当前分页
+                var cpage = parseInt($("#box_cpage").val())+1;
+            }else{
+                var cpage = page;
+            }
+            //关键词
+            var seek = $("#seek").val();
+            //分类
+            var btype = $("#btype").val();
+
+            $.post( '<!--{$url_prefix}-->system/wx_imgreply/'+cpage+'/'+Math.random(),
+            {
+                'seek':seek,
+                'btype':btype
+            },
+            function( data, textStatus) {
+                if (data.status == 1) {
+                    var shtml = '';
+                    $(data.data).each(function(){
+                        shtml += '<tr><td class="number">' +
+                                '<input type="checkbox" name="selected_id[]" value="'+this.id+'" />&nbsp;</td>' +
+                                '<td>'+this.title+'</td></tr>';
+                    });
+
+                    $("#list_contents").html(shtml);
+                    $('input[name="cnt_selected[]"]').each(function(){
+                        $("#list_contents").find('input[name="selected_id[]"][value="'+$(this).val()+'"]').attr('checked','checked');
+                    });
+                    if(data.count > 0){
+                        $("#list_count").html(data.cpage+'/'+data.count);
+                    }
+                    if(data.page){
+                        $("#box_cpage").val(data.cpage);
+                        $("#fenye").html(data.page);
+                    }else{
+                        $("#fenye").html('');
+                    }
+                } else {
+                }
+            }, "json");
+        }
+
+        $("#list_contents").find("input[name='selected_id[]']").live('click',function(){
+            if($(this).attr('checked')){
+                //编辑数据时已选择的值
+                var selected_length = $('input[name="cnt_selected[]"]').length;
+
+                if(selected_length>9){
+                    alert('您一共只能选择10条数据');
+                    //$(this).attr('checked',false);
+                    return false;
+                }else{
+                    //把弹层的数据复制过来
+                    var ntr = $(this).parent('td').siblings('td');
+                    var nhtml = '<tr id="new_tr'+$(this).val()+'"><td class="headline">'+ntr.html()+'<input type="hidden" name="cnt_selected[]" value="'+$(this).val()+'" />' +
+                            '</td><td><a class="delete" onclick="remove_html(this)">删除</a></td></tr>';
+                    $("#cnt_selected").append(nhtml);
+
+                }
+            }else{
+                //把添加的tr删除掉
+                $("#new_tr"+$(this).val()).remove();
+
+            }
+        });
+
+    </script>
+	<!-- END JAVASCRIPTS -->
+
+</body>
+
+<!-- END BODY -->
+
+</html>

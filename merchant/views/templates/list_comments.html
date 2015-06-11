@@ -1,0 +1,146 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- 右边开始-->
+			<div class="container-fluid" >
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <p class="fl">
+                        <select name="review_type" id="review_type" onChange="review_list_page(1)">
+                            <option value="">全部</option>
+                            <!--{foreach from = $commodity_class item = cc}-->
+                            <option value="<!--{$cc.id_class}-->"><!--{$cc.name}--></option>
+                            <!--{/foreach}-->
+                        </select>
+                    </p>
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--评论开始-->
+                            <input type="hidden" value="<!--{$id_commodity}-->" name="id_commodity" id="id_commodity"/>
+                            <div class="comments">
+                            <table width="100%">
+                                <tbody>
+                                    <tr class="big_title">
+                                        <td class="name">姓名</td>
+                                        <td class="reply_content">回复内容</td>
+                                        <td>操作</td>
+                                    </tr>
+                                    <!--{if $lreview}-->
+                                    <!--{foreach from=$lreview item=lw name=alt}-->
+                                    <!--{if $smarty.foreach.alt.index % 2 == 0}-->
+                                    <tr>
+                                    <!--{else}-->
+                                    <tr  class="bg">
+                                    <!--{/if}-->
+                                        <td class="name"><!--{urldecode($lw.name)}--></td>
+                                        <td class="reply_content"><!--{$lw.content|truncate_utf8:30}--></td>
+                                        <td><a onclick="delete_review(<!--{$lw.id_review}-->,<!--{$cpage}-->)" href="javascript:void(0)" class="del_review">删除</a></td>
+                                    </tr>
+                                    <!--{/foreach}-->
+                                    <!--{else}-->
+                                    <tr>
+                                        <td colspan="8">
+                                            还没有评论信息！
+                                        </td>
+                                    </tr>
+                                    <!--{/if}-->
+                                </tbody>
+                            </table>
+                                <!--{if $page_html}-->
+                                <div class="pagination">
+                                    <ul>
+                                        <!--{$page_html}-->
+                                    </ul>
+                                </div>
+                                <!--{/if}-->
+                            </div>
+                            <!--评论结束-->
+                        </div>
+					</div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+		jQuery(document).ready(function() {
+		   // initiate layout and plugins
+		   App.init();
+		   UITree.init();
+		});
+
+        //评论列表分页
+        function review_list_page(offset){
+            var id_commodity = $("#id_commodity").val();
+            $.post('<!--{$url_prefix}-->goods/list_comment', {
+                'ispage': 1,
+                'id_commodity':id_commodity,
+                'id_class':$('#review_type').val(),
+                'offset':offset
+            }, function(data){
+                $('.comments').html(data);
+            }, 'text');
+        }
+
+        //删除评论列表信息
+        function delete_review(id_review,offset){
+            if(confirm("你确定要删除该评论信息吗？"))
+            {
+                var id_commodity = $("#id_commodity").val();
+                $.post('<!--{$url_prefix}-->goods/del_review', {
+                    'id_review': id_review,
+                    'id_commodity':id_commodity,
+                    'id_class':$('#review_type').val(),
+                    'offset':offset
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('.comments').html(data.data);
+                }, 'json');
+            }
+        }
+	</script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+
+</html>

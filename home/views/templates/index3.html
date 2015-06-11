@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title><!--{$title}--></title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/about.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" /><!-- 加入后变为响应式布局，去掉变为固定宽度布局 -->
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/index1.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/swipe.js"></script>
+<!--[if lt IE 9]>
+  <script src="/js/html5.js"></script>
+<![endif]-->
+<style>
+.swipe {
+  overflow: hidden;
+  visibility: hidden;
+  position: relative;
+  height:100%;
+}
+/* Swipe 2 required styles */
+.swipe-wrap {
+  overflow: hidden;
+  position: relative;
+}
+.swipe-wrap > figure {
+  float:left;
+  width:100%;
+  position: relative;
+}
+ .container{
+	height:100%; padding:0;}
+	
+.banner, .banner_shop{
+	height:500px; min-height:100%;}
+	
+.banner ul li{
+	height:100%;}
+	
+.banner ul li img, .banner_shop img{
+	height:100%;}
+	
+.banner ul{
+	height:100%;}
+	
+	
+.banner > ol {
+    bottom: 30px;
+    height: 20px;
+    position: absolute;
+    text-align:center;
+    width: 100%;
+    z-index: 10;
+}
+.stencil_nav2{
+	display:block; width:100%; height:40px; line-height:40px; background:#303537; color:#fff; text-align:center;position:fixed;bottom:0;right:0; z-index:99; border-top:#ccc 1px solid;}
+	
+.stencil_nav2 ul{
+	float:left; display:block;}
+	
+.stencil_nav2 li{
+	width:30px; height:30px; text-align:center; margin-right:10px; overflow:hidden; float:left;}
+	
+.stencil_nav2 a{
+	color:#fff; font-size:18px;}
+	
+.stencil_nav2 a.boult_left{
+	float:left; margin-right:10px; padding-right:10px;}
+	
+.stencil_nav2 a.boult_right{
+	float:right; margin-left:10px;padding-left:10px;}
+
+/* END required styles */
+
+</style>
+<body>
+<div class="container clearfix" id="slider">
+<div style="max-width:768px; margin:0 auto; height:100%">
+<div class="swipe">
+<div class="banner swipe-wrap" id="banner_box">
+<ul>
+    <!--{foreach from=$images item=value}-->
+		<li><a onclick="return false;"><img src="<!--{$value}-->" style="width:100%;border:none"></a></li>
+    <!--{/foreach}-->
+</ul>
+<ol>
+	<!--{foreach from=$images item=value name=ts}-->
+		<!--{if $smarty.foreach.ts.index == 0}-->
+		<li class="on"></li>
+		<!--{else}-->
+		<li></li>
+		<!--{/if}-->
+    <!--{/foreach}-->
+</ol>
+</div>
+
+<!--这个是第三套模版-->
+<div class="stencil_nav2">
+<a class="boult_left" href="#">&lt;</a>
+<ul>
+    <li><a href="#"><img src="<!--{$value}-->"></a></li>
+    <li><a href="#"><img src="<!--{$value}-->"></a></li>
+</ul>
+<a class="boult_right" href="#">&gt;</a>
+</div>
+
+<div class="error_pop"></div>
+<div id="content" style="display:none;"><!--{$introduction}--></div>
+</div>
+</div>
+<script>
+$(document).ready(function(){
+	new Swipe(document.getElementById('banner_box'), {
+		speed:500,
+		auto:3000,
+		continuous:false,
+		stopPropagation:true,
+		disableScroll: true, 
+		callback: function(){
+			var lis = $(this.element).next("ol").children();
+			lis.removeClass("on").eq(this.index).addClass("on"); 
+		}
+	});
+});
+
+var content = $('#content').html();
+var html_audio = content.match(/<[embed|embed].*?src=[\'|\"](.*?(?:[\.mp3|\.ogg|\.wav]))[\'|\"].*?[\/]?>/ig);  //content.replace(/<[embed|embed].*?src=[\'|\"](.*?(?:[\.mp3|\.ogg|\.wav]))[\'|\"].*?[\/]?>/ig, ",");
+
+var html = content;
+if(html_audio != null){
+    if(html_audio.length > 0){
+        var img_name = '';
+        for(var i=0;i<html_audio.length;i++){
+            img_name = html_audio[i].match(/<embed.*src\s*=\s*[\"|\']?\s*([^>\"\'\s]*)/i);
+            if(img_name != null){
+                if(img_name.length >= 2){
+                    html = html.replace(html_audio[i],'<div onclick="bind_play(this,'+i+')" id="audio_div'+i+'" class="audioplay"><img src="/wapi/img/play.png"/><input type="hidden" name="audio_src" value="'+img_name[1]+'" /></div>');
+                }
+            }else{
+                html = content;
+            }
+        }
+    }
+}
+$('#activity_content').html(html);
+
+function bind_play(obj,num){
+    var pli = $(obj);
+    var index = $("#activity_content div").index(pli);
+    if(pli.attr('class') == 'audioplay playing'){
+        pli.removeClass('playing');
+        if($('#audio_'+index).get(0)){
+            $('#audio_'+index).get(0).pause();
+        }
+        pli.children('img').attr('src','/wapi/img/play.png');
+    }else{
+        pli.addClass('playing');
+        var a_src = pli.find('input[name=audio_src]').val();
+        var point = a_src.lastIndexOf(".");
+        var type = a_src.substr(point);
+        var a_type = 'mpeg';
+        if(type == '.wav'){
+            a_type = 'wav';
+        }else if(type == '.ogg'){
+            a_type = 'ogg';
+        }else if(type == '.mp3'){
+        }else{
+            $('.error_pop').text('您的浏览器不支持播放该歌曲').show();
+            return false;
+        }
+
+        var playnum = 0;
+        for(var a=0;a< $('audio').length;a++){
+            if(!$('audio')[a].paused){
+                playnum = a;
+                $('audio')[a].pause();
+                if(a!=num){
+                    $('#audio_div'+a).removeClass('playing');
+                    $('#audio_div'+a).children('img').attr('src','/wapi/img/play.png');
+                }
+            }
+        }
+        var audioHtml = '<audio id="audio_' + index +'" controls="controls" preload="auto"><source src="'+ a_src +'"></source></audio>';
+
+        if(!$('#audio_'+index)[0]){
+            $("#audio_div").append(audioHtml);
+        }
+        $('#audio_'+index).hide();
+        pli.children('img').attr('src','/wapi/img/stop.png');
+        $('#audio_'+index).get(0).play();
+    }
+}
+
+
+</script>
+
+</body>
+</html>

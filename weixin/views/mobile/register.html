@@ -1,0 +1,29 @@
+<!--{include file="header.html"}-->
+<script>
+    var url = '/wapi/<!--{$bid}-->/<!--{$sid}-->';
+    var is_wechat_user =  <!--{$is_wechat_user}-->;
+</script>
+<section id="index_section" class="active">
+<!---->
+    <!--{include file="nav.tpl"}-->
+<!---->
+    <article id="three_container" class="active" data-scroll="true" >
+    <!---->
+        <div class="three_list_container">
+            <ul>
+                <li class="clearfix"><span class="iconfont icon iconfont_3 left">&#58905;</span><input id="user" type="text" placeholder="请输入账号" class="left"/></li>
+                <li class="clearfix"><span class="iconfont icon iconfont_4 left">&#58906;</span><input id="pwd"  type="password" placeholder="请输入密码" class="left"/></li>
+                <li class="clearfix"><span class="iconfont icon iconfont_4 left">&#58906;</span><input id="chPWD" type="password" placeholder="请再次输入密码" class="left"/></li>
+                <li class="clearfix relative">
+                <span class="iconfont icon iconfont_5 left">&#58907;</span><input type="text" id="v_code" placeholder="请输入右侧验证码" class="left"/>
+                <span class="systemcode"><img id="imgcode" onclick="RefreshImage()" title="点击更换验证码" style="cursor: pointer;" src="/wapi/<!--{$bid}-->/<!--{$sid}-->/user/v_code"/>
+                    <a href="javascript:RefreshImage();"><i class="iconfont icon iconfont_6">&#58908;</i></a></span>
+                </li>
+                <button class="button" id="register">注册</button>
+                <p>已有帐号,<a href="/wapi/<!--{$bid}-->/<!--{$sid}-->/user/login" class="red haveback">直接登录»</a></p>
+            </ul>
+        </div>
+    </article>
+</section>
+<div class="instant_tip" style="display:none;"><img src="<!--{$url_prefix}-->img/loading.gif"/>提交中...</div>
+<!--{include file="footer.html"}-->

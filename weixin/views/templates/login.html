@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>登录-社区会员</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/login.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/hipigouser.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+//<a href="<!--{$bak_url}-->"></a>
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<div class="main">
+        <div class="container">
+            <!--login-->
+            <a href="javascript:history.go(-1);" class="return left"><i class="iconfont icon iconfont_10">&#983354</i></a>
+        	<input placeholder="请输入你的帐号"  id="phone" class="login_input"/>
+            <input placeholder="请输入你的密码" type="password" id="pwd"  class="login_input"/>
+            <button class="refer" id="login">登录</button>
+            <!--登录中-->
+            <button id="loginING" class="refer01 "  style="display:none;"><em class="loadings"></em>登录中</button>
+            <p class="skip_refer"><a href="/wapi/<!--{$bid}-->/<!--{$sid}-->/user/register" class="register_btn left">注册</a><a href="/wapi/<!--{$bid}-->/<!--{$sid}-->/user/findpwd" class="right">忘记密码?</a></p>
+        </div>
+    <!--footer-->
+    <footer><!--powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a--></footer>
+</div>
+<!--弹窗S-->
+<div class="modalv_opu hidden" onclick="hidePop()" id="pop">
+<i class="icon-remove"></i><span id="tip">该账号已被注册，请重新输入</span>
+</div>
+<!--弹窗E-->
+<script>
+var auth = {"user":false,"pwd":false};
+$(document).ready(function(){
+    //验证手机号码 
+    $("#phone").blur(function(){
+        var mobile = $(this).val();
+        if(mobile.length==0){
+            $(this).attr('class','error');
+            $("#login").attr('class','refer');
+            auth.user = false;
+        }else if(!rule.userreg.test(mobile))
+        {
+            showPop("请输入正确的帐号！");
+            $(this).attr('class','error');
+            $("#login").attr('class','refer');
+            auth.user = false;
+   
+        }else{
+            $(this).attr('class','login_input');
+            $("#login").attr('class','refer01');
+            auth.user = true;
+        }
+   })
+    
+    $("#phone").focus(function(){
+        $(this).attr('class','login_input');
+        $("#login").attr('class','refer');
+    })
+    
+    
+    //密码验证
+    $("#pwd").blur(function(){
+        var pwd = $(this).val();
+        if(pwd.length==0){
+            $("#login").attr('class','refer');
+            $(this).attr('class','error');
+            auth.pwd =  false;
+        }else if(!rule.pwdreg.test(pwd)||pwd.length>18 || pwd.length<6){
+            showPop("请输入6-18位数字加字母密码！");
+            $("#login").attr('class','refer');
+            $(this).attr('class','error');
+            auth.pwd =  false;
+        }else{
+            $(this).attr('class','login_input');
+            $("#login").attr('class','refer01');
+            auth.pwd =  true;
+        }
+        
+    })
+    
+    $("#pwd").focus(function(){
+        $(this).attr('class','login_input');
+        $("#login").attr('class','refer');
+    })
+    
+    
+    //登录
+    $("#login").click(function(){
+        var phone = $("#phone").val();
+        var pwd = $("#pwd").val();
+        /*
+        if(phone.length==0){
+            $("#phone").attr('class','error');
+            auth.user = false;
+        }
+        if(pwd.length==0){
+            $("#pwd").attr('class','error');
+            auth.pwd = false;
+        }
+        */
+        if(auth.user == false||auth.pwd == false){
+            $("#login").attr('class','refer');
+            if(!auth.user){
+                showPop("请输入正确的帐号！");
+                $("#phone").attr('class','error');
+                return false;
+            }
+
+            if(phone.indexOf('hipigo') >= 0 && phone != 'hipigo'){
+                showPop("您输入的帐号不能存在'hipigo'！");
+                $("#phone").attr('class','error');
+                return false;
+            }
+
+            if(!auth.pwd){
+                showPop("请输入6-18位数字加字母密码！");
+                $("#pwd").attr('class','error');
+                return false;
+            }
+            return false;
+        }
+        $("#login").attr('class','refer01');
+        $("#login").hide();
+        $("#loginING").show();
+        $.ajax({    
+            url:'/wapi/<!--{$bid}-->/<!--{$sid}-->/user/login',
+            data:'phone='+phone+'&pwd='+pwd+"&t=login",
+            async: true,
+            dataType: 'json',
+            type:'post',
+            success:function(data){
+                if(data.status){
+                    window.location.href="/wapi/<!--{$bid}-->/<!--{$sid}-->/community/home"
+                }else{
+                    $("#login").show();
+                    $("#loginING").hide();
+                    $("#login").attr('class','refer');
+                    showPop(data.msg.infor);
+                    if(data.msg.type=='user'){
+                        $("#phone").attr('class','error');
+                    }
+                    if(data.msg.type=='pwd'){
+                        $("#pwd").attr('class','error');
+                    }
+                }
+           }
+        })
+    })
+    
+});
+	
+
+
+
+
+</script>
+</body>
+</html>

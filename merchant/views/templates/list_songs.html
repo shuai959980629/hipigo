@@ -1,0 +1,192 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+        <div class="page-sidebar nav-collapse collapse">
+		<!-- 左边开始 -->
+		<!--{include file="menu.html"}-->
+		<!-- 左边结束 -->
+        </div>
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+
+			<!-- 右边开始-->
+			<div class="container-fluid" >
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                    <p class="fl"><input id="seek" name="seek" value="输入后请按回车进行搜索" title="输入后请按回车进行搜索" type="text" onkeypress="if(event.keyCode==13){search_song(this)}" onkeyup="backSearchOrRefresh(this)" onblur="search_song(this)"></p>
+                    <p class="fr">
+                        <select name="commodity_type" id="commodity_type" onChange="song_list_page(1)">
+                            <option value="all">全部</option>
+                            <!--{foreach from = $song_class item = cc}-->
+                            <option value="<!--{$cc.id_class}-->"><!--{$cc.name}--></option>
+                            <!--{/foreach}-->
+                        </select>
+                    </p>
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--商品列表开始-->
+                            <div class="song_list">
+                                <table width="100%">
+                                    <tbody>
+                                        <tr class="big_title">
+                                            <td class="title">歌曲名</td>
+                                            <td>演唱者</td>
+                                            <td>海报</td>
+                                            <td class="lyric" style=" width: 40%;">歌词</td>
+                                            <td style=" width: 10%;">分类</td>
+                                            <td>权重</td>
+                                            <td>推荐</td>
+                                            <td>上传时间</td>
+                                            <td class="title">操作</td>
+                                        </tr>
+                                        <!--{if $song_list}-->
+                                        <!--{foreach from = $song_list item = sl key = k}-->
+                                        <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                                            <td class="title"><!--{$sl.name|truncate_utf8:15}--></td>
+                                            <td><!--{$sl.singer|truncate_utf8:6}--></td>
+                                            <td><img src="<!--{$sl.posters_url|get_img_url:'song'}-->"></td>
+                                            <td class="lyric" style=" width: 40%;"><!--{strip_tags($sl.lyric)|truncate_utf8:40}--></td>
+                                            <td style=" width: 10%;"><!--{$sl.type}--></td>
+                                            <td><!--{$sl.weight}--></td>
+                                            <td><!--{if $sl.state == 1}-->推荐<!--{else}-->普通<!--{/if}--></td>
+                                            <td><!--{substr($sl.created,0,10)}--></td>
+                                            <td class="aedit"><a class="compile" href="<!--{$url_prefix}-->song/edit_song/<!--{$sl.id_song}-->/<!--{$offset}-->">编辑</a>
+                                                <a class="delete" onclick="delete_song(<!--{$sl.id_song}-->,<!--{$offset}-->)">删除</a></td>
+                                        </tr>
+                                        <!--{/foreach}-->
+                                        <!--{else}-->
+                                        <tr>
+                                            <td colspan="8">
+                                                还没有歌曲信息！
+                                            </td>
+                                        </tr>
+                                        <!--{/if}-->
+
+                                    </tbody>
+                                </table>
+                                <!--{if $page_html}-->
+                                <div class="pagination">
+                                     <ul>
+                                         <!--{$page_html}-->
+                                     </ul>
+                                </div>
+                                <!--{/if}-->
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+					</div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+		jQuery(document).ready(function() {
+		   App.init();
+		   UITree.init();
+		});
+
+        //搜索提示效果
+        $("#seek").click(function(){
+            if($(this).val() == $(this).attr('title')){
+                $(this).val('');
+            }
+        }).blur(function(){
+                    if($(this).val() == ''){
+                        $(this).val($(this).attr('title'));
+                    }
+                });
+
+        //歌曲列表分页
+        function song_list_page(offset){
+            var search_keys = $('#seek').val();
+            $.post('<!--{$url_prefix}-->song/list_song', {
+                'id_class': $('#commodity_type').val(),
+                'search_key':search_keys=='输入后请按回车进行搜索'?'':search_keys,
+                'ispage': 1,
+                'offset':offset
+            }, function(data){
+                $('.song_list').html(data);
+            }, 'text');
+        }
+
+
+        //删除歌曲列表信息
+        function delete_song(id_song,offset){
+            if(confirm("你确定要删除该歌曲信息吗？"))
+            {
+                var search_keys = $('#seek').val();
+                $.post('<!--{$url_prefix}-->song/del_song', {
+                    'id_class': $('#commodity_type').val(),
+                    'search_key':search_keys=='输入后请按回车进行搜索'?'':search_keys,
+                    'id_song': id_song,
+                    'offset':offset
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('.song_list').html(data.data);
+                }, 'json');
+            }
+        }
+        //搜索关键字
+        function search_song(obj){
+            var search_keys = $(obj).val();
+            var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(search_key == ''){
+//                alert('请输入你要搜索的文字内容！');
+                return;
+            }else{
+                $.post('<!--{$url_prefix}-->song/search_song', {
+                    'id_class': $('#commodity_type').val(),
+                    'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                    'offset':1
+                }, function(data){
+                    $('.song_list').html(data);
+                }, 'text');
+            }
+        }
+
+        //搜索返回刷新
+        function backSearchOrRefresh(obj){
+            var searchinput = $(obj).val();
+            if(searchinput == ''){
+                song_list_page(1);
+            }
+        }
+	</script>
+	<!-- END JAVASCRIPTS -->
+
+</body>
+<!-- END BODY -->
+
+</html>

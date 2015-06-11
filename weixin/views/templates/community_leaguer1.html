@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>嗨皮Go-世界杯活动成员</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/leaguer.css" />
+<link rel="stylesheet" type="text/css" href="<!--{$url_prefix}-->css1/user_list.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/iscroll.js"></script>
+<script src="<!--{$url_prefix}-->js/user_list1.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript">
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+base_url='<!--{$url}-->';
+userid='<!--{$userid}-->';
+identity='<!--{$identity}-->';
+url_prefix='<!--{$url_prefix}-->';
+bid='<!--{$bid}-->';
+oid='<!--{$oid}-->';
+aid='<!--{$aid}-->';
+num='<!--{$num}-->';
+att_user='<!--{$att_user}-->';
+var cup = '<!--{$cup}-->';
+get_url = cup==1 ? '/community/user_win_all' : '/community/user_win_list_page';
+</script>
+<script type="text/javascript">
+	var myScroll;
+	function loaded() {
+		myScroll = new iScroll('scroll');
+	}
+	document.addEventListener('DOMContentLoaded', loaded, false);
+	window.onload = function() { 
+		setTimeout(function(){ new iScroll(document.getElementById('scroller')) }, 100) 
+	};
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+</head>
+<body>
+<div class="main">
+<div class="container">
+<!--社区成员-->
+<div class="leaguer">
+<!--头部-->
+<div id="header">
+<h1>
+    <a href="javascript:history.go(-1);" class="return left"><i class="iconfont icon iconfont_10">&#983354</i></a>
+    <a href="<!--{$url}-->/community/detail?suserid=<!--{$userid}-->&aid=<!--{$aid}-->"><!--{$title|truncate_utf8:12}--></a>
+</h1>
+</div>
+<!--主体-->
+<div id="wrapper" class="container">
+<div id="scroller">
+<!--s下拉刷新-->		
+<div id="pullDown" class="idle">
+<span class="pullDownIcon"></span>
+<span class="pullDownLabel">下拉刷新...</span>
+</div>
+    <div class="sjlogo clearfix">
+        <a href="http://mango.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/tbmg.jpg"/></a>
+        <a href="http://att.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/ATT.jpg"/></a>
+        <a href="http://sxmy.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/sxmy.jpg"/></a>
+        <a href="http://asdd.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/asdd.jpg"/></a>
+        <a href="http://qwq.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/qwq.jpg"/></a>
+        <a href="http://cdzszx.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/bc.jpg"/></a>       
+        <a href="http://bgby.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/bgby.jpg"/></a>
+        <a href="http://yllh.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/yl.jpg"/></a>
+        <a href="http://showdf.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/xldf.jpg"/></a>
+        <a href="http://jtnt.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/jtnt.jpg"/></a>
+        <a href="http://pqhyssy.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/pqhy.jpg"/></a>
+        <a href="http://yzzc.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/yzzc.jpg"/></a>  
+		<a href="http://jdfs.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/jd.jpg"/></a>		
+        <a href="http://dn.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/dini.jpg"/></a>
+		<a href="http://wwj.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/wwjq.jpg"/></a>
+        <a href="http://aymy.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/ay.jpg"/></a>
+		<a href="http://ksjb.hipigo.cn/v" target="_blank"><img src="<!--{$url_prefix}-->img/ksjb.jpg"/></a>
+    </div>
+
+<!--e下拉刷新-->	
+<!--<p class="notice"><em>公告：</em>已获得优惠劵用户</p>-->
+<ul id="thelist" style="background:#eee; border-top: solid 2px #ccc;">
+</ul>
+<div id="next_more" style="height:40px;"></div>
+<!--{if $att_user ==0}-->
+暂时还没人获得优惠劵
+<!--{/if}-->
+<!--s上拉分页-->
+<div id="pullUp" class="idle">
+<span class="pullUpIcon"></span>
+<span class="pullUpLabel">显示更多...</span>
+</div>
+<!--e上拉分页-->
+</div>
+</div>
+
+</div>
+<!--footer-->
+</div>
+<div id="show_back_top"></div>	
+</div>
+<!--弹窗S-->
+<div class="modalv1" data-id_join id="modalv1" style="display:none;">
+    <dl>
+        <dd><input id="phone" placeholder="输入参加活动的手机号码" oninput="att_activity()" onpropertychange="att_activity()" class="import_phone"/></dd>
+        <dd class="caozuo_btn"><button id="find_code" class="cancel left">确定</button><button id="come_back" class="make_sure right">取消</button></dd>
+    </dl>
+
+</div>
+<div id="prompt"></div>
+<script>
+//输入改变
+function att_activity(){
+if(/^1[3|5|8|6|7|4]\d{9}$/.test(jQuery(".import_phone").val())){
+	
+	$('.caozuo_btn').empty();	
+    $('.caozuo_btn').append('<button id="find_code" class="make_sure left">确定</button><button id="come_back" class="make_sure right">取消</button>');
+  
+}else{
+$('.caozuo_btn').empty();	
+$('.caozuo_btn').append('<button class="cancel left">确定</button><button id="come_back" class="make_sure right">取消</button>');	
+}
+} 
+</script>
+<!--弹窗S-->
+<div id="user_code_more" style="display: none;">
+<div class="modalv1">
+</div>
+<div class="webgame_msgWindow_mask"></div>
+</div>
+<!--弹窗E-->
+</body>
+
+</html>

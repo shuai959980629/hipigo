@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title><!--{$title}--></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/publish_activity.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/mobiscroll.custom-2.6.2.min.css">
+
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/jquery.mobiscroll.js"></script>
+<script src="<!--{$url_prefix}-->js/jquery.mobiscroll.app.js"></script>
+
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+<script>
+
+    //搜索关键字
+    function search_key(){
+        var search_keys = $('#keyword').val();
+        var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+        if(search_key == ''){
+            alert('请输入你要搜索的验证码！');
+            return;
+        }else{
+            $.post('<!--{$url}-->/user_activity/verify_ticket', {
+                'search_key':search_key,
+                'ispage' : 1
+            }, function(data){
+                $("#ticket_detail").html('');
+                $.each(data.data, function(key, value) {
+                    var html = '';
+                    html += '<span class="user_activity_mes">'+
+                            '<h4 class="left" style="padding-left:6%;">'+value.code+'</h4>';
+                    if(value.state == 2){
+                        html += '<span style="color: #f00;padding-left: 6px;">已使用</span>';
+                    }else if(value.state == 1){
+                        html += '<span style="color: #4cc9b7;padding-left: 6px;">未使用</span><span onclick="change_state(this,'+value.id_item+')" style=""background: #4cc9b6;color: #fff;border-radius: 2px;padding-left: 6px;>点击使用</span>';
+                    }
+                    html += '</span>';
+
+                    $("#ticket_detail").append(html);
+                });
+
+                $('#keyword').val('');
+            }, 'json');
+        }
+    }
+
+    //点击使用该电子券
+    function change_state(obj,id_item){
+        $.post('<!--{$url}-->/user_activity/change_ticket_state', {
+            'id_item':id_item
+        }, function(data){
+            if(data.status == '0'){
+                alert('操作失败!');
+            }else{
+                alert('验证成功!');
+                window.location.reload();
+            }
+        }, 'json');
+    }
+</script>
+
+</head>
+<body>
+<!--banner-->
+<div class="container">
+
+
+<div id="first">
+<div class="operate container fixed">
+<a href="<!--{$url}-->/community/home"><span class="return left"><i class="iconfont icon iconfont_10">&#983354;</i></span></a>
+<span class="partake-num left">验证电子券</span>
+</div>
+
+<div class="creat_activity">
+
+<dl>
+<dd class="creat_title" style="padding-bottom: 0;">验证码</dd>
+<dd class="verify_ticket_search clearfix">
+<input type="text" id="keyword" name="keyword" placeholder="请输入搜索的验证码" onkeypress="if(event.keyCode==13){search_key()}" class="login_input left" style="width:78%"/><button onclick="search_key()" class="searchbtn">搜索</button></dd>
+</dl>
+    <div id="ticket_detail"></div>
+
+<!-- Tips -->
+<div id="modal" class="verify_ticket_detail clearfix">
+    <!--{foreach from = $verify_ticket item = vt name = vtt}-->
+    <ul class="clearfix">
+        <li><b>资源名称:</b><!--{$vt.title}--></li>
+        <li><b>验证码:</b><!--{$vt.code}--></li>
+        <li><b>获得者:</b><!--{urldecode($vt.nick_name)}--></li>
+        <li><b>使用时间:</b><!--{$vt.use_time}--></li>
+   </ul>
+    <!--{/foreach}-->
+
+</div>
+</div>
+</div>
+
+<!--footer-->
+</div>
+</body>
+</html>

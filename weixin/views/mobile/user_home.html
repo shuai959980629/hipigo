@@ -1,0 +1,102 @@
+<!--{include file="header.html"}-->
+
+<section id="index_section" class="active">
+
+<!--{include file="nav.tpl" page='user' userid=$userid}-->
+
+<article id="personal_container" class="active" data-scroll="true">
+<div class="personal_center">
+
+<p class="custombg"><img src="/wapi/img/mobile/custombg.jpg" class="custom_bg"/>
+<span class="personal_user_head">
+<img src="<!--{$head_image_url}-->" alt="用户头像" />
+</span>
+
+<span class="nickname">
+<!--{urldecode($nick_name)}-->
+<!--{if $sex == 1}-->
+<i class="iconfont icon iconfont_9">&#58911;</i><!--男-->
+<!--{else if $sex == 2}-->
+<i class="iconfont icon iconfont_8">&#58910;</i><!--女-->
+<!--{else}-->
+<i class="iconfont icon iconfont_19">&#983571;</i>
+<!--{/if}-->
+</span>
+
+<a href="<!--{$url}-->/user_activity/user_info" class="editdata button">编辑资料</a>
+</p>
+
+<ul class="my_operate clearfix">
+
+<!--{if $isRole == 1}-->
+<li class="relative">
+<a href="<!--{$url}-->/community/publish">
+<span class="my_operate_icon apply_master">
+<i class="iconfont icon iconfont_18 ">&#58932;</i>
+</span>发布活动
+</a><em class="new_icon"></em>
+</li>
+<!--{elseif $isRole ==2}-->
+<li class="relative">
+<a href="#">
+<span class="my_operate_icon apply_master">
+<i class="iconfont icon iconfont_17 ">&#58924;</i>
+</span>申请达人<span class="applying">申请进行时</span>
+</a>
+</li>
+<!--{else}-->
+<li class="relative">
+<a href="<!--{$url}-->/user_activity/expert">
+<span class="my_operate_icon apply_master">
+<i class="iconfont icon iconfont_17 ">&#58924;</i>
+</span>申请达人
+</a><em class="new_icon"></em>
+</li>
+<!--{/if}-->
+
+<!--{if $isRole == 1}-->
+<li class="veri_code">
+<a href="<!--{$url}-->/user_activity/code">
+<span class="my_operate_icon validate_code"><i class="iconfont icon iconfont_17 ">&#58927;</i></span>
+验证消费码
+</a>
+</li>
+<!--{/if}-->
+
+<li class="relative">
+<a href="<!--{$url}-->/resource/bylist">
+<span class="my_operate_icon personal_resource"><i class="iconfont icon iconfont_17 ">&#58925;</i></span>
+我的资源<!--{if $read.resource_by}--><em class="reddot"></em><!--{/if}-->
+
+</a>
+</li>
+
+<li class="relative">
+<a href="<!--{$url}-->/user_activity/bylist">
+<span class="my_operate_icon personal_activity"><i class="iconfont icon iconfont_10 ">&#983711;</i></span>
+我的活动<!--{if $read.activity_by || $read.activity_join}--><em class="reddot"></em><!--{/if}-->
+</a>
+</li>
+
+<!--
+<li>
+<span class="my_operate_icon personal_news relative">
+<i class="iconfont icon iconfont_17 ">&#58926;</i>
+<em class="reddot"></em>
+</span>我的消息
+</li>
+-->
+
+<li class="relative">
+<a href="<!--{$url}-->/user_activity/my_wallet">
+<span class="my_operate_icon personal_wallet"><i class="iconfont icon iconfont_10 ">&#983749;</i></span>
+我的钱包<!--{if $read.wallet}--><em class="reddot"></em><!--{/if}-->
+</a>
+</li>
+
+</ul>
+</div>
+</article>
+</section>
+
+<!--{include file="footer.html"}-->

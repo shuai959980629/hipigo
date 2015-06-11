@@ -1,0 +1,126 @@
+
+</div>
+
+<!--返回顶部-->
+<div class="autorun up" style="display: none;"><i class="iconfont icon iconfont_10">&#983722;</i></div>
+<!--刷新-->
+<div class="autorun reflush"><i class="iconfont icon iconfont_18">&#58908;</i></div>
+
+<div style="display: none;">
+<script type="text/javascript">
+var xcode = '<!--{$xcode}-->';
+var from = '<!--{$from}-->';
+var type = '<!--{$type}-->';
+var userid='<!--{$userid}-->';
+var identity='<!--{$identity}-->';
+var aid='<!--{$aid}-->';
+var oid=1;
+var spking='<!--{$spking}-->';
+var base_url = '<!--{$url}-->';
+var url_prefix='<!--{$url_prefix}-->';
+var surplus = '<!--{$data.surplus}-->';
+var join_price = '<!--{$data.join_type_price}-->';
+var spread = '<!--{$spread}-->';
+var is_good='<!--{$is_good}-->';
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6e35a5af47b3d4ba5d5d43a41464b89a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+
+<!-- 加载 JS -->
+<!--<script type="text/javascript" language="javascript" src="/wapi/js/mobile/cordova.js"></script>-->
+
+<script type="text/javascript" language="javascript" src="/wapi/js/mobile/zepto.js"></script>
+<script type="text/javascript" language="javascript" src="/wapi/js/mobile/iscroll.js"></script>
+<script type="text/javascript" language="javascript" src="/wapi/js/mobile/template.min.js"></script>
+<script type="text/javascript" language="javascript" src="/wapi/js/mobile/Jingle.debug.js"></script>
+<script type="text/javascript" language="javascript" src="/wapi/js/mobile/zepto.touch2mouse.js"></script>
+
+
+<script>
+
+document.onreadystatechange = function () {
+  if(document.readyState=="complete"){
+	J.Scroll('#' + $('article.active').attr('id'));
+  }
+}
+
+$(function () {
+  //Jingle.launch({appType: 'muti'});
+ 
+
+  $('.up').click(function () {//向上 
+    $('.scrollDiv')
+    .prev().css('transform', 'translate(0px, 0px) scale(1) translateZ(0px)')
+    .children().css('transform', 'translate(0px, 0px) translateZ(0px)');
+    
+    $('.scrollDiv').find('div').css('transform', 'translate(0px, 0px) translateZ(0px)');
+  });
+  
+  $('.reflush').click(function () { //刷新
+    window.location.reload();
+  });
+  
+  setInterval(function () {
+    if( ! $('.reflush').is(':hidden')) {
+      setTimeout(function () {
+        $('.reflush').fadeOut(1000);
+        $('.scrollDiv').fadeOut(1000);
+      }, 1000);
+    }
+  }, 1500);
+  
+  //判断是PC还是触屏
+  var sourceType = navigator.userAgent.match(/.*Mobile.*/) ? 1 : 2;
+  var startY = 0;
+  var startX = 0;
+  $('article.active').bind({
+    'touchstart mousedown' : function(event) {
+      var touch = sourceType == 1 ? event.originalEvent.touches[0] || 
+          event.originalEvent.changedTouches[0] : event.originalEvent;
+
+          var x = Number(touch.pageX);//Number(touch.pageX); //页面触点X坐标
+      var y = Number(touch.pageY);//Number(touch.pageY); //页面触点Y坐标
+      
+      startX = x;
+      startY = y;
+    },
+    'touchmove mousemove' : function(event) {
+      //event.preventDefault();
+    },
+    'touchend touchcancel mouseup' : function(event) {
+      var touch = sourceType == 1 ? event.originalEvent.touches[0] || 
+          event.originalEvent.changedTouches[0] : event.originalEvent;
+      
+      var x = Number(touch.pageX); //页面触点X坐标
+      var y = Number(touch.pageY); //页面触点Y坐标
+      
+      if (y - startY > -10 && y - startY < 10) {//上下滑动
+        $('.reflush').fadeIn(1000);
+        $('.scrollDiv').fadeIn(1000);
+      }
+      else if(x - startX > -20 && x - startX < 20) { //左右滑动
+        $('.reflush').fadeIn(1000);
+        $('.scrollDiv').fadeIn(1000);
+      }
+    }
+  });
+  
+  //向上  目前先不实现
+  //window.setInterval(divSroll, 500);
+});
+
+var divSroll = function () {
+  if($('.scrollDiv').offset().top <= -120) {
+    $('.reflush').hide();
+    $('.up').show();
+  }
+  else {
+    $('.reflush').show();
+    $('.up').hide();
+  }
+}
+</script>
+
+</body>
+</html>

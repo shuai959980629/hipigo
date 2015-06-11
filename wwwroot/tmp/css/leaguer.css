@@ -1,0 +1,175 @@
+
+.leaguer h1{
+	background: #fff;font-size: 1.1rem; position: relative;word-break: break-all;height: 40px;line-height: 40px;
+}
+.return{
+	background: #f24a4a; height: 100%;padding: 0 2%; display:block;margin-right: 6px;
+}
+.return>a{
+	color: #fff; 
+}
+.return:hover{
+	background: #ea2b2b;
+}
+.return>a>.iconfont_10{
+	font-size: 26px;
+}
+.notice{
+	padding: 15px 2% 6px;
+}
+.notice em{
+	font-size: large;
+}
+.leaguer ul{
+	width: 96%; padding:0 2%;
+}
+.leaguer ul li{
+	 width: 100%;border-bottom: 1px solid #ddd; padding: 2% 0;height: 50px; overflow: hidden;
+}
+.leaguer ul li:last-child{
+	border: none;
+}
+.leaguer_head{
+	width: 50px; height: 50px; overflow: hidden;
+}
+.leaguer_msn{
+	padding-left: 8px;
+}
+.leaguer_msn_top{
+	width: 100%;
+}
+.username{
+	font-size: 1.1rem; width: 62%;
+}
+.username img{
+	margin-left: 5px;
+}
+.history{
+	color: #666; font-size: medium;
+}
+.leaguer_msn_bottom{
+	width: 100%; font-size: small; color: #666;display: inline-block; line-height: 2;
+}
+.history{
+	color: #666; font-size: medium; padding: 0 10px;
+}
+.usergreen{
+	color: #4cc9b7;
+}
+.manage{
+	background: #f00; color: #fff; font-size: medium; padding: 0 3px; margin: 0 6px;
+}
+.leaguer_msn_top .iconfont_10{ 
+	padding: 10px;
+}
+.icon-lock{
+	color: #f00;
+}
+.user_code{
+	margin-right: 8px;
+}
+/*order_detail*/
+.cue-words{
+	margin:0 auto;text-align: center;
+}
+.cue-words p{
+	font-size: large; color: #000; line-height: 2.5;
+}
+.cue-words .cue-words-icon{
+	width:125px; background: #999; border-radius:100px; padding: 20px;display: block;margin: 0 auto;
+}
+.cue-words .cue-words-icon .icon-file{
+	color: #f3f3f3; font-size: 120px;transform:rotate(30deg);-moz-transform:rotate(30deg);-webkit-transform:rotate(30deg);
+	-o-transform:rotate(30deg);-ms-transform:rotate(30deg);display: block;
+}
+.cue-words span a{
+	font-size: medium; color: #999;
+}
+.cue-words span a:hover{
+	color: #01a58c;
+}
+.order{
+	padding: 2%; float: left;width: 96%;
+}
+.order dt,.order dd{
+	border-bottom: solid 1px #ddd; display: block; padding: 10px 0;
+}
+.order dt{
+	font-size: 20px;
+}
+.order dd em.prise{
+	font-size: small; color: #999;
+}
+.order dd em.prise i{
+	color: #4cc9b6; font-size: x-large;
+}
+.order dd em.prisename{
+	font-size: large; color: #888; line-height: 2;
+}
+.order dd.noborder{ border: none;}
+.order>dd.noborder>a{
+	background: #4cc9b6;border: none; width: 80%; margin: 6% auto 0;display: block;line-height: 2; 
+	font-size: large;color: #fff;text-align: center;
+}
+.order>dd.noborder>a:hover{
+	background: #01a58c;
+}
+/*历史订单*/
+.nopaid{
+	width: 100%;
+}
+.nopaid>.nopaid-title{
+	font-size: larger; color: #999; line-height: 2.5; padding: 0 2%;
+}
+.nopaid>.nopaid-title>em{
+	color: #f24949;
+}
+.nopaid>ul>li{
+	width: 96%; height: 120px;padding: 8px 2%;overflow: hidden;
+}
+.nopaid>ul>li.white{
+	background: #fff;
+}
+.nopaid>ul .paidpic{
+	width: 120px; height: 100%;overflow: hidden;
+}
+.nopaid>ul .paidcon{
+	padding-left: 6px;
+}
+.nopaid>ul .paidcon h3{
+	height: 65px;overflow: hidden;line-height: 1.2;
+}
+.nopaid>ul .account-payable{
+	color: #888; font-size: medium; padding-top: 6px;
+}
+.nopaid>ul .pay-state{
+	width: 100%;padding-top: 6px;
+}
+.nopaid>ul .pay-state .not{
+	color: #f24949; line-height: 1.8;
+}
+.nopaid>ul .pay-state .yes{
+	color: #3baa24; line-height: 1.8;
+}
+.nopaid>ul .pay-state .new-code{
+	line-height: 1.5;
+}
+.nopaid>ul .pay-state a{
+	background: #4cc9b6; color: #fff; padding: 0.3% 5%; font-size: large;
+}
+.nopaid>ul .pay-state a:hover{
+	background: #01a58c;
+}
+.error-cue{
+	width: 50%; margin: 20% auto 0;display: block; text-align: center;font-size: large; color: #333;
+}
+.error-cue .icon-github-alt{
+	color: #d6d6d6;font-size: 100px;text-shadow: -1px -1px 0 #ccc,1px 1px 0 #fff,1px 1px 0 #fcfcfc;
+}
+/*V1.2*/
+.leaguer_msn_bottom a{
+	font-size: medium;
+}
+.modalv1 ul li{
+	font-size: large; color: #f24949; line-height: 2;
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>嗨皮Go-修改密码-社区会员</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/login.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/hipigouser.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<div class="main">
+    <div class="container">
+        <!--login-->
+        <a href="javascript:history.go(-1);" class="return left"><i class="iconfont icon iconfont_10">&#983354</i></a>
+        <input placeholder="请输入你的新密码" type="password" id="newPWD" onfocus="restyle(this)"  onblur="chekcpwd(this)" class="login_input"/>
+        <input placeholder="再次输入新密码" type="password" id="newPWDC"  onfocus="restyle(this)"  onblur="chekcpwd(this)"  class="login_input"/>
+        <button class="refer" onclick="ensure()" id="ensure">确定</button>
+        <button id="ensureING" class="refer01" style="display:none;"><em class="loadings"></em>确定中</button>
+    </div>
+    <!--footer-->
+    <footer><!--powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a--></footer>
+</div>
+<!--弹窗S-->
+<div class="modalv_opu hidden" onclick="hidePop()" id="pop">
+<i class="icon-remove"></i><span id="tip"></span>
+</div>
+<!--弹窗E-->
+<script>
+function chekcpwd(_obj){
+    var pwd = $(_obj).val();
+    var id = $(_obj).attr('id');
+    if(id=='newPWDC'){
+        var val_1 = $("#newPWD").val();
+        var val_2 = $("#newPWDC").val();
+        if(val_1!=val_2){
+            showPop("两次密码不一致！");
+            $(_obj).attr('class','error');
+            $("#ensure").attr('class','refer');
+            return false;
+        }else{
+            $(_obj).attr('class','login_input');
+            $("#ensure").attr('class','refer01');
+            return true;
+        }
+    }
+    if(pwd.length==0){
+        $(_obj).attr('class','error');
+        $("#ensure").attr('class','refer');
+        return false;
+    }else if(!rule.pwdreg.test(pwd)||pwd.length>18 || pwd.length<6){
+        showPop("请输入6-18位数字加字母！");
+        $(_obj).attr('class','error');
+        $("#ensure").attr('class','refer');
+        return false;
+    }else{
+        $(_obj).attr('class','login_input');
+        $("#ensure").attr('class','refer01');
+        return true;
+        //$(".login_input").removeAttr('readonly');
+    }
+}
+
+function restyle(_obj){
+   $(_obj).attr('class','login_input');
+   $("#ensure").attr('class','refer');
+   //$(".login_input").removeAttr('readonly'); 
+}
+
+
+function ensure(){
+    if(!chekcpwd($("#newPWD"))|| !chekcpwd($("#newPWDC"))){
+       return false;
+    }
+    var newpwd = $("#newPWD").val();
+    var newpw = $("#newPWDC").val();
+    $("#ensure").hide();
+    $("#ensureING").show();
+    $.ajax({    
+        url:'/wapi/<!--{$bid}-->/<!--{$sid}-->/user/edit',
+        data:'&newpwd='+newpwd+'&newpw='+newpw,
+        async: true,
+        dataType: 'json',
+        type:'post',
+        success:function(data){
+            if(data.status){
+                window.location.href="/wapi/<!--{$bid}-->/<!--{$sid}-->/community/home"
+            }else{
+                $("#ensure").show();
+                $("#ensureING").hide();
+                $("#ensure").attr('class','refer');
+                showPop(data.msg);
+            }
+       }
+    })
+}
+
+
+</script>
+</body>
+</html>

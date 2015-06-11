@@ -1,0 +1,58 @@
+<!-- BEGIN SIDEBAR MENU -->
+
+<ul class="page-sidebar-menu">
+
+	<li>
+		<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+		<div class="sidebar-toggler hidden-phone"></div> <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+	</li>
+	<li class="user">
+        <a class="remove" href="javascript:;">
+        <i class="icon-user"></i>
+        <span class="title"><!--{$data.user.real_name}-->
+            <em onclick="javascript:window.location.href='<!--{$url_prefix}-->user/logout'">注销登录</em>
+        </span>
+        </a>
+	</li>
+    
+	<li <!--{if empty($current.carr)}-->class="active"<!--{/if}--> >
+        <a href="/biz/">
+           	<i class="icon-th"></i>
+    		<span class="title">V平台首页</span>
+    		<span class="arrow "></span>
+        </a>
+    </li>
+	<!--{foreach from=$data.menu item=fm}-->
+	
+	<li <!--{if !empty($current.carr)}--><!--{if in_array($fm.id_menu,$current.carr)}-->class="active"<!--{/if}--><!--{/if}-->>
+		<a href="javascript:;"><i class="icon-th"></i>
+		<span class="title"><!--{$fm.name}--></span>
+		<span class="arrow "></span>
+	</a>
+		<!--{if $fm.children neq ''}-->
+		<ul class="sub-menu">
+			<!--{foreach from=$fm.children item=sm}-->
+			<li <!--{if !empty($current.carr)}--><!--{if in_array($sm.id_menu,$current.carr)}-->class="open"<!--{/if}--><!--{/if}-->><a href="<!--{$url_prefix}--><!--{$sm.menu_url}-->?cm=<!--{$sm.id_menu}-->"><!--{$sm.name}--><!--{if $sm.children neq ''}--><span class="arrow"></span><!--{/if}--></a>
+			
+				<!--{if $sm.children neq ''}-->
+				<ul class="sub-menu" <!--{if !empty($current.carr)}--><!--{if in_array($sm.id_menu,$current.carr)}-->style="display:block"<!--{/if}--><!--{/if}-->>
+					<!--{foreach from=$sm.children item=tm}-->
+					<li <!--{if !empty($current.carr)}--><!--{if in_array($tm.id_menu,$current.carr)}-->class="open"<!--{/if}--><!--{/if}-->><a href="<!--{$url_prefix}--><!--{$tm.menu_url}-->?cm=<!--{$tm.id_menu}-->"><!--{$tm.name}--></a></li>
+					<!--{/foreach}-->
+				</ul>
+				<!--{/if}-->
+			
+			</li>
+			<!--{/foreach}-->
+		</ul>
+		<!--{/if}-->
+	</li>
+
+	<!--{/foreach}-->
+
+
+
+</ul>
+<!-- END SIDEBAR MENU -->

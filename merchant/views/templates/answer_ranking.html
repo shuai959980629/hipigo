@@ -1,0 +1,77 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<!--{include file="top.html"}-->
+<!-- END HEADER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+    <!-- 左边开始 -->
+    <div class="page-sidebar nav-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <!--{include file="menu.html"}-->
+        <!-- END SIDEBAR MENU -->
+    </div>
+    <!-- 左边结束 -->
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- BEGIN PAGE CONTAINER-->
+        <div class="container-fluid">
+            <!-- BEGIN PAGE HEADER-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                    <!--{include file="nav.html"}-->
+                    <!-- END PAGE TITLE & BREADCRUMB-->
+                </div>
+            </div>
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN VALIDATION STATES-->
+                    <div class="portlet box yellow">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-reorder"></i>排行榜TOP30</div>
+                        </div>
+                        <div class="portlet-body form ranking">
+                            <!--一战到底排行榜开始-->
+                            <table>
+                                <tbody>
+                                    <tr class="title"><td class="No">排行</td><td>头像</td><td>昵称</td><td>参与时间</td><td>得分</td><td>答题时间(S)</td></tr>
+                                    <!--{foreach from = $answer_rank item=ar key=k}-->
+                                    <tr><td class="No"><!--{$k+1}--></td><td><img src="<!--{$ar.head_image_url}-->"></td>
+                                        <td><!--{urldecode($ar.nick_name)}--></td><td><!--{$ar.created}--></td>
+                                        <td><!--{$ar.score}--></td><td><!--{$ar.consuming}--></td>
+                                    </tr>
+                                    <!--{/foreach}-->
+                                </tbody>
+                            </table>
+                            <!--一战到底排行榜结束-->
+                        </div>
+                    </div>
+                    <!-- END VALIDATION STATES-->
+                </div>
+            </div>
+            <!-- END PAGE CONTENT-->
+        </div>
+        <!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<!--{include file="footer.html"}-->
+<!-- END PAGE LEVEL SCRIPTS -->
+	<script>
+		jQuery(document).ready(function() {
+		   // initiate layout and plugins
+		   App.init();
+		   FormValidation.init();
+		});
+	</script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

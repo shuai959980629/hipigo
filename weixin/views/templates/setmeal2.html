@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title><!--{$title}--></title>
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/pic.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/setmeal.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" />
+<!-- 加入后变为响应式布局，去掉变为固定宽度布局 -->
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<!--[if lt IE 9]>
+  <script src="<!--{$url_prefix}-->js/html5.js"></script>
+<![endif]-->
+</head>
+<body>
+	<div class="container">
+		<div class="hidden"><button class="foot" id="nextpage">查看下8条</button></div>
+	</div>
+<footer class="footer"> </footer>
+<script src="<!--{$url_prefix}-->js/zepto.js"></script>
+<script src="<!--{$url_prefix}-->js/base64.js"></script>
+<script type="text/javascript">
+var apiHost = "<!--{$ajaxurl}-->";
+var resType = '<!--{$ctype}-->';
+var url2 = '<!--{$url}-->/home/foodcontent/';
+var page = 0;
+var b64 = new Base64();
+function xmlHttp(url,callback){
+	if(url == ''){
+		alert('请求地址不能为空！');
+	}else{
+		$.getJSON(url,callback);
+	}
+}
+function  getMorePic(){
+	page = page + 1;
+	var url = apiHost + page + '/'+ resType+'/?jsoncallback=?';
+	//$("#nextpage").text("数据加载中……");
+	xmlHttp(url,showMoreList);
+}
+function showMoreList(items){
+
+	if(items[0]){
+		for(var i in items){
+			var item = items[i];
+			var thumb = item.thumb;
+			var trHead = '<div id="package" onclick="goThreadWindow('+item.tid+')"><div class="block_package">';
+			var trPic = '<img src="'+thumb+'" id="p'+item.tid+'">';
+			var trTitle = '<div class="subjecta">'+b64.decode(item.subject)+'</div>';
+			var trFoot = '</div></div>';
+			tr = trHead + trPic + trTitle + trFoot;
+			$('.container').append(tr);
+
+		}
+		/* if(items.length < 8){
+			$("#nextpage").text("没有数据了");
+		}else{
+			$("#nextpage").text("查看下8条");
+		}
+		 */
+	}else{
+		//$("#nextpage").text("没有数据了");
+	}
+	
+}
+
+$(window).on('touchend',function(e){
+	var a = document.body.scrollHeight;
+	var b = document.documentElement.clientHeight;
+	var c = document.documentElement.scrollTop + document.body.scrollTop;
+	//var c = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+	var totalHeight = c+b+30;
+	if(totalHeight >= a ){
+		//$('#nextpage').text('数据加载中……');
+		getMorePic();
+	} 
+})
+$(document).ready(function(){
+	getMorePic();
+});
+
+
+
+/**
+ * 帖子详情窗口跳转
+ * @param {Object} tid
+ */
+function goThreadWindow(tid){
+    //Do Nothing
+    //此处就可以处理点击时的跳转了，比如查看详细帖子内容
+    var xz = '';
+    if(resType == 3){
+        xz = '3';
+    }else if(parseInt(resType) == 7){
+        xz = '0/3';
+    }else{
+        xz = resType;
+    }
+    window.location.href = url2+'1/'+tid+'/'+xz;
+}
+</script>
+</body>
+</html>

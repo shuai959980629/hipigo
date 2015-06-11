@@ -1,0 +1,118 @@
+<!--{include file="header.html"}-->
+<script>
+var userid = '<!--{$userid}-->';
+</script>
+<section id="edit_info_section" class="active">
+
+<!--{include file="nav.tpl"}-->
+
+<article id="edit_info_list" data-scroll="true" class="active">
+<div>
+<ul class="info_list">
+<li>
+<iframe id="upload" style="display:none;" name="upload"> </iframe>
+<form action="<!--{$url}-->/tpicture/upload"  method="post"  id="image_upload" enctype="multipart/form-data" target="upload">
+<input type="hidden" value="" name="image_url" id="image_url"/>
+<input type="file" name="userfile" id="relative_file" style="position: absolute;top: 20;left: 0;width: 100%;height: 70px;opacity: 0;filter: alpha(opacity=0);cursor: pointer;" />
+<input type="submit" value="浏览" style="display: none;"/>
+<input type="hidden" value="head" name="path" id="path"/>
+</form>
+<a href="#">
+<span class="left"><img id="pic" src="<!--{if $user_info.head_image_url}--><!--{$user_info.head_image_url}--><!--{else}--><!--{$url_prefix}-->img/default-header.png<!--{/if}-->"/>上传头像</span>
+<i class="iconfont icon iconfont_10 right">&#983727;</i>
+</a>
+</li>
+
+<li>
+<a href="#">
+<span class="left">社区账号</span>
+
+<span class="green right revise_info">
+<!--{if $user_info.account_name}-->
+<input type="text" id="account_name" readonly value="<!--{$user_info.account_name}-->"/>
+<!--{else}-->
+<!--{if $is_wechat_user}-->
+<em id="binding">设置账号</em>
+<!--{/if}-->
+<!--{/if}-->
+</span>
+</a>
+</li>
+
+<li>
+<a href="#" id="nick_name_u">
+<span class="left">社区昵称</span>
+<span  class="right revise_info">
+<input type="text" id="nick_name" name="nick_name" placeholder="<!--{urldecode($user_info.nick_name)}-->" class=""  value="<!--{urldecode($user_info.nick_name)}-->"/>
+</span>
+</a>
+</li>
+
+<li>
+<a href="#">
+<span class="left">签名</span>
+<span class="right revise_info">
+<div id="sign"><!--{if $user_info.sign}--><!--{$user_info.sign}--><!--{else}-->暂无签名<!--{/if}--></div>
+<textarea rows="3" class="hidden" id="sign_revise_info" name="sign_revise_info" ></textarea>
+</span>
+</a>
+</li>
+
+<li>
+<a href="<!--{$url_prefix}--><!--{$bid}-->/<!--{$sid}-->/user/changepwd">
+<span class="left">修改密码</span>
+<span class="green right revise_info">修改密码</span>
+</a>
+</li>
+
+<li>
+<a href="#">
+<span class="left">手机号码</span>
+<span class="right revise_info">
+<!--{if $user_info.cellphone}-->
+<i class="icon pencil green" id="edit_phone" data-link="<!--{$edit_phone_url}-->"></i><!--{$user_info.cellphone}-->
+<!--{else}-->
+<em class="binding" id="binding_phone" data-link="<!--{$bind_phone_url}-->">绑定手机</em>
+<!--{/if}-->
+</span>
+</a>
+</li>
+
+<li>
+<a href="#" id="sex_revise_info">
+<span class="left">性别</span><span class="right revise_info">
+<input type="text" data-sex="<!--{$user_info.sex}-->" value="<!--{if $user_info.sex == 1}-->男<!--{else}-->女<!--{/if}-->" name="sex_id" id="sex_id"/>
+<form id="sex_revise_info_f" name="form1" method="post" action="" class="right hidden">
+
+<!--{if $user_info.sex == 1}-->
+<label><input id="sex_man" type="radio" name="sex" value="1" id="RadioGroup1_0" checked="checked">男</label>
+<label><input id="sex_women" type="radio" name="sex" value="2" id="RadioGroup1_1">女</label>
+<!--{else}-->
+<label><input id="sex_man" type="radio" name="sex" value="1" id="RadioGroup1_0">男</label>
+<label><input id="sex_women" type="radio" name="sex" value="2" id="RadioGroup1_1"  checked="checked">女</label>
+<!--{/if}-->
+
+
+</form>
+</span>
+</a>
+</li>
+
+<li>
+<a href="#">
+<span class="left">生日</span><span class="right revise_info">
+<input type="text" class="date-picker left" name="date" id="date" readonly="readonly" value="<!--{if $user_info.birthday}--><!--{if substr($user_info.birthday,5,5) != '00-00'}--><!--{substr($user_info.birthday,5,5)}--><!--{/if}--><!--{else}--><!--{/if}-->"/>
+</span>
+</a>
+</li>
+
+<!--{if $is_wechat_user == false}-->
+<button class="logout_account">注销账号</button>
+<!--{/if}-->
+
+</ul>
+</div>
+</article>
+</section>
+
+<!--{include file="footer.html"}-->	

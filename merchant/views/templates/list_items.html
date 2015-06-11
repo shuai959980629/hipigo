@@ -1,0 +1,213 @@
+<!--{include file="header.html"}-->
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<!--{include file="top.html"}-->
+	<!-- END HEADER -->
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container row-fluid">
+		<!-- 左边开始 -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->
+			<!--{include file="menu.html"}-->
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- 左边结束 -->
+
+		<!-- BEGIN PAGE -->
+		<div class="page-content">
+			<!-- 右边开始-->
+			<div class="container-fluid" >
+				<!--右边标题导航开始-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<!--{include file="nav.html"}-->
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+                   
+				<!--右边标题导航结束-->
+                <!--右边中介内容开始-->
+                <div class="content" >
+                <p class="fl"><input id="seek" name="seek" value="输入后请按回车进行搜索" title="输入后请按回车进行搜索" type="text" onkeypress="if(event.keyCode==13){search_item(this)}" onkeyup="backSearchOrRefresh(this)" onblur="search_item(this)"></p>
+                <p class="fr">
+                    <select name="commodity_type" id="commodity_type" onChange="commodity_list_page(1)">
+                        <option value="all">全部</option>
+                        <!--{foreach from = $commodity_class item = cc}-->
+                        <option value="<!--{$cc.id_class}-->"><!--{$cc.name}--></option>
+                        <!--{/foreach}-->
+                    </select>
+                </p>
+                    <div class="portlet box blue">
+                        <!--内容-->
+                        <!--表格内容-->
+                        <div class="portlet-body fuelux ">
+                           <!--商品列表开始-->
+                            <div class="catalogue">
+                            <table width="100%">
+                                <tbody>
+                                    <tr class="big_title">
+                                        <td class="id_title">标题</td>
+                                        <td class="title">内容</td>
+                                        <td>分类</td>
+                                        <td>价格</td>
+                                        <td>状态</td>
+                                        <td>权重</td>
+                                        <td class="id_title">操作</td>
+                                    </tr>
+                                <!--{if $commodity_list}-->
+                                    <!--{foreach from = $commodity_list item = cl key = k}-->
+                                    <tr<!--{if $k % 2 != 0}--> class="bg"<!--{/if}-->>
+                                    <!--<td class="id">{$cl.id_commodity }</td>-->
+                                        <td class="id_title"><!--{$cl.name}--></td>
+                                        <td class="title">
+                                            <div class="pic"><img src="<!--{$cl.image_url|get_img_url:'commodity'}-->"></div>
+                                            <div class="describe"><!--{$cl.descript|truncate_utf8:30}--></div>
+                                        </td>
+                                        <td><!--{$cl.type}--></td>
+                                        <td><!--{$cl.price}--></td>
+                                        <td><!--{if $cl.state == 1}-->有效<!--{else}-->无效<!--{/if}--></td>
+                                        <td><!--{$cl.weight}--></td>
+                                        <td  class="id_title">
+                                            <a class="compile" href="<!--{$url_prefix}-->item/edit_item/<!--{$cl.id_commodity}-->/<!--{$offset}-->">编辑</a>
+                                            <a class="delete" onClick="delete_commodity(<!--{$cl.id_commodity}-->,<!--{$offset}-->)">删除</a>
+                                            <a class="hot" href="javascript:void(0)" onClick="join_mall(this,<!--{$offset}-->,<!--{$cl.id_commodity}-->)">加入商城</a>
+                                        </td>
+                                    </tr>
+                                    <!--{/foreach}-->
+                                <!--{else}-->
+                                <tr>
+                                    <td colspan="8">
+                                        还没有物品信息！
+                                    </td>
+                                </tr>
+                                <!--{/if}-->
+                                </tbody>
+                                </table>
+                            <!--分页 start-->
+                                <!--{if $page_html}-->
+                                <div class="pagination">
+                                    <ul>
+                                        <!--{$page_html}-->
+                                    </ul>
+                                </div>
+                                <!--{/if}-->
+                            <!--分页 ene-->
+                            </div>
+                            <!--商品列表结束-->
+                        </div>
+				    </div>
+                </div>
+                <!--右边中介内容结束-->
+			</div>
+			<!-- 右边结束-->
+		</div>
+		<!-- END PAGE -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<!--{include file="footer.html"}-->
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+	<script>
+		jQuery(document).ready(function() {
+		   App.init();
+		   UITree.init();
+		});
+
+        //搜索提示效果
+        $("#seek").click(function(){
+            if($(this).val() == $(this).attr('title')){
+                $(this).val('');
+            }
+        }).blur(function(){
+            if($(this).val() == ''){
+                $(this).val($(this).attr('title'));
+            }
+        });
+
+        //物品列表分页
+        function commodity_list_page(offset){
+            var search_key = $('#seek').val();
+            $.post('<!--{$url_prefix}-->item/list_item', {
+                'id_class': $('#commodity_type').val(),
+                'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                'offset':offset
+            }, function(data){
+                $('.catalogue').html(data);
+            }, 'text');
+        }
+
+        //删除物品列表信息
+        function delete_commodity(id_commodity,offset){
+            if(confirm("你确定要删除该物品信息吗？"))
+            {
+                var search_key = $('#seek').val();
+                $.post('<!--{$url_prefix}-->item/del_item', {
+                    'id_class': $('#commodity_type').val(),
+                    'id_commodity': id_commodity,
+                    'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                    'offset':offset
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('.catalogue').html(data.data);
+                }, 'json');
+            }
+        }
+
+        //加入商城
+        function join_mall(obj,offset,id_commodity){
+            if(confirm("你确定要将此物品加入商城？"))
+            {
+                $(obj).parent().parent().remove();
+                $.post('<!--{$url_prefix}-->item/join_mall', {
+                    'id_class': $('#commodity_type').val(),
+                    'offset':offset,
+                    'id_commodity':id_commodity
+                }, function(data){
+                    if(data.status == '0'){
+                        alert('没权限执行此操作!');
+                    }else
+                        $('.catalogue').html(data);
+                }, 'json');
+            }
+        }
+
+        //搜索关键字
+        function search_item(obj){
+            var search_keys = $(obj).val();
+            var search_key = search_keys.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(search_key == ''){
+//                alert('请输入你要搜索的文字内容！');
+                return;
+            }else{
+                $.post('<!--{$url_prefix}-->item/search_item', {
+                    'id_class': $('#commodity_type').val(),
+                    'search_key':search_key=='输入后请按回车进行搜索'?'':search_key,
+                    'offset':1
+                }, function(data){
+                    $('.catalogue').html(data);
+                }, 'text');
+            }
+        }
+        //搜索返回刷新
+        function backSearchOrRefresh(obj){
+            var searchinput = $(obj).val();
+            if(searchinput == ''){
+                commodity_list_page(1);
+            }
+        }
+	</script>
+	<!-- END JAVASCRIPTS -->
+
+</body>
+
+<!-- END BODY -->
+
+</html>

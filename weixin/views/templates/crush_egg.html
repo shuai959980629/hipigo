@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>游戏,砸金蛋活动</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" /><!-- 加入后变为响应式布局，去掉变为固定宽度布局 -->
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/crush-egg.css" />
+<script src="<!--{$url_prefix}-->js/jquery-1.7.1.min.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/swipe.js"></script>
+<script src="<!--{$url_prefix}-->js/Modernizr.js"></script>
+<script src="<!--{$url_prefix}-->js/chance.js"></script>
+
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article,button{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<div class="main" id="main">
+
+<input id="oid" name="oid" type="hidden" value="<!--{$oid}-->" />
+<input id="aid" name="aid" type="hidden" value="<!--{$aid}-->" />
+<input id="url" name="url" type="hidden" value="<!--{$url}-->" />
+<input id="url_prefix" name="url_prefix" type="hidden" value="<!--{$url_prefix}-->" />
+
+<!--banner-->
+<div class="container">
+<!--标题-->
+<h1><img src="<!--{$url_prefix}-->img/title.png"/></h1>
+<div class="jcxq clearfix"><button><a href="<!--{$url}-->/community/home"><img src="/wapi/img/jd_jcxq.png" class="left"></a><em class="arrow-right"></em></button></div>
+<div class="row-fluid clearfix">
+<div class="span4" id="img_span0"><img src="<!--{$url_prefix}-->img/jindan01.png" data-id="0"/></div>
+<div class="span4" id="img_span1"><img src="<!--{$url_prefix}-->img/jindan02.png" data-id="1"/></div>
+<div class="span4" id="img_span2"><img src="<!--{$url_prefix}-->img/jindan03.png" data-id="2"/><span id="hammer" class="crush"></span></div>
+</div>
+
+<!--详情按钮-->
+<div class="jcdetail">
+
+</div>
+</div>
+
+<!--弹窗S-->
+<!--中奖礼品S-->
+<div id="chance_yes">
+</div>
+<!--中奖礼品E-->
+
+<!--失败S-->
+<div id="chance_no">
+</div>
+<!--失败E-->
+
+<!--机会用完S-->
+<div id="chance_out">
+</div>
+<!--机会用完-->
+<!--等待s-->
+<div id="loading" class="egg-modal" style="display:none;">
+<h2>请稍等...</h2>
+<div class="pop-up-bt clearfix">
+<img src="<!--{$url_prefix}-->img/loading1.gif" alt="请稍等..."/>
+</div>
+</div>
+<!--等待e-->
+<!--商家未配置此活动S-->
+<div id="chance_error" class="egg-modal" style="display:none;">
+<h2>活动已停止！</h2>
+<div class="pop-up-bt clearfix">
+<button class="right"><b class="left"><a href="<!--{$url}-->/community/home">返回社区首页</a></b><em class="arrow-right"></em></button>
+</div>
+</div>
+<!--商家未配置此活动S-->
+<!--今天是否还有机会-->
+<!--{if $times_num ==0}-->
+<div id="chance_error" class="egg-modal">
+<h2>今天机会用完啦,明天再来吧</h2>
+<div class="pop-up-bt clearfix">
+
+<button class="right"><b class="left"><a href="<!--{$url}-->/community/home">返回社区首页</a></b><em class="arrow-right"></em></button>
+</div>
+</div>
+<div class="webgame_msgWindow_mask"></div>
+<!--{/if}-->
+<!--今天是否还有机会-->
+
+<div id="chance_show"></div>
+<script>
+$(".span4 img").live('hover',function() {
+	var left = $(this).offset().left;
+    var top  = $(this).offset().top;
+    var w = $(this).width();
+    $("#hammer").offset({top:top-30,left:left+(w/2)-15});
+    $("#hammer").fadeIn(1000);
+})
+</script>
+<!--弹窗E-->
+<footer>powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+</div>
+</body>
+</html>

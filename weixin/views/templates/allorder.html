@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>历史订单</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/font-awesome.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/reset.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css1/leaguer.css" />
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<script src="<!--{$url_prefix}-->js/swipe.js"></script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript"> 
+//HTML5 兼容ie所有版本
+'FooterHeaderNavSectionAside'.replace(/.[a-z]+/g,function(n){document.createElement(n)});
+</script>
+<style type="text/css"> 
+<!--
+header, aside, menu,footer,article{
+display:block;
+}
+-->
+</style>
+
+</head>
+<body>
+<div class="main clearfix">
+<div class="container clearfix">
+<span class="return left"><a href="<!--{$url}-->/community/home?oid=<!--{$oid}-->"><i class="iconfont icon iconfont_10">&#983354</i></a></span>
+<span class="clearfix left"></span>
+<!--未支付-->
+<div class="nopaid left">
+<p class="nopaid-title">未支付（<em><!--{$nonpay}--></em>）</p>
+<ul>
+<!--{foreach from=$data item=st name=st}-->	
+<!--{if $st.state == 0}-->		
+<li><span class="paidpic left"><img src="<!--{$st.img}-->"/></span>
+<span class="paidcon left">
+<h3><a id="name<!--{$st.id_order}-->" href="/wapi/<!--{$st.id_business}-->/0/community/detail?oid=<!--{$oid}-->&aid=<!--{$st.id_activity}-->">
+    <script>
+        var len = 20;
+        if(screen.width <= 320){
+            len = 18;
+        }else if(screen.width > 320 && screen.width <= 800){
+            len = 20;
+        }else if(screen.width > 800){
+            len = 25;
+        }
+        $('#name<!--{$st.id_order}-->').html('<!--{$st.name}-->'.substring(0, len));
+    </script>
+    </a></h3>
+<p class="account-payable">应付款：￥<!--{$st.total_amount}--></p>
+<p class="pay-state clearfix"><em class="not left">未支付</em><a href="/wapi/<!--{$st.id_business}-->/<!--{$st.id_shop}-->/order/pay?order_id=<!--{$st.id_order}-->" class="right">支付</a></p>
+</span>
+</li>
+<!--{/if}-->
+<!--{/foreach}-->
+</ul>
+<!--{if $ordre_status ==0}-->
+<div class="cue-words">
+<span class="cue-words-icon"><i class="icon-file"></i></span>
+<p>抱歉，您还没有相关订单</p>
+<span><a href="">不妨去商家活动列表看看</a></span>
+</div>
+<!--{/if}-->
+</div>
+
+<!--历史订单-->
+<div class="nopaid left">
+<p class="nopaid-title">历史订单（<em><!--{$paid}--></em>）</p>
+<ul>
+<!--{foreach from=$data item=st name=st}-->		
+<!--{if $st.state == 1}-->		
+<li><span class="paidpic left"><img src="<!--{$st.img}-->"/></span>
+<span class="paidcon left">
+<h3><a href="/wapi/<!--{$st.id_business}-->/0/community/detail?oid=<!--{$oid}-->&aid=<!--{$st.id_activity}-->"><!--{$st.name}--></a></h3>
+<p class="account-payable">已付款：￥<!--{$st.pay_amount}--></p>
+<p class="pay-state clearfix"><em class="yes left">交易成功</em><i class="new-code right"><!--{$st.ecode}--></i></p>
+</span>
+</li>
+<!--{/if}-->
+<!--{/foreach}-->
+</ul>
+</div>
+<!--footer-->
+</div>
+<footer>powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+</div>
+</body>
+</html>

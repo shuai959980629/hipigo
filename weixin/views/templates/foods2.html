@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title><!--{$title}--></title>
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/foods.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/pic.css" />
+<link rel="stylesheet" href="<!--{$url_prefix}-->css/bootstrap-responsive.css" />
+<!-- 加入后变为响应式布局，去掉变为固定宽度布局 -->
+<script src="<!--{$url_prefix}-->js/jquery.js"></script>
+<script src="<!--{$url_prefix}-->js/bootstrap.js"></script>
+<!--[if lt IE 9]>
+  <script src="<!--{$url_prefix}-->js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="main">
+	<div class="container">
+		<div class="bc-social clearfix">
+			<ul class="bc-social-buttons">
+			<li <!--{if $ctype eq 2}-->class="active"<!--{/if}-->><a href="<!--{$url}-->/home/foods/2">店内美食</a></li>
+			<li <!--{if $ctype eq 3}-->class="active"<!--{/if}-->><a href="<!--{$url}-->/home/foods/3">饮品推荐</a></li>
+			</ul>
+		</div>
+    
+		<!--列表开始-->
+		<div id="forum_list">
+			<div class="outDiv" id="leftPic"></div>
+			<div class="outDiv" id="rightPic"></div>		  
+		</div>
+		<!--列表结束-->
+		<div class="hidden"><button class="foot" id="nextpage" ontouchstart="zy_touch('btn-newact')" onclick="getMorePic();">查看下8条</button></div>
+
+
+	</div>
+
+<footer>powered by <a href="http://www.it008.com" target="_blank">赏金猎人</a></footer>
+</div>
+<script src="<!--{$url_prefix}-->js/zepto.js"></script>
+<script src="<!--{$url_prefix}-->js/base64.js"></script>
+<script>
+var apiHost = "<!--{$ajaxurl}-->";
+var resType = '<!--{$ctype}-->';
+var url2 = '<!--{$url}-->/home/foodcontent/';
+</script>
+<script src="<!--{$url_prefix}-->js/pic.js"></script>
+<script>
+//用于瀑布流自动加载
+//兼容Android,iphone
+$(window).on('touchend',function(e){
+	var a = document.body.scrollHeight;
+	var b = document.documentElement.clientHeight;
+	var c = document.documentElement.scrollTop + document.body.scrollTop;
+	//var c = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+	var totalHeight = c+b+30;
+	if(totalHeight >= a ){
+		$('#nextpage').text('数据加载中……');
+		getMorePic();
+	} 
+})
+
+$(document).ready(function(){
+	getMorePic();
+});
+	
+</script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!--{if is_array($slist)}-->
+<!--{foreach from=$slist item=st name=st}-->
+<li>
+
+	<div class="clearfix kecaozuo">
+		<p class="num num04">
+			<!--{$smarty.foreach.st.index+1+$cindex}-->
+		</p>
+		<p class="musicpic">
+			<img src="<!--{$st.posters_url|get_img_url:song}-->" />
+		</p>
+		<input type="hidden" name="audiosrc"
+			value="<!--{$st.song_url|get_img_url:song}-->" />
+		<p class="listdectwo">
+			<span>
+				<!--{$st.name}-->
+			</span> <span class="songer"><small>
+					<!--{$st.singer}-->
+			</small></span>
+		</p>
+		<p class="icon01">
+			<a href="#"><span class="icon icon-small pause"><span
+					class="icon-pause"></span></span></a>
+		</p>
+	</div>
+	<div class="download">
+		<a href="#"><span class="icon icon-small"><span
+				class="icon-download"></span></span></a>
+	</div>
+	<div class="song left">
+		<!--{$st.lyric}-->
+	</div>
+
+</li>
+<!--{/foreach}-->
+<input type="hidden" name="cpage" id="cpage" value="<!--{$cpage}-->" />
+
+<script type="text/javascript">
+	$("#portlet_tab1 li .kecaozuo").click(function(){
+		var pli = $(this).parent('li');
+		var index = $("#portlet_tab1 li").index(pli);
+		$("body audio").each(function(i){
+			$(this).get(0).currentTime=0;
+			$(this).get(0).pause();
+		});
+		if(pli.attr('class') == 'playing'){
+			if(pli.find('div.song').css('display') == 'block'){
+				pli.find('div.song').hide();
+				pli.find('p.icon01').find('span.icon-pause').removeClass('icon-pause').addClass('icon-play')
+				if($('#chatAudio'+index).get(0)){
+					$('#chatAudio'+index).get(0).pause();
+				}
+			}else{
+				pli.find('div.song').show();
+				pli.find('p.icon01').find('span.icon-play').removeClass('icon-play').addClass('icon-pause')
+				if($('#chatAudio'+index).get(0)){
+					$('#chatAudio'+index).get(0).play();
+				}
+			}
+		}else{
+			pli.addClass('playing').siblings().removeClass('playing');
+			var a_src = pli.find('input[name=audiosrc]').val();
+			var point = a_src.lastIndexOf(".");
+			var type = a_src.substr(point);
+			var a_type = 'mpeg';
+			if(type == '.wav'){
+				a_type = 'wav';
+			}else if(type == '.ogg'){
+				a_type = 'ogg';
+			}else if(type == '.mp3'){
+				
+			}else{
+				$('.error_pop').text('不支持'+type+'类型的歌曲播放').show();
+				return false;
+			}
+			
+			var tmpAutioHtml = '<audio id="chatAudio' + index +'" controls="controls" preload="auto" style="position:absolute; visibility:hidden;">' +
+			'<source src="'+ a_src +'"></source>' +
+			//'<source src="'+ params.urlOgg +'"></source>' +
+			'</audio>';
+			
+			/* if($('#chatAudio'+index)[0]){
+				$('#chatAudio')[0].remove();
+				$('<audio id="chatAudio"><source src="'+a_src+'" type="audio/'+a_type+'" id="ausrc"></audio>').appendTo('body');
+			}else{
+				$('<audio id="chatAudio"><source src="'+a_src+'" type="audio/'+a_type+'" id="ausrc"></audio>').appendTo('body');
+			} */
+			//alert(tmpAutioHtml);
+			if(!$('#chatAudio'+index)[0]){
+				$("body").append(tmpAutioHtml);
+			}
+			$('#chatAudio'+index).get(0).play();
+		}
+		
+	});
+</script>
+<!--{/if}-->

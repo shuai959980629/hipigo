@@ -1,0 +1,92 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>专题</title>
+<link href="/wapi/css1/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/wapi/js/jquery.js"></script>
+    <script>
+        var base_url = '/wapi/90/1';
+        function submit_subject(){
+            var name = $('input[name="name"]').val();
+            var image = $('input[name="image"]:checked').val();
+            var names = name.replace(/(\r)*\n/g,"").replace(/\s/g,"");
+            if(names == ''){
+                alert('那个TA姓甚名谁啊？');
+                return false;
+            }
+            if(!image){
+                alert('选择一张很美的画面再提交吧！');
+                return false;
+            }
+            $.post(base_url + '/subject/subject_activity', {
+                name: name,
+                image: image,
+                'id_open':$('input[name="open_id"]').val()
+            }, function (result) {
+                if(result.state) {
+                    window.location.href = result.url;
+                }
+            }, 'json');
+        }
+    </script>
+</head>
+
+<body>
+<img class="bn" src="/wapi/img/bn.jpg">
+<!--活动流程S-->
+<div class="flow">
+<h2>参与流程</h2>
+<p><b>1</b>吼出TA的小名艺名曾用名，选一副画面太美的合照！点击"吼"，拍出属于你俩的小暧昧“有一腿”Photo！</p>
+
+<p><b>2</b>点击“有一腿”合照页面右上角，将你俩的专属"有一腿"合照分享到朋友圈公告天下，并@TA一起挑战“有一腿”！</p>
+
+<p><b>3</b>将您分享到朋友圈的“有一腿”合照截图并发给小宝哥（即发给垂涎堂EATODAY微信公众号），小宝哥收到后立即送上美味的“有一腿大礼包”！不仅免费还包邮哦！</p>
+</div>
+<!--活动流程E-->
+<!--我要参加S-->
+<div class="join cf">
+<h2>我要参加</h2>
+    <input type="hidden" name="open_id" id="open_id" value="<!--{$open_id}-->"/>
+<div class="cf name">
+<span>TA姓甚名谁：</span><input name="name" type="text">
+</div>
+<span>TA画面太美：</span>
+<div class="cf">
+<div class="pic fl" onclick="$(this).children('div').children('input').attr('checked','checked');">
+<div class="print cf">
+<input name="image" type="radio" value="/wapi/img/pic_1.jpg" checked="checked">
+<img src="/wapi/img/pic_1.jpg">
+</div>
+<p>***的身心永远都属于姐姐。</p>
+</div>
+<div class="pic fl" onclick="$(this).children('div').children('input').attr('checked','checked');">
+<div class="print cf">
+<input name="image" type="radio" value="/wapi/img/pic_2.jpg">
+<img src="/wapi/img/pic_2.jpg">
+</div>
+<p>***，如果有必要相遇就终究会遇到，地球人把这种事情叫做命运。</p>
+</div>
+<div class="pic fl" onclick="$(this).children('div').children('input').attr('checked','checked');">
+<div class="print cf">
+<input name="image" type="radio" value="/wapi/img/pic_3.jpg">
+<img src="/wapi/img/pic_3.jpg">
+</div>
+<p>我是异性恋，***也是喜欢女生的。</p>
+</div>
+<div class="pic fl" onclick="$(this).children('div').children('input').attr('checked','checked');">
+<div class="print cf">
+<input name="image" type="radio" value="/wapi/img/pic_4.jpg">
+<img src="/wapi/img/pic_4.jpg">
+</div>
+ <p>如果上天再给我一个机会的话，我会对***说三个字:放过我吧！</p>
+</div>
+
+</div>
+</div>
+<!--我要参加E-->
+<a class="button" onclick="submit_subject()"><img src="/wapi/img/ico_triangle.png"><span>吼</span></a>
+
+</body>
+</html>
